@@ -1,0 +1,29 @@
+.DS_Store
+.idea
+.env
+budget.pem
+nginx/certs/letsencrypt
+scripts/
+aws-compose.yml
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+static/
+*.sock
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
