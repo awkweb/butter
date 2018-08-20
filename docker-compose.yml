@@ -19,12 +19,12 @@ services:
             - ./api:/home/api
     web:
         build: ./web
-        command: uwsgi --ini uwsgi.ini --py-autoreload 1
+        command: yarn start
         container_name: web
         environment:
             - FLASK_APP=$FLASK_APP
         expose:
-            - 5000
+            - 3000
         restart: always
         volumes:
             - ./web:/home/web
