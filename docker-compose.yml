@@ -1,0 +1,49 @@
+version: '2'
+services:
+    api:
+        build: ./api
+        command: uwsgi --ini uwsgi.ini --py-autoreload 1
+        container_name: api
+        environment:
+            - DJ_ENV=$DJ_ENV
+            - DJ_DB_NAME=$DJ_DB_NAME
+            - DJ_DB_USER=$DJ_DB_USER
+            - DJ_DB_PASSWORD=$DJ_DB_PASSWORD
+            - DJ_DB_HOST=$DJ_DB_HOST
+            - DJ_DB_PORT=$DJ_DB_PORT
+            - DJ_SECRET_KEY=$DJ_SECRET_KEY
+        expose:
+            - 8000
+        restart: always
+        volumes:
+            - ./api:/home/api
+    web:
+        build: ./web
+        command: uwsgi --ini uwsgi.ini --py-autoreload 1
+        container_name: web
+        environment:
+            - FLASK_APP=$FLASK_APP
+        expose:
+            - 5000
+        restart: always
+        volumes:
+            - ./web:/home/web
+    nginx:
+        build: ./nginx
+        command: bash -c "envsubst < /etc/nginx/nginx.tmpl > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+        container_name: nginx
+        environment:
+            - SSL_CERTIFICATE=$SSL_CERTIFICATE
+            - SSL_CERTIFICATE_KEY=$SSL_CERTIFICATE_KEY
+        depends_on:
+            - api
+            - web
+        ports:
+            - 80:80
+            - 443:443
+        restart: always
+        volumes:
+            - ./nginx/nginx.tmpl:/etc/nginx/nginx.tmpl
+        volumes_from:
+            - api
+            - web
