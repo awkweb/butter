@@ -1,7 +1,3 @@
-upstream web {
-    server unix:/home/web/server.sock;
-}
-
 server {
 
     listen      443 default_server ssl;
@@ -17,18 +13,11 @@ server {
 	    log_not_found   off;
 	}
 
-    location /static/ {
-        types {
-            text/css        css;
-            text/javascript js;
-            image/svg+xml	svg;
-        }
-        alias /home/web/static/;
-    }
-
     location / {
-		include		uwsgi_params;
-		uwsgi_pass  web;
+        proxy_pass http://web:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
 }

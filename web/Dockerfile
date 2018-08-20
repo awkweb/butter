@@ -1,5 +1,5 @@
-# Start from python image
-FROM python:3.6
+# Start from node image
+FROM node:8.11
 
 MAINTAINER Tom Meagher
 
@@ -7,9 +7,13 @@ MAINTAINER Tom Meagher
 RUN mkdir /home/web
 WORKDIR /home/web
 
-# Copy over Python requirements and install
-ADD requirements.txt /home/web/
-RUN pip install -r requirements.txt
+# Install yarn and nodemon globally
+RUN npm i -g yarn nodemon
+RUN yarn cache clean
+
+# Copy over node requirements and install
+ADD package.json /home/web/
+RUN yarn
 
 # Copy over remaining code
 ADD . /home/web/
