@@ -1,0 +1,50 @@
+upstream web {
+    server unix:/home/web/server.sock;
+}
+
+server {
+
+    listen      443 default_server ssl;
+    server_name _;
+
+    if ($host ~* ^www\.(.*)) {
+        set $host_without_www $1;
+        rewrite ^(.*) https://$host_without_www$1 permanent;
+    }
+
+	location = /favicon.ico {
+	    access_log      off;
+	    log_not_found   off;
+	}
+
+    location /static/ {
+        types {
+            text/css        css;
+            text/javascript js;
+            image/svg+xml	svg;
+        }
+        alias /home/web/static/;
+    }
+
+    location / {
+		include		uwsgi_params;
+		uwsgi_pass  web;
+    }
+
+}
+
+server {
+
+    listen      [::]:80;
+	listen      80 default_server;
+	server_name _;
+	return      301 https://$host$request_uri;
+
+}
+
+server {
+
+  server_name   www.*;
+  return        301 https://$1$request_uri;
+
+}
