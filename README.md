@@ -1,6 +1,6 @@
 # budget
 
-Budgeting app built with [Docker](https://www.docker.com/), [Django](https://www.djangoproject.com/), [Flask](http://flask.pocoo.org/), and [Vue.js](https://vuejs.org/).
+Budgeting app built with [Docker](https://www.docker.com/), [Django](https://www.djangoproject.com/), and [Vue.js](https://vuejs.org/).
 
 ## Set Up Local Dev Environment
 
@@ -31,9 +31,9 @@ export DJ_DB_HOST=docker.for.mac.localhost # special docker set up
 export DJ_DB_PORT=5432
 export DJ_SECRET_KEY=+cg9iso$a55f3ay&)pdg3k&=lq_c*55j7oyuib=a(pi#2$oj^0
 
-# FLASK APP KEYS
+# VUE APP KEYS
 
-export FLASK_APP=app.py
+See [Environment Variables and Modes](https://cli.vuejs.org/guide/mode-and-env.html)
 
 # LETS ENCRYPT CERTIFICATE PATHS
 
@@ -87,52 +87,6 @@ Whenever you make changes to a model, the database needs to be kept in sync.
 ```
 
 See [Django Migrations Worflow](https://docs.djangoproject.com/en/2.0/topics/migrations/#workflow) for more info.
-
-## Set Up Production Environment
-
-1) Create RDS Postgres instance
-
-2) Add production environment variables to `.env`:
-
-```bash
-# DJANGO APP KEYS
-
-export DJ_ENV=prod
-export DJ_DB_NAME=something
-export DJ_DB_USER=root
-export DJ_DB_PASSWORD=zsRqfjJdDVAxhUewsqnTCxlslr
-export DJ_DB_HOST=something.cxsbe1vrwmpg.us-east-1.rds.amazonaws.com
-export DJ_DB_PORT=5432
-export DJ_SECRET_KEY=+cg9iso$a55f3ay&)pdg3k&=lq_c*55j7oyuib=a(pi#2$oj^0
-
-# FLASK APP KEYS
-
-export FLASK_APP=app.py
-
-# AWS IAM ACCESS KEYS
-
-export AWS_ACCESS_KEY_ID=AKIATEMMAIEPJOZC74GP
-export AWS_SECRET_ACCESS_KEY=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
-
-# LETS ENCRYPT CERTIFICATE PATHS
-
-export SSL_CERTIFICATE=/etc/nginx/certs/letsencrypt/name.crt
-export SSL_CERTIFICATE_KEY=/etc/nginx/certs/letsencrypt/name.key
-```
-
-3) Build, tag, and push Docker images to [Amazon Elastic Container Registry](https://console.aws.amazon.com/ecs/home?region=us-east-1#/repositories)
-
-4) Update `image` paths in `aws-compose.yml` (from now on you may use `bash scripts/push-aws-ecr.sh` to build, tag, and push all images)
-
-5) [Create a new keypair on EC2](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#KeyPairs:sort=keyName)
-
-6) Add RDS's `vpc` (`--vpc vpc_id`) and `subnets` (`--subnets subnet_1,subnet_2`) to `scripts/setup-aws-ecs.sh`
-
-7) [Configure `ecs-cli`](https://docker-curriculum.com/#aws-ecs) with cluster info by running `bash scripts/setup-aws-ecs.sh`
-
-8) Run deploy script `bash scripts/deploy-aws-ecs.sh` ([update RDS's security group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SettingUp.html#CHAP_SettingUp.SecurityGroup) to accept inbound TCP connections from ECS's security group)
-
-If all went as planned, you can navigate to the running site. (Also, need to open up ECS security group to listen for HTTPS.)
 
 ## Helpful links
 
