@@ -19,12 +19,12 @@ services:
             - ./api:/home/api
     web:
         build: ./web
-        command: yarn start
+        command: yarn serve
         container_name: web
         environment:
             - FLASK_APP=$FLASK_APP
         expose:
-            - 3000
+            - 8080
         restart: always
         volumes:
             - ./web:/home/web

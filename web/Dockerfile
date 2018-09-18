@@ -7,8 +7,8 @@ MAINTAINER Tom Meagher
 RUN mkdir /home/web
 WORKDIR /home/web
 
-# Install yarn and nodemon globally
-RUN npm i -g yarn nodemon
+# Install yarn globally
+RUN npm i -g yarn
 RUN yarn cache clean
 
 # Copy over node requirements and install
