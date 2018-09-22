@@ -88,6 +88,12 @@ Whenever you make changes to a model, the database needs to be kept in sync.
 
 See [Django Migrations Worflow](https://docs.djangoproject.com/en/2.0/topics/migrations/#workflow) for more info.
 
+## Set Up Dev Tools
+
+[Prettier](https://prettier.io/)
+
+[Black](https://github.com/ambv/black)
+
 ## Helpful links
 
 Docker & ECS:
