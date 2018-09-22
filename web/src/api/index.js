@@ -1,12 +1,24 @@
 import axios from 'axios'
 
-const getAppUrl = () =>
-    `${window.location.protocol}//${window.location.hostname}${
-        window.location.port ? ':' : ''
-    }${window.location.port}`
+const baseURL =
+    process.env.NODE_ENV === 'production'
+        ? 'https://api.budget.com/v1/'
+        : 'https://api.budget.local/v1/'
+const instance = axios.create({
+    baseURL,
+})
 
 export default {
-    signUp: async (email, password) => {
-        const user = await
-    },
+    logIn: (email, password) =>
+        instance.post('auth/login/', {
+            email,
+            password,
+        }),
+    logOut: () => instance.post('auth/logout/'),
+    signUp: (email, password, passwordConfirm) =>
+        instance.post('auth/register/', {
+            email,
+            password,
+            password_confirm: passwordConfirm,
+        }),
 }

@@ -1,39 +1,41 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+    <div id="app">
+        <router-view />
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
-  metaInfo: {
-    titleTemplate: '%s – Budget',
-  },
-};
+    name: 'App',
+    metaInfo: {
+        titleTemplate: titleChunk => {
+            return titleChunk ? `${titleChunk} - Budget` : 'Budget'
+        },
+    },
+}
 </script>
 
 <style lang="scss">
-  *,
-  *:before,
-  *:after {
+*,
+*:before,
+*:after {
     box-sizing: inherit;
-  }
+}
 
-  html {
+html {
     box-sizing: border-box;
     font: {
-      family: sans-serif;
-      size: 18px;
+        family: sans-serif;
+        size: 18px;
     }
-  }
+}
 
-  body {
+body {
     margin: 0;
     min-height: 100vh;
-  }
+}
 
-  #app {
+#app {
     min-height: 100vh;
-  }
+}
 </style>
