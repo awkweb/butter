@@ -1,0 +1,23 @@
+$font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+$font-size-root: 18px;
+$themes: (
+  night: (
+    background: (
+      base: #111,
+    ),
+    font: (
+      base: #fff,
+      secondary: #aaa,
+    ),
+  ),
+  day: (
+    background: (
+      base: #fff,
+    ),
+    font: (
+      base: #111,
+      secondary: #404040,
+    ),
+  ),
+);
+$transition-duration: .25s;
