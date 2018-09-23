@@ -16,6 +16,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'assets/styles/variables';
+@import 'assets/styles/fonts';
+@import 'assets/styles/functions';
+@import 'assets/styles/mixins';
+
 *,
 *:before,
 *:after {
@@ -23,10 +28,14 @@ export default {
 }
 
 html {
+    @include respond-to(sm) {
+        font-size: $font-size-root;
+    }
+
     box-sizing: border-box;
     font: {
-        family: sans-serif;
-        size: 18px;
+        family: $font-sans-serif;
+        size: $font-size-root * 0.95;
     }
 }
 
