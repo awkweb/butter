@@ -1,4 +1,7 @@
-const isLoggedIn = () => JSON.parse(localStorage.getItem('user')) !== null
+export const getUserFromLocalStorage = () =>
+    JSON.parse(localStorage.getItem('user'))
+
+export const isLoggedIn = () => getUserFromLocalStorage() !== null
 
 export const beforeEnterIsLoggedIn = (to, from, next) => {
     if (isLoggedIn()) next()

@@ -9,6 +9,13 @@ const api = axios.create({
 })
 
 export default {
+    setAuthorizationToken(token) {
+        api.defaults.headers.common['Authorization'] = `Token ${token}`
+    },
+    linkPlaid: publicToken =>
+        api.post('auth/link/plaid/', {
+            public_token: publicToken,
+        }),
     logIn: (email, password) =>
         api.post('auth/login/', {
             email,

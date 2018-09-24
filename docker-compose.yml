@@ -12,6 +12,10 @@ services:
             - DJ_DB_HOST=$DJ_DB_HOST
             - DJ_DB_PORT=$DJ_DB_PORT
             - DJ_SECRET_KEY=$DJ_SECRET_KEY
+            - PLAID_CLIENT_ID=$PLAID_CLIENT_ID
+            - PLAID_PUBLIC_KEY=$PLAID_PUBLIC_KEY
+            - PLAID_SECRET=$PLAID_SECRET
+            - PLAID_ENV=$PLAID_ENV
         expose:
             - 8000
         restart: always
@@ -21,8 +25,6 @@ services:
         build: ./web
         command: yarn serve
         container_name: web
-        environment:
-            - FLASK_APP=$FLASK_APP
         expose:
             - 8080
         restart: always
