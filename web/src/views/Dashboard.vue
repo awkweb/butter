@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
+import { getUserFromLocalStorage, isLoggedIn } from '@/utils'
 import PlaidLink from '@/components/PlaidLink'
 
 export default {
@@ -29,13 +30,21 @@ export default {
         plaidEnv: process.env.VUE_APP_PLAID_ENV,
         plaidPublicKey: process.env.VUE_APP_PLAID_PUBLIC_KEY,
     }),
+    created() {
+        if (isLoggedIn) {
+            const user = getUserFromLocalStorage()
+            this.SET_USER(user)
+        }
+    },
     methods: {
-        ...mapActions(['LOG_OUT_USER']),
+        ...mapActions(['LINK_PLAID', 'LOG_OUT_USER']),
+        ...mapMutations(['SET_USER']),
         onClickLogOut() {
             this.LOG_OUT_USER().then(() => this.$router.push({ name: 'LogIn' }))
         },
-        onSuccess(token) {
-            console.log(token)
+        onSuccess(token, institution) {
+            console.log(token, institution)
+            this.LINK_PLAID({ token })
         },
     },
     metaInfo: {

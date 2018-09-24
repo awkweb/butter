@@ -40,7 +40,7 @@
 
             <div>
                 Don't have a Budget account?
-                <router-link :to="{ name: 'LogIn', query: { email: this.email }}">
+                <router-link :to="{ name: 'SignUp', query: { email: this.email }}">
                 Sign up here
                 </router-link>
             </div>
