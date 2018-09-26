@@ -7,9 +7,9 @@ const store = {
         user: JSON.parse(localStorage.getItem('user')) || null,
     },
     actions: {
-        LINK_PLAID: async ({ commit }, { token }) => {
+        LINK_PLAID: async ({ commit }, data) => {
             try {
-                const res = await api.linkPlaid(token)
+                const res = await api.linkPlaid(data)
                 console.log(res)
             } catch (err) {
                 throw get(() => err.response.data)

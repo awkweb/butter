@@ -18,7 +18,7 @@
 
 <script>
 import { mapActions, mapMutations } from 'vuex'
-import { getUserFromLocalStorage, isLoggedIn } from '@/utils'
+import { get, getUserFromLocalStorage, isLoggedIn } from '@/utils'
 import PlaidLink from '@/components/PlaidLink'
 
 export default {
@@ -42,9 +42,16 @@ export default {
         onClickLogOut() {
             this.LOG_OUT_USER().then(() => this.$router.push({ name: 'LogIn' }))
         },
-        onSuccess(token, institution) {
-            console.log(token, institution)
-            this.LINK_PLAID({ token })
+        onSuccess(token, data) {
+            const { accounts, institution } = data
+            this.LINK_PLAID({
+                institution,
+                token,
+                accounts: accounts.map(account => ({
+                    ...account,
+                    account_id: account.id,
+                })),
+            })
         },
     },
     metaInfo: {
