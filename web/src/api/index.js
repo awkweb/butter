@@ -12,10 +12,7 @@ export default {
     setAuthorizationToken(token) {
         api.defaults.headers.common['Authorization'] = `Token ${token}`
     },
-    linkPlaid: publicToken =>
-        api.post('auth/link/plaid/', {
-            public_token: publicToken,
-        }),
+    linkPlaid: data => api.post('auth/link/plaid/', data),
     logIn: (email, password) =>
         api.post('auth/login/', {
             email,
