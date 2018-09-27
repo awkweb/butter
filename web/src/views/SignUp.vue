@@ -38,6 +38,14 @@
                 >
             </div>
 
+            <div>
+                <label>Keep me logged in?</label>
+                <input
+                    v-model="persistUser"
+                    type="checkbox"
+                >
+            </div>
+
             <button
                 :class="['auth__button', { loading }]"
                 :disabled="$v.validationGroup.$invalid || loading"
@@ -71,6 +79,7 @@ export default {
         loading: false,
         password: null,
         passwordConfirm: null,
+        persistUser: false,
     }),
     created() {
         if (this.$route.query.email) this.email = this.$route.query.email
