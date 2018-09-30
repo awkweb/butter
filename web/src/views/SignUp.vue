@@ -1,84 +1,150 @@
 <template>
-<div>
-    <div>
-        <h1>Sign Up</h1>
-        <form>
-            <div v-if="error">
-                {{ error }}
+    <div class="auth">
+        <div class="auth__container">
+            <h1 class="auth__header">Register an account</h1>
+
+            <div class="auth__info">
+                Been here before?
+                <router-link :to="{ name: 'LogIn', query: { email: this.email }}">
+                Log in
+                </router-link>
             </div>
 
-            <div>
-                <label>Email Address</label>
-                <input
-                    v-model="email"
-                    :class="['auth__input', { 'success': !$v.email.$invalid }]"
-                    placeholder="Email Address"
-                    spellcheck="false"
-                    type="text"
+            <form class="auth__form">
+                <fieldset class="form__field">
+                    <label
+                        :class="['form__label', {
+                            'active': (email && email.length) || (emailTouched || ($v.email.$dirty && $v.email.$invalid)),
+                            'error': emailTouched && $v.email.$invalid
+                        }]"
+                    >
+                        <span v-if="emailTouched && !$v.email.email">Email is invalid</span>
+                        <span v-else-if="emailTouched && !$v.email.required">Email is required</span>
+                        <span v-else>Email</span>
+                    </label>
+                    <input
+                        v-focus
+                        v-model="email"
+                        :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
+                        @blur="emailTouched = true"
+                        placeholder="Email"
+                        spellcheck="false"
+                        type="text"
+                    >
+                    <div
+                        v-show="!$v.email.$invalid"
+                        class="auth__success"
+                    >
+                        <InputSuccessIcon />
+                    </div>
+                </fieldset>
+
+                <fieldset class="form__field">
+                    <label
+                        :class="['form__label', {
+                            'active': (password && password.length) || (passwordTouched || ($v.password.$dirty && $v.password.$invalid)),
+                            'error': passwordTouched && $v.password.$invalid
+                        }]"
+                    >
+                        <span v-if="passwordTouched && !$v.password.capital">At least one uppercase letter</span>
+                        <span v-else-if="passwordTouched && !$v.password.digit">At least one digit</span>
+                        <span v-else-if="passwordTouched && !$v.password.minLength">At least 8 characters</span>
+                        <span v-else-if="passwordTouched && !$v.password.required">Password is required</span>
+                        <span v-else>Password</span>
+                    </label>
+                    <input
+                        v-model="password"
+                        :class="['form__input', {
+                            'error': passwordTouched && $v.password.$invalid,
+                        }]"
+                        @blur="passwordTouched = true"
+                        placeholder="Password"
+                        type="password"
+                    >
+                    <div
+                        v-show="!$v.password.$invalid"
+                        class="auth__success"
+                    >
+                        <InputSuccessIcon />
+                    </div>
+                </fieldset>
+
+                <fieldset class="form__field">
+                    <label
+                        :class="['form__label', {
+                            'active': (passwordConfirm && passwordConfirm.length) || (passwordConfirmTouched || ($v.passwordConfirm.$dirty && $v.passwordConfirm.$invalid)),
+                            'error': passwordConfirmTouched && $v.passwordConfirm.$invalid
+                        }]"
+                    >
+                        <span v-if="passwordConfirmTouched && !$v.passwordConfirm.sameAs">Passwords must match</span>
+                        <span v-else-if="passwordConfirmTouched && !$v.passwordConfirm.required">Confirm Password is required</span>
+                        <span v-else>Confirm Password</span>
+                    </label>
+                    <input
+                        v-model="passwordConfirm"
+                        :class="['form__input', { 'error': passwordConfirmTouched && $v.passwordConfirm.$invalid }]"
+                        @blur="passwordConfirmTouched = true"
+                        placeholder="Confirm Password"
+                        type="password"
+                    >
+                    <div
+                        v-show="!$v.passwordConfirm.$invalid"
+                        class="auth__success"
+                    >
+                        <InputSuccessIcon />
+                    </div>
+                </fieldset>
+
+                <button
+                    :class="['auth__button', { loading }]"
+                    :disabled="$v.validationGroup.$invalid || loading"
+                    @click.prevent="onClickSignUp"
+                    @keyup.enter="onClickSignUp"
                 >
-            </div>
+                    {{ loading ? 'Creating account...' : 'Sign Up' }}
+                    <ChevronRightIcon />
+                </button>
 
-            <div>
-                <label>Password</label>
-                <input
-                    v-model="password"
-                    :class="['auth__input', { 'success': !$v.password.$invalid }]"
-                    placeholder="Password"
-                    type="password"
+                <div
+                    v-if="error"
+                    class="auth_error"
                 >
-            </div>
-
-            <div>
-                <label>Confirm Password</label>
-                <input
-                    v-model="passwordConfirm"
-                    :class="['auth__input', { 'success': !$v.passwordConfirm.$invalid }]"
-                    placeholder="Confirm Password"
-                    type="password"
-                >
-            </div>
-
-            <div>
-                <label>Keep me logged in?</label>
-                <input
-                    v-model="persistUser"
-                    type="checkbox"
-                >
-            </div>
-
-            <button
-                :class="['auth__button', { loading }]"
-                :disabled="$v.validationGroup.$invalid || loading"
-                @click.prevent="onClickSignUp"
-                @keyup.enter="onClickSignUp"
-            >
-                {{ loading ? 'Creating account...' : 'Sign Up' }}
-            </button>
-        </form>
-
-        <div>
-            Already have a Budget account?
-            <router-link :to="{ name: 'LogIn', query: { email: this.email }}">
-            Log in here
-            </router-link>
+                    {{ error }}
+                </div>
+            </form>
         </div>
     </div>
-</div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import { email, minLength, required, sameAs } from 'vuelidate/lib/validators'
+import {
+    email,
+    helpers,
+    minLength,
+    required,
+    sameAs,
+} from 'vuelidate/lib/validators'
 import { get } from '@/utils'
+import InputSuccessIcon from '@/assets/icons/input-success.svg'
+
+const capital = helpers.regex('capital', /^.*[A-Z]+.*$/)
+const digit = helpers.regex('capital', /^.*[0-9]+.*$/)
 
 export default {
     name: 'SignUp',
+    components: {
+        InputSuccessIcon,
+    },
     data: () => ({
         email: null,
+        emailTouched: false,
         error: null,
         loading: false,
         password: null,
+        passwordTouched: false,
         passwordConfirm: null,
+        passwordConfirmTouched: false,
         persistUser: false,
     }),
     created() {
@@ -93,7 +159,7 @@ export default {
                 password: this.password,
                 passwordConfirm: this.passwordConfirm,
             })
-                .then(() => this.$router.push({ name: 'Dashboard' }))
+                .then(() => this.$router.push({ name: 'Budgets' }))
                 .catch(err => {
                     let error
                     if ('email' in err) {
@@ -110,15 +176,18 @@ export default {
     },
     validations: {
         email: {
-            required,
             email,
+            required,
         },
         password: {
-            required,
+            capital,
+            digit,
             minLength: minLength(8),
+            required,
         },
         passwordConfirm: {
             sameAs: sameAs('password'),
+            required,
         },
         validationGroup: ['email', 'password', 'passwordConfirm'],
     },
@@ -127,3 +196,8 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+@import '../assets/styles/auth';
+@import '../assets/styles/form';
+</style>

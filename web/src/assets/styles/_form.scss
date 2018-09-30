@@ -1,0 +1,89 @@
+@import 'variables';
+@import 'functions';
+@import 'mixins';
+
+.form__field {
+    @include flex-column;
+    border: 0;
+    margin: {
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+    padding: 0;
+    position: relative;
+}
+
+.form__label {
+    color: color(default, font, placeholder);
+    background-color: color(default, background);
+    font: {
+        family: $font-sans-serif;
+        size: 0.7rem;
+    }
+    padding: {
+        left: 0.45rem;
+        right: 0.45rem;
+    }
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    left: 0.6rem;
+    top: 0;
+    transition: {
+        duration: $transition-duration / 2;
+        property: color, opacity, top;
+    }
+
+    &.active {
+        display: block;
+        opacity: 1;
+        pointer-events: all;
+        top: -0.4rem;
+    }
+
+    &.error {
+        color: color(default, font, error);
+    }
+}
+
+.form__input {
+    border: {
+        color: color(default, border);
+        radius: $border-radius;
+        style: solid;
+        width: 1px;
+    }
+    color: color(default, font);
+    font: {
+        family: $font-sans-serif;
+        size: 0.9rem;
+    }
+    height: 2.5rem;
+    outline: 0;
+    padding: {
+        bottom: 0;
+        left: 1rem;
+        right: 0;
+        top: 0.15rem;
+    }
+    transition: {
+        duration: $transition-duration;
+        property: border-color;
+    }
+    width: 100%;
+
+    &::-webkit-input-placeholder {
+        color: color(default, font, placeholder);
+    }
+
+    &:focus {
+        border-color: color(default, border, active);
+    }
+
+    &.error {
+        border-color: color(default, border, error);
+        color: color(default, font, error);
+    }
+}

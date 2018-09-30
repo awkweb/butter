@@ -1,18 +1,59 @@
-//@font-face {
-//  font: {
-//    family: 'Fira Code';
-//    style: normal;
-//    weight: 400;
-//  }
-//  src: url('./assets/fonts/fira-code/FiraCode-Regular.woff2') format('woff2'),
-//       url('./assets/fonts/fira-code/FiraCode-Regular.woff') format('woff');
-//}
-//@font-face {
-//  font: {
-//    family: 'Fira Code';
-//    style: normal;
-//    weight: 700;
-//  }
-//  src: url('./assets/fonts/fira-code/FiraCode-Bold.woff2') format('woff2'),
-//       url('./assets/fonts/fira-code/FiraCode-Bold.woff') format('woff');
-//}
+@font-face {
+  font: {
+    family: Vaud;
+    style: normal;
+    weight: 400;
+  }
+  src: url('./assets/fonts/vaud/regular.woff2') format('woff2'),
+       url('./assets/fonts/vaud/regular.woff') format('woff');
+}
+
+@font-face {
+  font: {
+    family: Vaud;
+    style: normal;
+    weight: 600;
+  }
+  src: url('./assets/fonts/vaud/semi.woff2') format('woff2'),
+       url('./assets/fonts/vaud/semi.woff') format('woff');
+}
+
+@font-face {
+  font: {
+    family: Vaud;
+    style: normal;
+    weight: 700;
+  }
+  src: url('./assets/fonts/vaud/bold.woff2') format('woff2'),
+       url('./assets/fonts/vaud/bold.woff') format('woff');
+}
+
+@font-face {
+  font: {
+    family: Vaud;
+    style: normal;
+    weight: 900;
+  }
+  src: url('./assets/fonts/vaud/heavy.woff2') format('woff2'),
+       url('./assets/fonts/vaud/heavy.woff') format('woff');
+}
+
+@font-face {
+  font: {
+    family: 'Fira Code';
+    style: normal;
+    weight: 400;
+  }
+  src: url('./assets/fonts/fira-code/regular.woff2') format('woff2'),
+       url('./assets/fonts/fira-code/regular.woff') format('woff');
+}
+
+@font-face {
+  font: {
+    family: 'Fira Code';
+    style: normal;
+    weight: 700;
+  }
+  src: url('./assets/fonts/fira-code/bold.woff2') format('woff2'),
+       url('./assets/fonts/fira-code/bold.woff') format('woff');
+}

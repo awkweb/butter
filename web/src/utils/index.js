@@ -10,7 +10,7 @@ export const beforeEnterIsLoggedIn = (to, from, next) => {
 
 export const beforeEnterIsLoggedOut = (to, from, next) => {
     if (!isLoggedIn()) next()
-    else next({ name: 'Dashboard' })
+    else next({ name: 'Budgets' })
 }
 
 export function get(getterFn, defaultValue) {
