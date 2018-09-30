@@ -1,40 +1,56 @@
 <template>
-    <div>
-        <div>
-            <h1>Log In</h1>
-            <form>
-                <div v-if="error">
-                    {{ error.message }}
-                </div>
+    <div class="auth">
+        <div class="auth__container">
+            <h1 class="auth__header">Welcome back</h1>
 
-                <div>
-                    <label>Email Address</label>
-                    <input
-                        v-model="email"
-                        :class="['auth__input', { 'success': !$v.email.$invalid }]"
-                        placeholder="tom@meagher.co"
-                        spellcheck="false"
-                        type="text"
+            <div class="auth__info">
+                Need an account?
+                <router-link :to="{ name: 'SignUp', query: { email: this.email }}">
+                Sign up
+                </router-link>
+            </div>
+
+            <form class="auth__form">
+                <fieldset class="form__field">
+                    <label
+                        :class="['form__label', {
+                            'active': (email && email.length) || (emailTouched || ($v.email.$dirty && $v.email.$invalid)),
+                            'error': emailTouched && $v.email.$invalid
+                        }]"
                     >
-                </div>
+                        <span v-if="emailTouched && !$v.email.email">Email is invalid</span>
+                        <span v-else-if="emailTouched && !$v.email.required">Email is required</span>
+                        <span v-else>Email</span>
+                    </label>
+                    <input
+                        v-focus
+                        v-model="email"
+                        :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
+                        @blur="emailTouched = true"
+                        placeholder="Email"
+                        spellcheck="false"
+                        type="email"
+                    >
+                </fieldset>
 
-                <div>
-                    <label>Password</label>
+                <fieldset class="form__field">
+                    <label
+                        :class="['form__label', {
+                            'active': (password && password.length) || (passwordTouched || ($v.password.$dirty && $v.password.$invalid)),
+                            'error': passwordTouched && $v.password.$invalid
+                        }]"
+                    >
+                        <span v-if="passwordTouched && !$v.password.required">Password is required</span>
+                        <span v-else>Password</span>
+                    </label>
                     <input
                         v-model="password"
-                        :class="['auth__input', { 'success': !$v.password.$invalid }]"
+                        :class="['form__input', { 'error': passwordTouched && $v.password.$invalid }]"
+                        @blur="passwordTouched = true"
                         placeholder="Password"
                         type="password"
                     >
-                </div>
-
-                <div>
-                    <label>Keep me logged in?</label>
-                    <input
-                        v-model="persistUser"
-                        type="checkbox"
-                    >
-                </div>
+                </fieldset>
 
                 <button
                     :class="['auth__button', { loading }]"
@@ -42,16 +58,16 @@
                     @click.prevent="onClickLogIn"
                     @keyup.enter="onClickLogIn"
                 >
-                    {{ loading ? 'Logging in...' : 'Log In' }}
+                    {{ loading ? 'Logging in...' : 'Log in' }}
                 </button>
-            </form>
 
-            <div>
-                Don't have a Budget account?
-                <router-link :to="{ name: 'SignUp', query: { email: this.email }}">
-                Sign up here
-                </router-link>
-            </div>
+                <div
+                    v-if="error"
+                    class="auth_error"
+                >
+                    {{ error }}
+                </div>
+            </form>
         </div>
     </div>
 </template>
@@ -65,9 +81,11 @@ export default {
     name: 'LogIn',
     data: () => ({
         email: null,
+        emailTouched: false,
         error: null,
         loading: false,
         password: null,
+        passwordTouched: false,
         persistUser: false,
     }),
     created() {
@@ -81,13 +99,15 @@ export default {
                 email: this.email,
                 password: this.password,
             })
-                .then(() => this.$router.push({ name: 'Dashboard' }))
+                .then(() => this.$router.push({ name: 'Budgets' }))
                 .catch(err => {
                     let error
                     if ('email' in err) {
                         error = get(() => err.email[0])
                     } else if ('password' in err) {
                         error = get(() => err.password[0])
+                    } else if ('non_field_errors' in err) {
+                        error = get(() => err.non_field_errors[0])
                     }
                     this.loading = false
                     this.error = error
@@ -96,8 +116,8 @@ export default {
     },
     validations: {
         email: {
-            required,
             email,
+            required,
         },
         password: {
             required,
@@ -109,3 +129,8 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+@import '../assets/styles/auth';
+@import '../assets/styles/form';
+</style>

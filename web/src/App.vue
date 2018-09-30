@@ -31,17 +31,32 @@ html {
     @include respond-to(sm) {
         font-size: $font-size-root;
     }
-
+    background-color: color(default, background);
     box-sizing: border-box;
     font: {
         family: $font-sans-serif;
         size: $font-size-root * 0.95;
     }
+    text-rendering: optimizeLegibility;
 }
 
 body {
+    @include page;
     margin: 0;
-    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 900;
+    margin: 0;
+}
+
+a {
+    color: color(default, font);
 }
 
 #app {

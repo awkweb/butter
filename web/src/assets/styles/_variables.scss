@@ -1,23 +1,41 @@
-$font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+$border-radius: 2px;
+$container-width: 72rem;
+$font-sans-serif: Vaud, sans-serif;
 $font-size-root: 18px;
+
+$black: #111;
+$gray: #cacaca;
+$green: #22d09c;
+$red: #f44e66;
+$white: #fff;
 $themes: (
-  night: (
-    background: (
-      base: #111,
+    default: (
+        background: (
+            base: $white,
+            secondary: #f1f3f5,
+        ),
+        border: (
+            base: $gray,
+            active: $green,
+            error: $red,
+        ),
+        button: (
+            base: $black,
+            active: $green,
+            disabled: $gray,
+            font: $white,
+        ),
+        font: (
+            base: $black,
+            primary: $green,
+            error: $red,
+            secondary: #404040,
+            placeholder: #9b9b9b,
+        ),
+        icon: (
+            base: darken($gray, 20),
+        ),
     ),
-    font: (
-      base: #fff,
-      secondary: #aaa,
-    ),
-  ),
-  day: (
-    background: (
-      base: #fff,
-    ),
-    font: (
-      base: #111,
-      secondary: #404040,
-    ),
-  ),
 );
+
 $transition-duration: .25s;

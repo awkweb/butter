@@ -1,0 +1,89 @@
+@import 'variables';
+@import 'functions';
+@import 'mixins';
+
+.auth {
+    @include page;
+    display: flex;
+    justify-content: center;
+}
+
+.auth__container {
+    @include flex-column;
+    @include respond-to(sm) {
+        margin-top: 6rem;
+        padding: 0;
+        width: 25rem;
+    }
+    height: fit-content;
+    margin-top: 3rem;
+    padding: {
+        left: 2rem;
+        right: 2rem;
+    }
+    width: 100%;
+}
+
+.auth__header {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.auth__info {
+    color: color(default, font, secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.auth__form {
+    @include flex-column;
+}
+
+.auth__success {
+    position: absolute;
+    right: 1rem;
+    top: 0.75rem;
+}
+
+.auth__button {
+    @include button;
+    background-color: color(default, button);
+    border: {
+        radius: $border-radius;
+        width: 0;
+    }
+    color: color(default, button, font);
+    font: {
+        family: $font-sans-serif;
+        size: 0.8rem;
+        weight: 600;
+    }
+    height: 2.5rem;
+    padding: {
+        bottom: 0;
+        left: 1rem;
+        right: 0;
+        top: 0.25rem;
+    }
+    position: relative;
+    text-align: left;
+    transition: {
+        duration: $transition-duration;
+        property: background-color;
+    }
+
+    &:disabled {
+        background-color: color(default, button, disabled);
+        cursor: default;
+    }
+
+    &:hover:not(:disabled) {
+        background-color: color(default, button, active);
+    }
+}
+
+.auth_error {
+    color: color(default, font, error);
+    margin-top: 1rem;
+    font-size: 0.8rem;
+}

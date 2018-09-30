@@ -16,8 +16,8 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedIn,
             component: () =>
-                import(/* webpackChunkName: 'dashboard' */ '../views/Dashboard.vue'),
-            name: 'Dashboard',
+                import(/* webpackChunkName: 'budgets' */ '../views/Budgets.vue'),
+            name: 'Budgets',
             path: '/',
         },
         {

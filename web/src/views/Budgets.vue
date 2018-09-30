@@ -1,29 +1,29 @@
 <template>
-  <div class="home">
-      <button
-        @click="onClickLogOut"
-      >
-          Log Out
-      </button>
-    <plaid-link
-      :env="plaidEnv"
-      :publicKey="plaidPublicKey"
-      clientName="budget"
-      v-bind="{ onSuccess }"
-    >
-      Open Plaid Link
-    </plaid-link>
+  <div class="budgets">
+      <Navbar/>
+      <section class="budgets__container">
+          <plaid-link
+              :env="plaidEnv"
+              :publicKey="plaidPublicKey"
+              clientName="budget"
+              v-bind="{ onSuccess }"
+          >
+              Open Plaid Link
+          </plaid-link>
+      </section>
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations } from 'vuex'
 import { get, getUserFromLocalStorage, isLoggedIn } from '@/utils'
+import Navbar from '@/components/Navbar'
 import PlaidLink from '@/components/PlaidLink'
 
 export default {
-    name: 'Dashboard',
+    name: 'Budgets',
     components: {
+        Navbar,
         PlaidLink,
     },
     data: () => ({
@@ -37,11 +37,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['LINK_PLAID', 'LOG_OUT_USER']),
+        ...mapActions(['LINK_PLAID']),
         ...mapMutations(['SET_USER']),
-        onClickLogOut() {
-            this.LOG_OUT_USER().then(() => this.$router.push({ name: 'LogIn' }))
-        },
         onSuccess(token, data) {
             const { accounts, institution } = data
             this.LINK_PLAID({
@@ -55,7 +52,31 @@ export default {
         },
     },
     metaInfo: {
-        title: 'Dashboard',
+        title: 'Budgets',
     },
 }
 </script>
+
+
+<style lang="scss">
+@import '../assets/styles/variables';
+@import '../assets/styles/functions';
+@import '../assets/styles/mixins';
+
+.budgets {
+    @include flex-column;
+    @include page;
+    background-color: color(default, background, secondary);
+    align-items: center;
+}
+
+.budgets__container {
+    padding: {
+        bottom: 0.5rem;
+        left: 4rem;
+        right: 4rem;
+        top: 0.75rem;
+    }
+    width: 100%;
+}
+</style>
