@@ -26,7 +26,7 @@
                         v-focus
                         v-model="email"
                         :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
-                        @blur="emailTouched = true"
+                        @blur="this.emailTouched = true"
                         placeholder="Email"
                         spellcheck="false"
                         type="text"
@@ -102,7 +102,6 @@
                     @keyup.enter="onClickSignUp"
                 >
                     {{ loading ? 'Creating account...' : 'Sign Up' }}
-                    <ChevronRightIcon />
                 </button>
 
                 <div
@@ -159,7 +158,7 @@ export default {
                 password: this.password,
                 passwordConfirm: this.passwordConfirm,
             })
-                .then(() => this.$router.push({ name: 'Budgets' }))
+                .then(() => this.$router.push({ name: 'Inbox' }))
                 .catch(err => {
                     let error
                     if ('email' in err) {
@@ -197,7 +196,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../assets/styles/auth';
 @import '../assets/styles/form';
 </style>

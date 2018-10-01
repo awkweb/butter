@@ -1,7 +1,8 @@
 $border-radius: 2px;
-$container-width: 72rem;
 $font-sans-serif: Vaud, sans-serif;
 $font-size-root: 18px;
+$navbar-height: 3.3rem;
+$navbar-width: 14rem;
 
 $black: #111;
 $gray: #cacaca;
@@ -12,7 +13,8 @@ $themes: (
     default: (
         background: (
             base: $white,
-            secondary: #f1f3f5,
+            secondary: #f9fafc,
+            primary: $green,
         ),
         border: (
             base: $gray,
@@ -30,10 +32,13 @@ $themes: (
             primary: $green,
             error: $red,
             secondary: #404040,
+            copy: lighten(#404040, 15),
             placeholder: #9b9b9b,
+            white: $white,
         ),
         icon: (
             base: darken($gray, 20),
+            primary: $green,
         ),
     ),
 );

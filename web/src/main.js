@@ -5,6 +5,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './directives'
+import * as filters from './filters'
+
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
 
 Vue.use(Vuelidate)
 Vue.config.productionTip = false

@@ -16,9 +16,37 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedIn,
             component: () =>
+                import(/* webpackChunkName: 'inbox' */ '../views/Inbox.vue'),
+            name: 'Inbox',
+            path: '/',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: () =>
                 import(/* webpackChunkName: 'budgets' */ '../views/Budgets.vue'),
             name: 'Budgets',
-            path: '/',
+            path: '/budgets',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: () =>
+                import(/* webpackChunkName: 'transactions' */ '../views/Transactions.vue'),
+            name: 'Transactions',
+            path: '/transactions',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: () =>
+                import(/* webpackChunkName: 'accounts' */ '../views/Accounts.vue'),
+            name: 'Accounts',
+            path: '/accounts',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: () =>
+                import(/* webpackChunkName: 'settings' */ '../views/Settings.vue'),
+            name: 'Settings',
+            path: '/settings',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
@@ -40,6 +68,12 @@ export default new Router({
                 import(/* webpackChunkName: 'login' */ '../views/LogIn.vue'),
             name: 'LogIn',
             path: '/login',
+        },
+        {
+            component: () =>
+                import(/* webpackChunkName: 'notfound' */ '../views/NotFound.vue'),
+            name: 'NotFound',
+            path: '*',
         },
     ],
 })

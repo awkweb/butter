@@ -99,7 +99,7 @@ export default {
                 email: this.email,
                 password: this.password,
             })
-                .then(() => this.$router.push({ name: 'Budgets' }))
+                .then(() => this.$router.push({ name: 'Inbox' }))
                 .catch(err => {
                     let error
                     if ('email' in err) {
