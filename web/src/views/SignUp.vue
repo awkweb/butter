@@ -27,7 +27,7 @@
                         v-focus
                         v-model="email"
                         :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
-                        @blur="this.emailTouched = true"
+                        @blur="emailTouched = true"
                         id="email"
                         placeholder="Email"
                         spellcheck="false"
@@ -73,7 +73,7 @@
                     </div>
                 </fieldset>
 
-                <fieldset class="form__field">
+                <fieldset class="form__field no-margin">
                     <label
                         :class="['form__label', {
                             'active': (passwordConfirm && passwordConfirm.length) || (passwordConfirmTouched || ($v.passwordConfirm.$dirty && $v.passwordConfirm.$invalid)),
@@ -99,6 +99,21 @@
                     >
                         <InputSuccessIcon />
                     </div>
+                </fieldset>
+
+                <fieldset class="form__field checkbox">
+                    <input
+                        v-model="tos"
+                        class="form__input checkbox"
+                        id="tos"
+                        type="checkbox"
+                    >
+                    <label
+                        class="form__label checkbox"
+                        for="tos"
+                    >
+                        I agree and conset to Budget's <a href="">Terms of Use</a> and <a href="">Privacy Policy</a>.
+                    </label>
                 </fieldset>
 
                 <button
@@ -151,6 +166,7 @@ export default {
         passwordConfirm: null,
         passwordConfirmTouched: false,
         persistUser: false,
+        tos: false,
     }),
     created() {
         if (this.$route.query.email) this.email = this.$route.query.email
@@ -194,7 +210,10 @@ export default {
             sameAs: sameAs('password'),
             required,
         },
-        validationGroup: ['email', 'password', 'passwordConfirm'],
+        tos: {
+            required,
+        },
+        validationGroup: ['email', 'password', 'passwordConfirm', 'tos'],
     },
     metaInfo: {
         title: 'Sign Up',
