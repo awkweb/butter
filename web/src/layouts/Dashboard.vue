@@ -1,9 +1,11 @@
 <template>
   <div class="dashboard">
       <Navbar/>
-      <main class="dashboard__content">
+      <main class="dashboard__container">
           <Topbar><slot name="topbar"></slot></Topbar>
-          <slot name="content"></slot>
+          <div class="dashboard__content">
+            <slot name="content"></slot>
+          </div>
       </main>
   </div>
 </template>
@@ -43,9 +45,23 @@ export default {
     @include page;
     background-color: color(default, background, secondary);
 }
-.dashboard__content {
+
+.dashboard__container {
     min-height: calc(100vh - #{$navbar-height});
     min-width: calc(100vw - #{$navbar-width});
     padding-top: $navbar-height;
+}
+
+.dashboard__content {
+    @include flex-column;
+    height: 100%;
+    max-height: calc(100vh - #{$navbar-height});
+    overflow: scroll;
+    padding: {
+        bottom: 2rem;
+        left: 3rem;
+        right: 3rem;
+        top: 2rem;
+    }
 }
 </style>

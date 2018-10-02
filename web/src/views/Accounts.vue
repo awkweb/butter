@@ -3,10 +3,10 @@
       <Loader v-if="loading"/>
       <template v-else>
           <template slot="topbar">
-              merp
+              accounts
           </template>
           <template slot="content">
-              meep
+              shows all the accounts that are linked and their transactions grouped by day
           </template>
       </template>
   </Dashboard>

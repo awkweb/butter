@@ -17,6 +17,7 @@
                             'active': (email && email.length) || (emailTouched || ($v.email.$dirty && $v.email.$invalid)),
                             'error': emailTouched && $v.email.$invalid
                         }]"
+                        for="email"
                     >
                         <span v-if="emailTouched && !$v.email.email">Email is invalid</span>
                         <span v-else-if="emailTouched && !$v.email.required">Email is required</span>
@@ -27,6 +28,7 @@
                         v-model="email"
                         :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
                         @blur="this.emailTouched = true"
+                        id="email"
                         placeholder="Email"
                         spellcheck="false"
                         type="text"
@@ -45,6 +47,7 @@
                             'active': (password && password.length) || (passwordTouched || ($v.password.$dirty && $v.password.$invalid)),
                             'error': passwordTouched && $v.password.$invalid
                         }]"
+                        label="password"
                     >
                         <span v-if="passwordTouched && !$v.password.capital">At least one uppercase letter</span>
                         <span v-else-if="passwordTouched && !$v.password.digit">At least one digit</span>
@@ -58,6 +61,7 @@
                             'error': passwordTouched && $v.password.$invalid,
                         }]"
                         @blur="passwordTouched = true"
+                        id="password"
                         placeholder="Password"
                         type="password"
                     >
@@ -75,6 +79,7 @@
                             'active': (passwordConfirm && passwordConfirm.length) || (passwordConfirmTouched || ($v.passwordConfirm.$dirty && $v.passwordConfirm.$invalid)),
                             'error': passwordConfirmTouched && $v.passwordConfirm.$invalid
                         }]"
+                        for="confirm-password"
                     >
                         <span v-if="passwordConfirmTouched && !$v.passwordConfirm.sameAs">Passwords must match</span>
                         <span v-else-if="passwordConfirmTouched && !$v.passwordConfirm.required">Confirm Password is required</span>
@@ -84,6 +89,7 @@
                         v-model="passwordConfirm"
                         :class="['form__input', { 'error': passwordConfirmTouched && $v.passwordConfirm.$invalid }]"
                         @blur="passwordConfirmTouched = true"
+                        id="confirm-password"
                         placeholder="Confirm Password"
                         type="password"
                     >

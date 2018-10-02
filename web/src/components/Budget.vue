@@ -1,6 +1,23 @@
 <template>
   <div class="budget">
-      <div class="budget__name">{{name}}</div>
+      <header class="budget__header">
+          <div class="budget__name">{{name}}</div>
+          <div class="budget__meter">
+              <div
+                  :style="{width: `${meterWidth}%`}"
+                  class="budget__meter-bar"
+              >
+              </div>
+          </div>
+          <div class="budget__last">
+              Last activity
+              <router-link
+                  :to="{ name: 'Transactions'}"
+              >
+                  {{creationDate | hoursAgo}}
+              </router-link>
+          </div>
+      </header>
 
       <div class="budget__amounts">
           <div
@@ -12,39 +29,59 @@
                       v-if="amount.name === 'remaining' && remaining < 0"
                       class="negative"
                   >
-                      (
+                      -
                   </span>
                   <span class="integer">{{amount.integer | prettyNumber}}</span>
                   <span class="decimal">.{{amount.decimal}}</span>
-                  <span
-                      v-if="amount.name === 'remaining' && remaining < 0"
-                      class="negative"
-                  >
-                      )
-                  </span>
               </div>
               <div class="budget__amount-type">{{amount.name}}</div>
           </div>
-      </div>
 
-      <div class="budget__meter">
-          <div
-              :style="{width: `${meterWidth}%`}"
-              class="budget__meter-bar"
-          >
+          <div class="budget__amount">
+              <div class="budget__amount-number">
+                  <span class="integer">{{transactionCount}}</span>
+              </div>
+              <div class="budget__amount-type">
+                  {{transactionCount > 1 ? 'transactions' : 'transaction'}}
+              </div>
           </div>
       </div>
 
-      <div class="budget__actions">
-          <router-link :to="{ name: 'Budgets'}">View {{transactionCount}} transactions</router-link>
+      <div
+          v-if="showActions"
+          class="budget__actions"
+      >
+          <button
+              @click="onClickEdit"
+              class="budget__action"
+          >
+              <EditIcon/>
+          </button>
+          <button
+              @click="onClickDelete"
+              class="budget__action"
+          >
+              <DeleteIcon/>
+          </button>
       </div>
   </div>
 </template>
 
 <script>
+import DeleteIcon from '@/assets/icons/delete.svg'
+import EditIcon from '@/assets/icons/edit.svg'
+
 export default {
     name: 'Budget',
+    components: {
+        DeleteIcon,
+        EditIcon,
+    },
     props: {
+        id: {
+            type: String,
+            required: false,
+        },
         name: {
             type: String,
             required: true,
@@ -61,6 +98,15 @@ export default {
             type: Number,
             required: true,
         },
+        creationDate: {
+            type: Date,
+            required: true,
+        },
+        showActions: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
     },
     computed: {
         meterWidth() {
@@ -73,9 +119,9 @@ export default {
         amounts() {
             return [
                 {
-                    name: 'budgeted',
-                    integer: this.removeDecimal(this.budgeted),
-                    decimal: this.removeInteger(this.budgeted),
+                    name: 'remaining',
+                    integer: this.removeDecimal(this.remaining),
+                    decimal: this.removeInteger(this.remaining),
                 },
                 {
                     name: 'activity',
@@ -83,14 +129,20 @@ export default {
                     decimal: this.removeInteger(this.activity),
                 },
                 {
-                    name: 'remaining',
-                    integer: this.removeDecimal(this.remaining),
-                    decimal: this.removeInteger(this.remaining),
+                    name: 'budgeted',
+                    integer: this.removeDecimal(this.budgeted),
+                    decimal: this.removeInteger(this.budgeted),
                 },
             ]
         },
     },
     methods: {
+        onClickEdit() {
+            this.$emit('handleOnEditDelete', this.id)
+        },
+        onClickDelete() {
+            this.$emit('handleOnClickDelete', this.id)
+        },
         removeDecimal(number) {
             return (
                 Math.abs(number)
@@ -116,59 +168,55 @@ export default {
 @import '../assets/styles/mixins';
 
 .budget {
+    @include flex-row;
     background-color: color(default, background);
     border: {
-        color: color(default, border);
+        color: color(default, border, navbar);
         radius: $border-radius;
         style: solid;
         width: 1px;
     }
-    margin-bottom: 1.5rem;
-    max-width: 24.5rem;
-    padding: 2rem;
+    height: 100%;
+    min-height: 6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: {
+        duration: $transition-duration;
+        property: border-color;
+    }
     width: 100%;
+
+    &:hover {
+        border-color: color(default, border, hover);
+        .budget__actions {
+            display: block;
+        }
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.budget__header {
+    @include flex-column;
+    border-right: {
+        color: color(default, border, light);
+        style: solid;
+        width: 1px;
+    }
+    height: 100%;
+    justify-content: center;
+    min-width: 18rem;
+    padding: 1rem;
 }
 
 .budget__name {
     font: {
-        size: 1rem;
+        size: 0.9rem;
         weight: 700;
     }
-    margin-bottom: 1rem;
-}
-
-.budget__amounts {
-    @include flex-row;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.budget__amount {
-    @include flex-column;
-}
-
-.budget__amount-number {
-    @include flex-row;
-    .integer,
-    .negative {
-        font-size: 1.5rem;
-    }
-
-    .negative {
-        color: color(default, font, secondary);
-    }
-
-    .decimal {
-        color: color(default, font, copy);
-        font-size: 0.9rem;
-        padding-top: 0.25rem;
-    }
-}
-
-.budget__amount-type {
-    color: color(default, font, copy);
-    font-size: 0.6rem;
-    text-transform: uppercase;
+    margin-bottom: 0.5rem;
 }
 
 .budget__meter {
@@ -183,17 +231,92 @@ export default {
     height: 5px;
 }
 
-.budget__actions {
-    @include flex-row;
-    font-size: 0.75rem;
-    justify-content: space-between;
+.budget__last {
+    color: color(default, font, copy);
+    font-size: 0.65rem;
+
     a {
         color: color(default, font, copy);
-        text-decoration: none;
+    }
+}
 
-        &:hover {
-            text-decoration: underline;
-        }
+.budget__amounts {
+    @include flex-row;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: {
+        left: 2rem;
+        right: 6rem;
+    }
+    width: 100%;
+}
+
+.budget__amount {
+    @include flex-column;
+}
+
+.budget__amount-number {
+    @include flex-row;
+    .integer,
+    .negative {
+        font-size: 1.25rem;
+    }
+
+    .negative {
+        color: color(default, font, secondary);
+    }
+
+    .decimal {
+        color: color(default, font, copy);
+        font-size: 0.9rem;
+        padding-top: 0.07rem;
+    }
+}
+
+.budget__amount-type {
+    color: color(default, font, copy);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+}
+
+.budget__actions {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1.75rem;
+}
+
+.budget__action {
+    @include button;
+    align-items: center;
+    background-color: color(default, background);
+    border: {
+        color: color(default, border);
+        radius: $border-radius;
+        style: solid;
+        width: 1px;
+    }
+    display: inline-flex;
+    height: 2rem;
+    justify-content: center;
+    margin-right: 0.5rem;
+    transition: {
+        duration: $transition-duration;
+        property: background-color;
+    }
+    width: 2.5rem;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &:hover {
+        background-color: color(default, background, secondary);
+    }
+
+    svg {
+        width: 0.85rem;
     }
 }
 </style>

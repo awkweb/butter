@@ -59,6 +59,10 @@ a {
     color: color(default, font);
 }
 
+button {
+    font-family: $font-sans-serif;
+}
+
 #app {
     min-height: 100vh;
 }
