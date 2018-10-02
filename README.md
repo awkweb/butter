@@ -31,15 +31,27 @@ export DJ_DB_HOST=docker.for.mac.localhost # special docker set up
 export DJ_DB_PORT=5432
 export DJ_SECRET_KEY=+cg9iso$a55f3ay&)pdg3k&=lq_c*55j7oyuib=a(pi#2$oj^0
 
-# VUE APP KEYS
+# PLAID APP KEYS
 
-See [Environment Variables and Modes](https://cli.vuejs.org/guide/mode-and-env.html)
+export PLAID_CLIENT_ID=5b9b1df200123c4672353c2c
+export PLAID_PUBLIC_KEY=5f198f5da4f3be8da6ecaaadbdfd58
+export PLAID_SECRET=5ea62a857d2361250eb7ed9358133c
+export PLAID_ENV=sandbox
 
 # LETS ENCRYPT CERTIFICATE PATHS
 
 export SSL_CERTIFICATE=/etc/nginx/certs/local/budget.crt
 export SSL_CERTIFICATE_KEY=/etc/nginx/certs/local/budget.key
 ```
+
+Add an `.env.development.local` file to the `web` directory:
+
+```bash
+VUE_APP_PLAID_ENV=sandbox
+VUE_APP_PLAID_PUBLIC_KEY=5f198adbdf5da4ff3be8da6ecaad58
+```
+
+See [Environment Variables and Modes](https://cli.vuejs.org/guide/mode-and-env.html) for more.
 
 Update `/etc/hosts` by adding:
 

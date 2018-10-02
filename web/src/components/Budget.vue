@@ -22,12 +22,14 @@
       <div class="budget__amounts">
           <div
               v-for="amount in amounts"
-              class="budget__amount"
+              :class="['budget__amount', {
+                  'negative': isNegative(amount),
+              }]"
           >
               <div class="budget__amount-number">
                   <span
-                      v-if="amount.name === 'remaining' && remaining < 0"
-                      class="negative"
+                      v-if="isNegative(amount)"
+                      class="integer"
                   >
                       -
                   </span>
@@ -143,6 +145,9 @@ export default {
         onClickDelete() {
             this.$emit('handleOnClickDelete', this.id)
         },
+        isNegative(amount) {
+          return amount.name === 'remaining' && this.remaining < 0
+        },
         removeDecimal(number) {
             return (
                 Math.abs(number)
@@ -227,7 +232,7 @@ export default {
 }
 
 .budget__meter-bar {
-    background-color: color(default, border, active);
+    background-color: darken(color(default, border), 10);
     height: 5px;
 }
 
@@ -254,17 +259,27 @@ export default {
 
 .budget__amount {
     @include flex-column;
+
+    &.negative {
+        .budget__amount-number {
+            color: color(default, font, error);
+
+            .decimal {
+                color: lighten(color(default, font, error), 5);
+            }
+        }
+
+        .budget__amount-type {
+            color: lighten(color(default, font, error), 5);
+        }
+    }
 }
 
 .budget__amount-number {
     @include flex-row;
-    .integer,
-    .negative {
-        font-size: 1.25rem;
-    }
 
-    .negative {
-        color: color(default, font, secondary);
+    .integer {
+        font-size: 1.25rem;
     }
 
     .decimal {
