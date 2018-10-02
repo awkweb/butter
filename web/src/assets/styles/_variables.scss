@@ -6,7 +6,7 @@ $navbar-width: 14rem;
 
 $black: #111;
 $gray: #cacaca;
-$green: #22d09c;
+$green: #01a678;
 $red: #f44e66;
 $white: #fff;
 $themes: (
@@ -18,14 +18,18 @@ $themes: (
         ),
         border: (
             base: $gray,
+            hover: darken($gray, 10),
             active: $green,
             error: $red,
+            navbar: #e0e6ed,
+            light: #f1f5f9,
         ),
         button: (
             base: $black,
             active: $green,
             disabled: $gray,
             font: $white,
+            light: $white,
         ),
         font: (
             base: $black,

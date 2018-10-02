@@ -1,6 +1,14 @@
 <template>
   <Dashboard>
       <Loader v-if="loading"/>
+      <template v-else>
+          <template slot="topbar">
+              transactions
+          </template>
+          <template slot="content">
+              shows all transactions in a filterable table
+          </template>
+      </template>
   </Dashboard>
 </template>
 

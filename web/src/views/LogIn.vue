@@ -17,7 +17,8 @@
                             'active': (email && email.length) || (emailTouched || ($v.email.$dirty && $v.email.$invalid)),
                             'error': emailTouched && $v.email.$invalid
                         }]"
-                    >
+                        for="email"
+                   >
                         <span v-if="emailTouched && !$v.email.email">Email is invalid</span>
                         <span v-else-if="emailTouched && !$v.email.required">Email is required</span>
                         <span v-else>Email</span>
@@ -27,6 +28,7 @@
                         v-model="email"
                         :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
                         @blur="emailTouched = true"
+                        id="email"
                         placeholder="Email"
                         spellcheck="false"
                         type="email"
@@ -39,7 +41,8 @@
                             'active': (password && password.length) || (passwordTouched || ($v.password.$dirty && $v.password.$invalid)),
                             'error': passwordTouched && $v.password.$invalid
                         }]"
-                    >
+                        for="password"
+                   >
                         <span v-if="passwordTouched && !$v.password.required">Password is required</span>
                         <span v-else>Password</span>
                     </label>
@@ -47,6 +50,7 @@
                         v-model="password"
                         :class="['form__input', { 'error': passwordTouched && $v.password.$invalid }]"
                         @blur="passwordTouched = true"
+                        id="password"
                         placeholder="Password"
                         type="password"
                     >

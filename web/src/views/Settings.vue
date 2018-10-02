@@ -1,14 +1,22 @@
 <template>
   <Dashboard>
       <Loader v-if="loading"/>
-      <PlaidLink
-          :env="plaidEnv"
-          :publicKey="plaidPublicKey"
-          clientName="budget"
-          v-bind="{ onSuccess }"
-      >
-          Open Plaid Link
-      </PlaidLink>
+      <template v-else>
+          <template slot="topbar">
+              settings
+          </template>
+          <template slot="content">
+              billing, and user name, email, and password change
+              <PlaidLink
+                  :env="plaidEnv"
+                  :publicKey="plaidPublicKey"
+                  clientName="budget"
+                  v-bind="{ onSuccess }"
+              >
+                  Open Plaid Link
+              </PlaidLink>
+          </template>
+      </template>
   </Dashboard>
 </template>
 

@@ -76,21 +76,16 @@
                       <span>Settings</span>
                   </router-link>
               </li>
+              <li>
+                  <button
+                      @click="onClickLogOut"
+                      class="navbar__item"
+                  >
+                      <LogOutIcon/>
+                      <span>Log Out</span>
+                  </button>
+              </li>
           </ul>
-
-          <footer class="navbar__footer">
-              <a
-                  class="navbar__link"
-              >
-                  Support
-              </a>
-              <button
-                  @click="onClickLogOut"
-                  class="navbar__link"
-              >
-                  Log Out
-              </button>
-          </footer>
       </div>
   </nav>
 </template>
@@ -99,6 +94,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import AccountsIcon from '@/assets/icons/accounts.svg'
 import BudgetsIcon from '@/assets/icons/budgets.svg'
+import LogOutIcon from '@/assets/icons/log-out.svg'
 import InboxIcon from '@/assets/icons/inbox.svg'
 import SettingsIcon from '@/assets/icons/settings.svg'
 import TransactionsIcon from '@/assets/icons/transactions.svg'
@@ -108,6 +104,7 @@ export default {
     components: {
         AccountsIcon,
         BudgetsIcon,
+        LogOutIcon,
         InboxIcon,
         SettingsIcon,
         TransactionsIcon,
@@ -131,16 +128,17 @@ export default {
 
 .navbar {
     background-color: color(default, background);
-    height: 100vh;
-    width: $navbar-width;
+    height: 100%;
+    max-height: 100vh;
     position: relative;
+    width: $navbar-width;
 }
 
 .navbar__header {
     @include flex-column;
     background-color: color(default, background, primary);
     border-right: {
-        color: darken(color(default, background, primary), 10);
+        color: darken(color(default, background, primary), 5);
         style: solid;
         width: 1px;
     }
@@ -156,12 +154,13 @@ export default {
 
 .navbar__content {
     border-right: {
-        color: #e0e6ed;
+        color: color(default, border, navbar);
         style: solid;
         width: 1px;
     }
-    height: 100vh;
-    padding-top: 3.3rem;
+    height: calc(100vh - #{$navbar-height});
+    margin-top: 3.3rem;
+    overflow: scroll;
 }
 
 .navbar__logo {
@@ -181,7 +180,7 @@ export default {
 
 .navbar__section {
     border-bottom: {
-        color: #f1f5f9;
+        color: color(default, border, light);
         style: solid;
         width: 1px;
     }
@@ -193,14 +192,15 @@ export default {
     }
 
     &:last-child {
-        border-bottom: 0;
         margin-bottom: 1rem;
     }
 }
 
 .navbar__item {
+    @include button;
     align-items: center;
     color: color(default, font, copy);
+    border: 0;
     display: flex;
     font: {
         size: 0.8rem;
@@ -225,35 +225,6 @@ export default {
         height: 1.15rem;
         margin-right: 1rem;
         width: 1.15rem;
-    }
-}
-
-.navbar__footer {
-    @include flex-column;
-    padding: {
-        bottom: 1.5rem;
-        left: 1.25rem;
-        top: 1.5rem;
-    }
-}
-
-.navbar__link {
-    color: color(default, font, copy);
-    cursor: pointer;
-    border: 0;
-    font-size: 0.75rem;
-    padding: 0;
-    text-align: left;
-    text-decoration: none;
-    margin-bottom: 0.5rem;
-    width: fit-content;
-
-    &:hover {
-        color: color(default, font, primary);
-    }
-
-    &:last-child {
-        margin-bottom: 0;
     }
 }
 </style>

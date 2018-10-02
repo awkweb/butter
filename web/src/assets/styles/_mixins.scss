@@ -1,22 +1,22 @@
 @mixin button() {
-  -webkit-appearance: none;
-  cursor: pointer;
-  outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    outline: none;
 }
 
 @mixin flex-center() {
-  align-items: center;
-  justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 @mixin flex-column() {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 @mixin flex-row() {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 @mixin page() {
@@ -25,7 +25,7 @@
 }
 
 @mixin respond-to($media) {
-  @if $media == sm {
-    @media screen and (min-width: 600px) { @content; }
-  }
+    @if $media == sm {
+        @media screen and (min-width: 600px) { @content; }
+    }
 }
