@@ -2,7 +2,6 @@ $border-radius: 2px;
 $font-sans-serif: Vaud, sans-serif;
 $font-size-root: 18px;
 $navbar-height: 3.3rem;
-$navbar-width: 14rem;
 
 $black: #111;
 $gray: #cacaca;
@@ -21,7 +20,7 @@ $themes: (
             hover: darken($gray, 10),
             active: $green,
             error: $red,
-            navbar: #e0e6ed,
+            navbar: #dedddc,
             light: #f1f5f9,
         ),
         button: (
@@ -33,11 +32,12 @@ $themes: (
         ),
         font: (
             base: $black,
-            primary: $green,
-            error: $red,
-            secondary: #404040,
             copy: lighten(#404040, 15),
+            error: $red,
+            label: #888,
             placeholder: #9b9b9b,
+            primary: $green,
+            secondary: #404040,
             white: $white,
         ),
         icon: (
@@ -48,3 +48,5 @@ $themes: (
 );
 
 $transition-duration: .25s;
+$z-index-nav: 10;
+$z-index-modal: 10;

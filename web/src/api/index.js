@@ -10,7 +10,11 @@ const api = axios.create({
 
 export default {
     setAuthorizationToken(token) {
-        api.defaults.headers.common['Authorization'] = `Token ${token}`
+        if (token) {
+            api.defaults.headers.common['Authorization'] = `Token ${token}`
+        } else {
+            api.defaults.headers.common = {}
+        }
     },
     linkPlaid: data => api.post('auth/link/plaid/', data),
     logIn: (email, password) =>

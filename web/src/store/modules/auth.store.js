@@ -5,7 +5,6 @@ import { SET_USER } from '@/store/constants'
 const store = {
     state: {
         user: JSON.parse(localStorage.getItem('user')) || null,
-        persistUser: false,
     },
     actions: {
         LINK_PLAID: async ({ commit }, data) => {

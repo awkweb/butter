@@ -3,6 +3,11 @@
       <Loader v-if="loading"/>
       <template v-else>
           <template slot="topbar">
+              <div class="topbar__nav">
+                  <router-link :to="{ name: 'Budgets' }">
+                      Budgets
+                  </router-link>
+              </div>
               <button
                   @click="onClickNew"
                   class="topbar__button budgets"

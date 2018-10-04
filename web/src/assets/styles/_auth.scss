@@ -4,6 +4,7 @@
 
 .auth {
     @include page;
+    background-color: color(default, background);
     display: flex;
     justify-content: center;
 }
@@ -25,14 +26,14 @@
 }
 
 .auth__header {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .auth__info {
     color: color(default, font, secondary);
     font-size: 0.9rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .auth__form {
@@ -80,7 +81,66 @@
     }
 }
 
-.auth_error {
+.auth__password-features {
+    @include flex-column;
+    @include respond-to(sm) {
+        @include flex-row;
+    }
+    margin-bottom: 0.75rem;
+}
+
+.auth__password-feature-list {
+    list-style-type: none;
+    margin: {
+        bottom: 0;
+        right: 2rem;
+        top: 0;
+    }
+    padding-left: 0;
+}
+
+.auth__password-feature {
+    @include flex-row;
+    align-items: center;
+    font: {
+        family: $font-sans-serif;
+        size: 0.75rem;
+    }
+    margin-bottom: 0.25rem;
+    transition: {
+        duration: $transition-duration;
+        property: opacity;
+    }
+
+    &:before {
+        background-color: color(default, background, primary);
+        border-radius: 8px;
+        content: "";
+        display: inline-block;
+        height: 8px;
+        margin-right: 0.5rem;
+        width: 8px;
+    }
+
+    &.success {
+        opacity: 0.35;
+    }
+}
+
+.auth__subtext {
+    color: color(default, font, label);
+    font: {
+        family: $font-sans-serif;
+        size: 0.7rem;
+    }
+    margin-top: 0.5rem;
+
+    a {
+        color: color(default, font, label);
+    }
+}
+
+.auth__error {
     color: color(default, font, error);
     margin-top: 1rem;
     font-size: 0.8rem;

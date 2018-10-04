@@ -14,20 +14,16 @@
                 <fieldset class="form__field">
                     <label
                         :class="['form__label', {
-                            'active': (email && email.length) || (emailTouched || ($v.email.$dirty && $v.email.$invalid)),
-                            'error': emailTouched && $v.email.$invalid
+                            'active': email,
                         }]"
                         for="email"
                     >
-                        <span v-if="emailTouched && !$v.email.email">Email is invalid</span>
-                        <span v-else-if="emailTouched && !$v.email.required">Email is required</span>
-                        <span v-else>Email</span>
+                        Email
                     </label>
                     <input
                         v-focus
                         v-model="email"
-                        :class="['form__input', { 'error': emailTouched && $v.email.$invalid }]"
-                        @blur="emailTouched = true"
+                        class="form__input"
                         id="email"
                         placeholder="Email"
                         spellcheck="false"
@@ -44,23 +40,15 @@
                 <fieldset class="form__field">
                     <label
                         :class="['form__label', {
-                            'active': (password && password.length) || (passwordTouched || ($v.password.$dirty && $v.password.$invalid)),
-                            'error': passwordTouched && $v.password.$invalid
+                            'active': password,
                         }]"
-                        label="password"
+                        for="password"
                     >
-                        <span v-if="passwordTouched && !$v.password.capital">At least one uppercase letter</span>
-                        <span v-else-if="passwordTouched && !$v.password.digit">At least one digit</span>
-                        <span v-else-if="passwordTouched && !$v.password.minLength">At least 8 characters</span>
-                        <span v-else-if="passwordTouched && !$v.password.required">Password is required</span>
-                        <span v-else>Password</span>
+                        Password
                     </label>
                     <input
                         v-model="password"
-                        :class="['form__input', {
-                            'error': passwordTouched && $v.password.$invalid,
-                        }]"
-                        @blur="passwordTouched = true"
+                        class="form__input"
                         id="password"
                         placeholder="Password"
                         type="password"
@@ -73,22 +61,18 @@
                     </div>
                 </fieldset>
 
-                <fieldset class="form__field no-margin">
+                <fieldset class="form__field">
                     <label
                         :class="['form__label', {
-                            'active': (passwordConfirm && passwordConfirm.length) || (passwordConfirmTouched || ($v.passwordConfirm.$dirty && $v.passwordConfirm.$invalid)),
-                            'error': passwordConfirmTouched && $v.passwordConfirm.$invalid
+                            'active': passwordConfirm,
                         }]"
                         for="confirm-password"
                     >
-                        <span v-if="passwordConfirmTouched && !$v.passwordConfirm.sameAs">Passwords must match</span>
-                        <span v-else-if="passwordConfirmTouched && !$v.passwordConfirm.required">Confirm Password is required</span>
-                        <span v-else>Confirm Password</span>
+                        Confirm Password
                     </label>
                     <input
                         v-model="passwordConfirm"
-                        :class="['form__input', { 'error': passwordConfirmTouched && $v.passwordConfirm.$invalid }]"
-                        @blur="passwordConfirmTouched = true"
+                        class="form__input"
                         id="confirm-password"
                         placeholder="Confirm Password"
                         type="password"
@@ -101,20 +85,37 @@
                     </div>
                 </fieldset>
 
-                <fieldset class="form__field checkbox">
-                    <input
-                        v-model="tos"
-                        class="form__input checkbox"
-                        id="tos"
-                        type="checkbox"
-                    >
-                    <label
-                        class="form__label checkbox"
-                        for="tos"
-                    >
-                        I agree and conset to Budget's <a href="">Terms of Use</a> and <a href="">Privacy Policy</a>.
-                    </label>
-                </fieldset>
+                <div class="auth__password-features">
+                    <ul class="auth__password-feature-list">
+                        <li :class="['auth__password-feature', {
+                            success: password && $v.password.lowercase
+                        }]">
+                            One lowercase letter
+                        </li>
+                        <li :class="['auth__password-feature', {
+                            success: password && $v.password.uppercase
+                        }]">
+                            One uppercase letter
+                        </li>
+                        <li :class="['auth__password-feature', {
+                            success: password && $v.password.digit
+                        }]">
+                            One number
+                        </li>
+                    </ul>
+                    <ul class="auth__password-feature-list">
+                        <li :class="['auth__password-feature', {
+                            success: password && $v.password.minLength
+                        }]">
+                            8 characters minimum
+                        </li>
+                        <li :class="['auth__password-feature', {
+                            success: passwordConfirm && $v.passwordConfirm.sameAs
+                        }]">
+                            Passwords match
+                        </li>
+                    </ul>
+                </div>
 
                 <button
                     :class="['auth__button', { loading }]"
@@ -125,9 +126,13 @@
                     {{ loading ? 'Creating account...' : 'Sign Up' }}
                 </button>
 
+                <div class="auth__subtext">
+                    By clicking this button, you agree Budget's <a href="">Terms of Use</a>.
+                </div>
+
                 <div
                     v-if="error"
-                    class="auth_error"
+                    class="auth__error"
                 >
                     {{ error }}
                 </div>
@@ -148,9 +153,6 @@ import {
 import { get } from '@/utils'
 import InputSuccessIcon from '@/assets/icons/input-success.svg'
 
-const capital = helpers.regex('capital', /^.*[A-Z]+.*$/)
-const digit = helpers.regex('capital', /^.*[0-9]+.*$/)
-
 export default {
     name: 'SignUp',
     components: {
@@ -158,15 +160,10 @@ export default {
     },
     data: () => ({
         email: null,
-        emailTouched: false,
         error: null,
         loading: false,
         password: null,
-        passwordTouched: false,
         passwordConfirm: null,
-        passwordConfirmTouched: false,
-        persistUser: false,
-        tos: false,
     }),
     created() {
         if (this.$route.query.email) this.email = this.$route.query.email
@@ -201,19 +198,17 @@ export default {
             required,
         },
         password: {
-            capital,
-            digit,
+            digit: helpers.regex('digit', /^.*[0-9]+.*$/),
+            lowercase: helpers.regex('lowercase', /^.*[a-z]+.*$/),
             minLength: minLength(8),
             required,
+            uppercase: helpers.regex('uppercase', /^.*[A-Z]+.*$/),
         },
         passwordConfirm: {
             sameAs: sameAs('password'),
             required,
         },
-        tos: {
-            required,
-        },
-        validationGroup: ['email', 'password', 'passwordConfirm', 'tos'],
+        validationGroup: ['email', 'password', 'passwordConfirm'],
     },
     metaInfo: {
         title: 'Sign Up',

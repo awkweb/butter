@@ -146,7 +146,7 @@ export default {
             this.$emit('handleOnClickDelete', this.id)
         },
         isNegative(amount) {
-          return amount.name === 'remaining' && this.remaining < 0
+            return amount.name === 'remaining' && this.remaining < 0
         },
         removeDecimal(number) {
             return (
@@ -181,8 +181,7 @@ export default {
         style: solid;
         width: 1px;
     }
-    height: 100%;
-    min-height: 6rem;
+    height: 6rem;
     margin-bottom: 1rem;
     position: relative;
     transition: {

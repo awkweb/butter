@@ -65,9 +65,13 @@
                     {{ loading ? 'Logging in...' : 'Log in' }}
                 </button>
 
+                <div class="auth__subtext">
+                    So nice to see you again, Old Sport.
+                </div>
+
                 <div
                     v-if="error"
-                    class="auth_error"
+                    class="auth__error"
                 >
                     {{ error }}
                 </div>
@@ -90,7 +94,6 @@ export default {
         loading: false,
         password: null,
         passwordTouched: false,
-        persistUser: false,
     }),
     created() {
         if (this.$route.query.email) this.email = this.$route.query.email

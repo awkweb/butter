@@ -9,7 +9,7 @@ export default {
     name: 'App',
     metaInfo: {
         titleTemplate: titleChunk => {
-            return titleChunk ? `${titleChunk} - Budget` : 'Budget'
+            return titleChunk ? `${titleChunk} | Ferns` : 'Ferns'
         },
     },
 }
