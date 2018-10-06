@@ -1,30 +1,16 @@
 <template>
   <Dashboard>
-      <Loader v-if="loading"/>
-      <template v-else>
-          <template slot="topbar">
-              <div class="topbar__nav">
-                  <router-link :to="{ name: 'Budgets' }">
-                      Budgets
-                  </router-link>
-              </div>
-              <button
-                  @click="onClickNew"
-                  class="topbar__button budgets"
-              >
-                  <EditIcon/>
-                  <span>New Budget</span>
-              </button>
-          </template>
-          <template slot="content">
-              <Budget
-                  :name="totalBudget.name"
-                  :budgeted="totalBudget.budgeted"
-                  :activity="totalBudget.activity"
-                  :transactionCount="totalBudget.transactionCount"
-                  :showActions="false"
-                  :creationDate="totalBudget.creationDate"
-              />
+      <template slot="header">
+          <button
+              @click="onClickNew"
+              class="dashboard__header-button"
+          >
+              Create Budget
+          </button>
+      </template>
+      <template slot="content">
+          <Loader v-if="loading"/>
+          <template v-else>
               <Budget
                   v-for="budget in budgets"
                   :key="budget.id"

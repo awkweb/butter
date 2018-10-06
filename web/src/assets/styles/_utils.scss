@@ -1,0 +1,17 @@
+@import 'variables';
+@import 'functions';
+@import 'mixins';
+
+.hide-mobile {
+    @include respond-to(md) {
+        display: inherit !important;
+    }
+    display: none !important;
+}
+
+.hide-desktop {
+    @include respond-to(md) {
+        display: none !important;
+    }
+    display: inherit !important;
+}

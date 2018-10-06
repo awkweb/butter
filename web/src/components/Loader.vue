@@ -31,7 +31,7 @@ export default {
 .loader {
     @include flex-row;
     @include flex-center;
-    height: calc(100vh - 15rem);
+    height: 30vh;
     div {
         animation: {
             name: loader;

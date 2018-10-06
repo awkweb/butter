@@ -2,93 +2,67 @@
 @import 'functions';
 @import 'mixins';
 
-.form__field {
-    @include flex-column;
-    border: 0;
+.form {
     margin: {
-        bottom: 1rem;
-        left: 0;
-        right: 0;
-        top: 0;
-    }
-    padding: 0;
-    position: relative;
-
-    &.checkbox {
-        @include flex-row;
-        margin-top: 0.25rem;
-    }
-}
-
-.form__label {
-    color: color(default, font, label);
-    background-color: color(default, background);
-    font: {
-        family: $font-sans-serif;
-        size: 0.7rem;
-    }
-    padding: {
-        left: 0.45rem;
-        right: 0.45rem;
-    }
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    left: 0.6rem;
-    top: 0;
-    transition: {
-        duration: $transition-duration / 2;
-        property: color, opacity, top;
-    }
-
-    &.active {
-        display: block;
-        opacity: 1;
-        pointer-events: all;
-        top: -0.4rem;
-    }
-
-    &.error {
-        color: color(default, font, error);
-    }
-}
-
-.form__input {
-    border: {
-        color: color(default, border);
-        radius: $border-radius;
-        style: solid;
-        width: 1px;
-    }
-    color: color(default, font);
-    font: {
-        family: $font-sans-serif;
-        size: 0.9rem;
-    }
-    height: 2.5rem;
-    outline: 0;
-    padding: {
-        bottom: 0;
-        left: 1rem;
-        right: 0;
-        top: 0.15rem;
-    }
-    transition: {
-        duration: $transition-duration;
-        property: border-color, box-shadow;
+        bottom: 3rem;
+        right: 3rem;
     }
     width: 100%;
 
-    &::-webkit-input-placeholder {
-        color: color(default, font, placeholder);
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.form__header {
+    font: {
+        size: 1.5rem;
+        weight: 600;
+    }
+    margin-bottom: 1.5rem;
+}
+
+.form__container {
+    @include flex-column;
+}
+
+.form__button {
+    @include button;
+    background-color: color(default, button, secondary);
+    border: {
+        radius: $border-radius;
+        width: 0;
+    }
+    color: color(default, button, font);
+    font: {
+        size: 0.8rem;
+        weight: 600;
+    }
+    height: 2.5rem;
+    padding: {
+        bottom: 0;
+        left: 2rem;
+        right: 2rem;
+        top: 0.25rem;
+    }
+    transition: {
+        duration: $transition-duration;
+        property: background-color;
+    }
+    width: fit-content;
+
+    &:disabled {
+        background-color: color(default, button, disabled);
+        cursor: default;
     }
 
-    &:focus {
-        border-color: color(default, border, active);
+    &:hover:not(:disabled) {
+        background-color: color(default, button);
     }
+}
 
-    &.error {
-        border-color: color(default, border, error);
-        color: color(default, font, error);
-    }
+.form__error {
+    color: color(default, font, error);
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
 }

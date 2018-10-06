@@ -44,9 +44,22 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedIn,
             component: () =>
-                import(/* webpackChunkName: 'settings' */ '../views/Settings.vue'),
-            name: 'Settings',
+                import(/* webpackChunkName: 'settings' */ '../views/settings/Settings.vue'),
             path: '/settings',
+            children: [
+                {
+                    name: 'SettingsOverview',
+                    path: '',
+                    component: () =>
+                        import(/* webpackChunkName: 'settings-overview' */ '../views/settings/SettingsOverview.vue'),
+                },
+                {
+                    name: 'SettingsBilling',
+                    path: 'billing',
+                    component: () =>
+                        import(/* webpackChunkName: 'settings-billing' */ '../views/settings/SettingsBilling.vue'),
+                },
+            ],
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
@@ -58,14 +71,14 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedOut,
             component: () =>
-                import(/* webpackChunkName: 'signup' */ '../views/SignUp.vue'),
+                import(/* webpackChunkName: 'signup' */ '../views/auth/SignUp.vue'),
             name: 'SignUp',
             path: '/signup',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
             component: () =>
-                import(/* webpackChunkName: 'login' */ '../views/LogIn.vue'),
+                import(/* webpackChunkName: 'login' */ '../views/auth/LogIn.vue'),
             name: 'LogIn',
             path: '/login',
         },
