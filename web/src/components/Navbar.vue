@@ -20,17 +20,6 @@
           <li>
               <router-link
                   :class="['navbar__item', {
-                      'active': $route.name === 'Inbox',
-                      'notification': true
-                  }]"
-                  :to="{ name: 'Inbox'}"
-              >
-                  Inbox
-              </router-link>
-          </li>
-          <li>
-              <router-link
-                  :class="['navbar__item', {
                       'active': $route.name === 'Budgets'
                   }]"
                   :to="{ name: 'Budgets'}"
@@ -48,7 +37,7 @@
                   Transactions
               </router-link>
           </li>
-            <li>
+          <li>
               <router-link
                   :class="['navbar__item', {
                       'active': $route.name === 'Accounts'
@@ -56,6 +45,16 @@
                   :to="{ name: 'Accounts'}"
               >
                   Accounts
+              </router-link>
+          </li>
+          <li>
+              <router-link
+                  :class="['navbar__item', {
+                      'active': $route.name === 'Inbox'
+                  }]"
+                  :to="{ name: 'Inbox'}"
+              >
+                  Inbox
               </router-link>
           </li>
       </ul>
@@ -71,12 +70,13 @@
                       <span>{{initial}}</span>
                   </div>
                   <div
-                    v-if="user.first_name"
-                    class="navbar__user-name"
+                      v-if="user"
+                      class="navbar__user-info"
                   >
-                      {{user.first_name}}
-                      <br>
-                      {{user.email}}
+                      <div v-if="user.first_name">
+                          {{user.first_name}}
+                      </div>
+                      <div>{{user.email}}</div>
                   </div>
                   <ChevronDownIcon/>
               </div>
@@ -139,8 +139,9 @@ export default {
         onClickOutsideDropdown() {
             if (this.isDropDownOpen) this.isDropDownOpen = false
         },
-        onClickLogOut() {
-            this.LOG_OUT_USER().then(() => this.$router.push({ name: 'LogIn' }))
+        async onClickLogOut() {
+            await this.LOG_OUT_USER()
+            this.$router.push({ name: 'LogIn' })
         },
     },
 }
@@ -264,7 +265,7 @@ export default {
     &:hover {
         color: color(default, font);
 
-        .navbar__user-name {
+        .navbar__user-info {
             color: color(default, font);
         }
     }
@@ -306,14 +307,17 @@ export default {
     }
 }
 
-.navbar__user-name {
+.navbar__user-info {
     @include respond-to(md) {
         display: block;
     }
     color: color(default, font, copy);
     display: none;
     font-size: 0.8rem;
-    margin-left: 0.65rem;
+    margin: {
+        left: 0.65rem;
+        top: 0.1rem;
+    }
     transition: {
         duration: $transition-duration;
         property: color;

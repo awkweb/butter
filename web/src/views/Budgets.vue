@@ -1,16 +1,43 @@
 <template>
   <Dashboard>
       <template slot="header">
-          <button
-              @click="onClickNew"
-              class="dashboard__header-button"
-          >
-              Create Budget
-          </button>
+          <div>
+              <button
+                  @click="onClickNew"
+                  class="dashboard__header-date"
+              >
+                  Oct 1 - 31
+              </button>
+              <button
+                  @click="onClickNew"
+                  class="dashboard__header-button"
+              >
+                  Create Budget
+              </button>
+          </div>
       </template>
       <template slot="content">
           <Loader v-if="loading"/>
           <template v-else>
+              <div class="budgets__totals">
+                <div class="budgets__total">
+                    <div>{{totalBudget.transactionCount}}</div>
+                    <div>Transactions</div>
+                </div>
+                <div class="budgets__total">
+                    <div>{{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
+                    <div>Remaining</div>
+                </div>
+                <div class="budgets__total">
+                    <div>{{totalBudget.activity | prettyNumber}}</div>
+                    <div>Activity</div>
+                </div>
+                <div class="budgets__total">
+                    <div>{{totalBudget.budgeted | prettyNumber}}</div>
+                    <div>Budgeted</div>
+                </div>
+              </div>
+
               <Budget
                   v-for="budget in budgets"
                   :key="budget.id"
@@ -148,4 +175,35 @@ export default {
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
+
+.budgets__totals {
+    @include flex-row;
+    align-items: center;
+    border: {
+        color: color(default, border, navbar);
+        radius: $border-radius;
+        style: solid;
+        width: 1px;
+    }
+    height: 6rem;
+    margin-bottom: 3rem;
+}
+
+.budgets__total {
+    @include flex-column;
+    align-items: center;
+    border-right: {
+        color: color(default, border, navbar);
+        style: solid;
+        width: 1px;
+    }
+    font-size: 1.25rem;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+
+    &:last-child {
+        border-right: 0;
+    }
+}
 </style>

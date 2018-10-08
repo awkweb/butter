@@ -3,10 +3,13 @@
         <h3 class="form__header">Change Password</h3>
 
         <div
-            v-if="error"
-            class="form__error"
+            v-if="message"
+            :class="['form__message', {
+                success,
+                error
+            }]"
         >
-            {{ error }}
+            {{ message }}
         </div>
 
         <form class="form__container">
@@ -56,6 +59,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import {
     helpers,
     minLength,
@@ -63,6 +67,7 @@ import {
     required,
     sameAs,
 } from 'vuelidate/lib/validators'
+import { get } from '@/utils'
 import PasswordFeatures from '@/components/PasswordFeatures'
 import Field from '@/components/Field'
 
@@ -73,15 +78,46 @@ export default {
         PasswordFeatures,
     },
     data: () => ({
-        error: null,
+        error: false,
         password: null,
         passwordConfirm: null,
         passwordVerify: null,
         loading: false,
+        message: null,
+        success: false,
     }),
     methods: {
-        onClickUpdate() {
-            this.$emit('handleOnClickUpdate')
+        ...mapActions(['CHANGE_PASSWORD']),
+        resetForm() {
+            this.password = null
+            this.passwordConfirm = null
+            this.passwordVerify = null
+        },
+        async onClickUpdate() {
+            this.message = null
+            this.success = false
+            this.error = false
+            this.loading = true
+            try {
+                this.message = await this.CHANGE_PASSWORD({
+                    password: this.password,
+                    passwordConfirm: this.passwordConfirm,
+                    passwordVerify: this.passwordVerify,
+                })
+                this.success = true
+                this.resetForm()
+            } catch (err) {
+                let error
+                if ('password_verify' in err) {
+                    error = get(() => err.password_verify[0])
+                } else if ('password' in err) {
+                    error = get(() => err.password[0])
+                }
+                this.message = error
+                this.error = true
+            } finally {
+                this.loading = false
+            }
         },
     },
     validations: {

@@ -73,25 +73,27 @@ export default {
     },
     methods: {
         ...mapActions(['LOG_IN_USER']),
-        onClickLogIn() {
+        async onClickLogIn() {
+            this.error = null
             this.loading = true
-            this.LOG_IN_USER({
-                email: this.email,
-                password: this.password,
-            })
-                .then(() => this.$router.push({ name: 'Inbox' }))
-                .catch(err => {
-                    let error
-                    if ('email' in err) {
-                        error = get(() => err.email[0])
-                    } else if ('password' in err) {
-                        error = get(() => err.password[0])
-                    } else if ('non_field_errors' in err) {
-                        error = get(() => err.non_field_errors[0])
-                    }
-                    this.loading = false
-                    this.error = error
+            try {
+                await this.LOG_IN_USER({
+                    email: this.email,
+                    password: this.password,
                 })
+                this.$router.push({ name: 'Budgets' })
+            } catch (err) {
+                let error
+                if ('email' in err) {
+                    error = get(() => err.email[0])
+                } else if ('password' in err) {
+                    error = get(() => err.password[0])
+                } else if ('non_field_errors' in err) {
+                    error = get(() => err.non_field_errors[0])
+                }
+                this.loading = false
+                this.error = error
+            }
         },
     },
     validations: {

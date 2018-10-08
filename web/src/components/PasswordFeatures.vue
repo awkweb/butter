@@ -11,22 +11,17 @@
             }]">
                 One uppercase letter
             </li>
+        </ul>
+        <ul class="password-features__list">
             <li :class="['password-features__item', {
                 success: hasNumber
             }]">
                 One number
             </li>
-        </ul>
-        <ul class="password-features__list">
             <li :class="['password-features__item', {
                 success: isMinLength
             }]">
                 8 characters minimum
-            </li>
-            <li :class="['password-features__item', {
-                success: passwordsMatch
-            }]">
-                Passwords match
             </li>
         </ul>
     </div>
@@ -52,10 +47,6 @@ export default {
             required: true,
             type: Boolean,
         },
-        passwordsMatch: {
-            required: true,
-            type: Boolean,
-        },
     },
 }
 </script>
@@ -70,7 +61,10 @@ export default {
     @include respond-to(sm) {
         @include flex-row;
     }
-    margin-bottom: 1rem;
+    margin: {
+        bottom: 1rem;
+        top: -0.25rem;
+    }
 }
 
 .password-features__list {

@@ -16,16 +16,9 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedIn,
             component: () =>
-                import(/* webpackChunkName: 'inbox' */ '../views/Inbox.vue'),
-            name: 'Inbox',
-            path: '/',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
                 import(/* webpackChunkName: 'budgets' */ '../views/Budgets.vue'),
             name: 'Budgets',
-            path: '/budgets',
+            path: '/',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
@@ -40,6 +33,13 @@ export default new Router({
                 import(/* webpackChunkName: 'accounts' */ '../views/Accounts.vue'),
             name: 'Accounts',
             path: '/accounts',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: () =>
+                import(/* webpackChunkName: 'inbox' */ '../views/Inbox.vue'),
+            name: 'Inbox',
+            path: '/inbox',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,

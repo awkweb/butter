@@ -41,7 +41,6 @@
                     :hasUppercaseLetter="(password && $v.password.uppercase) || false"
                     :hasNumber="(password && $v.password.digit) || false"
                     :isMinLength="(password && $v.password.minLength) || false"
-                    :passwordsMatch="(passwordConfirm && $v.passwordConfirm.sameAs) || false"
                 />
 
                 <Field
@@ -103,26 +102,26 @@ export default {
     },
     methods: {
         ...mapActions(['SIGN_UP_USER']),
-        onClickSignUp() {
+        async onClickSignUp() {
+            this.error = null
             this.loading = true
-            this.SIGN_UP_USER({
-                email: this.email,
-                password: this.password,
-                passwordConfirm: this.passwordConfirm,
-            })
-                .then(() => this.$router.push({ name: 'Inbox' }))
-                .catch(err => {
-                    let error
-                    if ('email' in err) {
-                        error = get(() => err.email[0])
-                    } else if ('password' in err) {
-                        error = get(() => err.password[0])
-                    } else if ('password_confirm' in err) {
-                        error = get(() => err.password_confirm[0])
-                    }
-                    this.loading = false
-                    this.error = error
+            try {
+                await this.SIGN_UP_USER({
+                    email: this.email,
+                    password: this.password,
+                    passwordConfirm: this.passwordConfirm,
                 })
+                this.$router.push({ name: 'Budgets' })
+            } catch (err) {
+                let error
+                if ('email' in err) {
+                    error = get(() => err.email[0])
+                } else if ('password' in err) {
+                    error = get(() => err.password[0])
+                }
+                this.loading = false
+                this.error = error
+            }
         },
     },
     validations: {

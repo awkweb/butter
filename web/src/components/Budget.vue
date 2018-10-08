@@ -7,15 +7,15 @@
               <MoreVerticalIcon/>
           </button>
           <div class="budget__name">{{name}}</div>
+          <div class="budget__transaction-count">
+              {{transactionCount}} {{transactionCount > 1 ? 'transactions' : 'transaction'}}
+          </div>
           <div class="budget__meter">
               <div
                   :style="{width: `${meterWidth}%`}"
                   class="budget__meter-bar"
               >
               </div>
-          </div>
-          <div class="budget__transaction-count">
-              {{transactionCount}} {{transactionCount > 1 ? 'transactions' : 'transaction'}}
           </div>
       </header>
 
@@ -143,11 +143,6 @@ export default {
         width: 1px;
     }
     height: 6rem;
-    position: relative;
-    transition: {
-        duration: $transition-duration;
-        property: border-color;
-    }
     width: 100%;
 
     &:last-child {
@@ -196,26 +191,23 @@ export default {
 }
 
 .budget__name {
-    color: color(default, font, primary);
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.budget__transaction-count {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
 }
 
 .budget__meter {
-    background-color: lighten(color(default, border), 10);
-    height: 5px;
-    margin-bottom: 0.5rem;
+    background-color: #efeeea;
+    height: 6px;
     width: 100%;
 }
 
 .budget__meter-bar {
-    background-color: darken(color(default, border), 10);
-    height: 5px;
-}
-
-.budget__transaction-count {
-    color: color(default, font, secondary);
-    font-size: 0.8rem;
+    background-color: #24d09c;
+    height: 6px;
 }
 
 .budget__amounts {

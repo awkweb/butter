@@ -14,6 +14,19 @@
     }
 }
 
+.form__message {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+
+    &.error {
+        color: color(default, font, error);
+    }
+
+    &.success {
+        color: color(default, font, success);
+    }
+}
+
 .form__header {
     font: {
         size: 1.5rem;

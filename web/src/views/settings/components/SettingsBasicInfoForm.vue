@@ -3,23 +3,24 @@
         <h3 class="form__header">Basic information</h3>
 
         <div
-            v-if="error"
-            class="form__error"
+            v-if="message"
+            :class="['form__message', {
+                success,
+                error
+            }]"
         >
-            {{ error }}
+            {{ message }}
         </div>
 
         <form class="form__container">
             <Field
                 v-model="firstName"
-                :isValid="!$v.firstName.$invalid"
                 id="firstName"
                 label="First Name"
             />
 
             <Field
                 v-model="lastName"
-                :isValid="!$v.lastName.$invalid"
                 id="lastName"
                 label="Last Name"
             />
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { email, required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
 import Field from '@/components/Field'
@@ -59,6 +60,8 @@ export default {
         firstName: null,
         lastName: null,
         loading: false,
+        message: null,
+        success: false,
     }),
     computed: {
         ...mapGetters(['user']),
@@ -69,8 +72,29 @@ export default {
         this.email = get(() => this.user.email)
     },
     methods: {
-        onClickUpdate() {
-            this.$emit('handleOnClickUpdate')
+        ...mapActions(['UPDATE_USER_INFO']),
+        async onClickUpdate() {
+            this.message = null
+            this.success = false
+            this.error = false
+            this.loading = true
+            try {
+                this.message = await this.UPDATE_USER_INFO({
+                    email: this.email,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                })
+                this.success = true
+            } catch (err) {
+                let error
+                if ('email' in err) {
+                    error = get(() => err.email[0])
+                }
+                this.message = error
+                this.error = true
+            } finally {
+                this.loading = false
+            }
         },
     },
     validations: {
@@ -78,13 +102,7 @@ export default {
             email,
             required,
         },
-        firstName: {
-            required,
-        },
-        lastName: {
-            required,
-        },
-        validationGroup: ['email', 'firstName', 'lastName'],
+        validationGroup: ['email'],
     },
 }
 </script>

@@ -117,4 +117,25 @@ export default {
         background-color: color(default, button);
     }
 }
+
+.dashboard__header-date {
+    @include button;
+    background-color: #efeeea;
+    border: {
+        radius: $border-radius;
+        width: 0;
+    }
+    font: {
+        size: 0.8rem;
+        weight: 600;
+    }
+    height: 2.5rem;
+    margin-right: 1rem;
+    padding: {
+        bottom: 0;
+        left: 2rem;
+        right: 2rem;
+        top: 0.25rem;
+    }
+}
 </style>
