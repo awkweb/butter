@@ -5,8 +5,20 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import { getUserFromLocalStorage, isLoggedIn } from '@/utils'
+
 export default {
     name: 'App',
+    created() {
+        if (isLoggedIn) {
+            const user = getUserFromLocalStorage()
+            this.SET_USER(user)
+        }
+    },
+    methods: {
+        ...mapMutations(['SET_USER']),
+    },
     metaInfo: {
         titleTemplate: titleChunk => {
             return titleChunk ? `${titleChunk} | Ferns` : 'Ferns'

@@ -50,7 +50,7 @@ const store = {
             { email, password, passwordConfirm },
         ) => {
             try {
-                const res = await api.signUp(email, password, passwordConfirm)
+                const res = await api.register(email, password, passwordConfirm)
                 commit(SET_USER, get(() => res.data))
             } catch (err) {
                 throw get(() => err.response.data)

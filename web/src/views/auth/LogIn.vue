@@ -5,7 +5,7 @@
 
             <div class="auth__info">
                 Need an account?
-                <router-link :to="{ name: 'SignUp', query: { email: this.email }}">
+                <router-link :to="{ name: 'Register', query: { email: this.email }}">
                 Sign up
                 </router-link>
             </div>

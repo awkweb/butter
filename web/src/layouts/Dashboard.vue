@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-import { getUserFromLocalStorage, isLoggedIn } from '@/utils'
 import Navbar from '@/components/Navbar'
 
 export default {
@@ -27,15 +25,6 @@ export default {
         title: {
             type: String,
         },
-    },
-    created() {
-        if (isLoggedIn) {
-            const user = getUserFromLocalStorage()
-            this.SET_USER(user)
-        }
-    },
-    methods: {
-        ...mapMutations(['SET_USER']),
     },
 }
 </script>

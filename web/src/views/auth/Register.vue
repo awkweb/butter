@@ -55,8 +55,8 @@
                 <button
                     :class="['auth__button', { loading }]"
                     :disabled="$v.validationGroup.$invalid || loading"
-                    @click.prevent="onClickSignUp"
-                    @keyup.enter="onClickSignUp"
+                    @click.prevent="onClickRegister"
+                    @keyup.enter="onClickRegister"
                 >
                     {{ loading ? 'Creating account...' : 'Sign Up' }}
                 </button>
@@ -84,7 +84,7 @@ import InputSuccessIcon from '@/assets/icons/input-success.svg'
 import PasswordFeatures from '@/components/PasswordFeatures'
 
 export default {
-    name: 'SignUp',
+    name: 'Register',
     components: {
         Field,
         InputSuccessIcon,
@@ -102,7 +102,7 @@ export default {
     },
     methods: {
         ...mapActions(['SIGN_UP_USER']),
-        async onClickSignUp() {
+        async onClickRegister() {
             this.error = null
             this.loading = true
             try {

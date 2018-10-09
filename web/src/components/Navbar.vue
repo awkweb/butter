@@ -12,48 +12,44 @@
       >
           <li>
               <router-link
-                  :to="{ name: 'Inbox'}"
+                  :to="{ name: 'Budgets'}"
                   class="navbar__logo hide-mobile"
               >
               </router-link>
           </li>
-          <li>
-              <router-link
-                  :class="['navbar__item', {
-                      'active': $route.name === 'Budgets'
-                  }]"
-                  :to="{ name: 'Budgets'}"
-              >
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Budgets'
+              }]"
+          >
+              <router-link :to="{ name: 'Budgets'}">
                   Budgets
               </router-link>
           </li>
-          <li>
-              <router-link
-                  :class="['navbar__item', {
-                      'active': $route.name === 'Transactions'
-                  }]"
-                  :to="{ name: 'Transactions'}"
-              >
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Transactions'
+              }]"
+          >
+              <router-link :to="{ name: 'Transactions'}">
                   Transactions
               </router-link>
           </li>
-          <li>
-              <router-link
-                  :class="['navbar__item', {
-                      'active': $route.name === 'Accounts'
-                  }]"
-                  :to="{ name: 'Accounts'}"
-              >
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Accounts'
+              }]"
+          >
+              <router-link :to="{ name: 'Accounts'}">
                   Accounts
               </router-link>
           </li>
-          <li>
-              <router-link
-                  :class="['navbar__item', {
-                      'active': $route.name === 'Inbox'
-                  }]"
-                  :to="{ name: 'Inbox'}"
-              >
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Inbox'
+              }]"
+          >
+              <router-link :to="{ name: 'Inbox'}">
                   Inbox
               </router-link>
           </li>
@@ -220,27 +216,39 @@ export default {
     @include button;
     @include flex-row;
     align-items: center;
-    color: color(default, font, copy);
     font-size: 0.8rem;
     height: 100%;
-    padding: {
-        left: 1rem;
-        right: 1rem;
-    }
-    text-decoration: none;
-    transition: {
-        duration: $transition-duration;
-        property: color;
+    line-height: $navbar-height;
+
+    a {
+        color: color(default, font, copy);
+        display: block;
+        height: inherit;
+        line-height: inherit;
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        }
+        transition: {
+            duration: $transition-duration;
+            property: color;
+        }
+        text-decoration: none;
     }
 
     &:hover {
-        color: color(default, font);
+        a {
+            color: color(default, font);
+        }
     }
 
     &.active {
-        color: color(default, font, primary);
         font-weight: 600;
-        padding-top: 0.15rem;
+        padding-top: 0.05rem;
+
+        a {
+            color: color(default, font, primary);
+        }
     }
 }
 

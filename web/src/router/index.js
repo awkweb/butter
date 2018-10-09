@@ -71,9 +71,9 @@ export default new Router({
         {
             beforeEnter: beforeEnterIsLoggedOut,
             component: () =>
-                import(/* webpackChunkName: 'signup' */ '../views/auth/SignUp.vue'),
-            name: 'SignUp',
-            path: '/signup',
+                import(/* webpackChunkName: 'register' */ '../views/auth/Register.vue'),
+            name: 'Register',
+            path: '/register',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
