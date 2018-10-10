@@ -8,7 +8,7 @@
           </button>
           <div class="budget__name">{{name}}</div>
           <div class="budget__transaction-count">
-              {{transactionCount}} {{transactionCount > 1 ? 'transactions' : 'transaction'}}
+              {{transactionCount}} {{transactionCount === 1 ? 'transaction' : 'transactions'}}
           </div>
           <div class="budget__meter">
               <div
@@ -79,27 +79,19 @@ export default {
             type: Number,
             required: true,
         },
-        transactionCount: {
+        remaining: {
             type: Number,
             required: true,
         },
-        creationDate: {
-            type: Date,
+        transactionCount: {
+            type: Number,
             required: true,
-        },
-        showActions: {
-            type: Boolean,
-            required: false,
-            default: true,
         },
     },
     computed: {
         meterWidth() {
             const width = (this.activity / this.budgeted) * 100
             return width > 100 ? 100 : width
-        },
-        remaining() {
-            return this.budgeted - this.activity
         },
         amounts() {
             return [

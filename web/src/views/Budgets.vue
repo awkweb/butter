@@ -45,8 +45,9 @@
                   :name="budget.name"
                   :budgeted="budget.budgeted"
                   :activity="budget.activity"
-                  :transactionCount="budget.transactionCount"
-                  :creationDate="budget.creationDate"
+                  :remaining="budget.remaining"
+                  :transactionCount="budget.transaction_count"
+                  :creationDate="budget.date_created"
                   @handleOnClickDelete="handleOnClickDelete"
                   @handleOnEditDelete="handleOnEditDelete"
               />
