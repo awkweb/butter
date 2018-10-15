@@ -27,12 +27,10 @@
 </template>
 
 <script>
-import Dashboard from '@/layouts/Dashboard'
-
 export default {
     name: 'Settings',
     components: {
-        Dashboard,
+        Dashboard: () => import('../../layouts/Dashboard'),
     },
     metaInfo: {
         title: 'Settings',

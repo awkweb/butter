@@ -6,14 +6,13 @@
 </template>
 
 <script>
-import SettingsBasicInfoForm from './components/SettingsBasicInfoForm'
-import SettingsChangePasswordForm from './components/SettingsChangePasswordForm'
-
 export default {
     name: 'SettingsOverview',
     components: {
-        SettingsBasicInfoForm,
-        SettingsChangePasswordForm,
+        SettingsBasicInfoForm: () =>
+            import('./components/SettingsBasicInfoForm'),
+        SettingsChangePasswordForm: () =>
+            import('./components/SettingsChangePasswordForm'),
     },
     metaInfo: {
         title: 'Account',

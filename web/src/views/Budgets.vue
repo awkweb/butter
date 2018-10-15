@@ -1,13 +1,12 @@
 <template>
   <Dashboard>
       <template slot="header">
-          <div>
-              <button
-                  @click="onClickNew"
-                  class="dashboard__header-date"
-              >
-                  Oct 1 - 31
-              </button>
+          <div class="budgets__actions">
+              <DatePicker
+                  :initialDateOne="dateOne"
+                  :initialDateTwo="dateTwo"
+                  @handleOnClickApply="handleOnClickApply"
+              />
               <button
                   @click="onClickNew"
                   class="dashboard__header-button"
@@ -21,35 +20,25 @@
           <template v-else>
               <div class="budgets__totals">
                 <div class="budgets__total">
+                    <div class="label">Transactions</div>
                     <div>{{totalBudget.transactionCount}}</div>
-                    <div>Transactions</div>
                 </div>
                 <div class="budgets__total">
-                    <div>{{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
-                    <div>Remaining</div>
+                    <div class="label">Remaining</div>
+                    <div>${{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
                 </div>
                 <div class="budgets__total">
-                    <div>{{totalBudget.activity | prettyNumber}}</div>
-                    <div>Activity</div>
+                    <div class="label">Activity</div>
+                    <div>${{totalBudget.activity | prettyNumber}}</div>
                 </div>
                 <div class="budgets__total">
-                    <div>{{totalBudget.budgeted | prettyNumber}}</div>
-                    <div>Budgeted</div>
+                    <div class="label">Budgeted</div>
+                    <div>${{totalBudget.budgeted | prettyNumber}}</div>
                 </div>
               </div>
 
-              <Budget
-                  v-for="budget in budgets"
-                  :key="budget.id"
-                  :id="budget.id"
-                  :name="budget.name"
-                  :budgeted="budget.budgeted"
-                  :activity="budget.activity"
-                  :remaining="budget.remaining"
-                  :transactionCount="budget.transaction_count"
-                  :creationDate="budget.date_created"
-                  @handleOnClickDelete="handleOnClickDelete"
-                  @handleOnEditDelete="handleOnEditDelete"
+              <BudgetTable
+                  :budgets="budgets"
               />
           </template>
       </template>
@@ -57,26 +46,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { subDays } from 'date-fns'
-import Budget from '@/components/Budget'
-import Dashboard from '@/layouts/Dashboard'
-import Loader from '@/components/Loader'
-import EditIcon from '@/assets/icons/edit.svg'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'Budgets',
     components: {
-        Budget,
-        Dashboard,
-        EditIcon,
-        Loader,
+        BudgetTable: () => import('../components/BudgetTable'),
+        Dashboard: () => import('../layouts/Dashboard'),
+        DatePicker: () => import('../components/DatePicker'),
+        Loader: () => import('../components/Loader'),
     },
     data: () => ({
         loading: false,
     }),
     computed: {
-        ...mapGetters(['budgets']),
+        ...mapGetters(['budgets', 'dateOne', 'dateTwo']),
         totalBudget() {
             const budgeted =
                 this.budgets.reduce(
@@ -90,15 +74,13 @@ export default {
                 ) || 0
             const transactionCount =
                 this.budgets.reduce(
-                    (total, budget) => total + budget.transactionCount,
+                    (total, budget) => total + budget.transaction_count,
                     0,
                 ) || 0
             return {
-                name: 'October 2018',
                 budgeted,
                 activity,
                 transactionCount,
-                creationDate: subDays(new Date(), 3),
             }
         },
     },
@@ -117,14 +99,21 @@ export default {
             'GET_BUDGETS',
             'UPDATE_BUDGET',
         ]),
+        ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
         onClickNew() {
             alert('onClickNew')
         },
-        handleOnClickDelete(budgetId) {
-            alert(`handleOnClickDelete ${budgetId}`)
-        },
-        handleOnEditDelete(budgetId) {
-            alert(`handleOnEditDelete ${budgetId}`)
+        async handleOnClickApply({ nextDateOne, nextDateTwo }) {
+            this.SET_DATE_ONE(nextDateOne)
+            this.SET_DATE_TWO(nextDateTwo)
+            this.loading = true
+            setTimeout(async () => {
+                try {
+                    await this.GET_BUDGETS()
+                } finally {
+                    this.loading = false
+                }
+            }, 500)
         },
     },
     metaInfo: {
@@ -138,6 +127,10 @@ export default {
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
+
+.budgets__actions {
+    @include flex-row;
+}
 
 .budgets__totals {
     @include flex-row;
@@ -167,6 +160,10 @@ export default {
 
     &:last-child {
         border-right: 0;
+    }
+
+    .label {
+        font-size: 0.9rem;
     }
 }
 </style>

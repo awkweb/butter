@@ -340,7 +340,7 @@ export default {
         style: solid;
         width: 1px;
     }
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.15) 0 14px 36px 2px;
     list-style-type: none;
     margin: 0;
     opacity: 0;
