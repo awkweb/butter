@@ -106,6 +106,10 @@ See [Django Migrations Worflow](https://docs.djangoproject.com/en/2.0/topics/mig
 
 [Black](https://github.com/ambv/black)
 
+```bash
+brew install black
+```
+
 ## Helpful links
 
 Docker & ECS:
