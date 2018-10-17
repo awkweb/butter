@@ -1,12 +1,8 @@
 <template>
   <Dashboard>
-      <Loader v-if="loading"/>
-      <template v-else>
-          <template slot="topbar">
-              transactions
-          </template>
-          <template slot="content">
-              shows all transactions in a filterable table
+      <template slot="content">
+          <Loader v-if="loading"/>
+          <template v-else>
           </template>
       </template>
   </Dashboard>
@@ -23,7 +19,7 @@ export default {
         Loader,
     },
     data: () => ({
-        loading: true,
+        loading: false,
     }),
     metaInfo: {
         title: 'Transactions',

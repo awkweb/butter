@@ -5,13 +5,26 @@ import { SET_USER } from '@/store/constants'
 const store = {
     state: {
         user: JSON.parse(localStorage.getItem('user')) || null,
-        persistUser: false,
     },
     actions: {
+        CHANGE_PASSWORD: async (
+            { commit },
+            { password, passwordConfirm, passwordVerify },
+        ) => {
+            try {
+                const res = await api.changePassword(
+                    password,
+                    passwordConfirm,
+                    passwordVerify,
+                )
+                return res.data
+            } catch (err) {
+                throw get(() => err.response.data)
+            }
+        },
         LINK_PLAID: async ({ commit }, data) => {
             try {
-                const res = await api.linkPlaid(data)
-                console.log(res)
+                return await api.linkPlaid(data)
             } catch (err) {
                 throw get(() => err.response.data)
             }
@@ -37,8 +50,30 @@ const store = {
             { email, password, passwordConfirm },
         ) => {
             try {
-                const res = await api.signUp(email, password, passwordConfirm)
+                const res = await api.register(email, password, passwordConfirm)
                 commit(SET_USER, get(() => res.data))
+            } catch (err) {
+                throw get(() => err.response.data)
+            }
+        },
+        UPDATE_USER_INFO: async (
+            { commit, state },
+            { email, firstName, lastName },
+        ) => {
+            try {
+                const userId = state.user.id
+                const res = await api.updateUserInfo(
+                    userId,
+                    email,
+                    firstName,
+                    lastName,
+                )
+                const user = {
+                    ...state.user,
+                    ...get(() => res.data),
+                }
+                commit(SET_USER, user)
+                return 'Updated info'
             } catch (err) {
                 throw get(() => err.response.data)
             }

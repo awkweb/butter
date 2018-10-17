@@ -7,6 +7,9 @@ import { beforeEnterIsLoggedIn, beforeEnterIsLoggedOut } from '@/utils'
 Vue.use(Router)
 Vue.use(Meta)
 
+const loadView = (view, path = '') => () =>
+    import(/* webpackChunkName: 'view-[request]' */ `@/views${path}/${view}.vue`)
+
 export default new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -15,63 +18,65 @@ export default new Router({
     routes: [
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
-                import(/* webpackChunkName: 'inbox' */ '../views/Inbox.vue'),
-            name: 'Inbox',
+            component: loadView('Budgets'),
+            name: 'Budgets',
             path: '/',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
-                import(/* webpackChunkName: 'budgets' */ '../views/Budgets.vue'),
-            name: 'Budgets',
-            path: '/budgets',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
-                import(/* webpackChunkName: 'transactions' */ '../views/Transactions.vue'),
+            component: loadView('Transactions'),
             name: 'Transactions',
             path: '/transactions',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
-                import(/* webpackChunkName: 'accounts' */ '../views/Accounts.vue'),
+            component: loadView('Accounts'),
             name: 'Accounts',
             path: '/accounts',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: () =>
-                import(/* webpackChunkName: 'settings' */ '../views/Settings.vue'),
-            name: 'Settings',
+            component: loadView('Inbox'),
+            name: 'Inbox',
+            path: '/inbox',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Settings', '/settings'),
             path: '/settings',
+            children: [
+                {
+                    name: 'SettingsOverview',
+                    path: '',
+                    component: loadView('SettingsOverview', '/settings'),
+                },
+                {
+                    name: 'SettingsBilling',
+                    path: 'billing',
+                    component: loadView('SettingsBilling', '/settings'),
+                },
+            ],
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
-            component: () =>
-                import(/* webpackChunkName: 'home' */ '../views/Home.vue'),
+            component: loadView('Home'),
             path: '/',
             name: 'Home',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
-            component: () =>
-                import(/* webpackChunkName: 'signup' */ '../views/SignUp.vue'),
-            name: 'SignUp',
-            path: '/signup',
+            component: loadView('Register', '/auth'),
+            name: 'Register',
+            path: '/register',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
-            component: () =>
-                import(/* webpackChunkName: 'login' */ '../views/LogIn.vue'),
+            component: loadView('LogIn', '/auth'),
             name: 'LogIn',
             path: '/login',
         },
         {
-            component: () =>
-                import(/* webpackChunkName: 'notfound' */ '../views/NotFound.vue'),
+            component: loadView('NotFound'),
             name: 'NotFound',
             path: '*',
         },

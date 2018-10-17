@@ -1,36 +1,44 @@
 <template>
   <Dashboard>
-      <Loader v-if="loading"/>
-      <template v-else>
-          <template slot="topbar">
+      <template slot="header">
+          <div class="budgets__actions">
+              <DatePicker
+                  :initialDateOne="dateOne"
+                  :initialDateTwo="dateTwo"
+                  @handleOnClickApply="handleOnClickApply"
+              />
               <button
                   @click="onClickNew"
-                  class="topbar__button budgets"
+                  class="dashboard__header-button"
               >
-                  <EditIcon/>
-                  <span>New Budget</span>
+                  Create Budget
               </button>
-          </template>
-          <template slot="content">
-              <Budget
-                  :name="totalBudget.name"
-                  :budgeted="totalBudget.budgeted"
-                  :activity="totalBudget.activity"
-                  :transactionCount="totalBudget.transactionCount"
-                  :showActions="false"
-                  :creationDate="totalBudget.creationDate"
-              />
-              <Budget
-                  v-for="budget in budgets"
-                  :key="budget.id"
-                  :id="budget.id"
-                  :name="budget.name"
-                  :budgeted="budget.budgeted"
-                  :activity="budget.activity"
-                  :transactionCount="budget.transactionCount"
-                  :creationDate="budget.creationDate"
-                  @handleOnClickDelete="handleOnClickDelete"
-                  @handleOnEditDelete="handleOnEditDelete"
+          </div>
+      </template>
+      <template slot="content">
+          <Loader v-if="loading"/>
+          <template v-else>
+              <div class="budgets__totals">
+                <div class="budgets__total">
+                    <div class="label">Transactions</div>
+                    <div>{{totalBudget.transactionCount}}</div>
+                </div>
+                <div class="budgets__total">
+                    <div class="label">Remaining</div>
+                    <div>${{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
+                </div>
+                <div class="budgets__total">
+                    <div class="label">Activity</div>
+                    <div>${{totalBudget.activity | prettyNumber}}</div>
+                </div>
+                <div class="budgets__total">
+                    <div class="label">Budgeted</div>
+                    <div>${{totalBudget.budgeted | prettyNumber}}</div>
+                </div>
+              </div>
+
+              <BudgetTable
+                  :budgets="budgets"
               />
           </template>
       </template>
@@ -38,112 +46,77 @@
 </template>
 
 <script>
-import { subDays } from 'date-fns'
-import Budget from '@/components/Budget'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import DatePicker from '@/components/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
 import Loader from '@/components/Loader'
-import EditIcon from '@/assets/icons/edit.svg'
 
 export default {
     name: 'Budgets',
     components: {
-        Budget,
+        BudgetTable: () => import('@/components/BudgetTable'),
+        DatePicker,
         Dashboard,
-        EditIcon,
         Loader,
-    },
-    computed: {
-        totalBudget() {
-            const budgeted = this.budgets.reduce(
-                (total, budget) => total + budget.budgeted,
-                0,
-            )
-            const activity = this.budgets.reduce(
-                (total, budget) => total + budget.activity,
-                0,
-            )
-            return {
-                name: 'October 2018',
-                budgeted,
-                activity,
-                transactionCount: this.budgets.reduce(
-                    (total, budget) => total + budget.transactionCount,
-                    0,
-                ),
-                creationDate: subDays(new Date(), 3),
-            }
-        },
     },
     data: () => ({
         loading: false,
-        budgets: [
-            {
-                id: 'asdfsdfadsf',
-                name: 'Transportation',
-                budgeted: 200,
-                activity: 161.8,
-                transactionCount: 25,
-                creationDate: subDays(new Date(), 3),
-            },
-            {
-                id: 'asdkkasdf',
-                name: 'Dining Out',
-                budgeted: 750,
-                activity: 890.86,
-                transactionCount: 41,
-                creationDate: subDays(new Date(), 1),
-            },
-            {
-                id: 'kasdfdsk',
-                name: 'Groceries',
-                budgeted: 500,
-                activity: 174.61,
-                transactionCount: 5,
-                creationDate: subDays(new Date(), 6),
-            },
-            {
-                id: 'lasdfnus',
-                name: 'Phone',
-                budgeted: 60,
-                activity: 51.8,
-                transactionCount: 1,
-                creationDate: subDays(new Date(), 10),
-            },
-            {
-                id: 'asdsadmmjah',
-                name: 'One-Time Purchases',
-                budgeted: 4000,
-                activity: 4113.97,
-                transactionCount: 24,
-                creationDate: subDays(new Date(), 8),
-            },
-            {
-                id: 'oaooooalal',
-                name: 'Rent',
-                budgeted: 2066.67,
-                activity: 2066.67,
-                transactionCount: 1,
-                creationDate: subDays(new Date(), 20),
-            },
-            {
-                id: 'pppplllala',
-                name: 'Equinox',
-                budgeted: 250,
-                activity: 250,
-                transactionCount: 1,
-                creationDate: subDays(new Date(), 4),
-            },
-        ],
     }),
+    computed: {
+        ...mapGetters(['budgets', 'dateOne', 'dateTwo']),
+        totalBudget() {
+            const budgeted =
+                this.budgets.reduce(
+                    (total, budget) => total + budget.budgeted,
+                    0,
+                ) || 0
+            const activity =
+                this.budgets.reduce(
+                    (total, budget) => total + budget.activity,
+                    0,
+                ) || 0
+            const transactionCount =
+                this.budgets.reduce(
+                    (total, budget) => total + budget.transaction_count,
+                    0,
+                ) || 0
+            return {
+                budgeted,
+                activity,
+                transactionCount,
+            }
+        },
+    },
+    async created() {
+        this.loading = true
+        try {
+            await this.GET_BUDGETS()
+        } finally {
+            this.loading = false
+        }
+    },
     methods: {
+        ...mapActions([
+            'CREATE_BUDGET',
+            'DELETE_BUDGET',
+            'GET_BUDGETS',
+            'UPDATE_BUDGET',
+        ]),
+        ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
         onClickNew() {
             alert('onClickNew')
         },
-        handleOnClickDelete(budgetId) {
-            alert(`handleOnClickDelete ${budgetId}`)
-        },
-        handleOnEditDelete(budgetId) {
-            alert(`handleOnEditDelete ${budgetId}`)
+        async handleOnClickApply({ nextDateOne, nextDateTwo }) {
+            this.SET_DATE_ONE(nextDateOne)
+            this.SET_DATE_TWO(nextDateTwo)
+            this.loading = true
+            setTimeout(async () => {
+                try {
+                    await this.GET_BUDGETS()
+                } finally {
+                    this.loading = false
+                }
+            }, 500)
         },
     },
     metaInfo: {
@@ -157,4 +130,42 @@ export default {
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
+.budgets__actions {
+    @include flex-row;
+}
+
+.budgets__totals {
+    @include flex-row;
+    align-items: center;
+    border: {
+        color: color(default, border, navbar);
+        radius: $border-radius;
+        style: solid;
+        width: 1px;
+    }
+    height: 6rem;
+    margin-bottom: 3rem;
+}
+
+.budgets__total {
+    @include flex-column;
+    align-items: center;
+    border-right: {
+        color: color(default, border, navbar);
+        style: solid;
+        width: 1px;
+    }
+    font-size: 1.25rem;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+
+    &:last-child {
+        border-right: 0;
+    }
+
+    .label {
+        font-size: 0.9rem;
+    }
+}
 </style>

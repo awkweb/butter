@@ -1,12 +1,8 @@
 <template>
   <Dashboard>
-      <Loader v-if="loading"/>
-      <template v-else>
-          <template slot="topbar">
-              inbox
-          </template>
-          <template slot="content">
-              shows uncategorized transactions pulled in by plaid (but to view archived transactions)
+      <template slot="content">
+          <Loader v-if="loading"/>
+          <template v-else>
           </template>
       </template>
   </Dashboard>

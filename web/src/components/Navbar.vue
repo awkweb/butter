@@ -1,121 +1,143 @@
 <template>
   <nav class="navbar">
-      <header class="navbar__header">
-          <router-link
-              :to="{ name: 'Inbox'}"
-              class="navbar__logo"
+      <button
+          @click="onClickToggleDrawer"
+          class="navbar__drawer hide-desktop"
+      >
+          <MenuIcon />
+      </button>
+
+      <ul
+          class="navbar__section links"
+      >
+          <li>
+              <router-link
+                  :to="{ name: 'Budgets'}"
+                  class="navbar__logo hide-mobile"
+              >
+              </router-link>
+          </li>
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Budgets'
+              }]"
           >
-              Matcha
-          </router-link>
+              <router-link :to="{ name: 'Budgets'}">
+                  Budgets
+              </router-link>
+          </li>
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Transactions'
+              }]"
+          >
+              <router-link :to="{ name: 'Transactions'}">
+                  Transactions
+              </router-link>
+          </li>
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Accounts'
+              }]"
+          >
+              <router-link :to="{ name: 'Accounts'}">
+                  Accounts
+              </router-link>
+          </li>
+          <li
+              :class="['navbar__item', {
+                  'active': $route.name === 'Inbox'
+              }]"
+          >
+              <router-link :to="{ name: 'Inbox'}">
+                  Inbox
+              </router-link>
+          </li>
+      </ul>
+
+      <div class="navbar__section">
           <div class="navbar__user">
-              {{user.email}}
+              <div
+                  @click="onClickToggleDropdown"
+                  v-click-outside="onClickOutsideDropdown"
+                  class="navbar__user-container"
+              >
+                  <div class="navbar__avatar">
+                      <span>{{initial}}</span>
+                  </div>
+                  <div
+                      v-if="user"
+                      class="navbar__user-info"
+                  >
+                      <div v-if="user.first_name">
+                          {{user.first_name}}
+                      </div>
+                      <div>{{user.email}}</div>
+                  </div>
+                  <ChevronDownIcon/>
+              </div>
+              <ul
+                  :class="['navbar__dropdown', {
+                      'active': isDropDownOpen,
+                  }]"
+              >
+                  <li class="navbar__dropdown-item">
+                      <router-link :to="{ name: 'SettingsOverview'}">
+                          Settings
+                      </router-link>
+                  </li>
+                  <li class="navbar__dropdown-item">
+                      <button @click="onClickLogOut">
+                          Log Out
+                      </button>
+                  </li>
+              </ul>
           </div>
-      </header>
-
-      <div class="navbar__content">
-          <ul class="navbar__section">
-              <li>
-                  <router-link
-                      :class="['navbar__item', {
-                          'active': $route.name === 'Inbox',
-                          'notification': true
-                      }]"
-                      :to="{ name: 'Inbox'}"
-                  >
-                      <InboxIcon/>
-                      <span>Inbox</span>
-                  </router-link>
-              </li>
-          </ul>
-
-          <ul class="navbar__section">
-              <li>
-                  <router-link
-                      :class="['navbar__item', {
-                          'active': $route.name === 'Budgets'
-                      }]"
-                      :to="{ name: 'Budgets'}"
-                  >
-                      <BudgetsIcon/>
-                      <span>Budgets</span>
-                  </router-link>
-              </li>
-              <li>
-                  <router-link
-                      :class="['navbar__item', {
-                          'active': $route.name === 'Transactions'
-                      }]"
-                      :to="{ name: 'Transactions'}"
-                  >
-                      <TransactionsIcon/>
-                      <span>Transactions</span>
-                  </router-link>
-              </li>
-                <li>
-                  <router-link
-                      :class="['navbar__item', {
-                          'active': $route.name === 'Accounts'
-                      }]"
-                      :to="{ name: 'Accounts'}"
-                  >
-                      <AccountsIcon/>
-                      <span>Accounts</span>
-                  </router-link>
-              </li>
-          </ul>
-
-          <ul class="navbar__section">
-              <li>
-                  <router-link
-                      :class="['navbar__item', {
-                          'active': $route.name === 'Settings',
-                      }]"
-                      :to="{ name: 'Settings'}"
-                  >
-                      <SettingsIcon/>
-                      <span>Settings</span>
-                  </router-link>
-              </li>
-              <li>
-                  <button
-                      @click="onClickLogOut"
-                      class="navbar__item"
-                  >
-                      <LogOutIcon/>
-                      <span>Log Out</span>
-                  </button>
-              </li>
-          </ul>
       </div>
   </nav>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AccountsIcon from '@/assets/icons/accounts.svg'
-import BudgetsIcon from '@/assets/icons/budgets.svg'
-import LogOutIcon from '@/assets/icons/log-out.svg'
-import InboxIcon from '@/assets/icons/inbox.svg'
-import SettingsIcon from '@/assets/icons/settings.svg'
-import TransactionsIcon from '@/assets/icons/transactions.svg'
+import { get } from '@/utils'
+import ChevronDownIcon from '@/assets/icons/chevron-down.svg'
+import MenuIcon from '@/assets/icons/menu.svg'
+import XIcon from '@/assets/icons/x.svg'
 
 export default {
     name: 'Navbar',
     components: {
-        AccountsIcon,
-        BudgetsIcon,
-        LogOutIcon,
-        InboxIcon,
-        SettingsIcon,
-        TransactionsIcon,
+        ChevronDownIcon,
+        MenuIcon,
+        XIcon,
     },
+    data: () => ({
+        isDrawerOpen: true,
+        isDropDownOpen: false,
+    }),
     computed: {
         ...mapGetters(['user']),
+        initial() {
+            return (
+                get(() => this.user.first_name[0]) ||
+                get(() => this.user.email[0])
+            )
+        },
     },
     methods: {
         ...mapActions(['LOG_OUT_USER']),
-        onClickLogOut() {
-            this.LOG_OUT_USER().then(() => this.$router.push({ name: 'LogIn' }))
+        onClickToggleDrawer() {
+            this.isDrawerOpen = !this.isDrawerOpen
+        },
+        onClickToggleDropdown() {
+            this.isDropDownOpen = !this.isDropDownOpen
+        },
+        onClickOutsideDropdown() {
+            if (this.isDropDownOpen) this.isDropDownOpen = false
+        },
+        async onClickLogOut() {
+            await this.LOG_OUT_USER()
+            this.$router.push({ name: 'LogIn' })
         },
     },
 }
@@ -125,106 +147,267 @@ export default {
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
+@import '../assets/styles/utils';
 
 .navbar {
+    @include flex-row;
     background-color: color(default, background);
-    height: 100%;
-    max-height: 100vh;
-    position: relative;
-    width: $navbar-width;
-}
-
-.navbar__header {
-    @include flex-column;
-    background-color: color(default, background, primary);
-    border-right: {
-        color: darken(color(default, background, primary), 5);
-        style: solid;
-        width: 1px;
-    }
-    height: $navbar-height;
-    justify-content: center;
-    padding: {
-        left: 1.25rem;
-        top: 0.5rem;
-    }
-    position: fixed;
-    width: $navbar-width;
-}
-
-.navbar__content {
-    border-right: {
+    border-bottom: {
         color: color(default, border, navbar);
         style: solid;
         width: 1px;
     }
-    height: calc(100vh - #{$navbar-height});
-    margin-top: 3.3rem;
-    overflow: scroll;
+    height: $navbar-height;
+    justify-content: space-between;
+    position: fixed;
+    width: 100vw;
+    z-index: $z-index-nav;
 }
 
-.navbar__logo {
-    color: color(default, font, white);
-    font: {
-        size: 0.7rem;
-        weight: 600;
+.navbar__drawer {
+    @include button;
+    border: 0;
+    color: color(default, font, copy);
+    margin: {
+        left: 1rem;
+        right: 1rem;
     }
-    text-decoration: none;
-}
+    padding: 0;
 
-.navbar__user {
-    color: color(default, font, white);
-    font-size: 0.7rem;
-    opacity: 0.75;
+    &:hover {
+        color: color(default, font);
+    }
+
+    svg {
+        width: 1.25rem;
+        transition: {
+            duration: $transition-duration;
+            property: color;
+        }
+    }
 }
 
 .navbar__section {
-    border-bottom: {
-        color: color(default, border, light);
-        style: solid;
-        width: 1px;
-    }
+    @include flex-row;
+    align-items: center;
+    list-style-type: none;
     margin: 0;
-    padding: {
-        bottom: 0.5rem;
-        left: 0;
-        top: 0.5rem;
-    }
+    padding: 0;
 
-    &:last-child {
-        margin-bottom: 1rem;
+    &.links {
+        @include respond-to(md) {
+            @include flex-row;
+        }
+        display: none;
     }
+}
+
+.navbar__logo {
+    @include button;
+    height: 100%;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    }
+    width: 3.95rem;
 }
 
 .navbar__item {
     @include button;
+    @include flex-row;
     align-items: center;
-    color: color(default, font, copy);
-    border: 0;
-    display: flex;
-    font: {
-        size: 0.8rem;
-        weight: 600;
+    font-size: 0.8rem;
+    height: 100%;
+    line-height: $navbar-height;
+
+    a {
+        color: color(default, font, copy);
+        display: block;
+        height: inherit;
+        line-height: inherit;
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        }
+        transition: {
+            duration: $transition-duration;
+            property: color;
+        }
+        text-decoration: none;
     }
-    height: 2.75rem;
-    padding: {
-        left: 1.25rem;
-        right: 1.25rem;
+
+    &:hover {
+        a {
+            color: color(default, font);
+        }
     }
-    text-decoration: none;
 
     &.active {
-        color: color(default, font, primary);
+        font-weight: 600;
+        padding-top: 0.05rem;
+
+        a {
+            color: color(default, font, primary);
+        }
+    }
+}
+
+.navbar__user {
+    position: relative;
+    margin: {
+        left: 1rem;
+        right: 1rem;
+    }
+}
+
+.navbar__user-container {
+    @include flex-row;
+    align-items: center;
+    color: color(default, font, copy);
+    cursor: pointer;
+    transition: {
+        duration: $transition-duration;
+        property: color;
     }
 
-    span {
-        margin-top: 0.15rem;
+    &:hover {
+        color: color(default, font);
+
+        .navbar__user-info {
+            color: color(default, font);
+        }
     }
 
     svg {
-        height: 1.15rem;
-        margin-right: 1rem;
-        width: 1.15rem;
+        margin-left: 0.3rem;
+        width: 0.85rem;
+        transition: {
+            duration: $transition-duration;
+            property: color;
+        }
+    }
+}
+
+.navbar__avatar {
+    @include flex-row;
+    @include flex-center;
+    background-color: color(default, background, primary);
+    border: {
+        color: darken(color(default, border, active), 5);
+        radius: 50%;
+        style: solid;
+        width: 1px;
+    }
+    height: 2rem;
+    width: 2rem;
+
+    span {
+        @include respond-to(sm) {
+            margin-top: 0.15rem;
+        }
+        color: color(default, font, white);
+        font: {
+            size: 1.15rem;
+            weight: 900;
+        }
+        margin-top: 0.25rem;
+        text-transform: uppercase;
+    }
+}
+
+.navbar__user-info {
+    @include respond-to(md) {
+        display: block;
+    }
+    color: color(default, font, copy);
+    display: none;
+    font-size: 0.8rem;
+    margin: {
+        left: 0.65rem;
+        top: 0.1rem;
+    }
+    transition: {
+        duration: $transition-duration;
+        property: color;
+    }
+}
+
+.navbar__dropdown {
+    background-color: color(default, background);
+    border: {
+        color: color(default, border, dropdown);
+        radius: $border-radius;
+        style: solid;
+        width: 1px;
+    }
+    box-shadow: rgba(0, 0, 0, 0.15) 0 14px 36px 2px;
+    list-style-type: none;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 2rem;
+    transition: {
+        duration: $transition-duration / 2;
+        property: opacity, top;
+    }
+    width: 16rem;
+
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+        top: 3rem;
+    }
+}
+
+.navbar__dropdown-item {
+    border-bottom: {
+        color: color(default, border, dropdown);
+        style: solid;
+        width: 1px;
+    }
+
+    &:hover {
+        background-color: color(default, background, dropdown);
+    }
+
+    &:first-child {
+        border-top-right-radius: $border-radius;
+        border-top-left-radius: $border-radius;
+    }
+
+    &:last-child {
+        border-bottom: 0;
+        border-bottom-right-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+    }
+
+    button {
+        @include button;
+        background-color: transparent;
+        border: 0;
+    }
+
+    a,
+    button {
+        color: color(default, font);
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: {
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            top: 1rem;
+        }
+        text-align: left;
+        width: 100%;
     }
 }
 </style>

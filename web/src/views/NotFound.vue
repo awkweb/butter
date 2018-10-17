@@ -1,7 +1,7 @@
 <template>
-  <div class="not-found">
-      <h1>Something went wrong</h1>
-  </div>
+    <div class="not-found">
+        <h1>Something went wrong</h1>
+    </div>
 </template>
 
 <script>

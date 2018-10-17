@@ -1,8 +1,8 @@
 $border-radius: 2px;
+$container-max-width: 72rem;
 $font-sans-serif: Vaud, sans-serif;
 $font-size-root: 18px;
 $navbar-height: 3.3rem;
-$navbar-width: 14rem;
 
 $black: #111;
 $gray: #cacaca;
@@ -15,14 +15,16 @@ $themes: (
             base: $white,
             secondary: #f9fafc,
             primary: $green,
+            dropdown: #f4fffc,
         ),
         border: (
             base: $gray,
             hover: darken($gray, 10),
             active: $green,
             error: $red,
-            navbar: #e0e6ed,
+            navbar: #dedddc,
             light: #f1f5f9,
+            dropdown: #bdbbb9,
         ),
         button: (
             base: $black,
@@ -30,21 +32,26 @@ $themes: (
             disabled: $gray,
             font: $white,
             light: $white,
+            secondary: #716b66,
         ),
         font: (
             base: $black,
-            primary: $green,
-            error: $red,
-            secondary: #404040,
             copy: lighten(#404040, 15),
+            error: $red,
+            success: $green,
+            label: #888,
             placeholder: #9b9b9b,
+            primary: $green,
+            secondary: #404040,
             white: $white,
         ),
         icon: (
-            base: darken($gray, 20),
+            base: $gray,
             primary: $green,
         ),
     ),
 );
 
 $transition-duration: .25s;
+$z-index-nav: 10;
+$z-index-modal: 100;
