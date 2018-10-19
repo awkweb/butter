@@ -1,10 +1,10 @@
 <template>
-  <button
-    class="plaid-link-button"
-    @click="handleOnClick"
-  >
-    <slot/>
-  </button>
+    <button
+        class="plaid-link-button"
+        @click="handleOnClick"
+    >
+        <slot/>
+    </button>
 </template>
 
 <script>
@@ -48,6 +48,7 @@ export default {
             )
         },
         onScriptLoaded() {
+            // eslint-disable-next-line no-undef
             window.linkHandler = Plaid.create({
                 apiVersion: 'v2',
                 clientName: this.clientName,

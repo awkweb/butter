@@ -1,6 +1,6 @@
 import { format, startOfMonth } from 'date-fns'
 import api from '@/api'
-import { get } from '@/utils'
+import { get, getOrderForBudgetId } from '@/utils'
 import {
     CREATE_BUDGET,
     DELETE_BUDGET,
@@ -40,6 +40,46 @@ const store = {
                     end_date: state.dateTwo,
                 })
                 commit(SET_BUDGETS, get(() => res.data))
+            } catch (err) {
+                throw get(() => err.response.data)
+            }
+        },
+        REORDER_BUDGETS: async (
+            { commit, state },
+            { budgetId, newIndex, oldIndex },
+        ) => {
+            try {
+                const isDemotion = newIndex > oldIndex
+                const lowerIndex = isDemotion ? oldIndex : newIndex
+                const upperIndex = isDemotion ? newIndex : oldIndex
+                const budgetsToUpdate = state.budgets
+                    .slice(lowerIndex, upperIndex + 1)
+                    .map((budget, index) => ({
+                        id: budget.id,
+                        order: getOrderForBudgetId(
+                            budget.id,
+                            budgetId,
+                            isDemotion,
+                            lowerIndex,
+                            upperIndex,
+                            index,
+                        ),
+                    }))
+                const budgetOrderMap = {}
+                budgetsToUpdate.forEach(
+                    budget => (budgetOrderMap[`${budget.id}`] = budget.order),
+                )
+                const budgets = state.budgets
+                    .map(budget => ({
+                        ...budget,
+                        order:
+                            budget.id in budgetOrderMap
+                                ? budgetOrderMap[budget.id]
+                                : budget.order,
+                    }))
+                    .sort((a, b) => a.order - b.order)
+                commit(SET_BUDGETS, budgets)
+                await api.reorderBudgets(budgetsToUpdate)
             } catch (err) {
                 throw get(() => err.response.data)
             }

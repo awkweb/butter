@@ -11,7 +11,12 @@
             <th>&nbsp;</th>
         </tr>
       </thead>
-      <tbody>
+      <Draggable
+          :options="draggableOptions"
+          :value="budgets"
+          element="tbody"
+          @change="onChange($event)"
+      >
           <BudgetRow
               v-for="budget in budgets"
               :key="budget.id"
@@ -23,17 +28,20 @@
               :transactionCount="budget.transaction_count"
               :creationDate="budget.date_created"
           />
-      </tbody>
+      </Draggable>
   </table>
 </template>
 
 <script>
-import BudgetRow from '@/components/BudgetRow'
+import draggable from 'vuedraggable'
+import { get } from '@/utils'
+import BudgetRow from './BudgetRow'
 
 export default {
     name: 'BudgetTable',
     components: {
         BudgetRow,
+        Draggable: draggable,
     },
     props: {
         budgets: {
@@ -41,13 +49,29 @@ export default {
             type: Array,
         },
     },
+    data: () => ({
+        draggableOptions: {
+            handle: '.budget-row__reorder',
+        },
+    }),
+    methods: {
+        onChange(event) {
+            const moved = event.moved
+            const data = {
+                budgetId: moved.element.id,
+                newIndex: moved.newIndex,
+                oldIndex: moved.oldIndex,
+            }
+            this.$emit('handleOnReorderBudgets', data)
+        },
+    },
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/variables';
-@import '../assets/styles/functions';
-@import '../assets/styles/mixins';
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/functions';
+@import '../../../assets/styles/mixins';
 
 .budget-table {
     border: {

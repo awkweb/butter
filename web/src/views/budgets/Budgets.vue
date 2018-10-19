@@ -39,6 +39,7 @@
 
               <BudgetTable
                   :budgets="budgets"
+                  @handleOnReorderBudgets="handleOnReorderBudgets"
               />
           </template>
       </template>
@@ -54,7 +55,7 @@ import Loader from '@/components/Loader'
 export default {
     name: 'Budgets',
     components: {
-        BudgetTable: () => import('@/components/BudgetTable'),
+        BudgetTable: () => import('./components/BudgetTable'),
         DatePicker,
         Dashboard,
         Loader,
@@ -100,6 +101,7 @@ export default {
             'CREATE_BUDGET',
             'DELETE_BUDGET',
             'GET_BUDGETS',
+            'REORDER_BUDGETS',
             'UPDATE_BUDGET',
         ]),
         ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
@@ -118,6 +120,9 @@ export default {
                 }
             }, 500)
         },
+        handleOnReorderBudgets(data) {
+            this.REORDER_BUDGETS(data)
+        },
     },
     metaInfo: {
         title: 'Budgets',
@@ -127,9 +132,10 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../assets/styles/variables';
-@import '../assets/styles/functions';
-@import '../assets/styles/mixins';
+@import '../../assets/styles/variables';
+@import '../../assets/styles/functions';
+@import '../../assets/styles/mixins';
+
 .budgets__actions {
     @include flex-row;
 }

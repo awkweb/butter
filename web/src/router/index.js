@@ -18,7 +18,7 @@ export default new Router({
     routes: [
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Budgets'),
+            component: loadView('Budgets', '/budgets'),
             name: 'Budgets',
             path: '/',
         },

@@ -24,3 +24,19 @@ export function get(getterFn, defaultValue) {
         throw error
     }
 }
+
+export const getOrderForBudgetId = (
+    budgetId,
+    movedBudgetId,
+    isDemotion,
+    lowerIndex,
+    upperIndex,
+    currentIndex,
+) => {
+    if (budgetId === movedBudgetId) {
+        return isDemotion ? upperIndex : lowerIndex
+    } else {
+        const currentOrder = lowerIndex + currentIndex
+        return isDemotion ? currentOrder - 1 : currentOrder + 1
+    }
+}

@@ -120,11 +120,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/variables';
-@import '../assets/styles/functions';
-@import '../assets/styles/mixins';
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/functions';
+@import '../../../assets/styles/mixins';
 
 .budget-row {
+    background-color: color(default, background);
+
+    &.sortable-ghost {
+        background-color: color(default, background, secondary);
+        /*opacity: 0.5;*/
+    }
+
+    &.sortable-drag {
+        td {
+            border-bottom: 0;
+        }
+
+        .budget-row__reorder {
+            cursor: grabbing;
+        }
+    }
+
     td {
         border-bottom: {
             color: #dedddc;
@@ -148,6 +165,7 @@ export default {
     @include button;
     @include flex-row;
     @include flex-center;
+    background-color: transparent;
     border: 0;
     color: color(default, icon);
     cursor: grab;
