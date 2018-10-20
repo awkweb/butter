@@ -6,9 +6,9 @@
               <h1 class="dashboard__title">
                   {{title || $route.name}}
               </h1>
-              <slot name="header"></slot>
+              <slot name="header"/>
           </header>
-          <slot name="content"></slot>
+          <slot name="content"/>
       </main>
   </div>
 </template>

@@ -42,6 +42,15 @@
                   @handleOnReorderBudgets="handleOnReorderBudgets"
               />
           </template>
+          <Modal
+              v-if="isModalOpen"
+              title="Merp"
+              @handleOnCloseModal="handleOnCloseModal"
+          >
+              <div slot="content">
+                  merp
+              </div>
+          </Modal>
       </template>
   </Dashboard>
 </template>
@@ -51,6 +60,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import DatePicker from '@/components/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
 import Loader from '@/components/Loader'
+import Modal from '@/components/Modal'
 
 export default {
     name: 'Budgets',
@@ -59,8 +69,10 @@ export default {
         DatePicker,
         Dashboard,
         Loader,
+        Modal,
     },
     data: () => ({
+        isModalOpen: false,
         loading: false,
     }),
     computed: {
@@ -106,7 +118,7 @@ export default {
         ]),
         ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
         onClickNew() {
-            alert('onClickNew')
+            this.isModalOpen = true
         },
         async handleOnClickApply({ nextDateOne, nextDateTwo }) {
             this.SET_DATE_ONE(nextDateOne)
@@ -122,6 +134,9 @@ export default {
         },
         handleOnReorderBudgets(data) {
             this.REORDER_BUDGETS(data)
+        },
+        handleOnCloseModal() {
+            this.isModalOpen = false
         },
     },
     metaInfo: {

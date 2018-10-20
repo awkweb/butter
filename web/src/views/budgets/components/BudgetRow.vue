@@ -65,12 +65,10 @@
 
 <script>
 import MoreVerticalIcon from '@/assets/icons/more-vertical.svg'
-import EditIcon from '@/assets/icons/edit.svg'
 
 export default {
     name: 'Budget',
     components: {
-        EditIcon,
         MoreVerticalIcon,
     },
     props: {
@@ -128,17 +126,14 @@ export default {
     background-color: color(default, background);
 
     &.sortable-ghost {
-        background-color: color(default, background, secondary);
-        /*opacity: 0.5;*/
+        .budget-row__container {
+            opacity: 0.25;
+        }
     }
 
     &.sortable-drag {
         td {
             border-bottom: 0;
-        }
-
-        .budget-row__reorder {
-            cursor: grabbing;
         }
     }
 
@@ -174,10 +169,6 @@ export default {
     transition: {
         duration: $transition-duration;
         property: color;
-    }
-
-    &:hover {
-        color: color(default, font);
     }
 
     svg {
