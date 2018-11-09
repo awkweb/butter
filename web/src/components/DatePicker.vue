@@ -8,19 +8,19 @@
               {{formatDates(initialDateOne, initialDateTwo)}}
           </button>
 
-          <AirbnbStyleDatepicker
-              :date-one="dateOne"
-              :date-two="dateTwo"
-              :showShortcutsMenuTrigger="false"
-              fullscreen-mobile
-              mode="range"
-              trigger-element-id="datepicker-trigger"
-              @apply="onClickApply"
-              @cancelled="onClickClear"
-              @closed="onClosed"
-              @date-one-selected="onDateOneSelected"
-              @date-two-selected="onDateTwoSelected"
-          />
+          <!--<AirbnbStyleDatepicker-->
+              <!--:date-one="dateOne"-->
+              <!--:date-two="dateTwo"-->
+              <!--:showShortcutsMenuTrigger="false"-->
+              <!--fullscreen-mobile-->
+              <!--mode="range"-->
+              <!--trigger-element-id="datepicker-trigger"-->
+              <!--@apply="onClickApply"-->
+              <!--@cancelled="onClickClear"-->
+              <!--@closed="onClosed"-->
+              <!--@date-one-selected="onDateOneSelected"-->
+              <!--@date-two-selected="onDateTwoSelected"-->
+          <!--/>-->
       </div>
   </div>
 </template>
@@ -134,6 +134,7 @@ export default {
         right: 1rem;
         top: 0.25rem;
     }
+    white-space: nowrap;
 }
 </style>
 

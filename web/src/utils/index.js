@@ -40,3 +40,7 @@ export const getOrderForBudgetId = (
         return isDemotion ? currentOrder - 1 : currentOrder + 1
     }
 }
+
+export const disableBodyScroll = () => (document.body.style.overflow = 'hidden')
+
+export const enableBodyScroll = () => (document.body.style.overflow = 'inherit')

@@ -30,15 +30,15 @@ export default new Router({
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Accounts'),
-            name: 'Accounts',
-            path: '/accounts',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
             component: loadView('Inbox'),
             name: 'Inbox',
             path: '/inbox',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Accounts'),
+            name: 'Accounts',
+            path: '/accounts',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
@@ -62,6 +62,7 @@ export default new Router({
             component: loadView('Home'),
             path: '/',
             name: 'Home',
+            redirect: '/login',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,

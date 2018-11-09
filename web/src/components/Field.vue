@@ -157,6 +157,12 @@ export default {
         color: color(default, font, placeholder);
     }
 
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
     &:focus {
         border-color: color(default, border, active);
     }

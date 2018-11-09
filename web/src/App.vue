@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { getUserFromLocalStorage, isLoggedIn } from '@/utils'
 
 export default {

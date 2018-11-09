@@ -37,15 +37,6 @@
           </li>
           <li
               :class="['navbar__item', {
-                  'active': $route.name === 'Accounts'
-              }]"
-          >
-              <router-link :to="{ name: 'Accounts'}">
-                  Accounts
-              </router-link>
-          </li>
-          <li
-              :class="['navbar__item', {
                   'active': $route.name === 'Inbox'
               }]"
           >
@@ -81,6 +72,11 @@
                       'active': isDropDownOpen,
                   }]"
               >
+                  <li class="navbar__dropdown-item">
+                      <router-link :to="{ name: 'Accounts'}">
+                          Connected Accounts
+                      </router-link>
+                  </li>
                   <li class="navbar__dropdown-item">
                       <router-link :to="{ name: 'SettingsOverview'}">
                           Settings

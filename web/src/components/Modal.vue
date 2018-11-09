@@ -20,7 +20,7 @@
               <slot name="content"/>
           </div>
           <footer class="modal__footer">
-              <div>meep</div>
+              <slot name="footer"/>
           </footer>
       </div>
   </div>
@@ -71,7 +71,7 @@ export default {
             top: 5rem;
         }
         min-height: auto;
-        max-width: 36rem;
+        max-width: 25rem;
         max-height: none;
         overflow: hidden;
     }
@@ -82,15 +82,19 @@ export default {
 
 .modal__header {
     @include flex-row;
-    @include flex-center;
+    align-items: center;
     background-color: #efeeea;
     height: 3.3rem;
+    justify-content: space-between;
     padding: 1rem;
     position: relative;
 }
 
 .modal__title {
-    font-weight: 600;
+    font: {
+        size: 0.9rem;
+        weight: 600;
+    }
     margin-top: 0.25rem;
 }
 
@@ -100,14 +104,10 @@ export default {
     border: 0;
     height: 100%;
     padding: 0;
-    position: absolute;
-    right: 0;
-    width: 3rem;
 
     svg {
         color: #6b655f;
         height: 1.35rem;
-        margin-top: 0.15rem;
         width: 1.35rem;
     }
 }

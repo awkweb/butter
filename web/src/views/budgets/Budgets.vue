@@ -37,18 +37,24 @@
                 </div>
               </div>
 
-              <BudgetTable
+              <BudgetsTable
                   :budgets="budgets"
                   @handleOnReorderBudgets="handleOnReorderBudgets"
               />
           </template>
           <Modal
               v-if="isModalOpen"
-              title="Merp"
+              v-scroll-lock="isModalOpen"
+              :title="modalTitle"
               @handleOnCloseModal="handleOnCloseModal"
           >
               <div slot="content">
-                  merp
+                  <BudgetsForm/>
+              </div>
+              <div slot="footer">
+                  <BudgetsFormFooter
+                      @handleOnClickCancel="handleOnCloseModal"
+                  />
               </div>
           </Modal>
       </template>
@@ -65,7 +71,9 @@ import Modal from '@/components/Modal'
 export default {
     name: 'Budgets',
     components: {
-        BudgetTable: () => import('./components/BudgetTable'),
+        BudgetsForm: () => import('./components/BudgetsForm'),
+        BudgetsFormFooter: () => import('./components/BudgetsFormFooter'),
+        BudgetsTable: () => import('./components/BudgetsTable'),
         DatePicker,
         Dashboard,
         Loader,
@@ -74,6 +82,7 @@ export default {
     data: () => ({
         isModalOpen: false,
         loading: false,
+        modalTitle: '',
     }),
     computed: {
         ...mapGetters(['budgets', 'dateOne', 'dateTwo']),
@@ -119,6 +128,7 @@ export default {
         ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
         onClickNew() {
             this.isModalOpen = true
+            this.modalTitle = 'Create Budget'
         },
         async handleOnClickApply({ nextDateOne, nextDateTwo }) {
             this.SET_DATE_ONE(nextDateOne)
@@ -156,7 +166,11 @@ export default {
 }
 
 .budgets__totals {
-    @include flex-row;
+    @include respond-to(md) {
+        @include flex-row;
+        height: 6rem;
+    }
+    @include flex-column;
     align-items: center;
     border: {
         color: color(default, border, navbar);
@@ -164,25 +178,34 @@ export default {
         style: solid;
         width: 1px;
     }
-    height: 6rem;
     margin-bottom: 3rem;
 }
 
 .budgets__total {
+    @include respond-to(md) {
+        border-right: {
+            color: color(default, border, navbar);
+            style: solid;
+            width: 1px;
+        }
+        border-bottom: 0;
+        height: 100%;
+        padding: 0;
+    }
     @include flex-column;
     align-items: center;
-    border-right: {
+    border-bottom: {
         color: color(default, border, navbar);
         style: solid;
         width: 1px;
     }
     font-size: 1.25rem;
-    height: 100%;
     justify-content: center;
+    padding: 1rem;
     width: 100%;
 
     &:last-child {
-        border-right: 0;
+        border: 0;
     }
 
     .label {

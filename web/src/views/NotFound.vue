@@ -1,6 +1,6 @@
 <template>
     <div class="not-found">
-        <h1>Something went wrong</h1>
+        <h1>Something went wrong :(</h1>
     </div>
 </template>
 
@@ -18,4 +18,10 @@ export default {
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
+
+.not-found {
+    @include flex-row;
+    @include flex-center;
+    @include page;
+}
 </style>

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { disableBodyScroll, enableBodyScroll } from '@/utils'
 
 Vue.directive('focus', {
     inserted(el, binding) {
@@ -20,5 +21,23 @@ Vue.directive('click-outside', {
     },
     unbind(el) {
         document.body.removeEventListener('click', el.event)
+    },
+})
+
+Vue.directive('scroll-lock', {
+    inserted(el, binding) {
+        if (binding.value) {
+            disableBodyScroll()
+        }
+    },
+    componentUpdated(el, binding) {
+        if (binding.value) {
+            disableBodyScroll()
+        } else {
+            enableBodyScroll()
+        }
+    },
+    unbind(el) {
+        enableBodyScroll()
     },
 })

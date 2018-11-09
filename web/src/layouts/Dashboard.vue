@@ -101,6 +101,7 @@ export default {
         duration: $transition-duration;
         property: background-color;
     }
+    white-space: nowrap;
 
     &:hover {
         background-color: color(default, button);

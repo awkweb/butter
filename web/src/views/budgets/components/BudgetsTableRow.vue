@@ -1,9 +1,9 @@
 <template>
-  <tr class="budget-row">
-      <td class="budget-row__name">
-          <div class="budget-row__container">
+  <tr class="budgets-table-row">
+      <td class="budgets-table-row__name">
+          <div class="budgets-table-row__container">
               <button
-                  class="budget-row__reorder"
+                  class="budgets-table-row__reorder"
               >
                   <MoreVerticalIcon/>
               </button>
@@ -11,53 +11,39 @@
           </div>
       </td>
 
-      <td class="budget-row__data">
-            <div class="budget-row__container">
+      <td class="budgets-table-row__data">
+            <div class="budgets-table-row__container">
                 12 hours ago
             </div>
       </td>
 
-      <td class="budget-row__data">
-          <div class="budget-row__container">
-              <span class="amount">${{activity | prettyNumber}}</span>
-              <div class="budget-row__meter">
-                  <div
-                      :style="getMeterStyle(activity)"
-                      class="budget-row__meter-bar"
-                  >
-                  </div>
-              </div>
+      <td class="budgets-table-row__data">
+          <div class="budgets-table-row__container">
+              ${{activity | prettyNumber}}
           </div>
       </td>
 
-      <td class="budget-row__data">
-          <div class="budget-row__container">
-              <span class="amount">${{remaining | prettyNumber}}</span>
-              <div class="budget-row__meter">
-                  <div
-                      :style="getMeterStyle(remaining)"
-                      class="budget-row__meter-bar"
-                  >
-                  </div>
-              </div>
+      <td class="budgets-table-row__data">
+          <div class="budgets-table-row__container">
+              ${{remaining | prettyNumber}}
           </div>
       </td>
 
-      <td class="budget-row__data">
-          <div class="budget-row__container">
-              <span class="amount">${{budgeted | prettyNumber}}</span>
+      <td class="budgets-table-row__data">
+          <div class="budgets-table-row__container">
+              ${{budgeted | prettyNumber}}
           </div>
       </td>
 
-      <td class="budget-row__data">
-            <div class="budget-row__container">
+      <td class="budgets-table-row__data">
+            <div class="budgets-table-row__container">
                 {{transactionCount}}
             </div>
       </td>
 
-      <td class="budget-row__data actions">
-            <div class="budget-row__container">
-                <button class="budget-row__button">Update</button>
+      <td class="budgets-table-row__data actions">
+            <div class="budgets-table-row__container">
+                <button class="budgets-table-row__button">Update</button>
             </div>
       </td>
   </tr>
@@ -67,7 +53,7 @@
 import MoreVerticalIcon from '@/assets/icons/more-vertical.svg'
 
 export default {
-    name: 'Budget',
+    name: 'BudgetsTableRow',
     components: {
         MoreVerticalIcon,
     },
@@ -122,11 +108,11 @@ export default {
 @import '../../../assets/styles/functions';
 @import '../../../assets/styles/mixins';
 
-.budget-row {
+.budgets-table-row {
     background-color: color(default, background);
 
     &.sortable-ghost {
-        .budget-row__container {
+        .budgets-table-row__container {
             opacity: 0.25;
         }
     }
@@ -151,12 +137,12 @@ export default {
     }
 }
 
-.budget-row__container {
+.budgets-table-row__container {
     @include flex-row;
     align-items: center;
 }
 
-.budget-row__reorder {
+.budgets-table-row__reorder {
     @include button;
     @include flex-row;
     @include flex-center;
@@ -176,7 +162,7 @@ export default {
     }
 }
 
-.budget-row__name {
+.budgets-table-row__name {
     border-right: {
         color: #f2f2f2;
         style: solid;
@@ -193,7 +179,7 @@ export default {
     }
 }
 
-.budget-row__data {
+.budgets-table-row__data {
     min-width: 9rem;
     padding: {
         left: 1rem;
@@ -205,29 +191,9 @@ export default {
         padding-left: 0;
         padding-right: 0;
     }
-
-    .amount {
-        min-width: 3.4rem;
-    }
 }
 
-.budget-row__meter {
-    background-color: #f2f2f2;
-    border-radius: $border-radius;
-    height: 0.6rem;
-    margin-left: 0.5rem;
-    max-width: 3.3rem;
-    width: 100%;
-}
-
-.budget-row__meter-bar {
-    background: linear-gradient(to right, #24d09c, lighten(#24d09c, 10));
-    border-bottom-left-radius: $border-radius;
-    border-top-left-radius: $border-radius;
-    height: 0.6rem;
-}
-
-.budget-row__button {
+.budgets-table-row__button {
     @include button;
     background-color: #efeeea;
     border: {
