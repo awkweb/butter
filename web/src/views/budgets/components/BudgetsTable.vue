@@ -16,13 +16,14 @@
                 :options="draggableOptions"
                 :value="budgets"
                 element="tbody"
-                @change="onChange($event)"
+                @change="onDragChange($event)"
             >
                 <BudgetsTableRow
                     v-for="budget in budgets"
                     :key="budget.id"
                     :id="budget.id"
                     :name="budget.name"
+                    :budget="budget"
                     :budgeted="budget.budgeted"
                     :activity="budget.activity"
                     :remaining="budget.remaining"
@@ -57,7 +58,7 @@ export default {
         },
     }),
     methods: {
-        onChange(event) {
+        onDragChange(event) {
             const moved = event.moved
             const data = {
                 budgetId: moved.element.id,

@@ -2,21 +2,26 @@
     <fieldset class="field">
         <label
             :class="['field__label', {
-                'active': value,
+                'active': value || (isTouched && error),
+                'error': isTouched && error,
             }]"
             :for="id"
         >
-            {{label}}
+            <template v-if="isTouched && error">{{error}}</template>
+            <template v-else>{{label}}</template>
         </label>
         <input
             v-focus="autofocus"
             :id="id"
+            :class="['field__input', {
+                'error': isTouched && error,
+            }]"
             :placeholder="label"
             :type="type"
             :value="value"
-            @input="onInput($event.target.value)"
-            class="field__input"
             spellcheck="false"
+            @blur="isTouched = true"
+            @input="onInput($event.target.value)"
         >
         <template
             v-if="showSuccess"
@@ -39,8 +44,11 @@ export default {
     },
     props: {
         autofocus: {
-            type: Boolean,
             default: false,
+            type: Boolean,
+        },
+        error: {
+            type: String,
         },
         id: {
             required: true,
@@ -52,6 +60,9 @@ export default {
         label: {
             type: String,
         },
+        placeholder: {
+            type: String,
+        },
         showSuccess: {
             type: Boolean,
             default: false,
@@ -61,9 +72,12 @@ export default {
             default: 'text',
         },
         value: {
-            type: String,
+            type: [Number, String],
         },
     },
+    data: () => ({
+        isTouched: false,
+    }),
     methods: {
         onInput(value) {
             this.$emit('input', value)

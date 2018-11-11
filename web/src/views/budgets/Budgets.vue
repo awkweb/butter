@@ -7,12 +7,12 @@
                   :initialDateTwo="dateTwo"
                   @handleOnClickApply="handleOnClickApply"
               />
-              <button
-                  @click="onClickNew"
+              <router-link
+                  :to="{ name: 'Budgets', params: { id: 'new' }}"
                   class="dashboard__header-button"
               >
-                  Create Budget
-              </button>
+                  New Budget
+              </router-link>
           </div>
       </template>
       <template slot="content">
@@ -45,17 +45,13 @@
           <Modal
               v-if="isModalOpen"
               v-scroll-lock="isModalOpen"
-              :title="modalTitle"
+              :title="title"
               @handleOnCloseModal="handleOnCloseModal"
           >
-              <div slot="content">
-                  <BudgetsForm/>
-              </div>
-              <div slot="footer">
-                  <BudgetsFormFooter
-                      @handleOnClickCancel="handleOnCloseModal"
-                  />
-              </div>
+              <BudgetsForm
+                  :budget="modalBudget"
+                  @handleOnCloseModal="handleOnCloseModal"
+              />
           </Modal>
       </template>
   </Dashboard>
@@ -63,17 +59,19 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { get } from '@/utils'
+import api from '@/api'
 import DatePicker from '@/components/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
 import Loader from '@/components/Loader'
 import Modal from '@/components/Modal'
+import BudgetsForm from './components/BudgetsForm'
 
 export default {
     name: 'Budgets',
     components: {
-        BudgetsForm: () => import('./components/BudgetsForm'),
-        BudgetsFormFooter: () => import('./components/BudgetsFormFooter'),
         BudgetsTable: () => import('./components/BudgetsTable'),
+        BudgetsForm,
         DatePicker,
         Dashboard,
         Loader,
@@ -82,7 +80,8 @@ export default {
     data: () => ({
         isModalOpen: false,
         loading: false,
-        modalTitle: '',
+        modalBudget: null,
+        title: 'Budgets',
     }),
     computed: {
         ...mapGetters(['budgets', 'dateOne', 'dateTwo']),
@@ -109,6 +108,43 @@ export default {
             }
         },
     },
+    async beforeRouteEnter(to, from, next) {
+        const budgetId = get(() => to.params.id)
+        if (budgetId) {
+            if (budgetId === 'new') {
+                next(vm => vm.openModal('New Budget'))
+            } else {
+                try {
+                    const res = await api.getBudget(budgetId)
+                    next(vm =>
+                        vm.openModal('Update Budget', get(() => res.data)),
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        } else {
+            next(vm => vm.closeModal())
+        }
+    },
+    async beforeRouteUpdate(to, from, next) {
+        const budgetId = get(() => to.params.id)
+        if (budgetId) {
+            if (budgetId === 'new') {
+                this.openModal('New Budget')
+            } else {
+                try {
+                    const res = await api.getBudget(budgetId)
+                    this.openModal('Update Budget', get(() => res.data))
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        } else {
+            this.closeModal()
+        }
+        next()
+    },
     async created() {
         this.loading = true
         try {
@@ -118,18 +154,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            'CREATE_BUDGET',
-            'DELETE_BUDGET',
-            'GET_BUDGETS',
-            'REORDER_BUDGETS',
-            'UPDATE_BUDGET',
-        ]),
+        ...mapActions(['GET_BUDGETS', 'REORDER_BUDGETS']),
         ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
-        onClickNew() {
-            this.isModalOpen = true
-            this.modalTitle = 'Create Budget'
-        },
         async handleOnClickApply({ nextDateOne, nextDateTwo }) {
             this.SET_DATE_ONE(nextDateOne)
             this.SET_DATE_TWO(nextDateTwo)
@@ -146,11 +172,24 @@ export default {
             this.REORDER_BUDGETS(data)
         },
         handleOnCloseModal() {
+            this.closeModal()
+            this.$router.push({ name: 'Budgets' })
+        },
+        closeModal() {
             this.isModalOpen = false
+            this.title = 'Budgets'
+            this.modalBudget = null
+        },
+        openModal(title, budget = null) {
+            this.isModalOpen = true
+            this.title = title
+            this.modalBudget = budget
         },
     },
-    metaInfo: {
-        title: 'Budgets',
+    metaInfo() {
+        return {
+            title: this.title,
+        }
     },
 }
 </script>

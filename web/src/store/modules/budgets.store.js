@@ -2,7 +2,7 @@ import { format, startOfMonth } from 'date-fns'
 import api from '@/api'
 import { get, getOrderForBudgetId } from '@/utils'
 import {
-    CREATE_BUDGET,
+    ADD_BUDGET,
     DELETE_BUDGET,
     SET_BUDGETS,
     SET_BUDGET,
@@ -20,7 +20,7 @@ const store = {
         CREATE_BUDGET: async ({ commit }, data) => {
             try {
                 const res = await api.createBudget(data)
-                commit(CREATE_BUDGET, get(() => res.data))
+                commit(ADD_BUDGET, get(() => res.data))
             } catch (err) {
                 throw get(() => err.response.data)
             }
@@ -94,8 +94,8 @@ const store = {
         },
     },
     mutations: {
-        [CREATE_BUDGET](state, budget) {
-            state.budgets = [budget, ...state.budgets]
+        [ADD_BUDGET](state, budget) {
+            state.budgets = [...state.budgets, budget]
         },
         [DELETE_BUDGET](state, budgetId) {
             state.budgets = [
@@ -109,7 +109,7 @@ const store = {
             state.budgets = [
                 budget,
                 ...state.budgets.filter(b => b.id !== budget.id),
-            ]
+            ].sort((a, b) => a.order - b.order)
         },
         [SET_DATE_ONE](state, dateOne) {
             state.dateOne = dateOne

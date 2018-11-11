@@ -62,14 +62,18 @@ export default {
     components: {
         Field,
     },
-    data: () => ({
-        email: null,
-        error: null,
-        loading: false,
-        password: null,
-    }),
-    created() {
-        if (this.$route.query.email) this.email = this.$route.query.email
+    props: {
+        emailParam: {
+            type: String,
+        },
+    },
+    data() {
+        return {
+            email: this.emailParam || null,
+            error: null,
+            loading: false,
+            password: null,
+        }
     },
     methods: {
         ...mapActions(['LOG_IN_USER']),

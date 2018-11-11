@@ -17,11 +17,8 @@
               </button>
           </header>
           <div class="modal__body">
-              <slot name="content"/>
+              <slot/>
           </div>
-          <footer class="modal__footer">
-              <slot name="footer"/>
-          </footer>
       </div>
   </div>
 </template>
@@ -85,7 +82,7 @@ export default {
     align-items: center;
     background-color: #efeeea;
     height: 3.3rem;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1rem;
     position: relative;
 }
@@ -102,26 +99,15 @@ export default {
     @include button;
     background-color: transparent;
     border: 0;
-    height: 100%;
+    position: absolute;
     padding: 0;
+    right: 1rem;
 
     svg {
         color: #6b655f;
-        height: 1.35rem;
-        width: 1.35rem;
+        height: 1rem;
+        margin-top: 0.25rem;
+        width: 1rem;
     }
-}
-
-.modal__body {
-    padding: 1rem;
-}
-
-.modal__footer {
-    border-top: {
-        color: #dedddc;
-        style: solid;
-        width: 1px;
-    }
-    padding: 1rem;
 }
 </style>

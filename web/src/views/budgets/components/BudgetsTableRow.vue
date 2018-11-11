@@ -43,7 +43,12 @@
 
       <td class="budgets-table-row__data actions">
             <div class="budgets-table-row__container">
-                <button class="budgets-table-row__button">Update</button>
+                <router-link
+                    :to="{ name: 'Budgets', params: { id: id }}"
+                    class="budgets-table-row__button"
+                >
+                    Update
+                </router-link>
             </div>
       </td>
   </tr>
@@ -60,10 +65,13 @@ export default {
     props: {
         id: {
             type: String,
-            required: false,
         },
         name: {
             type: String,
+            required: true,
+        },
+        budget: {
+            type: Object,
             required: true,
         },
         budgeted: {
@@ -81,23 +89,6 @@ export default {
         transactionCount: {
             type: Number,
             required: true,
-        },
-    },
-    computed: {
-        meterWidth() {
-            const width = (this.activity / this.budgeted) * 100
-            return width > 100 ? 100 : width
-        },
-    },
-    methods: {
-        getMeterStyle(amount) {
-            const width = (amount / this.budgeted) * 100
-            const radius = width === 100 ? '2px' : '0'
-            return {
-                width: width > 100 ? '100%' : `${width}%`,
-                borderTopRightRadius: radius,
-                borderBottomRightRadius: radius,
-            }
         },
     },
 }

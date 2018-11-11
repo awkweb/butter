@@ -17,16 +17,20 @@ export default new Router({
         savedPosition || { x: 0, y: 0 },
     routes: [
         {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Budgets', '/budgets'),
-            name: 'Budgets',
             path: '/',
+            redirect: '/budgets',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Transactions'),
+            component: loadView('Budgets', '/budgets'),
+            name: 'Budgets',
+            path: '/budgets/:id?',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Transactions', '/transactions'),
             name: 'Transactions',
-            path: '/transactions',
+            path: '/transactions/:id?',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
@@ -69,12 +73,14 @@ export default new Router({
             component: loadView('Register', '/auth'),
             name: 'Register',
             path: '/register',
+            props: route => ({ emailParam: route.query.email }),
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,
             component: loadView('LogIn', '/auth'),
             name: 'LogIn',
             path: '/login',
+            props: route => ({ emailParam: route.query.email }),
         },
         {
             component: loadView('NotFound'),

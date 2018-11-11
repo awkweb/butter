@@ -67,7 +67,7 @@ import { get } from '@/utils'
 import Field from '@/components/Field'
 
 export default {
-    name: 'BudgetsForm',
+    name: 'TransactionsForm',
     props: {
         budget: {
             type: Object,
