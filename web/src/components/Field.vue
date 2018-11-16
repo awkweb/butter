@@ -1,37 +1,58 @@
 <template>
     <fieldset class="field">
-        <label
-            :class="['field__label', {
-                'active': value || (isTouched && error),
-                'error': isTouched && error,
-            }]"
-            :for="id"
-        >
-            <template v-if="isTouched && error">{{error}}</template>
-            <template v-else>{{label}}</template>
-        </label>
-        <input
-            v-focus="autofocus"
-            :id="id"
-            :class="['field__input', {
-                'error': isTouched && error,
-            }]"
-            :placeholder="label"
-            :type="type"
-            :value="value"
-            spellcheck="false"
-            @blur="isTouched = true"
-            @input="onInput($event.target.value)"
-        >
         <template
-            v-if="showSuccess"
+            v-if="type === 'textarea'"
         >
-            <div
-                v-show="isValid"
-                class="field__success"
+            <textarea
+                v-focus="autofocus"
+                :id="id"
+                :class="['field__input', {
+                    'error': isTouched && error,
+                }]"
+                :placeholder="label"
+                :type="type"
+                :value="value"
+                rows="5"
+                spellcheck="false"
+                @blur="isTouched = true"
+                @input="onInput($event.target.value)"
             >
-                <InputSuccessIcon />
-            </div>
+            </textarea>
+        </template>
+        <template v-else>
+            <label
+                :class="['field__label', {
+                    'active': value || (isTouched && error),
+                    'error': isTouched && error,
+                }]"
+                :for="id"
+            >
+                <template v-if="isTouched && error">{{error}}</template>
+                <template v-else>{{label}}</template>
+            </label>
+            <input
+                v-focus="autofocus"
+                :id="id"
+                :class="['field__input', {
+                    'error': isTouched && error,
+                }]"
+                :placeholder="label"
+                :type="type"
+                :value="value"
+                spellcheck="false"
+                @blur="isTouched = true"
+                @input="onInput($event.target.value)"
+            >
+            <template
+                v-if="showSuccess"
+            >
+                <div
+                    v-show="isValid"
+                    class="field__success"
+                >
+                    <InputSuccessIcon />
+                </div>
+            </template>
         </template>
     </fieldset>
 </template>
@@ -74,15 +95,16 @@ export default {
         value: {
             type: [Number, String],
         },
+        onInput: {
+            default(value) {
+                this.$emit('input', value)
+            },
+            type: Function,
+        },
     },
     data: () => ({
         isTouched: false,
     }),
-    methods: {
-        onInput(value) {
-            this.$emit('input', value)
-        },
-    },
 }
 </script>
 
@@ -184,6 +206,19 @@ export default {
     &.error {
         border-color: color(default, border, error);
         color: color(default, font, error);
+    }
+}
+
+textarea.field__input {
+    padding: {
+        bottom: 0.15rem;
+        top: 0.7rem;
+    }
+    resize: none;
+    width: 100% !important;
+
+    &[rows] {
+        height: auto;
     }
 }
 

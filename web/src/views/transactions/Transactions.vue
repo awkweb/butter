@@ -13,7 +13,21 @@
       <template slot="content">
           <Loader v-if="loading"/>
           <template v-else>
-            {{transactions}}
+              <div>
+                <div
+                    v-for="transaction in transactions"
+                    :key="transaction.id"
+                    class="transaction__row"
+                >
+                    <div>
+                        <b>Date</b> {{transaction.date}}
+                        <b>Name</b> {{transaction.name}}
+                        <b>Amount</b> {{transaction.amount}}
+                        <b>Budget</b> {{transaction.budget}}
+                    </div>
+                    <button>Update</button>
+                </div>
+              </div>
           </template>
               <Modal
                   v-if="isModalOpen"
@@ -131,4 +145,9 @@ export default {
 @import '../../assets/styles/variables';
 @import '../../assets/styles/functions';
 @import '../../assets/styles/mixins';
+
+.transaction__row {
+    @include flex-row;
+    align-items: center;
+}
 </style>

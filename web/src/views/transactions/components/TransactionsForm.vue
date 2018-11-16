@@ -21,10 +21,27 @@
                 label="Amount"
                 type="number"
             />
+            <Dropdown
+                v-model="budget"
+                :options="options"
+                id="budget"
+                label="Budget"
+            />
+            <Field
+                v-model="date"
+                id="date"
+                label="Date"
+            />
+            <Field
+                v-model="note"
+                id="note"
+                label="Note"
+                type="textarea"
+            />
         </div>
         <div class="budgets-form__footer">
             <button
-                v-if="budget"
+                v-if="transaction"
                 v-click-outside="resetDelete"
                 :disabled="networkActive"
                 @click.prevent="onClickDelete"
@@ -40,7 +57,7 @@
                     Cancel
                 </button>
                 <button
-                    v-if="budget"
+                    v-if="transaction"
                     :disabled="$v.validationGroup.$invalid || networkActive"
                     @click.prevent="onClickUpdate"
                     @keyup.enter="onClickCreate"
@@ -64,12 +81,13 @@
 import { mapActions } from 'vuex'
 import { minValue, required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
+import Dropdown from '@/components/Dropdown'
 import Field from '@/components/Field'
 
 export default {
     name: 'TransactionsForm',
     props: {
-        budget: {
+        transaction: {
             type: Object,
         },
     },
@@ -78,12 +96,23 @@ export default {
             error: null,
             deleting: false,
             loading: false,
-            amount: get(() => this.budget.budgeted) || null,
-            name: get(() => this.budget.name) || null,
+            amount: get(() => this.transaction.amount) || null,
+            name: get(() => this.transaction.name) || null,
+            date: get(() => this.transaction.date_created) || null,
+            note: get(() => this.transaction.note) || null,
+            budget: get(() => this.transaction.budget) || null,
             startDelete: false,
+            options: [
+                { name: 'Vue.js', language: 'JavaScript' },
+                { name: 'Rails', language: 'Ruby' },
+                { name: 'Sinatra', language: 'Ruby' },
+                { name: 'Laravel', language: 'PHP' },
+                { name: 'Phoenix', language: 'Elixir' },
+            ],
         }
     },
     components: {
+        Dropdown,
         Field,
     },
     computed: {

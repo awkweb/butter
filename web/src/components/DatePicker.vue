@@ -8,19 +8,22 @@
               {{formatDates(initialDateOne, initialDateTwo)}}
           </button>
 
-          <!--<AirbnbStyleDatepicker-->
-              <!--:date-one="dateOne"-->
-              <!--:date-two="dateTwo"-->
-              <!--:showShortcutsMenuTrigger="false"-->
-              <!--fullscreen-mobile-->
-              <!--mode="range"-->
-              <!--trigger-element-id="datepicker-trigger"-->
-              <!--@apply="onClickApply"-->
-              <!--@cancelled="onClickClear"-->
-              <!--@closed="onClosed"-->
-              <!--@date-one-selected="onDateOneSelected"-->
-              <!--@date-two-selected="onDateTwoSelected"-->
-          <!--/>-->
+          <AirbnbStyleDatepicker
+              :dateOne="dateOne"
+              :dateTwo="dateTwo"
+              :endDate="endDate"
+              :mode="mode"
+              :monthsToShow="monthsToShow"
+              :showShortcutsMenuTrigger="false"
+              :startOpen="true"
+              fullscreen-mobile
+              trigger-element-id="datepicker-trigger"
+              @apply="onClickApply"
+              @cancelled="onClickClear"
+              @closed="onClosed"
+              @date-one-selected="onDateOneSelected"
+              @date-two-selected="onDateTwoSelected"
+          />
       </div>
   </div>
 </template>
@@ -29,7 +32,6 @@
 import Vue from 'vue'
 import { format, isSameMonth } from 'date-fns'
 import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker'
-import 'vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css'
 
 const datepickerOptions = {
     colors: {
@@ -54,11 +56,20 @@ export default {
             required: true,
             type: String,
         },
+        mode: {
+            default: 'range',
+            type: String,
+        },
+        monthsToShow: {
+            default: 2,
+            type: Number,
+        },
     },
     data() {
         return {
             dateOne: this.initialDateOne,
             dateTwo: this.initialDateTwo,
+            endDate: format(new Date(), 'YYYY-MM-DD'),
         }
     },
     methods: {
@@ -110,6 +121,9 @@ export default {
 }
 </script>
 
+<style src="vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css">
+</style>
+
 <style lang="scss" scoped>
 @import '../assets/styles/variables';
 @import '../assets/styles/functions';
@@ -143,6 +157,7 @@ export default {
 @import '../assets/styles/functions';
 @import '../assets/styles/mixins';
 
+/*
 .asd__wrapper {
     color: color(default, font);
     border: {
@@ -233,4 +248,5 @@ export default {
         right: 8px;
     }
 }
+*/
 </style>
