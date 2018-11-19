@@ -1,3 +1,3 @@
-# budget
+# wilbur
 
 A budgeting app

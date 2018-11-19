@@ -24,7 +24,7 @@ Add environment variables:
 # DJANGO APP KEYS
 
 export DJ_ENV=dev
-export DJ_DB_NAME=budget # database you just created
+export DJ_DB_NAME=wilbur # database you just created
 export DJ_DB_USER=tom # this is likely the user you use to login to your computer
 export DJ_DB_PASSWORD=root
 export DJ_DB_HOST=docker.for.mac.localhost # special docker set up
@@ -40,8 +40,8 @@ export PLAID_ENV=sandbox
 
 # LETS ENCRYPT CERTIFICATE PATHS
 
-export SSL_CERTIFICATE=/etc/nginx/certs/local/budget.crt
-export SSL_CERTIFICATE_KEY=/etc/nginx/certs/local/budget.key
+export SSL_CERTIFICATE=/etc/nginx/certs/local/wilbur.crt
+export SSL_CERTIFICATE_KEY=/etc/nginx/certs/local/wilbur.key
 ```
 
 Add an `.env.development.local` file to the `web` directory:
@@ -56,14 +56,14 @@ See [Environment Variables and Modes](https://cli.vuejs.org/guide/mode-and-env.h
 Update `/etc/hosts` by adding:
 
 ```bash
-0.0.0.0 budget.local api.budget.local www.budget.local
+0.0.0.0 wilbur.local api.wilbur.local www.wilbur.local
 ```
 
 Snag the repo, start Docker, and build the containers:
 
 ```bash
-> git clone https://github.com/tmm/budget.git
-> cd budget
+> git clone https://github.com/tmm/wilbur.git
+> cd wilbur
 > docker-compose build
 ```
 
@@ -76,18 +76,18 @@ Apply database migrations, create superuser, and generate static files (for admi
 > docker-compose run api python manage.py collectstatic
 ```
 
-Generate a local wildcard cert by running `bash scripts/generate-wildcard-cert.sh` and entering `budget.local` for root domain. Add the generated `certs` dir to `nginx/certs`. If everything worked as planned, you should be able to `docker-compose up` and access the admin app.
+Generate a local wildcard cert by running `bash scripts/generate-wildcard-cert.sh` and entering `wilbur.local` for root domain. Add the generated `certs` dir to `nginx/certs`. If everything worked as planned, you should be able to `docker-compose up` and access the admin app.
 
 ```bash
 > docker-compose up -d
 > docker-compose ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                  PORTS                                      NAMES
-6c2e871834bf        budget_nginx        "bash -c 'envsubst <…"   7 seconds ago       Up Less than a second   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   nginx
-f427d34b5351        budget_api          "uwsgi --ini uwsgi.i…"   7 seconds ago       Up 6 seconds            8000/tcp                                   api
-c4be8e628d86        budget_web          "uwsgi --ini uwsgi.i…"   7 seconds ago       Up 6 seconds            5000/tcp                                   web
+6c2e871834bf        wilbur_nginx        "bash -c 'envsubst <…"   7 seconds ago       Up Less than a second   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   nginx
+f427d34b5351        wilbur_api          "uwsgi --ini uwsgi.i…"   7 seconds ago       Up 6 seconds            8000/tcp                                   api
+c4be8e628d86        wilbur_web          "uwsgi --ini uwsgi.i…"   7 seconds ago       Up 6 seconds            5000/tcp                                   web
 ```
 
-Go to the [admin site](https://api.budget/admin/oauth2_provider/application/add/) to create a new `Application` for the API to connect to.
+Go to the [admin site](https://api.wilbur.local/admin/oauth2_provider/application/add/) to create a new `Application` for the API to connect to.
 
 ## Creating/Updating DB Models
 
