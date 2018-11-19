@@ -1,4 +1,4 @@
-# budget
+# wilbur
 
 ## Project setup
 ```

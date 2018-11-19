@@ -1,13 +1,7 @@
 <template>
   <div class="datepicker">
       <div class="datepicker-trigger">
-          <button
-              id="datepicker-trigger"
-              class="datepicker__anchor"
-          >
-              {{formatDates(initialDateOne, initialDateTwo)}}
-          </button>
-
+          <slot></slot>
           <AirbnbStyleDatepicker
               :dateOne="dateOne"
               :dateTwo="dateTwo"
@@ -15,7 +9,6 @@
               :mode="mode"
               :monthsToShow="monthsToShow"
               :showShortcutsMenuTrigger="false"
-              :startOpen="true"
               fullscreen-mobile
               trigger-element-id="datepicker-trigger"
               @apply="onClickApply"
@@ -30,7 +23,7 @@
 
 <script>
 import Vue from 'vue'
-import { format, isSameMonth } from 'date-fns'
+import { format } from 'date-fns'
 import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker'
 
 const datepickerOptions = {
@@ -53,7 +46,7 @@ export default {
             type: String,
         },
         initialDateTwo: {
-            required: true,
+            required: false,
             type: String,
         },
         mode: {
@@ -64,6 +57,10 @@ export default {
             default: 2,
             type: Number,
         },
+        triggerElementId: {
+            default: 'datepicker-trigger',
+            type: String,
+        },
     },
     data() {
         return {
@@ -73,33 +70,19 @@ export default {
         }
     },
     methods: {
-        formatDates(dateOne, dateTwo) {
-            let formattedDates = ''
-            if (dateOne) {
-                formattedDates = format(dateOne, 'MMM D')
+        onClickApply() {
+            let data
+            if (this.mode === 'range') {
+                data = {
+                    nextDateOne: this.dateOne,
+                    nextDateTwo: this.dateTwo,
+                }
             } else {
-                formattedDates = 'Start'
-            }
-            if (dateOne !== dateTwo) {
-                if (dateTwo) {
-                    const dateFormat = isSameMonth(dateOne, dateTwo)
-                        ? 'D'
-                        : 'MMM D'
-                    formattedDates = `${formattedDates} - ${format(
-                        dateTwo,
-                        dateFormat,
-                    )}`
-                } else {
-                    formattedDates = `${formattedDates} - End`
+                data = {
+                    nextDateOne: this.dateOne,
                 }
             }
-            return formattedDates
-        },
-        onClickApply() {
-            this.$emit('handleOnClickApply', {
-                nextDateOne: this.dateOne,
-                nextDateTwo: this.dateTwo,
-            })
+            this.$emit('handleOnClickApply', data)
         },
         onClickClear() {
             this.dateOne = ''
@@ -122,34 +105,6 @@ export default {
 </script>
 
 <style src="vue-airbnb-style-datepicker/dist/vue-airbnb-style-datepicker.min.css">
-</style>
-
-<style lang="scss" scoped>
-@import '../assets/styles/variables';
-@import '../assets/styles/functions';
-@import '../assets/styles/mixins';
-
-.datepicker__anchor {
-    @include button;
-    background-color: #efeeea;
-    border: {
-        radius: $border-radius;
-        width: 0;
-    }
-    font: {
-        size: 0.8rem;
-        weight: 600;
-    }
-    height: 2.5rem;
-    margin-right: 1rem;
-    padding: {
-        bottom: 0;
-        left: 1rem;
-        right: 1rem;
-        top: 0.25rem;
-    }
-    white-space: nowrap;
-}
 </style>
 
 <style lang="scss">

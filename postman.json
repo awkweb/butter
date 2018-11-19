@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "a64a0341-f945-4b71-8a5c-475812468415",
-		"name": "ferns",
+		"name": "wilbur",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -23,11 +23,11 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://api.budget.local/v1/budgets/?start=2018-10-01&end=2018-10-09",
+							"raw": "https://api.wilbur.local/v1/budgets/?start=2018-10-01&end=2018-10-09",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -71,11 +71,11 @@
 							"raw": "{\n    \"amount\": 2000,\n    \"name\": \"rent\"\n}"
 						},
 						"url": {
-							"raw": "https://api.budget.local/v1/budgets/",
+							"raw": "https://api.wilbur.local/v1/budgets/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -109,11 +109,11 @@
 							"raw": "{\n    \"amount\": 500\n}"
 						},
 						"url": {
-							"raw": "https://api.budget.local/v1/budgets/03d16232-6fd0-4096-bc6e-2061f39bc1f3/",
+							"raw": "https://api.wilbur.local/v1/budgets/03d16232-6fd0-4096-bc6e-2061f39bc1f3/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -145,11 +145,11 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://api.budget.local/v1/budgets/d4697981-c392-4c71-bf28-0b97a2746210/",
+							"raw": "https://api.wilbur.local/v1/budgets/d4697981-c392-4c71-bf28-0b97a2746210/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -184,11 +184,11 @@
 							"raw": "{\n    \"amount\": 130\n}"
 						},
 						"url": {
-							"raw": "https://api.budget.local/v1/budgets/03d16232-6fd0-4096-bc6e-2061f39bc1f3/",
+							"raw": "https://api.wilbur.local/v1/budgets/03d16232-6fd0-4096-bc6e-2061f39bc1f3/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -221,11 +221,11 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://api.budget.local/v1/transactions/",
+							"raw": "https://api.wilbur.local/v1/transactions/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -261,11 +261,11 @@
 							"raw": "{\n    \"amount\": 69.50,\n    \"name\": \"taxi\",\n    \"budget\": \"03d16232-6fd0-4096-bc6e-2061f39bc1f3\"\n}"
 						},
 						"url": {
-							"raw": "https://api.budget.local/v1/transactions/",
+							"raw": "https://api.wilbur.local/v1/transactions/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -301,11 +301,11 @@
 							"raw": "{\n\t\"note\": \"jfk to apartment\"\n}"
 						},
 						"url": {
-							"raw": "https://api.budget.local/v1/transactions/99e057a7-62c6-482f-80a9-a661cebcebe2/",
+							"raw": "https://api.wilbur.local/v1/transactions/99e057a7-62c6-482f-80a9-a661cebcebe2/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -333,11 +333,11 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://api.budget.local/v1/transactions/e8950e8d-1f6f-402d-bf72-15ae96413941/",
+							"raw": "https://api.wilbur.local/v1/transactions/e8950e8d-1f6f-402d-bf72-15ae96413941/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [
@@ -365,11 +365,11 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://api.budget.local/v1/transactions/e8950e8d-1f6f-402d-bf72-15ae96413941/",
+							"raw": "https://api.wilbur.local/v1/transactions/e8950e8d-1f6f-402d-bf72-15ae96413941/",
 							"protocol": "https",
 							"host": [
 								"api",
-								"budget",
+								"wilbur",
 								"local"
 							],
 							"path": [

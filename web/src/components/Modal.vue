@@ -70,7 +70,6 @@ export default {
         min-height: auto;
         max-width: 25rem;
         max-height: none;
-        overflow: hidden;
     }
     background-color: color(default, background);
     min-height: 100vh;
@@ -81,6 +80,8 @@ export default {
     @include flex-row;
     align-items: center;
     background-color: #efeeea;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
     height: 3.3rem;
     justify-content: center;
     padding: 1rem;

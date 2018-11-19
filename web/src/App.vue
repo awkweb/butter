@@ -21,7 +21,7 @@ export default {
     },
     metaInfo: {
         titleTemplate: titleChunk => {
-            return titleChunk ? `${titleChunk} | Ferns` : 'Ferns'
+            return titleChunk ? `${titleChunk} | Wilbur` : 'Wilbur'
         },
     },
 }

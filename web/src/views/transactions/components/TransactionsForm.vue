@@ -27,11 +27,19 @@
                 id="budget"
                 label="Budget"
             />
-            <Field
-                v-model="date"
-                id="date"
-                label="Date"
-            />
+            <DatePicker
+                :initialDateOne="date"
+                mode="single"
+                :monthsToShow="1"
+                @handleOnClickApply="handleOnClickApply"
+            >
+                <Field
+                    id="datepicker-trigger"
+                    label="Date"
+                    type="text"
+                    :value="date"
+                />
+            </DatePicker>
             <Field
                 v-model="note"
                 id="note"
@@ -79,8 +87,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { format } from 'date-fns'
 import { minValue, required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
+import DatePicker from '@/components/DatePicker'
 import Dropdown from '@/components/Dropdown'
 import Field from '@/components/Field'
 
@@ -98,7 +108,9 @@ export default {
             loading: false,
             amount: get(() => this.transaction.amount) || null,
             name: get(() => this.transaction.name) || null,
-            date: get(() => this.transaction.date_created) || null,
+            date:
+                get(() => this.transaction.date_created) ||
+                format(new Date(), 'YYYY-MM-DD'),
             note: get(() => this.transaction.note) || null,
             budget: get(() => this.transaction.budget) || null,
             startDelete: false,
@@ -112,6 +124,7 @@ export default {
         }
     },
     components: {
+        DatePicker,
         Dropdown,
         Field,
     },
@@ -210,6 +223,9 @@ export default {
         resetDelete() {
             this.startDelete = false
             this.deleting = false
+        },
+        handleOnClickApply({ nextDateOne }) {
+            this.date = nextDateOne
         },
     },
     validations: {

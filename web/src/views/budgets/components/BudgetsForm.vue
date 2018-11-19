@@ -42,8 +42,9 @@
                 <button
                     v-if="budget"
                     :disabled="$v.validationGroup.$invalid || networkActive"
+                    type="submit"
                     @click.prevent="onClickUpdate"
-                    @keyup.enter="onClickCreate"
+                    @keyup.enter="onClickUpdate"
                 >
                     {{ loading ? 'Updating...' : 'Update' }}
                 </button>

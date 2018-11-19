@@ -6,7 +6,15 @@
                   :initialDateOne="dateOne"
                   :initialDateTwo="dateTwo"
                   @handleOnClickApply="handleOnClickApply"
-              />
+              >
+                  <button
+                      id="datepicker-trigger"
+                      class="datepicker__anchor"
+                  >
+                      {{formatDateRange(dateOne, dateTwo)}}
+                  </button>
+              </DatePicker>
+
               <router-link
                   :to="{ name: 'Budgets', params: { id: 'new' }}"
                   class="dashboard__header-button"
@@ -59,7 +67,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { get } from '@/utils'
+import { formatDateRange, get } from '@/utils'
 import api from '@/api'
 import DatePicker from '@/components/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
@@ -156,6 +164,7 @@ export default {
     methods: {
         ...mapActions(['GET_BUDGETS', 'REORDER_BUDGETS']),
         ...mapMutations(['SET_DATE_ONE', 'SET_DATE_TWO']),
+        formatDateRange,
         async handleOnClickApply({ nextDateOne, nextDateTwo }) {
             this.SET_DATE_ONE(nextDateOne)
             this.SET_DATE_TWO(nextDateTwo)
@@ -250,5 +259,27 @@ export default {
     .label {
         font-size: 0.9rem;
     }
+}
+
+.datepicker__anchor {
+    @include button;
+    background-color: #efeeea;
+    border: {
+        radius: $border-radius;
+        width: 0;
+    }
+    font: {
+        size: 0.8rem;
+        weight: 600;
+    }
+    height: 2.5rem;
+    margin-right: 1rem;
+    padding: {
+        bottom: 0;
+        left: 1rem;
+        right: 1rem;
+        top: 0.25rem;
+    }
+    white-space: nowrap;
 }
 </style>

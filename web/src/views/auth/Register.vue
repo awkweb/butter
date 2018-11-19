@@ -62,7 +62,7 @@
                 </button>
 
                 <div class="auth__subtext">
-                    By clicking this button, you agree Ferns’ <a href="">Terms of Use</a>.
+                    By clicking this button, you agree to Wilbur’s <a href="">Terms of Use</a>.
                 </div>
             </form>
         </div>

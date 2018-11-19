@@ -1,3 +1,5 @@
+import { format, isSameMonth } from 'date-fns'
+
 export const getUserFromLocalStorage = () =>
     JSON.parse(localStorage.getItem('user'))
 
@@ -44,3 +46,24 @@ export const getOrderForBudgetId = (
 export const disableBodyScroll = () => (document.body.style.overflow = 'hidden')
 
 export const enableBodyScroll = () => (document.body.style.overflow = 'inherit')
+
+export const formatDateRange = (dateOne, dateTwo) => {
+    let formattedDates = ''
+    if (dateOne) {
+        formattedDates = format(dateOne, 'MMM D')
+    } else {
+        formattedDates = 'Start'
+    }
+    if (dateOne !== dateTwo) {
+        if (dateTwo) {
+            const dateFormat = isSameMonth(dateOne, dateTwo) ? 'D' : 'MMM D'
+            formattedDates = `${formattedDates} - ${format(
+                dateTwo,
+                dateFormat,
+            )}`
+        } else {
+            formattedDates = `${formattedDates} - End`
+        }
+    }
+    return formattedDates
+}
