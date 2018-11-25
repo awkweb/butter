@@ -1,9 +1,9 @@
 import { format, isSameMonth } from 'date-fns'
 
 export const getUserFromLocalStorage = () =>
-    JSON.parse(localStorage.getItem('user'))
+    JSON.parse(localStorage.getItem('user')) || undefined
 
-export const isLoggedIn = () => getUserFromLocalStorage() !== null
+export const isLoggedIn = () => getUserFromLocalStorage() !== undefined
 
 export const beforeEnterIsLoggedIn = (to, from, next) => {
     if (isLoggedIn()) next()
@@ -67,3 +67,7 @@ export const formatDateRange = (dateOne, dateTwo) => {
     }
     return formattedDates
 }
+
+export const toAmount = value => (value / 100).toFixed(2)
+
+export const toCents = value => value * 100

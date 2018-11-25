@@ -7,7 +7,12 @@
               >
                   <MoreVerticalIcon/>
               </button>
-              <span>{{name}}</span>
+              <router-link
+                  :to="{ name: 'Budget', params: { id: id, budget }}"
+                  class="budgets-table-row__button"
+              >
+                  {{name}}
+              </router-link>
           </div>
       </td>
 
@@ -36,20 +41,9 @@
       </td>
 
       <td class="budgets-table-row__data">
-            <div class="budgets-table-row__container">
-                {{transactionCount}}
-            </div>
-      </td>
-
-      <td class="budgets-table-row__data actions">
-            <div class="budgets-table-row__container">
-                <router-link
-                    :to="{ name: 'Budgets', params: { id: id }}"
-                    class="budgets-table-row__button"
-                >
-                    Update
-                </router-link>
-            </div>
+          <div class="budgets-table-row__container">
+              {{transactionCount}}
+          </div>
       </td>
   </tr>
 </template>
@@ -175,42 +169,6 @@ export default {
     padding: {
         left: 1rem;
         right: 1rem;
-    }
-
-    &.actions {
-        min-width: auto;
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
-
-.budgets-table-row__button {
-    @include button;
-    background-color: #efeeea;
-    border: {
-        radius: $border-radius;
-        width: 0;
-    }
-    color: #241c15;
-    font: {
-        size: 0.8rem;
-        weight: 600;
-    }
-    height: 2rem;
-    padding: {
-        bottom: 0;
-        left: 1rem;
-        right: 1rem;
-        top: 0.25rem;
-    }
-    text-align: left;
-    transition: {
-        duration: $transition-duration;
-        property: background-color;
-    }
-
-    &:hover {
-        background-color: #d9d7cd;
     }
 }
 </style>

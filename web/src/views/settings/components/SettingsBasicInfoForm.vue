@@ -55,12 +55,12 @@ export default {
         Field,
     },
     data: () => ({
-        email: null,
-        error: null,
-        firstName: null,
-        lastName: null,
+        email: undefined,
+        error: undefined,
+        firstName: undefined,
+        lastName: undefined,
         loading: false,
-        message: null,
+        message: undefined,
         success: false,
     }),
     computed: {
@@ -74,7 +74,7 @@ export default {
     methods: {
         ...mapActions(['UPDATE_USER_INFO']),
         async onClickUpdate() {
-            this.message = null
+            this.message = undefined
             this.success = false
             this.error = false
             this.loading = true

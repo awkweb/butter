@@ -9,7 +9,6 @@
                     <th>Remaining</th>
                     <th>Budgeted</th>
                     <th>Transactions</th>
-                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <Draggable

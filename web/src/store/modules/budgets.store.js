@@ -35,7 +35,7 @@ const store = {
         },
         GET_BUDGETS: async ({ commit, state }) => {
             try {
-                const res = await api.getBudgets({
+                const res = await api.getBudgetsDashboard({
                     start_date: state.dateOne,
                     end_date: state.dateTwo,
                 })

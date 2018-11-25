@@ -79,22 +79,22 @@ export default {
     },
     data: () => ({
         error: false,
-        password: null,
-        passwordConfirm: null,
-        passwordVerify: null,
+        password: undefined,
+        passwordConfirm: undefined,
+        passwordVerify: undefined,
         loading: false,
-        message: null,
+        message: undefined,
         success: false,
     }),
     methods: {
         ...mapActions(['CHANGE_PASSWORD']),
         resetForm() {
-            this.password = null
-            this.passwordConfirm = null
-            this.passwordVerify = null
+            this.password = undefined
+            this.passwordConfirm = undefined
+            this.passwordVerify = undefined
         },
         async onClickUpdate() {
-            this.message = null
+            this.message = undefined
             this.success = false
             this.error = false
             this.loading = true

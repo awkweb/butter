@@ -16,7 +16,7 @@
               </DatePicker>
 
               <router-link
-                  :to="{ name: 'Budgets', params: { id: 'new' }}"
+                  :to="{ name: 'Budget', params: { id: 'new' }}"
                   class="dashboard__header-button"
               >
                   New Budget
@@ -50,17 +50,6 @@
                   @handleOnReorderBudgets="handleOnReorderBudgets"
               />
           </template>
-          <Modal
-              v-if="isModalOpen"
-              v-scroll-lock="isModalOpen"
-              :title="title"
-              @handleOnCloseModal="handleOnCloseModal"
-          >
-              <BudgetsForm
-                  :budget="modalBudget"
-                  @handleOnCloseModal="handleOnCloseModal"
-              />
-          </Modal>
       </template>
   </Dashboard>
 </template>
@@ -68,28 +57,20 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { formatDateRange, get } from '@/utils'
-import api from '@/api'
 import DatePicker from '@/components/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
 import Loader from '@/components/Loader'
-import Modal from '@/components/Modal'
-import BudgetsForm from './components/BudgetsForm'
 
 export default {
     name: 'Budgets',
     components: {
         BudgetsTable: () => import('./components/BudgetsTable'),
-        BudgetsForm,
         DatePicker,
         Dashboard,
         Loader,
-        Modal,
     },
     data: () => ({
-        isModalOpen: false,
         loading: false,
-        modalBudget: null,
-        title: 'Budgets',
     }),
     computed: {
         ...mapGetters(['budgets', 'dateOne', 'dateTwo']),
@@ -115,43 +96,6 @@ export default {
                 transactionCount,
             }
         },
-    },
-    async beforeRouteEnter(to, from, next) {
-        const budgetId = get(() => to.params.id)
-        if (budgetId) {
-            if (budgetId === 'new') {
-                next(vm => vm.openModal('New Budget'))
-            } else {
-                try {
-                    const res = await api.getBudget(budgetId)
-                    next(vm =>
-                        vm.openModal('Update Budget', get(() => res.data)),
-                    )
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-        } else {
-            next(vm => vm.closeModal())
-        }
-    },
-    async beforeRouteUpdate(to, from, next) {
-        const budgetId = get(() => to.params.id)
-        if (budgetId) {
-            if (budgetId === 'new') {
-                this.openModal('New Budget')
-            } else {
-                try {
-                    const res = await api.getBudget(budgetId)
-                    this.openModal('Update Budget', get(() => res.data))
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-        } else {
-            this.closeModal()
-        }
-        next()
     },
     async created() {
         this.loading = true
@@ -180,25 +124,9 @@ export default {
         handleOnReorderBudgets(data) {
             this.REORDER_BUDGETS(data)
         },
-        handleOnCloseModal() {
-            this.closeModal()
-            this.$router.push({ name: 'Budgets' })
-        },
-        closeModal() {
-            this.isModalOpen = false
-            this.title = 'Budgets'
-            this.modalBudget = null
-        },
-        openModal(title, budget = null) {
-            this.isModalOpen = true
-            this.title = title
-            this.modalBudget = budget
-        },
     },
-    metaInfo() {
-        return {
-            title: this.title,
-        }
+    metaInfo: {
+        title: 'Budgets',
     },
 }
 </script>

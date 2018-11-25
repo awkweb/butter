@@ -97,17 +97,17 @@ export default {
     },
     data() {
         return {
-            email: this.emailParam || null,
-            error: null,
+            email: get(() => this.emailParam),
+            error: undefined,
             loading: false,
-            password: null,
-            passwordConfirm: null,
+            password: undefined,
+            passwordConfirm: undefined,
         }
     },
     methods: {
         ...mapActions(['SIGN_UP_USER']),
         async onClickRegister() {
-            this.error = null
+            this.error = undefined
             this.loading = true
             try {
                 await this.SIGN_UP_USER({

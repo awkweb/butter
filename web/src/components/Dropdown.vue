@@ -1,5 +1,9 @@
 <template>
-    <fieldset class="dropdown">
+    <fieldset
+        :class="['dropdown', {
+            'error': isTouched && error,
+        }]"
+    >
         <label
             :class="['dropdown__label', {
                 'active': value || (isTouched && error),
@@ -10,7 +14,7 @@
             <template v-if="isTouched && error">{{error}}</template>
             <template v-else>{{label}}</template>
         </label>
-        <multiselect
+        <Multiselect
             :allow-empty="false"
             :options="options"
             :custom-label="customLabel"
@@ -109,6 +113,15 @@ export default {
         @include flex-row;
         margin-top: 0.25rem;
     }
+
+    &.error {
+        .multiselect__tags {
+            border-color: color(default, border, error);
+        }
+        .multiselect__select:before {
+            border-color: color(default, border, error) transparent transparent;
+        }
+    }
 }
 
 .dropdown__label {
@@ -131,7 +144,7 @@ export default {
         duration: $transition-duration / 2;
         property: color, opacity, top;
     }
-    z-index: 5;
+    z-index: 2;
 
     &.active {
         opacity: 1;

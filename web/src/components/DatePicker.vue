@@ -71,16 +71,9 @@ export default {
     },
     methods: {
         onClickApply() {
-            let data
-            if (this.mode === 'range') {
-                data = {
-                    nextDateOne: this.dateOne,
-                    nextDateTwo: this.dateTwo,
-                }
-            } else {
-                data = {
-                    nextDateOne: this.dateOne,
-                }
+            const data = {
+                nextDateOne: this.dateOne,
+                nextDateTwo: this.dateTwo,
             }
             this.$emit('handleOnClickApply', data)
         },
@@ -96,6 +89,9 @@ export default {
         },
         onDateOneSelected(value) {
             this.dateOne = value
+            if (this.mode === 'single') {
+                this.$emit('handleOnSelectDate', this.dateOne)
+            }
         },
         onDateTwoSelected(value) {
             this.dateTwo = value

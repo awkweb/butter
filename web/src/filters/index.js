@@ -1,8 +1,8 @@
 import { formatDistance } from 'date-fns'
+import { toAmount } from '@/utils'
 
 export function prettyNumber(number) {
-    return number
-        .toFixed(2)
+    return toAmount(number)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }

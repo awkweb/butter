@@ -22,9 +22,23 @@ export default new Router({
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Budget', '/budgets'),
+            name: 'Budget',
+            path: '/budgets/:id',
+            props: true,
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
             component: loadView('Budgets', '/budgets'),
             name: 'Budgets',
-            path: '/budgets/:id?',
+            path: '/budgets',
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Transaction', '/transactions'),
+            name: 'Transaction',
+            path: '/transactions/:id',
+            props: true,
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,

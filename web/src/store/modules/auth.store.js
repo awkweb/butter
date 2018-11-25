@@ -4,7 +4,7 @@ import { SET_USER } from '@/store/constants'
 
 const store = {
     state: {
-        user: JSON.parse(localStorage.getItem('user')) || null,
+        user: get(() => JSON.parse(localStorage.getItem('user'))),
     },
     actions: {
         CHANGE_PASSWORD: async (
@@ -22,13 +22,6 @@ const store = {
                 throw get(() => err.response.data)
             }
         },
-        LINK_PLAID: async ({ commit }, data) => {
-            try {
-                return await api.linkPlaid(data)
-            } catch (err) {
-                throw get(() => err.response.data)
-            }
-        },
         LOG_IN_USER: async ({ commit }, { email, password }) => {
             try {
                 const res = await api.logIn(email, password)
@@ -40,7 +33,7 @@ const store = {
         LOG_OUT_USER: async ({ commit }) => {
             try {
                 await api.logOut()
-                commit(SET_USER, null)
+                commit(SET_USER, undefined)
             } catch (err) {
                 throw get(() => err.response.data)
             }

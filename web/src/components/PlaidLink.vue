@@ -61,7 +61,7 @@ export default {
             })
         },
         handleOnClick() {
-            const institution = this.institution || null
+            const institution = this.institution || undefined
             if (window.linkHandler) {
                 window.linkHandler.open(institution)
             }

@@ -9,6 +9,12 @@ export const SET_BUDGETS = 'SET_BUDGETS'
 export const SET_DATE_ONE = 'SET_DATE_ONE'
 export const SET_DATE_TWO = 'SET_DATE_TWO'
 
+// ITEMS
+export const ADD_ITEM = 'ADD_ITEM'
+export const DELETE_ITEM = 'DELETE_ITEM'
+export const SET_ITEMS = 'SET_ITEMS'
+export const SET_ITEM = 'SET_ITEM'
+
 // TRANSACTIONS
 export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION'

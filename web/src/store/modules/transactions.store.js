@@ -47,7 +47,7 @@ const store = {
     },
     mutations: {
         [ADD_TRANSACTION](state, transaction) {
-            state.transactions = [transaction, ...state.transactions]
+            state.transactions = [...state.transactions, transaction]
         },
         [DELETE_TRANSACTION](state, transactionId) {
             state.transactions = [
@@ -62,7 +62,7 @@ const store = {
         [SET_TRANSACTION](state, transaction) {
             state.transactions = [
                 transaction,
-                ...state.transactions.filter(b => b.id !== transaction.id),
+                ...state.transactions.filter(t => t.id !== transaction.id),
             ]
         },
     },
