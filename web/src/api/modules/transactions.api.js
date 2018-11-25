@@ -8,4 +8,5 @@ export default {
     getTransaction: transactionId => api.get(`transactions/${transactionId}/`),
     updateTransaction: (transactionId, data) =>
         api.patch(`transactions/${transactionId}/`, data),
+    fetchTransactions: () => api.get('transactions/fetch'),
 }

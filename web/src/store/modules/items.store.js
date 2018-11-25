@@ -7,6 +7,15 @@ const store = {
         items: [],
     },
     actions: {
+        CREATE_ITEM: async ({ commit }, data) => {
+            try {
+                const res = await api.createItem(data)
+                console.log(res.data)
+                commit(ADD_ITEM, get(() => res.data))
+            } catch (err) {
+                throw get(() => err.response.data)
+            }
+        },
         DELETE_ITEM: async ({ commit }, itemId) => {
             try {
                 await api.deleteItem(itemId)
@@ -19,13 +28,6 @@ const store = {
             try {
                 const res = await api.getItems()
                 commit(SET_ITEMS, get(() => res.data))
-            } catch (err) {
-                throw get(() => err.response.data)
-            }
-        },
-        LINK_PLAID: async ({ commit }, data) => {
-            try {
-                return await api.linkPlaid(data)
             } catch (err) {
                 throw get(() => err.response.data)
             }

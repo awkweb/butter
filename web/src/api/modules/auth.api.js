@@ -7,7 +7,6 @@ export default {
             password_confirm: passwordConfirm,
             password_verify: passwordVerify,
         }),
-    linkPlaid: data => api.post('auth/link/plaid/', data),
     logIn: (email, password) =>
         api.post('auth/login/', {
             email,

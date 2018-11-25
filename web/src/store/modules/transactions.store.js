@@ -9,6 +9,7 @@ import {
 
 const store = {
     state: {
+        inbox: [],
         transactions: [],
     },
     actions: {

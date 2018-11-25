@@ -20,6 +20,10 @@ export default {
             default: 'sandbox',
         },
         institution: String,
+        selectAccount: {
+            type: Boolean,
+            default: true,
+        },
         token: String,
         product: {
             type: Array,
@@ -58,6 +62,7 @@ export default {
                 onEvent: this.onEvent,
                 onSuccess: this.onSuccess,
                 product: this.product,
+                token: this.token,
             })
         },
         handleOnClick() {

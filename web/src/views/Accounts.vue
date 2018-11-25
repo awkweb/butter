@@ -4,6 +4,7 @@
           <PlaidLink
               :env="plaidEnv"
               :publicKey="plaidPublicKey"
+              :publicToken="plaidPublicToken"
               clientName="budget"
               v-bind="{ onSuccess }"
           >
@@ -18,7 +19,7 @@
                       v-for="item in items"
                       :key="item.id"
                   >
-                      {{item.institution.name}}
+                      {{item.institution.name}} ending in {{item.account.mask}}
                       <button
                           @click="onClickDisconnect(item.id)"
                       >
@@ -47,6 +48,7 @@ export default {
     data: () => ({
         plaidEnv: process.env.VUE_APP_PLAID_ENV,
         plaidPublicKey: process.env.VUE_APP_PLAID_PUBLIC_KEY,
+        plaidPublicToken: undefined,
         loading: false,
     }),
     computed: {
@@ -61,24 +63,27 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_ITEM', 'GET_ITEMS', 'LINK_PLAID']),
+        ...mapActions([
+            'CREATE_ITEM',
+            'DELETE_ITEM',
+            'GET_ITEMS',
+            'UPDATE_ITEM',
+        ]),
         onSuccess(token, data) {
-            console.log(token, data)
-            const { accounts, institution } = data
-            this.LINK_PLAID({
+            const { account, institution } = data
+            this.CREATE_ITEM({
                 institution,
-                token,
-                accounts: accounts.map(account => ({
+                account: {
                     ...account,
                     account_id: account.id,
-                })),
+                    id: undefined,
+                },
+                public_token: token,
             })
         },
         async onClickDisconnect(itemId) {
-            console.log(itemId)
             try {
                 await this.DELETE_ITEM(itemId)
-                console.log('success!')
             } catch (e) {
                 console.log(e)
             }
