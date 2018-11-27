@@ -4,8 +4,7 @@
           <PlaidLink
               :env="plaidEnv"
               :publicKey="plaidPublicKey"
-              :publicToken="plaidPublicToken"
-              clientName="budget"
+              clientName="Wilbur"
               v-bind="{ onSuccess }"
           >
               Connect Account
@@ -19,7 +18,11 @@
                       v-for="item in items"
                       :key="item.id"
                   >
-                      {{item.institution.name}} ending in {{item.account.mask}}
+                      <router-link
+                          :to="{ name: 'Account', params: { id: item.id, item }}"
+                      >
+                          {{item.institution.name}} ending in {{item.account.mask}}
+                      </router-link>
                       <button
                           @click="onClickDisconnect(item.id)"
                       >
@@ -48,7 +51,6 @@ export default {
     data: () => ({
         plaidEnv: process.env.VUE_APP_PLAID_ENV,
         plaidPublicKey: process.env.VUE_APP_PLAID_PUBLIC_KEY,
-        plaidPublicToken: undefined,
         loading: false,
     }),
     computed: {
@@ -97,7 +99,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../assets/styles/variables';
-@import '../assets/styles/functions';
-@import '../assets/styles/mixins';
+@import '../../assets/styles/variables';
+@import '../../assets/styles/functions';
+@import '../../assets/styles/mixins';
 </style>

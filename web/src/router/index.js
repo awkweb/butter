@@ -44,7 +44,7 @@ export default new Router({
             beforeEnter: beforeEnterIsLoggedIn,
             component: loadView('Transactions', '/transactions'),
             name: 'Transactions',
-            path: '/transactions/:id?',
+            path: '/transactions',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
@@ -54,7 +54,14 @@ export default new Router({
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Accounts'),
+            component: loadView('Account', '/accounts'),
+            name: 'Account',
+            path: '/accounts/:id',
+            props: true,
+        },
+        {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('Accounts', '/accounts'),
             name: 'Accounts',
             path: '/accounts',
         },

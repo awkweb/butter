@@ -62,7 +62,7 @@
                       {{ deleteButtonText }}
                   </button>
             </div>
-        </form>
+          </form>
       </template>
   </Dashboard>
 </template>

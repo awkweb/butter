@@ -10,7 +10,6 @@ const store = {
         CREATE_ITEM: async ({ commit }, data) => {
             try {
                 const res = await api.createItem(data)
-                console.log(res.data)
                 commit(ADD_ITEM, get(() => res.data))
             } catch (err) {
                 throw get(() => err.response.data)
