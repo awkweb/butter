@@ -29,7 +29,8 @@
                       >
                       {{transaction.date}}
                       {{transaction.name}}
-                      {{transaction.amount}}
+                      {{transaction.amount_cents | prettyNumber}}
+                      <b v-show="transaction.new">new</b>
                   </div>
               </div>
           </template>
@@ -60,26 +61,25 @@ export default {
     }),
     async beforeRouteEnter(to, from, next) {
         const { data: budgets } = await api.getBudgets()
-        const { data: transactions } = await api.fetchTransactions()
-        next(vm => {
-            vm.options = budgets
-            vm.transactions = transactions
-        })
+        next(vm => (vm.options = budgets))
+    },
+    async created() {
+        try {
+            this.loading = true
+            const { data: transactions } = await api.fetchTransactions()
+            this.transactions = transactions
+        } catch (err) {
+            console.log(err)
+        } finally {
+            this.loading = false
+        }
     },
     methods: {
         async onClickAdd() {
             const transaction = this.checkedTransactions[0]
             console.log(transaction)
-            const res = await api.createTransaction({
-                account_id: transaction.account_id,
-                amount_cents: toCents(transaction.amount),
+            const res = await api.updateTransaction(transaction.id, {
                 budget: this.budget.id,
-                currency: transaction.iso_currency_code,
-                date: transaction.date,
-                name: transaction.name,
-                origin: 'PL',
-                origin_id: transaction.transaction_id,
-                // transaction_location: transaction.location,
             })
             console.log(res)
             this.transactions = [
