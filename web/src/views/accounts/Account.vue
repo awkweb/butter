@@ -34,6 +34,7 @@
                   </template>
                   <button
                       :disabled="networkActive"
+                      @click.prevent="onClickUpdate"
                   >
                       Update
                   </button>
@@ -85,7 +86,7 @@ export default {
             account: get(() => this.item),
             error: undefined,
             deleting: false,
-            name: undefined,
+            name: get(() => this.item.account.name),
             plaidEnv: process.env.VUE_APP_PLAID_ENV,
             plaidPublicKey: process.env.VUE_APP_PLAID_PUBLIC_KEY,
             startDelete: false,
@@ -144,6 +145,7 @@ export default {
         },
         initData(account) {
             this.account = account
+            this.name = account.account.name
         },
         async onClickDelete() {
             if (!this.startDelete) {
@@ -158,6 +160,20 @@ export default {
                     this.resetDelete()
                     this.catchError(err)
                 }
+            }
+        },
+        async onClickUpdate() {
+            try {
+                this.error = undefined
+                this.loading = true
+                const data = {
+                    ...this.account.account,
+                    name: this.name,
+                }
+                await api.updateAccount(this.account.id, data)
+                this.$router.push({ name: 'Accounts' })
+            } catch (err) {
+                this.catchError(err)
             }
         },
         async onSuccess(token, data) {
