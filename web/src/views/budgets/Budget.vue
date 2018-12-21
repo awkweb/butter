@@ -1,70 +1,67 @@
 <template>
-  <Dashboard
-      :title="title"
-  >
-      <template slot="content">
-          <form class="budgets-form">
-              <div
-                  v-if="error"
-                  class="auth__error"
-              >
-                  {{ error }}
-              </div>
-              <div class="budgets-form__fields">
-                  <Field
-                      v-model="name"
-                      :error="nameError"
-                      autofocus
-                      id="name"
-                      label="Name"
-                  />
-                  <Field
-                      v-model="amount"
-                      :error="amountError"
-                      id="amount"
-                      label="Amount"
-                      type="number"
-                  />
-              </div>
-              <div class="budgets-form__footer">
-                  <div>
-                      <router-link
-                          :disabled="networkActive"
-                          :to="{ name: 'Budgets' }"
-                      >
-                          Cancel
-                      </router-link>
-                      <button
-                          v-if="isUpdatable"
-                          :disabled="$v.validationGroup.$invalid || networkActive"
-                          type="submit"
-                          @click.prevent="onClickUpdate"
-                          @keyup.enter="onClickUpdate"
-                      >
-                          {{ loading ? 'Updating...' : 'Update' }}
-                      </button>
-                      <button
-                          v-else
-                          :disabled="$v.validationGroup.$invalid || networkActive"
-                          @click.prevent="onClickCreate"
-                          @keyup.enter="onClickCreate"
-                      >
-                          {{ loading ? 'Creating...' : 'Create' }}
-                      </button>
-                  </div>
+    <Dashboard :title="title">
+        <template slot="content">
+            <form class="budgets-form">
+                <div v-if="error" class="auth__error"> {{ error }} </div>
+                <div class="budgets-form__fields">
+                    <Field
+                        v-model="name"
+                        :error="nameError"
+                        autofocus
+                        id="name"
+                        label="Name"
+                    />
+                    <Field
+                        v-model="amount"
+                        :error="amountError"
+                        id="amount"
+                        label="Amount"
+                        type="number"
+                    />
+                </div>
+                <div class="budgets-form__footer">
+                    <div>
+                        <router-link
+                            :disabled="networkActive"
+                            :to="{ name: 'Budgets' }"
+                        >
+                            Cancel
+                        </router-link>
+                        <button
+                            v-if="isUpdatable"
+                            :disabled="
+                                $v.validationGroup.$invalid || networkActive
+                            "
+                            type="submit"
+                            @click.prevent="onClickUpdate"
+                            @keyup.enter="onClickUpdate"
+                        >
+                            {{ loading ? 'Updating...' : 'Update' }}
+                        </button>
+                        <button
+                            v-else
+                            :disabled="
+                                $v.validationGroup.$invalid || networkActive
+                            "
+                            @click.prevent="onClickCreate"
+                            @keyup.enter="onClickCreate"
+                        >
+                            {{ loading ? 'Creating...' : 'Create' }}
+                        </button>
+                    </div>
 
-                  <button
-                      v-if="isUpdatable"
-                      v-click-outside="resetDelete"
-                      :disabled="networkActive"
-                      @click.prevent="onClickDelete"
-                  >
-                      {{ deleteButtonText }}
-                  </button>
-            </div>
-          </form>
-      </template>
-  </Dashboard>
+                    <button
+                        v-if="isUpdatable"
+                        v-click-outside="resetDelete"
+                        :disabled="networkActive"
+                        @click.prevent="onClickDelete"
+                    >
+                        {{ deleteButtonText }}
+                    </button>
+                </div>
+            </form>
+        </template>
+    </Dashboard>
 </template>
 
 <script>
@@ -251,7 +248,6 @@ export default {
     },
 }
 </script>
-
 
 <style lang="scss" scoped>
 @import '../../assets/styles/variables';
