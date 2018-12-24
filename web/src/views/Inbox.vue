@@ -1,49 +1,42 @@
 <template>
-  <Dashboard>
-      <template slot="content">
-          <Loader v-if="loading"/>
-          <template v-else>
-              <div>
-                  <div>
-                      <Dropdown
-                          v-model="budget"
-                          :options="options"
-                          id="budget"
-                          label="Budget"
-                      />
-                      <button
-                          :disabled="!budget || checkedTransactions.length > 1"
-                          @click="onClickAdd()"
-                      >
-                          Add
-                      </button>
-                  </div>
-                  <div
-                      v-for="transaction in transactions"
-                  >
-                      <input
-                          v-model="checkedTransactions"
-                          :value="transaction"
-                          type="checkbox"
-                          id="checkbox"
-                      >
-                      {{transaction.date}}
-                      {{transaction.name}}
-                      {{transaction.amount_cents | prettyNumber}}
-                      <b v-show="transaction.new">new</b>
-                  </div>
-              </div>
-          </template>
-      </template>
-  </Dashboard>
+    <Dashboard>
+        <template slot="content">
+            <Loader v-if="loading"/>
+            <template v-else>
+                <div>
+                    <div>
+                        <Dropdown v-model="budget" :options="options" id="budget" label="Budget"/>
+                        <button
+                            :disabled="!budget || checkedTransactions.length > 1"
+                            @click="onClickAdd()"
+                        >Add</button>
+                    </div>
+                    <div v-for="transaction in transactions">
+                        <input
+                            v-model="checkedTransactions"
+                            :value="transaction"
+                            type="checkbox"
+                            id="checkbox"
+                        >
+                        {{transaction.date}}
+                        {{transaction.name}}
+                        {{transaction.amount_cents | prettyNumber}}
+                        <b
+                            v-show="transaction.new"
+                        >new</b>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </Dashboard>
 </template>
 
 <script>
 import api from '@/api'
 import { get, toCents } from '@/utils'
 import Dashboard from '@/layouts/Dashboard'
-import Dropdown from '@/components/Dropdown'
-import Loader from '@/components/Loader'
+import Dropdown from '@/components/forms/Dropdown'
+import Loader from '@/components/indicators/Loader'
 
 export default {
     name: 'Inbox',

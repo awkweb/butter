@@ -1,28 +1,28 @@
 <template>
     <div class="password-features">
         <ul class="password-features__list">
-            <li :class="['password-features__item', {
+            <li
+                :class="['password-features__item', {
                 success: hasLowercaseLetter
-            }]">
-                One lowercase letter
-            </li>
-            <li :class="['password-features__item', {
+            }]"
+            >One lowercase letter</li>
+            <li
+                :class="['password-features__item', {
                 success: hasUppercaseLetter
-            }]">
-                One uppercase letter
-            </li>
+            }]"
+            >One uppercase letter</li>
         </ul>
         <ul class="password-features__list">
-            <li :class="['password-features__item', {
+            <li
+                :class="['password-features__item', {
                 success: hasNumber
-            }]">
-                One number
-            </li>
-            <li :class="['password-features__item', {
+            }]"
+            >One number</li>
+            <li
+                :class="['password-features__item', {
                 success: isMinLength
-            }]">
-                8 characters minimum
-            </li>
+            }]"
+            >8 characters minimum</li>
         </ul>
     </div>
 </template>
@@ -81,7 +81,7 @@ export default {
     @include flex-row;
     align-items: center;
     font: {
-        family: $font-sans-serif;
+        family: $font-sans;
         size: 0.75rem;
     }
     margin-bottom: 0.25rem;

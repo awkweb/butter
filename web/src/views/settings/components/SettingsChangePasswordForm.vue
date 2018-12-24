@@ -1,61 +1,57 @@
 <template>
-    <div class="form">
-        <h3 class="form__header">Change Password</h3>
+  <div class="form">
+    <h3 class="form__header">Change Password</h3>
 
-        <div
-            v-if="message"
-            :class="['form__message', {
+    <div
+      v-if="message"
+      :class="['form__message', {
                 success,
                 error
             }]"
-        >
-            {{ message }}
-        </div>
+    >{{ message }}</div>
 
-        <form class="form__container">
-            <Field
-                v-model="passwordVerify"
-                :isValid="!$v.passwordVerify.$invalid"
-                id="verify"
-                label="Verify Current Password"
-                type="password"
-            />
+    <form class="form__container">
+      <Field
+        v-model="passwordVerify"
+        :isValid="!$v.passwordVerify.$invalid"
+        id="verify"
+        label="Verify Current Password"
+        type="password"
+      />
 
-            <Field
-                v-model="password"
-                :isValid="!$v.password.$invalid"
-                id="password"
-                label="New Password"
-                showSuccess
-                type="password"
-            />
+      <Field
+        v-model="password"
+        :isValid="!$v.password.$invalid"
+        id="password"
+        label="New Password"
+        showSuccess
+        type="password"
+      />
 
-            <PasswordFeatures
-                :hasLowercaseLetter="(password && $v.password.lowercase) || false"
-                :hasUppercaseLetter="(password && $v.password.uppercase) || false"
-                :hasNumber="(password && $v.password.digit) || false"
-                :isMinLength="(password && $v.password.minLength) || false"
-                :passwordsMatch="(passwordConfirm && $v.passwordConfirm.sameAs) || false"
-            />
+      <PasswordFeatures
+        :hasLowercaseLetter="(password && $v.password.lowercase) || false"
+        :hasUppercaseLetter="(password && $v.password.uppercase) || false"
+        :hasNumber="(password && $v.password.digit) || false"
+        :isMinLength="(password && $v.password.minLength) || false"
+        :passwordsMatch="(passwordConfirm && $v.passwordConfirm.sameAs) || false"
+      />
 
-            <Field
-                v-model="passwordConfirm"
-                :isValid="!$v.passwordConfirm.$invalid"
-                id="confirm-password"
-                label="Confirm New Password"
-                showSuccess
-                type="password"
-            />
+      <Field
+        v-model="passwordConfirm"
+        :isValid="!$v.passwordConfirm.$invalid"
+        id="confirm-password"
+        label="Confirm New Password"
+        showSuccess
+        type="password"
+      />
 
-            <button
-                :class="['form__button', { loading }]"
-                :disabled="$v.validationGroup.$invalid || loading"
-                @click.prevent="onClickUpdate"
-            >
-                {{ loading ? 'Updating...' : 'Update' }}
-            </button>
-        </form>
-    </div>
+      <button
+        :class="['form__button', { loading }]"
+        :disabled="$v.validationGroup.$invalid || loading"
+        @click.prevent="onClickUpdate"
+      >{{ loading ? 'Updating...' : 'Update' }}</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -69,7 +65,7 @@ import {
 } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
 import PasswordFeatures from '@/components/PasswordFeatures'
-import Field from '@/components/Field'
+import Field from '@/components/forms/Field'
 
 export default {
     name: 'SettingsChangePasswordForm',

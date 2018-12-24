@@ -1,44 +1,31 @@
 <template>
-  <Dashboard>
-      <template slot="content">
-          <PlaidLink
-              :env="plaidEnv"
-              :publicKey="plaidPublicKey"
-              clientName="Wilbur"
-              v-bind="{ onSuccess }"
-          >
-              Connect Account
-          </PlaidLink>
-          <Loader
-            v-if="loading"
-          />
-          <template v-else>
-              <div>
-                  <div
-                      v-for="item in items"
-                      :key="item.id"
-                  >
-                      <router-link
-                          :to="{ name: 'Account', params: { id: item.id, item }}"
-                      >
-                          {{item.institution.name}} ending in {{item.account.mask}}
-                      </router-link>
-                      <button
-                          @click="onClickDisconnect(item.id)"
-                      >
-                          Disconnect
-                      </button>
-                  </div>
-              </div>
-          </template>
-      </template>
-  </Dashboard>
+    <Dashboard>
+        <template slot="content">
+            <PlaidLink
+                :env="plaidEnv"
+                :publicKey="plaidPublicKey"
+                clientName="Wilbur"
+                v-bind="{ onSuccess }"
+            >Connect Account</PlaidLink>
+            <Loader v-if="loading"/>
+            <template v-else>
+                <div>
+                    <div v-for="item in items" :key="item.id">
+                        <router-link
+                            :to="{ name: 'Account', params: { id: item.id, item }}"
+                        >{{item.institution.name}} ending in {{item.account.mask}}</router-link>
+                        <button @click="onClickDisconnect(item.id)">Disconnect</button>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </Dashboard>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Dashboard from '@/layouts/Dashboard'
-import Loader from '@/components/Loader'
+import Loader from '@/components/indicators/Loader'
 import PlaidLink from '@/components/PlaidLink'
 
 export default {

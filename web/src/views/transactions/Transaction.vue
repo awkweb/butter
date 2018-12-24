@@ -1,96 +1,62 @@
 <template>
-  <Dashboard
-      :title="title"
-  >
-      <template slot="content">
-          <form class="transactions-form">
-              <div
-                  v-if="error"
-                  class="auth__error"
-              >
-                  {{ error }}
-              </div>
-              <div class="transactions-form__fields">
-                  <Field
-                      v-model="name"
-                      :error="nameError"
-                      autofocus
-                      id="name"
-                      label="Name"
-                  />
-                  <Field
-                      v-model="amount"
-                      :error="amountError"
-                      id="amount"
-                      label="Amount"
-                      type="number"
-                  />
-                  <Dropdown
-                      v-model="budget"
-                      :error="budgetError"
-                      :options="options"
-                      id="budget"
-                      label="Budget"
-                  />
-                  <DatePicker
-                      :initialDateOne="date"
-                      mode="single"
-                      :monthsToShow="1"
-                      @handleOnSelectDate="handleOnSelectDate"
-                  >
-                      <Field
-                          id="datepicker-trigger"
-                          label="Date"
-                          type="text"
-                          :value="date"
-                      />
-                  </DatePicker>
-                  <Field
-                      v-model="note"
-                      id="note"
-                      label="Note"
-                      type="textarea"
-                  />
-              </div>
-              <div class="transactions-form__footer">
-                  <div>
-                      <router-link
-                          :disabled="networkActive"
-                          :to="{ name: 'Transactions' }"
-                      >
-                          Cancel
-                      </router-link>
-                      <button
-                          v-if="isUpdatable"
-                          :disabled="$v.validationGroup.$invalid || networkActive"
-                          type="submit"
-                          @click.prevent="onClickUpdate"
-                          @keyup.enter="onClickUpdate"
-                      >
-                          {{ loading ? 'Updating...' : 'Update' }}
-                      </button>
-                      <button
-                          v-else
-                          :disabled="$v.validationGroup.$invalid || networkActive"
-                          @click.prevent="onClickCreate"
-                          @keyup.enter="onClickCreate"
-                      >
-                          {{ loading ? 'Creating...' : 'Create' }}
-                      </button>
-                  </div>
+    <Dashboard :title="title">
+        <template slot="content">
+            <form class="transactions-form">
+                <div v-if="error" class="auth__error">{{ error }}</div>
+                <div class="transactions-form__fields">
+                    <Field v-model="name" :error="nameError" autofocus id="name" label="Name"/>
+                    <Field
+                        v-model="amount"
+                        :error="amountError"
+                        id="amount"
+                        label="Amount"
+                        type="number"
+                    />
+                    <Dropdown
+                        v-model="budget"
+                        :error="budgetError"
+                        :options="options"
+                        id="budget"
+                        label="Budget"
+                    />
+                    <DatePicker
+                        :initialDateOne="date"
+                        mode="single"
+                        :monthsToShow="1"
+                        @handleOnSelectDate="handleOnSelectDate"
+                    >
+                        <Field id="datepicker-trigger" label="Date" type="text" :value="date"/>
+                    </DatePicker>
+                    <Field v-model="note" id="note" label="Note" type="textarea"/>
+                </div>
+                <div class="transactions-form__footer">
+                    <div>
+                        <router-link :disabled="networkActive" :to="{ name: 'Transactions' }">Cancel</router-link>
+                        <button
+                            v-if="isUpdatable"
+                            :disabled="$v.validationGroup.$invalid || networkActive"
+                            type="submit"
+                            @click.prevent="onClickUpdate"
+                            @keyup.enter="onClickUpdate"
+                        >{{ loading ? 'Updating...' : 'Update' }}</button>
+                        <button
+                            v-else
+                            :disabled="$v.validationGroup.$invalid || networkActive"
+                            @click.prevent="onClickCreate"
+                            @keyup.enter="onClickCreate"
+                        >{{ loading ? 'Creating...' : 'Create' }}</button>
+                    </div>
 
-                  <button
-                      v-if="isUpdatable"
-                      v-click-outside="resetDelete"
-                      :disabled="networkActive"
-                      @click.prevent="onClickDelete"
-                  >
-                      {{ deleteButtonText }}
-                  </button>
-            </div>
-        </form>
-      </template>
-  </Dashboard>
+                    <button
+                        v-if="isUpdatable"
+                        v-click-outside="resetDelete"
+                        :disabled="networkActive"
+                        @click.prevent="onClickDelete"
+                    >{{ deleteButtonText }}</button>
+                </div>
+            </form>
+        </template>
+    </Dashboard>
 </template>
 
 <script>
@@ -100,9 +66,9 @@ import { minValue, required } from 'vuelidate/lib/validators'
 import { formatDateRange, get, toAmount, toCents } from '@/utils'
 import api from '@/api'
 import Dashboard from '@/layouts/Dashboard'
-import DatePicker from '@/components/DatePicker'
-import Dropdown from '@/components/Dropdown'
-import Field from '@/components/Field'
+import DatePicker from '@/components/forms/DatePicker'
+import Dropdown from '@/components/forms/Dropdown'
+import Field from '@/components/forms/Field'
 
 export default {
     name: 'Transaction',

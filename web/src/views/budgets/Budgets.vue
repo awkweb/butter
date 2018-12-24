@@ -1,65 +1,58 @@
 <template>
-  <Dashboard>
-      <template slot="header">
-          <div class="budgets__actions">
-              <DatePicker
-                  :initialDateOne="dateOne"
-                  :initialDateTwo="dateTwo"
-                  @handleOnClickApply="handleOnClickApply"
-              >
-                  <button
-                      id="datepicker-trigger"
-                      class="datepicker__anchor"
-                  >
-                      {{formatDateRange(dateOne, dateTwo)}}
-                  </button>
-              </DatePicker>
+    <Dashboard>
+        <template slot="header">
+            <div class="budgets__actions">
+                <DatePicker
+                    :initialDateOne="dateOne"
+                    :initialDateTwo="dateTwo"
+                    @handleOnClickApply="handleOnClickApply"
+                >
+                    <button
+                        id="datepicker-trigger"
+                        class="datepicker__anchor"
+                    >{{formatDateRange(dateOne, dateTwo)}}</button>
+                </DatePicker>
 
-              <router-link
-                  :to="{ name: 'Budget', params: { id: 'new' }}"
-                  class="dashboard__header-button"
-              >
-                  New Budget
-              </router-link>
-          </div>
-      </template>
-      <template slot="content">
-          <Loader v-if="loading"/>
-          <template v-else>
-              <div class="budgets__totals">
-                <div class="budgets__total">
-                    <div class="label">Transactions</div>
-                    <div>{{totalBudget.transactionCount}}</div>
+                <router-link
+                    :to="{ name: 'Budget', params: { id: 'new' }}"
+                    class="dashboard__header-button"
+                >New Budget</router-link>
+            </div>
+        </template>
+        <template slot="content">
+            <Loader v-if="loading"/>
+            <template v-else>
+                <div class="budgets__totals">
+                    <div class="budgets__total">
+                        <div class="label">Transactions</div>
+                        <div>{{totalBudget.transactionCount}}</div>
+                    </div>
+                    <div class="budgets__total">
+                        <div class="label">Remaining</div>
+                        <div>${{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
+                    </div>
+                    <div class="budgets__total">
+                        <div class="label">Activity</div>
+                        <div>${{totalBudget.activity | prettyNumber}}</div>
+                    </div>
+                    <div class="budgets__total">
+                        <div class="label">Budgeted</div>
+                        <div>${{totalBudget.budgeted | prettyNumber}}</div>
+                    </div>
                 </div>
-                <div class="budgets__total">
-                    <div class="label">Remaining</div>
-                    <div>${{totalBudget.budgeted - totalBudget.activity | prettyNumber}}</div>
-                </div>
-                <div class="budgets__total">
-                    <div class="label">Activity</div>
-                    <div>${{totalBudget.activity | prettyNumber}}</div>
-                </div>
-                <div class="budgets__total">
-                    <div class="label">Budgeted</div>
-                    <div>${{totalBudget.budgeted | prettyNumber}}</div>
-                </div>
-              </div>
 
-              <BudgetsTable
-                  :budgets="budgets"
-                  @handleOnReorderBudgets="handleOnReorderBudgets"
-              />
-          </template>
-      </template>
-  </Dashboard>
+                <BudgetsTable :budgets="budgets" @handleOnReorderBudgets="handleOnReorderBudgets"/>
+            </template>
+        </template>
+    </Dashboard>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { formatDateRange, get } from '@/utils'
-import DatePicker from '@/components/DatePicker'
+import DatePicker from '@/components/forms/DatePicker'
 import Dashboard from '@/layouts/Dashboard'
-import Loader from '@/components/Loader'
+import Loader from '@/components/indicators/Loader'
 
 export default {
     name: 'Budgets',

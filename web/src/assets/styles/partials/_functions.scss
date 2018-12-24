@@ -1,0 +1,11 @@
+@function color($theme: 'default', $color: 'font', $tone: 'base') {
+    @return map-get(map-get(map-get($themes, $theme), $color), $tone);
+}
+
+@function wcolor($palette, $color) {
+    @return map-get(map-get($palettes, $palette), $color);
+}
+
+@function font-size($size: 'md') {
+    @return map-get($font-sizes, $size);
+}

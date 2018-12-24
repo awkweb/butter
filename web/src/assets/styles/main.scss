@@ -1,0 +1,19 @@
+@import './partials/fonts';
+@import './partials/variables';
+@import './partials/functions';
+@import './partials/mixins';
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font: {
+        family: $font-sans;
+        size: font-size('md');
+    }
+    text-rendering: optimizeLegibility;
+}

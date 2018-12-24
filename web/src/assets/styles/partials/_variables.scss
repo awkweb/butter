@@ -1,0 +1,89 @@
+$border-radius: 4px;
+$palettes: (
+    primary: (
+        yellow1: hsl(15, 86%, 30%),
+        yellow2: hsl(22, 82%, 39%),
+        yellow3: hsl(29, 80%, 44%),
+        yellow4: hsl(36, 77%, 49%),
+        yellow5: hsl(42, 87%, 55%),
+        yellow6: hsl(44, 92%, 63%),
+        yellow7: hsl(48, 94%, 68%),
+        yellow8: hsl(48, 95%, 76%),
+        yellow9: hsl(48, 100%, 88%),
+        yellow10: hsl(49, 100%, 96%),
+        blue1: hsl(204, 96%, 27%),
+        blue2: hsl(203, 87%, 34%),
+        blue3: hsl(202, 83%, 41%),
+        blue4: hsl(201, 79%, 46%),
+        blue5: hsl(199, 84%, 55%),
+        blue6: hsl(197, 92%, 61%),
+        blue7: hsl(196, 94%, 67%),
+        blue8: hsl(195, 97%, 75%),
+        blue9: hsl(195, 100%, 85%),
+        blue10: hsl(195, 100%, 95%),
+    ),
+    neutrals: (
+        gray1: hsl(0, 0%, 13%),
+        gray2: hsl(0, 0%, 23%),
+        gray3: hsl(0, 0%, 32%),
+        gray4: hsl(0, 0%, 38%),
+        gray5: hsl(0, 0%, 49%),
+        gray6: hsl(0, 0%, 62%),
+        gray7: hsl(0, 0%, 69%),
+        gray8: hsl(0, 0%, 81%),
+        gray9: hsl(0, 0%, 88%),
+        gray10: hsl(0, 0%, 97%),
+    ),
+    supporting: (
+        red1: hsl(348, 94%, 20%),
+        red2: hsl(350, 94%, 28%),
+        red3: hsl(352, 90%, 35%),
+        red4: hsl(354, 85%, 44%),
+        red5: hsl(356, 75%, 53%),
+        red6: hsl(360, 83%, 62%),
+        red7: hsl(360, 91%, 69%),
+        red8: hsl(360, 100%, 80%),
+        red9: hsl(360, 100%, 87%),
+        red10: hsl(360, 100%, 95%),
+        green1: hsl(170, 97%, 15%),
+        green2: hsl(168, 80%, 23%),
+        green3: hsl(166, 72%, 28%),
+        green4: hsl(164, 71%, 34%),
+        green5: hsl(162, 63%, 41%),
+        green6: hsl(160, 51%, 49%),
+        green7: hsl(158, 58%, 62%),
+        green8: hsl(156, 73%, 74%),
+        green9: hsl(154, 75%, 87%),
+        green10: hsl(152, 68%, 96%),
+    ),
+);
+$font-sans: Lato, sans-serif;
+$font-sizes: (
+    xs: 0.75rem,
+    sm: 0.875rem,
+    md: 16px,
+    lg: 1.125rem,
+    xl: 1.25rem,
+    xxl: 1.5rem,
+    xxxl: 1.875rem,
+    xxxxl: 2.25rem,
+    xxxxxl: 3rem,
+    xxxxxxl: 3.75rem,
+    xxxxxxxl: 4.5rem,
+);
+
+// unapproved
+
+$container-max-width: 72rem;
+$font-size-root: 16px;
+$navbar-height: 3.3rem;
+
+$black: #111;
+$gray: #cacaca;
+$green: #01a678;
+$red: #f44e66;
+$white: #fff;
+
+$transition-duration: 0.25s;
+$z-index-nav: 10;
+$z-index-modal: 100;

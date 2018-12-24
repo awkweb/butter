@@ -1,59 +1,32 @@
 <template>
-  <Dashboard
-      :title="title"
-  >
-      <template slot="content">
-          <form class="budgets-form">
-              <div v-if="error">
-                  {{error}}
-              </div>
-              <div
-                  v-if="account"
-                  class="budgets-form__fields"
-              >
-                  <Field
-                      v-model="name"
-                      :error="nameError"
-                      autofocus
-                      id="name"
-                      label="Name"
-                  />
-                  {{account.institution.name}} ending in {{account.account.mask}}
-              </div>
-              <div class="accounts-form__footer">
-                  <template v-if="account">
-                      <PlaidLink
-                          :env="plaidEnv"
-                          :publicKey="plaidPublicKey"
-                          :token="account.public_token"
-                          clientName="Wilbur"
-                          v-bind="{ onSuccess }"
-                      >
-                          Refresh Connection
-                      </PlaidLink>
-                  </template>
-                  <button
-                      :disabled="networkActive"
-                      @click.prevent="onClickUpdate"
-                  >
-                      Update
-                  </button>
-                  <router-link
-                      :disabled="networkActive"
-                      :to="{ name: 'Accounts' }"
-                  >
-                      Cancel
-                  </router-link>
-                  <button
-                      v-click-outside="resetDelete"
-                      :disabled="networkActive"
-                      @click.prevent="onClickDelete"
-                  >
-                      {{ deleteButtonText }}
-                  </button>
-              </div>
-          </form>
-      </template>
+  <Dashboard :title="title">
+    <template slot="content">
+      <form class="budgets-form">
+        <div v-if="error">{{error}}</div>
+        <div v-if="account" class="budgets-form__fields">
+          <Field v-model="name" :error="nameError" autofocus id="name" label="Name"/>
+          {{account.institution.name}} ending in {{account.account.mask}}
+        </div>
+        <div class="accounts-form__footer">
+          <template v-if="account">
+            <PlaidLink
+              :env="plaidEnv"
+              :publicKey="plaidPublicKey"
+              :token="account.public_token"
+              clientName="Wilbur"
+              v-bind="{ onSuccess }"
+            >Refresh Connection</PlaidLink>
+          </template>
+          <button :disabled="networkActive" @click.prevent="onClickUpdate">Update</button>
+          <router-link :disabled="networkActive" :to="{ name: 'Accounts' }">Cancel</router-link>
+          <button
+            v-click-outside="resetDelete"
+            :disabled="networkActive"
+            @click.prevent="onClickDelete"
+          >{{ deleteButtonText }}</button>
+        </div>
+      </form>
+    </template>
   </Dashboard>
 </template>
 
@@ -63,7 +36,7 @@ import { required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
 import api from '@/api'
 import Dashboard from '@/layouts/Dashboard'
-import Field from '@/components/Field'
+import Field from '@/components/forms/Field'
 import PlaidLink from '@/components/PlaidLink'
 
 export default {

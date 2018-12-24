@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-view />
+        <router-view/>
     </div>
 </template>
 
@@ -46,7 +46,7 @@ html {
     background-color: color(default, background);
     box-sizing: border-box;
     font: {
-        family: $font-sans-serif;
+        family: $font-sans;
         size: $font-size-root * 0.95;
     }
     text-rendering: optimizeLegibility;
@@ -72,7 +72,7 @@ a {
 }
 
 button {
-    font-family: $font-sans-serif;
+    font-family: $font-sans;
 }
 
 #app {

@@ -1,53 +1,36 @@
 <template>
-    <div class="form">
-        <h3 class="form__header">Basic information</h3>
+  <div class="form">
+    <h3 class="form__header">Basic information</h3>
 
-        <div
-            v-if="message"
-            :class="['form__message', {
+    <div
+      v-if="message"
+      :class="['form__message', {
                 success,
                 error
             }]"
-        >
-            {{ message }}
-        </div>
+    >{{ message }}</div>
 
-        <form class="form__container">
-            <Field
-                v-model="firstName"
-                id="firstName"
-                label="First Name"
-            />
+    <form class="form__container">
+      <Field v-model="firstName" id="firstName" label="First Name"/>
 
-            <Field
-                v-model="lastName"
-                id="lastName"
-                label="Last Name"
-            />
+      <Field v-model="lastName" id="lastName" label="Last Name"/>
 
-            <Field
-                v-model="email"
-                :isValid="!$v.email.$invalid"
-                id="email"
-                label="Email"
-            />
+      <Field v-model="email" :isValid="!$v.email.$invalid" id="email" label="Email"/>
 
-            <button
-                :class="['form__button', { loading }]"
-                :disabled="$v.validationGroup.$invalid || loading"
-                @click.prevent="onClickUpdate"
-            >
-                {{ loading ? 'Updating...' : 'Update' }}
-            </button>
-        </form>
-    </div>
+      <button
+        :class="['form__button', { loading }]"
+        :disabled="$v.validationGroup.$invalid || loading"
+        @click.prevent="onClickUpdate"
+      >{{ loading ? 'Updating...' : 'Update' }}</button>
+    </form>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { email, required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
-import Field from '@/components/Field'
+import Field from '@/components/forms/Field'
 
 export default {
     name: 'SettingsBasicInfoForm',
