@@ -1,4 +1,4 @@
-export const codes = {
+export const color = {
     // primary
     Yellow1: 'hsl(15, 86%, 30%)',
     Yellow2: 'hsl(22, 82%, 39%)',
@@ -54,4 +54,7 @@ export const codes = {
     Green8: 'hsl(156, 73%, 74%)',
     Green9: 'hsl(154, 75%, 87%)',
     Green10: 'hsl(152, 68%, 96%)',
+
+    // basics
+    White: 'hsl(0, 0%, 0%)',
 }
