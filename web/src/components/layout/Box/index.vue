@@ -4,23 +4,8 @@ import {
     responsiveBooleanValidator,
     responsiveNumberValidator,
 } from '@/utils/prop-validator'
-import { color } from '@/components/color/constants'
-import {
-    alignContent,
-    alignItems,
-    alignSelf,
-    borderStyles,
-    cornerRadius,
-    display,
-    elements,
-    flexDirection,
-    flexWrap,
-    justifyContent,
-    overflow,
-    position,
-    textAlign,
-    verticalAlign,
-} from './constants'
+import Color from '@/components/color/constants'
+import Box from './constants'
 import {
     Address,
     Article,
@@ -33,6 +18,9 @@ import {
     Section,
 } from './styled-components'
 
+/**
+ * `<Box>` is a low-level layout component that provides a lot of functionality and flexibility. Using `<Box>`, you can add layout spacing (margin & padding), apply background and border styling, use flexbox layout properties, and apply custom CSS when needed.
+ */
 export default {
     name: 'Box',
     functional: true,
@@ -44,7 +32,7 @@ export default {
         alignContent: {
             default: 'Stretch',
             type: [Object, String],
-            validator: value => responsiveValidator(value, alignContent),
+            validator: value => responsiveValidator(value, Box.AlignContent),
         },
         /**
          * This defines the default behaviour for how flex items are laid out along the cross axis on the current line. Think of it as the justifyContent version for the cross-axis (perpendicular to the main-axis).
@@ -53,7 +41,7 @@ export default {
         alignItems: {
             default: 'Stretch',
             type: [Object, String],
-            validator: value => responsiveValidator(value, alignItems),
+            validator: value => responsiveValidator(value, Box.AlignItems),
         },
         /**
          * This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
@@ -61,7 +49,7 @@ export default {
          */
         alignSelf: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, alignSelf),
+            validator: value => responsiveValidator(value, Box.AlignSelf),
         },
         /**
          * Applies border on all sides.
@@ -104,7 +92,7 @@ export default {
          */
         backgroundColor: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, color),
+            validator: value => responsiveValidator(value, Color),
         },
         /**
          * Defaults to `Gray4`.
@@ -112,7 +100,7 @@ export default {
         borderColor: {
             default: 'Gray4',
             type: String,
-            validator: value => value in color,
+            validator: value => value in Color,
         },
         /**
          * Sets the border stroke width.
@@ -127,7 +115,7 @@ export default {
         borderStyle: {
             default: 'Solid',
             type: String,
-            validator: value => value in borderStyles,
+            validator: value => value in Box.BorderStyles,
         },
         /**
          * Corner/border radius, using theme keywords
@@ -135,7 +123,13 @@ export default {
          */
         cornerRadius: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, cornerRadius),
+            validator: value => responsiveValidator(value, Box.CornerRadius),
+        },
+        /**
+         * Custom css (via styled-components/css)
+         */
+        css: {
+            type: String,
         },
         /**
          * CSS [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display).
@@ -144,7 +138,7 @@ export default {
         display: {
             default: 'Block',
             type: [Object, String],
-            validator: value => responsiveValidator(value, display),
+            validator: value => responsiveValidator(value, Box.Display),
         },
         /**
          * The element rendered that contains `children`.
@@ -152,7 +146,7 @@ export default {
         el: {
             default: 'Div',
             type: String,
-            validator: value => value in elements,
+            validator: value => value in Box.Element,
         },
         /**
          * 	Sets the main axis and direction
@@ -161,7 +155,7 @@ export default {
         flexDirection: {
             default: 'Row',
             type: [Object, String],
-            validator: value => responsiveValidator(value, flexDirection),
+            validator: value => responsiveValidator(value, Box.FlexDirection),
         },
         /**
          * This defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up. If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children. If one of the children has a value of 2, the remaining space would take up twice as much space as the others (or it will try to, at least).
@@ -186,7 +180,7 @@ export default {
         flexWrap: {
             default: 'Nowrap',
             type: [Object, String],
-            validator: value => responsiveValidator(value, flexWrap),
+            validator: value => responsiveValidator(value, Box.FlexWrap),
         },
         /**
          * Sets `height: 100%`
@@ -217,7 +211,7 @@ export default {
         justifyContent: {
             default: 'FlexStart',
             type: [Object, String],
-            validator: value => responsiveValidator(value, justifyContent),
+            validator: value => responsiveValidator(value, Box.JustifyContent),
         },
         /**
          * Applies margin on all sides
@@ -282,7 +276,7 @@ export default {
          */
         overflow: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, overflow),
+            validator: value => responsiveValidator(value, Box.Overflow),
         },
         /**
          * Applies padding on all sides.
@@ -339,7 +333,7 @@ export default {
          */
         position: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, position),
+            validator: value => responsiveValidator(value, Box.Position),
         },
         /**
          * Horizontal alignment of an inline or table-cell box. `<Tex>` should still be used to compose text.
@@ -348,7 +342,7 @@ export default {
          */
         textAlign: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, textAlign),
+            validator: value => responsiveValidator(value, Box.TextAlign),
         },
         /**
          * Vertical alignment of an inline or table-cell box.
@@ -357,7 +351,7 @@ export default {
          */
         verticalAlign: {
             type: [Object, String],
-            validator: value => responsiveValidator(value, verticalAlign),
+            validator: value => responsiveValidator(value, Box.VerticalAlign),
         },
         /**
          * Callback function for Box click.
@@ -439,21 +433,39 @@ export default {
 ```
 const logger = (message) => { console.log(message) }
 <Box
-    bt
-    cornerRadius="Small"
     display="Flex"
-    flexDirection="Column"
-    :p="4"
+    :flexDirection="{ xs: 'Column', lg: 'Row' }"
 >
     <Box
-        :backgroundColor="{ xs: 'Yellow6', lg: 'Green1' }"
+        backgroundColor="Yellow5"
+        cornerRadius="Small"
+        fluidWidth
+        textAlign="Center"
+        :mb="{ xs: 2, lg: 0 }"
+        :mr="{ xs: 0, lg: 2 }"
+        :p="3"
     >
-        Merp
+        A
     </Box>
     <Box
-        backgroundColor="Blue6"
+        backgroundColor="Gray5"
+        cornerRadius="Small"
+        fluidWidth
+        textAlign="Center"
+        :mb="{ xs: 2, lg: 0 }"
+        :mr="{ xs: 0, lg: 2 }"
+        :p="3"
     >
-        Meep
+        B
+    </Box>
+    <Box
+        backgroundColor="Blue5"
+        cornerRadius="Small"
+        fluidWidth
+        textAlign="Center"
+        :p="3"
+    >
+        C
     </Box>
 </Box>
 ```

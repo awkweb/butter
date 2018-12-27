@@ -1,4 +1,4 @@
-export const color = {
+export default {
     // primary
     Yellow1: 'hsl(15, 86%, 30%)',
     Yellow2: 'hsl(22, 82%, 39%)',

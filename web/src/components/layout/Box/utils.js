@@ -4,8 +4,8 @@ import {
     getValue,
     transformValues,
 } from '@/utils/css'
-import { color } from '@/components/color/constants'
-import { borderStyles } from './constants'
+import Color from '@/components/color/constants'
+import Box from './constants'
 
 const _convertResponsiveUnitsToValues = responsiveUnits =>
     transformValues(responsiveUnits, unitValue => getValue(unitValue))
@@ -74,9 +74,7 @@ export const getPadding = ({ p, pt, pr, pl, pb, pv, ph }) =>
 
 const _borderInnerValue = (borderColor, borderWidth, borderStyle) => border => {
     if (border && typeof border === 'boolean') {
-        return `${borderStyles[borderStyle]} ${borderWidth} ${
-            color[borderColor]
-        }`
+        return `${Box[borderStyle]} ${borderWidth} ${Color[borderColor]}`
     } else if (border) {
         return border
     }

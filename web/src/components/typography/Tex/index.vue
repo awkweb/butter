@@ -1,17 +1,7 @@
 <script>
 import { responsiveValidator } from '@/utils/prop-validator'
-import { color } from '@/components/color/constants'
-import {
-    align,
-    element,
-    overflowWrap,
-    size,
-    tracking,
-    transform,
-    weight,
-    whiteSpace,
-    verticalAlign,
-} from './constants'
+import Color from '@/components/color/constants'
+import Tex from './constants'
 import {
     Div,
     Span,
@@ -25,6 +15,9 @@ import {
     H6,
 } from './styled-components'
 
+/**
+ * `<Text>` is a fully-featured text component.
+ */
 export default {
     name: 'Tex',
     functional: true,
@@ -34,7 +27,7 @@ export default {
          */
         align: {
             type: String,
-            validator: value => value in align,
+            validator: value => value in Tex.Align,
         },
         /**
          * Applies text color.
@@ -42,7 +35,7 @@ export default {
         color: {
             default: 'Gray1',
             type: String,
-            validator: value => value in color,
+            validator: value => value in Color,
         },
         /**
          * The element rendered that contains `slot`.
@@ -50,7 +43,7 @@ export default {
         el: {
             default: 'Div',
             type: String,
-            validator: value => value in element,
+            validator: value => value in Tex.Element,
         },
         /**
          * Prevents text wrapping and truncates overflowing text with an ellipsis. Overrides `whiteSpace` prop.
@@ -97,7 +90,7 @@ export default {
          */
         overflowWrap: {
             type: String,
-            validator: value => value in overflowWrap,
+            validator: value => value in Tex.OverflowWrap,
         },
         /**
          * Sets the size of the text.
@@ -106,7 +99,7 @@ export default {
         size: {
             default: 'Md',
             type: [Object, String],
-            validator: value => responsiveValidator(value, size),
+            validator: value => responsiveValidator(value, Tex.Size),
         },
         /**
          * Text that appears on hover over the element.
@@ -119,7 +112,7 @@ export default {
          */
         tracking: {
             type: String,
-            validator: value => value in tracking,
+            validator: value => value in Tex.Tracking,
         },
         /**
          * Sets the transform of the text.
@@ -127,7 +120,7 @@ export default {
          */
         transform: {
             type: String,
-            validator: value => value in transform,
+            validator: value => value in Tex.Transform,
         },
         /**
          * Sets the weight of the text.
@@ -135,7 +128,7 @@ export default {
         weight: {
             default: 'Normal',
             type: String,
-            validator: value => value in weight,
+            validator: value => value in Tex.Weight,
         },
         /**
          * Determines how whitespace inside an element is handled.
@@ -143,14 +136,14 @@ export default {
          */
         whiteSpace: {
             type: String,
-            validator: value => value in whiteSpace,
+            validator: value => value in Tex.WhiteSpace,
         },
         /**
          * CSS vertical-align. See [MDN article](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) for valid values.
          */
         verticalAlign: {
             type: String,
-            validator: value => value in verticalAlign,
+            validator: value => value in Tex.VerticalAlign,
         },
     },
     render: (h, { props, children }) => {

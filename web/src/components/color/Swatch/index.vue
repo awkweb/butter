@@ -20,16 +20,15 @@ export default {
         },
     },
     render(h) {
-        const css = {
-            height: '2.5rem',
-            width: '9rem',
-        }
         return (
-            <Box>
+            <Box mb={2} mr={2}>
                 <Box
                     backgroundColor={this.name}
                     cornerRadius="Small"
-                    css={css}
+                    css={`
+                        height: 2.5rem;
+                        width: 9rem;
+                    `}
                 />
                 <Tex color="Gray3" size="Sm">
                     {this.name}

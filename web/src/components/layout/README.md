@@ -1,6 +1,7 @@
-| If you need                          | You should use       |
-| ------------------------------------ | -------------------- |
-| A robust & flexible layout component | [Box](/#/Layout/Box) |
+| If you need                          | You should use         |
+| ------------------------------------ | ---------------------- |
+| A robust & flexible layout component | [Box](/#/Layout/Box)   |
+| To layout components in a grid       | [Grid](/#/Layout/Grid) |
 
 #### Units
 

@@ -1,3 +1,7 @@
+export function columnValidator(value) {
+    return value >= 0 && value <= 12
+}
+
 export function responsiveValidator(value, values) {
     switch (typeof value) {
         case 'string':

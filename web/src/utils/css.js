@@ -23,7 +23,9 @@ const BREAKPOINTS_IN_REM = {
 
 export const BREAKPOINT_NAMES = ['xs', 'sm', 'md', 'lg', 'xl']
 
-const getBreakpoint = size => BREAKPOINTS_IN_REM[size]
+export function getBreakpoint(size) {
+    return BREAKPOINTS_IN_REM[size]
+}
 
 function getImportantString(cssPropValue, isImportant) {
     const importantString = ' !important'

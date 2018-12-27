@@ -1,19 +1,7 @@
 import styled from 'vue-styled-components'
 import { responsiveStyle, responsiveConditionalStyle } from '@/utils/css'
-import { color } from '@/components/color/constants'
-import {
-    alignContent,
-    alignItems,
-    alignSelf,
-    cornerRadius,
-    display,
-    flexDirection,
-    flexWrap,
-    justifyContent,
-    overflow,
-    position,
-    textAlign,
-} from './constants'
+import Color from '@/components/color/constants'
+import Box from './constants'
 import { getBorder, getMargin, getPadding } from './utils'
 
 const props = {
@@ -30,6 +18,7 @@ const props = {
     borderWidth: String,
     borderStyle: String,
     cornerRadius: [Object, String],
+    css: String,
     display: [Object, String],
     el: String,
     flexDirection: [Object, String],
@@ -66,31 +55,31 @@ const styles = props => {
         responsiveStyle(
             'alignContent',
             props.alignContent,
-            v => alignContent[v],
+            v => Box.AlignContent[v],
             isFlexbox,
         ),
         responsiveStyle(
             'alignItems',
             props.alignItems,
-            v => alignItems[v],
+            v => Box.AlignItems[v],
             isFlexbox,
         ),
-        responsiveStyle('alignSelf', props.alignSelf, v => alignSelf[v]),
+        responsiveStyle('alignSelf', props.alignSelf, v => Box.AlignSelf[v]),
         responsiveStyle(
             'backgroundColor',
             props.backgroundColor,
-            v => color[v],
+            v => Color[v],
         ),
         responsiveStyle(
             'borderRadius',
             props.cornerRadius,
-            v => cornerRadius[v],
+            v => Box.CornerRadius[v],
         ),
-        responsiveStyle('display', props.display, v => display[v]),
+        responsiveStyle('display', props.display, v => Box.Display[v]),
         responsiveStyle(
             'flexDirection',
             props.flexDirection,
-            v => flexDirection[v],
+            v => Box.FlexDirection[v],
             isFlexbox,
         ),
         responsiveStyle('flexGrow', props.flexGrow),
@@ -98,7 +87,7 @@ const styles = props => {
         responsiveStyle(
             'flexWrap',
             props.flexWrap,
-            v => flexWrap[v],
+            v => Box.FlexWrap[v],
             isFlexbox,
         ),
         responsiveConditionalStyle(
@@ -110,7 +99,7 @@ const styles = props => {
         responsiveStyle(
             'justifyContent',
             props.justifyContent,
-            v => justifyContent[v],
+            v => Box.JustifyContent[v],
             isFlexbox,
         ),
         responsiveStyle('order', props.order),
@@ -120,12 +109,13 @@ const styles = props => {
             '100%',
             'initial',
         ),
-        responsiveStyle('overflow', props.overflow, v => overflow[v]),
-        responsiveStyle('position', props.position, v => position[v]),
-        responsiveStyle('textAlign', props.textAlign, v => textAlign[v]),
+        responsiveStyle('overflow', props.overflow, v => Box.Overflow[v]),
+        responsiveStyle('position', props.position, v => Box.Position[v]),
+        responsiveStyle('textAlign', props.textAlign, v => Box.TextAlign[v]),
         getBorder(props),
         getMargin(props),
         getPadding(props),
+        props.css,
     )
     return s.join(';\n')
 }

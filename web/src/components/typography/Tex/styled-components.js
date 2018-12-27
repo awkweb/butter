@@ -1,16 +1,7 @@
 import styled from 'vue-styled-components'
 import { style, responsiveStyle } from '@/utils/css'
-import { color } from '@/components/color/constants'
-import {
-    align,
-    overflowWrap,
-    size,
-    transform,
-    tracking,
-    weight,
-    whiteSpace,
-    verticalAlign,
-} from './constants'
+import Color from '@/components/color/constants'
+import Tex from './constants'
 import { getMargin } from './utils'
 
 const props = {
@@ -34,29 +25,29 @@ const props = {
 const styles = props => {
     const s = []
     s.push(
-        style('color', color[props.color]),
+        style('color', Color[props.color]),
         style('display', 'block', !!props.ellipsis),
         style('fontFamily', props.font),
-        style('fontWeight', weight[props.weight], true, true),
-        style('letterSpacing', tracking[props.tracking]),
+        style('fontWeight', Tex.Weight[props.weight], true, true),
+        style('letterSpacing', Tex.Tracking[props.tracking]),
         style('lineHeight', props.lineHeight),
         style('margin', props.noMargin ? '0' : getMargin(props.el)),
         style('opacity', props.opacity),
         style('overflow', 'hidden', !!props.ellipsis),
-        style('overflowWrap', overflowWrap[props.overflowWrap]),
-        style('textAlign', align[props.align]),
+        style('overflowWrap', Tex.OverflowWrap[props.overflowWrap]),
+        style('textAlign', Tex.Align[props.align]),
         style('textOverflow', 'ellipsis', !!props.ellipsis),
-        style('textTransform', transform[props.transform]),
+        style('textTransform', Tex.Transform[props.transform]),
         style(
             'whiteSpace',
-            props.ellipsis ? 'nowrap' : whiteSpace[props.whiteSpace],
+            props.ellipsis ? 'nowrap' : Tex.WhiteSpace[props.whiteSpace],
         ),
-        style('verticalAlign', verticalAlign[props.verticalAlign]),
-        responsiveStyle('fontSize', props.size, v => size[v], true),
+        style('verticalAlign', Tex.VerticalAlign[props.verticalAlign]),
+        responsiveStyle('fontSize', props.size, v => Tex.Size[v], true),
     )
     return `
       strong, b {
-        font-weight: ${weight['Bold']};
+        font-weight: ${Tex.Weight.Bold};
       }
       ${s.join(';\n')}
     `
