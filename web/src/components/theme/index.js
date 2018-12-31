@@ -1,6 +1,6 @@
 export default {
     CornerRadius: {
-        Default: '2px',
+        Small: '2px',
         Circle: '50%',
         None: 'none',
     },
@@ -44,5 +44,8 @@ export default {
     },
     Font: {
         Lato: 'Lato, sans-serif',
+    },
+    ZIndex: {
+        Nav: 10,
     },
 }

@@ -1,5 +1,5 @@
 <template>
-    <Dashboard>
+    <div>
         <template slot="content">
             <PlaidLink
                 :env="plaidEnv"
@@ -7,31 +7,30 @@
                 clientName="Wilbur"
                 v-bind="{ onSuccess }"
             >Connect Account</PlaidLink>
-            <Loader v-if="loading"/>
+            <Loader v-if="loading" />
             <template v-else>
                 <div>
-                    <div v-for="item in items" :key="item.id">
-                        <router-link
-                            :to="{ name: 'Account', params: { id: item.id, item }}"
-                        >{{item.institution.name}} ending in {{item.account.mask}}</router-link>
+                    <div
+                        v-for="item in items"
+                        :key="item.id"
+                    >
+                        <router-link :to="{ name: 'Account', params: { id: item.id, item }}">{{item.institution.name}} ending in {{item.account.mask}}</router-link>
                         <button @click="onClickDisconnect(item.id)">Disconnect</button>
                     </div>
                 </div>
             </template>
         </template>
-    </Dashboard>
+    </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Dashboard from '@/layouts/Dashboard'
-import Loader from '@/components/indicators/Loader'
-import PlaidLink from '@/components/PlaidLink'
+import Loader from '@/components/core/indicators/Loader'
+import PlaidLink from '@/components/other/PlaidLink'
 
 export default {
     name: 'Accounts',
     components: {
-        Dashboard,
         Loader,
         PlaidLink,
     },
@@ -83,10 +82,3 @@ export default {
     },
 }
 </script>
-
-
-<style lang="scss" scoped>
-@import '../../assets/styles/variables';
-@import '../../assets/styles/functions';
-@import '../../assets/styles/mixins';
-</style>

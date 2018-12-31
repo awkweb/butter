@@ -1,5 +1,5 @@
 @function color($theme: 'default', $color: 'font', $tone: 'base') {
-    @return map-get(map-get(map-get($themes, $theme), $color), $tone);
+    @return red;
 }
 
 @function wcolor($palette, $color) {

@@ -38,7 +38,7 @@ export const StyledLabel = styled('label', styledLabelProps)`
 
 const sharedFieldStyles = props => `
     ${style('border', getBorderStyle(props.error))};
-    ${style('borderRadius', Theme.CornerRadius.Default)};
+    ${style('borderRadius', Theme.CornerRadius.Small)};
     ${style('color', Theme.Color.Gray1)};
     ${style('fontFamily', Theme.Font.Lato)};
     ${style('fontSize', Tex.Size.Md)};
@@ -47,13 +47,13 @@ const sharedFieldStyles = props => `
     width: 100%;
 
     &::-webkit-input-placeholder {
-        ${style('color', Theme.Color.Gray8)};
+        ${style('color', Theme.Color.Gray5)};
     }
 
     &:focus {
         ${style(
             'borderColor',
-            props.error ? Theme.Color.Red3 : Color[props.color],
+            props.error ? Theme.Color.Red3 : Theme.Color[props.color],
         )};
     }
 `
@@ -65,7 +65,7 @@ const styledInputProps = {
 
 const inputStyles = props => `
     ${sharedFieldStyles(props)}
-    height: 2.5rem;
+    height: 2.8rem;
     ${style('padding', getValues(Field.Padding.Normal))};
     
     &::-webkit-outer-spin-button,
@@ -86,7 +86,7 @@ const styledTextAreaProps = {
 
 const textAreaStyles = props => `
     ${sharedFieldStyles(props)}
-    padding: 0.55rem 0.5rem 0.15rem;
+    padding: 0.75rem 0.5rem 0.15rem;
     resize: none;
 
     &[rows] {

@@ -96,7 +96,7 @@ export default {
         display="Block"
     >
         <Row>
-            <Col
+            <Column
                 :xs="12"
                 :md="8"
                 fluidHeight
@@ -110,8 +110,8 @@ export default {
                         I’m 8 columns on desktop, 12 on mobile!
                     </Tex>
                 </Box>
-            </Col>
-            <Col
+            </Column>
+            <Column
                 :xs="12"
                 :md="4"
                 fluidHeight
@@ -125,7 +125,7 @@ export default {
                         I’m 4 columns on desktop, 12 on mobile!
                     </Tex>
                 </Box>
-            </Col>
+            </Column>
         </Row>
     </Box>
 </Grid>

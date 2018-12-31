@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import styled from 'vue-styled-components'
 import {
     getValues,
@@ -24,6 +25,7 @@ export const ChildrenWrapper = styled('div', childrenWrapperProps)`
 
 const loadingSpinnerProps = {
     color: String,
+    noBackground: Boolean,
 }
 
 export const LoadingSpinner = styled('div', loadingSpinnerProps)`
@@ -33,7 +35,11 @@ export const LoadingSpinner = styled('div', loadingSpinnerProps)`
             100% { transform: rotate(360deg); }
         }
         animation: loading .5s infinite linear;
-        border: 0.1rem solid ${getTextColor(props.color)};
+        border: 0.1rem solid ${
+            props.noBackground
+                ? Button.Color[props.color]
+                : getTextColor(props.color)
+        };
         border-radius: 50%;
         border-right-color: transparent;
         border-top-color: transparent;
@@ -56,27 +62,37 @@ const props = {
     disabled: Boolean,
     fluid: [Boolean, Object],
     isClickable: Boolean,
+    noBackground: Boolean,
     noWrap: Boolean,
     size: String,
+    textAlign: String,
 }
 
 const styles = props => `
     backface-visibility: hidden;
-    ${style('backgroundColor', Button.Color[props.color])};
-    ${style('borderRadius', Theme.CornerRadius.Default)};
+    ${style(
+        'backgroundColor',
+        props.noBackground ? 'transparent' : Button.Color[props.color],
+    )};
+    ${style('borderRadius', Theme.CornerRadius.Small)};
     ${style('border', getBorderStyle(props.color))};
     box-sizing: border-box;
-    ${style('color', getTextColor(props.color), true, true)};
+    ${style(
+        'color',
+        getTextColor(props.color, props.noBackground),
+        true,
+        true,
+    )};
     ${style('cursor', props.isClickable ? 'pointer' : 'default')};
     ${style('display', props.block ? 'block' : 'inline-block')};
     ${style('fontFamily', Theme.Font.Lato)};
-    ${style('fontSize', Button.TextSize[props.size])};
+    ${style('fontSize', Button.Size[props.size])};
     ${style('fontWeight', Button.Weight.Default)};
     ${style('opacity', props.disabled ? '0.35' : 'unset')};
     ${style('padding', getValues(Button.Padding[props.size]))};
     position: relative;
     ${style('pointerEvents', props.disabled ? 'none' : 'unset')};
-    text-align: center;
+    ${style('textAlign', Button.TextAlign[props.textAlign])};
     text-decoration: none;
     ${style('transition', Button.Transition.Default)};
     user-select: none;
@@ -85,7 +101,7 @@ const styles = props => `
     &:hover {
         ${
             !props.disabled && props.isClickable
-                ? getHoverStyles(props.color)
+                ? getHoverStyles(props.color, props.noBackground)
                 : ''
         };
     }
@@ -93,11 +109,16 @@ const styles = props => `
         ${getFocusStyles()}
     }
     &:active {
-        ${!props.disabled ? getActiveStyles(props.color) : ''};
+        ${
+            !props.disabled
+                ? getActiveStyles(props.color, props.noBackground)
+                : ''
+        };
     }
 `
 
-export const StyledAnchor = styled('a', props)`
+const RouterLink = Vue.component('RouterLink')
+export const StyledAnchor = styled(RouterLink, props)`
     ${styles};
 `
 export const StyledButton = styled('button', props)`

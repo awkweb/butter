@@ -12,6 +12,7 @@ import {
     Aside,
     Div,
     Footer,
+    Form,
     Header,
     Main,
     Nav,
@@ -415,6 +416,8 @@ export default {
                 return <Aside {...p}>{children}</Aside>
             case 'Footer':
                 return <Footer {...p}>{children}</Footer>
+            case 'Form':
+                return <Form {...p}>{children}</Form>
             case 'Header':
                 return <Header {...p}>{children}</Header>
             case 'Main':

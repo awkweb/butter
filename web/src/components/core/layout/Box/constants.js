@@ -43,6 +43,7 @@ export default {
         Aside: 'aside',
         Div: 'div',
         Footer: 'footer',
+        Form: 'form',
         Header: 'header',
         Main: 'main',
         Nav: 'nav',

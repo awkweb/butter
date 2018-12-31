@@ -38,7 +38,7 @@ export default {
             validator: value => value in Theme.Color,
         },
         /**
-         * The element rendered that contains `slot`.
+         * The element rendered that contains `children`.
          */
         el: {
             default: 'Div',
@@ -55,8 +55,9 @@ export default {
          * Specify the font family to use.
          */
         font: {
-            default: 'Lato, sans-serif',
+            default: 'Lato',
             type: String,
+            validator: value => value in Theme.Font,
         },
         /**
          * HTML id pass-through for ARIA purposes.

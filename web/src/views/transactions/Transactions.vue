@@ -1,5 +1,5 @@
 <template>
-    <Dashboard>
+    <div>
         <template slot="header">
             <div>
                 <router-link
@@ -9,7 +9,7 @@
             </div>
         </template>
         <template slot="content">
-            <Loader v-if="loading"/>
+            <Loader v-if="loading" />
             <template v-else>
                 <div>
                     <div
@@ -21,9 +21,7 @@
                             <b>Date</b>
                             {{transaction.date}}
                             <b>Name</b>
-                            <router-link
-                                :to="{ name: 'Transaction', params: { id: transaction.id, transaction }}"
-                            >{{transaction.name}}</router-link>
+                            <router-link :to="{ name: 'Transaction', params: { id: transaction.id, transaction }}">{{transaction.name}}</router-link>
                             <b>Amount</b>
                             {{transaction.amount_cents | prettyNumber}}
                             <b>Budget</b>
@@ -33,19 +31,17 @@
                 </div>
             </template>
         </template>
-    </Dashboard>
+    </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { get } from '@/utils'
-import Dashboard from '@/layouts/Dashboard'
-import Loader from '@/components/indicators/Loader'
+import Loader from '@/components/core/indicators/Loader'
 
 export default {
     name: 'Transactions',
     components: {
-        Dashboard,
         Loader,
     },
     data: () => ({
@@ -73,9 +69,9 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../../assets/styles/variables';
-@import '../../assets/styles/functions';
-@import '../../assets/styles/mixins';
+@import '../../assets/styles/partials/variables';
+@import '../../assets/styles/partials/functions';
+@import '../../assets/styles/partials/mixins';
 
 .transaction__row {
     @include flex-row;

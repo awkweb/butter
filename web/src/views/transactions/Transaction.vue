@@ -1,10 +1,19 @@
 <template>
-    <Dashboard :title="title">
+    <div :title="title">
         <template slot="content">
             <form class="transactions-form">
-                <div v-if="error" class="auth__error">{{ error }}</div>
+                <div
+                    v-if="error"
+                    class="auth__error"
+                >{{ error }}</div>
                 <div class="transactions-form__fields">
-                    <Field v-model="name" :error="nameError" autofocus id="name" label="Name"/>
+                    <Field
+                        v-model="name"
+                        :error="nameError"
+                        autofocus
+                        id="name"
+                        label="Name"
+                    />
                     <Field
                         v-model="amount"
                         :error="amountError"
@@ -25,13 +34,26 @@
                         :monthsToShow="1"
                         @handleOnSelectDate="handleOnSelectDate"
                     >
-                        <Field id="datepicker-trigger" label="Date" type="text" :value="date"/>
+                        <Field
+                            id="datepicker-trigger"
+                            label="Date"
+                            type="text"
+                            :value="date"
+                        />
                     </DatePicker>
-                    <Field v-model="note" id="note" label="Note" type="textarea"/>
+                    <Field
+                        v-model="note"
+                        id="note"
+                        label="Note"
+                        type="textarea"
+                    />
                 </div>
                 <div class="transactions-form__footer">
                     <div>
-                        <router-link :disabled="networkActive" :to="{ name: 'Transactions' }">Cancel</router-link>
+                        <router-link
+                            :disabled="networkActive"
+                            :to="{ name: 'Transactions' }"
+                        >Cancel</router-link>
                         <button
                             v-if="isUpdatable"
                             :disabled="$v.validationGroup.$invalid || networkActive"
@@ -56,7 +78,7 @@
                 </div>
             </form>
         </template>
-    </Dashboard>
+    </div>
 </template>
 
 <script>
@@ -65,15 +87,13 @@ import { format } from 'date-fns'
 import { minValue, required } from 'vuelidate/lib/validators'
 import { formatDateRange, get, toAmount, toCents } from '@/utils'
 import api from '@/api'
-import Dashboard from '@/layouts/Dashboard'
-import DatePicker from '@/components/forms/DatePicker'
-import Dropdown from '@/components/forms/Dropdown'
-import Field from '@/components/forms/Field'
+import DatePicker from '@/components/other/DatePicker'
+import Dropdown from '@/components/core/form/Dropdown'
+import Field from '@/components/core/form/Field'
 
 export default {
     name: 'Transaction',
     components: {
-        Dashboard,
         DatePicker,
         Dropdown,
         Field,
@@ -293,9 +313,9 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../../assets/styles/variables';
-@import '../../assets/styles/functions';
-@import '../../assets/styles/mixins';
+@import '../../assets/styles/partials/variables';
+@import '../../assets/styles/partials/functions';
+@import '../../assets/styles/partials/mixins';
 
 .budgets-form__footer {
     @include flex-row;

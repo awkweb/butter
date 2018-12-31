@@ -4,10 +4,7 @@ module.exports = {
     title: 'Wilbur Style Guide',
     exampleMode: 'expand',
     pagePerSection: true,
-    require: [
-        path.join(__dirname, 'src/components/docs/index.js'),
-        path.join(__dirname, 'src/components/docs/styles.scss'),
-    ],
+    require: [path.join(__dirname, 'src/components/docs/index.js')],
     usageMode: 'expand',
     sections: [
         {

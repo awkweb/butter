@@ -17,77 +17,17 @@ export default new Router({
         savedPosition || { x: 0, y: 0 },
     routes: [
         {
+            beforeEnter: beforeEnterIsLoggedIn,
+            component: loadView('index', '/Budgets'),
+            name: 'Home',
             path: '/',
-            redirect: '/budgets',
         },
         {
             beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Budget', '/budgets'),
+            component: loadView('index', '/Budget'),
             name: 'Budget',
             path: '/budgets/:id',
             props: true,
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Budgets', '/budgets'),
-            name: 'Budgets',
-            path: '/budgets',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Transaction', '/transactions'),
-            name: 'Transaction',
-            path: '/transactions/:id',
-            props: true,
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Transactions', '/transactions'),
-            name: 'Transactions',
-            path: '/transactions',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Inbox'),
-            name: 'Inbox',
-            path: '/inbox',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Account', '/accounts'),
-            name: 'Account',
-            path: '/accounts/:id',
-            props: true,
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Accounts', '/accounts'),
-            name: 'Accounts',
-            path: '/accounts',
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedIn,
-            component: loadView('Settings', '/settings'),
-            path: '/settings',
-            children: [
-                {
-                    name: 'SettingsOverview',
-                    path: '',
-                    component: loadView('SettingsOverview', '/settings'),
-                },
-                {
-                    name: 'SettingsBilling',
-                    path: 'billing',
-                    component: loadView('SettingsBilling', '/settings'),
-                },
-            ],
-        },
-        {
-            beforeEnter: beforeEnterIsLoggedOut,
-            component: loadView('Home'),
-            path: '/',
-            name: 'Home',
-            redirect: '/login',
         },
         {
             beforeEnter: beforeEnterIsLoggedOut,

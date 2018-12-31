@@ -138,6 +138,9 @@ export const Div = styled('div', props)`
 export const Footer = styled('footer', props)`
     ${styles};
 `
+export const Form = styled('form', props)`
+    ${styles};
+`
 export const Header = styled('header', props)`
     ${styles};
 `

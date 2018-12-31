@@ -1,33 +1,48 @@
 <template>
-  <Dashboard :title="title">
-    <template slot="content">
-      <form class="budgets-form">
-        <div v-if="error">{{error}}</div>
-        <div v-if="account" class="budgets-form__fields">
-          <Field v-model="name" :error="nameError" autofocus id="name" label="Name"/>
-          {{account.institution.name}} ending in {{account.account.mask}}
-        </div>
-        <div class="accounts-form__footer">
-          <template v-if="account">
-            <PlaidLink
-              :env="plaidEnv"
-              :publicKey="plaidPublicKey"
-              :token="account.public_token"
-              clientName="Wilbur"
-              v-bind="{ onSuccess }"
-            >Refresh Connection</PlaidLink>
-          </template>
-          <button :disabled="networkActive" @click.prevent="onClickUpdate">Update</button>
-          <router-link :disabled="networkActive" :to="{ name: 'Accounts' }">Cancel</router-link>
-          <button
-            v-click-outside="resetDelete"
-            :disabled="networkActive"
-            @click.prevent="onClickDelete"
-          >{{ deleteButtonText }}</button>
-        </div>
-      </form>
-    </template>
-  </Dashboard>
+    <div :title="title">
+        <template slot="content">
+            <form class="budgets-form">
+                <div v-if="error">{{error}}</div>
+                <div
+                    v-if="account"
+                    class="budgets-form__fields"
+                >
+                    <Field
+                        v-model="name"
+                        :error="nameError"
+                        autofocus
+                        id="name"
+                        label="Name"
+                    />
+                    {{account.institution.name}} ending in {{account.account.mask}}
+                </div>
+                <div class="accounts-form__footer">
+                    <template v-if="account">
+                        <PlaidLink
+                            :env="plaidEnv"
+                            :publicKey="plaidPublicKey"
+                            :token="account.public_token"
+                            clientName="Wilbur"
+                            v-bind="{ onSuccess }"
+                        >Refresh Connection</PlaidLink>
+                    </template>
+                    <button
+                        :disabled="networkActive"
+                        @click.prevent="onClickUpdate"
+                    >Update</button>
+                    <router-link
+                        :disabled="networkActive"
+                        :to="{ name: 'Accounts' }"
+                    >Cancel</router-link>
+                    <button
+                        v-click-outside="resetDelete"
+                        :disabled="networkActive"
+                        @click.prevent="onClickDelete"
+                    >{{ deleteButtonText }}</button>
+                </div>
+            </form>
+        </template>
+    </div>
 </template>
 
 <script>
@@ -35,14 +50,12 @@ import { mapActions } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import { get } from '@/utils'
 import api from '@/api'
-import Dashboard from '@/layouts/Dashboard'
-import Field from '@/components/forms/Field'
-import PlaidLink from '@/components/PlaidLink'
+import Field from '@/components/core/form/Field'
+import PlaidLink from '@/components/other/PlaidLink'
 
 export default {
     name: 'Account',
     components: {
-        Dashboard,
         Field,
         PlaidLink,
     },
@@ -170,10 +183,3 @@ export default {
     },
 }
 </script>
-
-
-<style lang="scss" scoped>
-@import '../../assets/styles/variables';
-@import '../../assets/styles/functions';
-@import '../../assets/styles/mixins';
-</style>

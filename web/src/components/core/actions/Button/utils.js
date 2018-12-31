@@ -1,7 +1,7 @@
 import Button from './constants'
 
-export const getActiveStyles = colorName => `
-    background-color: ${Button.ActiveColor[colorName]};
+export const getActiveStyles = (colorName, noBackground) => `
+    ${!noBackground && `background-color: ${Button.ActiveColor[colorName]};`}
     border-color: ${Button.ActiveColor[colorName]};
 `
 
@@ -13,13 +13,13 @@ export const getFocusStyles = () => `
     outline: none;
 `
 
-export const getHoverStyles = colorName => `
-    background-color: ${Button.HoverColor[colorName]};
+export const getHoverStyles = (colorName, noBackground) => `
+    ${!noBackground && `background-color: ${Button.HoverColor[colorName]};`}
     border-color: ${Button.HoverColor[colorName]};
 `
 
-export const getTextColor = colorName => {
-    return Button.TextColor[colorName]
+export const getTextColor = (colorName, noBackground) => {
+    return noBackground ? Button.Color[colorName] : Button.TextColor[colorName]
 }
 
 export const getTextSize = size => {

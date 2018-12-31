@@ -33,10 +33,10 @@ export default {
                 ph={2}
                 pv={6}
             >
-                <Tex color={textColor} size="Md" weight="Medium">
+                <Tex color={textColor} size="Sm" weight="Medium">
                     {color}
                 </Tex>
-                <Tex color={textColor} size="Sm">
+                <Tex color={textColor} size="Xs">
                     {Theme.Color[color]}
                 </Tex>
             </Box>

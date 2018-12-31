@@ -7,12 +7,12 @@ export const isLoggedIn = () => getUserFromLocalStorage() !== undefined
 
 export const beforeEnterIsLoggedIn = (to, from, next) => {
     if (isLoggedIn()) next()
-    else next({ name: 'Home' })
+    else next({ name: 'LogIn' })
 }
 
 export const beforeEnterIsLoggedOut = (to, from, next) => {
     if (!isLoggedIn()) next()
-    else next({ name: 'Inbox' })
+    else next({ name: 'Home' })
 }
 
 export function get(getterFn, defaultValue) {

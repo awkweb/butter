@@ -3,5 +3,6 @@ export default {
         Sm: 64,
         Md: 104,
         Lg: 144,
+        Xl: 180,
     },
 }

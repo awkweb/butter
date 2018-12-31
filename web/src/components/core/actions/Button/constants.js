@@ -26,16 +26,16 @@ export default {
         Dark: Theme.Color.Gray4,
     },
     Padding: {
-        Normal: [1, 2],
-        Large: [1.5, 3],
+        Md: [1, 2],
+        Lg: [1.5, 2],
     },
     Size: {
-        Normal: 'normal',
-        Large: 'large',
+        Md: '0.875rem',
+        Lg: '1rem',
     },
-    Target: {
-        Blank: '_blank',
-        Self: '_self',
+    TextAlign: {
+        Center: 'center',
+        Left: 'left',
     },
     TextColor: {
         Brand: Theme.Color.Gray1,
@@ -44,10 +44,6 @@ export default {
         Success: Theme.Color.White,
         Error: Theme.Color.White,
         Dark: Theme.Color.White,
-    },
-    TextSize: {
-        Normal: '0.875rem',
-        Large: '1rem',
     },
     Transition: {
         Default: 'all 300ms cubic-bezier(0.19, 1, 0.22, 1)',

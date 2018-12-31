@@ -58,12 +58,6 @@ export default {
             validator: value => responsiveBooleanValidator(value),
         },
         /**
-         * Button link destination. When provided, an `<a>` is rendered in place of `<button>`.
-         */
-        href: {
-            type: String,
-        },
-        /**
          * HTML id property.
          */
         id: {
@@ -82,18 +76,32 @@ export default {
             type: String,
         },
         /**
-         * Prevent button text from wrapping.
+         * Remove background color.
          */
-        noWrap: {
+        noBackground: {
+            default: false,
             type: Boolean,
         },
         /**
-         * Provide a `target` attribute if an `href` is provided.
-         * See the `target` section of the [MDN <a> docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a).
+         * Prevent button text from wrapping.
          */
-        target: {
+        noWrap: {
+            default: false,
+            type: Boolean,
+        },
+        /**
+         * Sets text alignment.
+         */
+        textAlign: {
+            default: 'Center',
             type: String,
-            validator: value => value in Button.Target,
+            validator: value => value in Button.TextAlign,
+        },
+        /**
+         * Button link destination. When provided, an `<a>` is rendered in place of `<button>`.
+         */
+        to: {
+            type: Object,
         },
         /**
          * HTML `type` attribute. See [MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes).
@@ -117,12 +125,12 @@ export default {
             type: Boolean,
         },
         /**
-         * Defaults to `Normal`.
+         * Defaults to `Md`.
          */
         size: {
-            default: 'Normal',
+            default: 'Md',
             type: String,
-            validator: value => value in Button.TextSize,
+            validator: value => value in Button.Size,
         },
         /**
          * Callback function for button click.
@@ -140,15 +148,15 @@ export default {
             disabled,
             div,
             fluid,
-            href,
             id,
             input,
             isLoading,
-            noWrap,
             noBackground,
+            noWrap,
             onClick,
             size,
-            target,
+            textAlign,
+            to,
             type,
             value,
             name,
@@ -156,7 +164,13 @@ export default {
 
         let click
         if (onClick) {
-            click = { click: onClick }
+            click = {
+                click: e => {
+                    e.preventDefault()
+                    if (disabled) return
+                    onClick()
+                },
+            }
         }
         let p = {
             props: {
@@ -164,9 +178,11 @@ export default {
                 color,
                 disabled: isLoading || disabled,
                 fluid,
-                isClickable: !!(onClick || href || type === 'submit'),
+                isClickable: !!(onClick || to || type === 'submit'),
+                noBackground,
                 noWrap,
                 size,
+                textAlign,
             },
             attrs: {
                 id,
@@ -177,31 +193,22 @@ export default {
             },
         }
 
-        // // TODO: make LoadingSpinner.size a responsive prop.
-        // // For now, just use our size at the xs breakpoint
-        // // let sizeForLoadingSpinner = sizesByBreakpoint.xs
-        // // if (['xxs', 'xs', 'sm', 'mdsm'].indexOf(sizeForLoadingSpinner) !== -1) {
-        // //     sizeForLoadingSpinner = LoadingSpinner.Size.Small
-        // // }
-        const loadingContents = <LoadingSpinner color={color} />
+        const loadingContents = (
+            <LoadingSpinner color={color} noBackground={noBackground} />
+        )
         const content = (
             <ChildrenWrapper hide={isLoading}>{children}</ChildrenWrapper>
         )
         // Render an <a>
-        if (href || target) {
-            const anchorProps = {
-                href: href || '#',
-                role: 'button',
-            }
-            if (target) {
-                anchorProps.target = target
-            }
-
+        if (to) {
             p = {
                 ...p,
+                props: {
+                    ...p.props,
+                    to,
+                },
                 attrs: {
                     ...p.attrs,
-                    ...anchorProps,
                 },
             }
 
@@ -250,11 +257,6 @@ export default {
                 </StyledDiv>
             )
         }
-        // /**
-        //  *  NOTE: preventDefault is being used on onMouseDown to prevent buttons
-        //  *  focusing on a mouse click. This has not been tested with browsers
-        //  *  other than Chrome (Mac) and may have unintended side effects.
-        //  */
         return (
             <StyledButton {...p}>
                 {isLoading ? loadingContents : null}

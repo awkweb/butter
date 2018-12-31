@@ -27,7 +27,7 @@ const styles = props => {
     s.push(
         style('color', Theme.Color[props.color]),
         style('display', 'block', !!props.ellipsis),
-        style('fontFamily', props.font),
+        style('fontFamily', Theme.Font[props.font]),
         style('fontWeight', Tex.Weight[props.weight], true, true),
         style('letterSpacing', Tex.Tracking[props.tracking]),
         style('lineHeight', props.lineHeight),
@@ -48,6 +48,9 @@ const styles = props => {
     return `
       strong, b {
         font-weight: ${Tex.Weight.Bold};
+      }
+      a {
+        color: ${Theme.Color[props.color]};
       }
       ${s.join(';\n')}
     `

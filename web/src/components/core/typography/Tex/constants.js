@@ -24,17 +24,17 @@ export default {
     },
 
     Size: {
-        Xs: '0.75rem',
-        Sm: '0.875rem',
-        Md: '1rem',
-        Lg: '1.125rem',
-        Xl: '1.25rem',
-        Xxl: '1.5rem',
-        Xxxl: '1.875rem',
-        Xxxxl: '2.25rem',
-        Xxxxxl: '3rem',
-        Xxxxxxl: '3.75rem',
-        Xxxxxxxl: '4.5rem',
+        Xxs: '0.75rem',
+        Xs: '0.875rem',
+        Sm: '1rem',
+        Md: '1.125rem',
+        Lg: '1.25rem',
+        Xl: '1.5rem',
+        Xxl: '1.875rem',
+        Xxxl: '2.25rem',
+        Xxxxl: '3rem',
+        Xxxxxl: '3.75rem',
+        Xxxxxxl: '4.5rem',
     },
 
     Tracking: {

@@ -81,7 +81,6 @@ export default {
          * @model
          */
         value: {
-            required: true,
             type: [Number, String],
         },
     },
@@ -157,9 +156,9 @@ export default {
                     <Box
                         position="Absolute"
                         css={`
-                            right: 0.7rem;
-                            top: 0.6rem;
-                            fill: ${Theme.Color[color]};
+                            right: 0.6rem;
+                            top: 0.8rem;
+                            fill: ${Theme.Color.Green3};
                         `}
                     >
                         <InputSuccessIcon />

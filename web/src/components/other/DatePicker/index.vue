@@ -104,9 +104,9 @@ export default {
 </style>
 
 <style lang="scss">
-@import '../../assets/styles/variables';
-@import '../../assets/styles/functions';
-@import '../../assets/styles/mixins';
+@import '../../../assets/styles/partials/variables';
+@import '../../../assets/styles/partials/functions';
+@import '../../../assets/styles/partials/mixins';
 
 /*
 .asd__wrapper {
