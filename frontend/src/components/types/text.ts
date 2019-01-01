@@ -11,6 +11,11 @@ export enum Element {
     H6 = "h6"
 }
 
+export enum Font {
+    Body = "body",
+    Title = "title"
+}
+
 export enum Size {
     Xs = "xs",
     Sm = "sm",

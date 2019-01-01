@@ -1,8 +1,41 @@
 import units from "./units";
 
-import { Element, Size, Weight } from "../types/text";
+import { Element, Font, Size, Weight } from "../types/text";
 
-import weights, { TEXT_SIZES, TEXT_WEIGHTS } from "./typography";
+export const TEXT_SIZES = {
+    xs: 0.75,
+    sm: 0.875,
+    md: 1,
+    lg: 1.125,
+    xl: 1.25,
+    xxl: 1.5,
+    xxxl: 1.875,
+    xxxxl: 2.25,
+    xxxxxl: 3
+};
+
+const WEIGHTS = {
+    thin: 100,
+    light: 300,
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+    heavy: 800,
+    black: 900
+};
+
+export const typeScaleRoot = "18px";
+
+const getFont = (type = Font.Body) => {
+    switch (type) {
+        case Font.Title:
+            return "'Aleo', serif";
+        case Font.Body:
+        default:
+            return "'Lato', sans-serif";
+    }
+};
 
 const getLineHeight = (size: number) => {
     return size < 2 ? 1.5 : 1.25;
@@ -28,12 +61,8 @@ const getSize = (size: Size) => {
     return `${TEXT_SIZES[size]}rem !important;`;
 };
 
-const getWeight = (weight: Weight) => {
-    if (!TEXT_WEIGHTS.includes(weight)) {
-        return weights.normal;
-    }
-
-    return weights[weight];
+const getWeight = (weight: Weight): number => {
+    return WEIGHTS[weight];
 };
 
 const tracking = {
@@ -41,10 +70,15 @@ const tracking = {
     wide: "0.1em"
 };
 
-export default Object.freeze({
+const text = Object.freeze({
+    getFont,
     getLineHeight,
     getMargin,
     getSize,
     getWeight,
-    tracking
+    tracking,
+    typeScaleRoot
 });
+
+export type Text = typeof text;
+export default text;

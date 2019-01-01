@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ThemeProvider } from "../../theme/ThemeProvider";
 
 interface Props {
-    children: React.ReactNode;
+    children: string | number | React.ReactElement<any> | undefined;
 }
 
 class Wrapper extends React.Component<Props> {

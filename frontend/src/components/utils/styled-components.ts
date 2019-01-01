@@ -1,10 +1,12 @@
 import {
+    CSSObject,
     FlattenInterpolation,
     Interpolation,
-    InterpolationValue,
     SimpleInterpolation,
-    StyledComponentClass,
-    ThemedStyledProps
+    ThemedStyledProps,
+    FlattenSimpleInterpolation,
+    InterpolationFunction,
+    ThemedStyledFunction
 } from "styled-components";
 import { Theme } from "../theme/index";
 
@@ -27,37 +29,24 @@ import { Theme } from "../theme/index";
  * ```
  */
 
-type Attrs<P, A extends Partial<P>, T> = {
-    [K in keyof A]: ((props: ThemedStyledProps<P, T>) => A[K]) | A[K]
-};
-
-interface ThemedStyledFunction<Props extends object> {
-    <U = {}>(
-        strings: TemplateStringsArray,
-        ...interpolations: Array<
-            Interpolation<ThemedStyledProps<Props & U, Theme>>
-        >
-    ): StyledComponentClass<Props & U, Theme>;
-    attrs<U, A extends Partial<Props & U> = {}>(
-        attrs: Attrs<Props & U, A, Theme>
-    ): ThemedStyledFunction<Props & A & U>;
-}
-
 export const styledFactory = <Props extends object>(
-    styledFn: ThemedStyledFunction<any>
-): ThemedStyledFunction<Props & React.HTMLAttributes<any>> => {
+    styledFn: ThemedStyledFunction<any, any>
+): ThemedStyledFunction<React.ComponentType<any>, Theme, Props> => {
     return styledFn;
 };
 
 interface ThemedCssFunction<Props extends object> {
     (
-        strings: TemplateStringsArray,
+        first: TemplateStringsArray | CSSObject,
         ...interpolations: SimpleInterpolation[]
-    ): InterpolationValue[];
+    ): FlattenSimpleInterpolation;
     (
-        strings: TemplateStringsArray,
+        first:
+            | TemplateStringsArray
+            | CSSObject
+            | InterpolationFunction<ThemedStyledProps<Props, Theme>>,
         ...interpolations: Array<Interpolation<ThemedStyledProps<Props, Theme>>>
-    ): Array<FlattenInterpolation<ThemedStyledProps<Props, Theme>>>;
+    ): FlattenInterpolation<ThemedStyledProps<Props, Theme>>;
 }
 
 export const cssFactory = <Props extends object>(

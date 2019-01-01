@@ -1,7 +1,5 @@
-import { injectGlobal } from "styled-components";
 import colors from "../colors";
-import text from "../text";
-import { FONT_FAMILY, typeScaleRoot } from "../typography";
+import text, { typeScaleRoot } from "../text";
 import { Size } from "../../types/space";
 
 const PAGE_MIN_WIDTH = "320px";
@@ -9,9 +7,7 @@ const PAGE_MIN_WIDTH = "320px";
 const unimportantTextSize = (size: Size) =>
     (text.getSize(size) as string).replace(" !important", "");
 
-export default () => {
-    // tslint:disable-next-line:no-unused-expression
-    injectGlobal`
+export default () => `
         html {
             box-sizing: border-box;
         }
@@ -34,7 +30,7 @@ export default () => {
             BASE STYLES / BASE TYPOGRAPHY STYLES
             */
             color: ${colors.gray1};
-            font-family: ${FONT_FAMILY};
+            font-family: ${text.getFont()};
             font-size: ${typeScaleRoot};
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -49,4 +45,3 @@ export default () => {
             }
         }
     `;
-};

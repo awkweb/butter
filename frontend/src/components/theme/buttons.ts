@@ -3,8 +3,12 @@ import { AnyColor } from "../types/color";
 import { Colors } from "./colors";
 import { strokeWidths } from "./stroke-widths";
 
-const getBackgroundColor = (colorName: ButtonColor, colors: Colors) => {
-    return colors[colorName];
+const getBackgroundColor = (
+    colorName: ButtonColor,
+    colors: Colors,
+    noBackground?: boolean
+) => {
+    return noBackground ? "transparent" : colors[colorName];
 };
 
 const getBorderColor = (colorName: ButtonColor, colors: Colors) =>
@@ -12,8 +16,14 @@ const getBorderColor = (colorName: ButtonColor, colors: Colors) =>
 
 const getBorderWidth = () => strokeWidths.default;
 
-const getBorderStyle = (colorName: ButtonColor, colors: Colors): string => {
-    return `${getBorderWidth()} solid ${getBorderColor(colorName, colors)}`;
+const getBorderStyle = (
+    colorName: ButtonColor,
+    colors: Colors,
+    noBorder?: boolean
+): string => {
+    return noBorder
+        ? `none`
+        : `${getBorderWidth()} solid ${getBorderColor(colorName, colors)}`;
 };
 
 const getTextColorName = (colorName: ButtonColor): AnyColor => {
@@ -33,12 +43,17 @@ const getLoadingSpinnerColorName = (
     return colors[getTextColorName(colorName)];
 };
 
-const getTextColor = (colorName: ButtonColor, colors: Colors): string => {
-    return colors[getTextColorName(colorName)];
+const getTextColor = (
+    colorName: ButtonColor,
+    colors: Colors,
+    noBackground?: boolean
+): string => {
+    return noBackground
+        ? colors[getActiveColorName(colorName)]
+        : colors[getTextColorName(colorName)];
 };
 
-const getFocusStyles = (colors: Colors): string => `
-    box-shadow: 0 0 8px 0 ${colors[AnyColor.Secondary]};
+const getFocusStyles = (): string => `
     outline: none;
 `;
 
@@ -58,10 +73,14 @@ const getHoverColorName = (colorName: ButtonColor): AnyColor => {
     }
 };
 
-const getHoverStyles = (colorName: ButtonColor, colors: Colors): string => {
+const getHoverStyles = (
+    colorName: ButtonColor,
+    colors: Colors,
+    noBackground?: boolean
+): string => {
     const color = colors[getHoverColorName(colorName)];
     return `
-        background-color: ${color};
+        background-color: ${noBackground ? "transparent" : color};
         border-color: ${color};
     `;
 };
@@ -82,10 +101,14 @@ const getActiveColorName = (colorName: ButtonColor): AnyColor => {
     }
 };
 
-const getActiveStyles = (colorName: ButtonColor, colors: Colors): string => {
+const getActiveStyles = (
+    colorName: ButtonColor,
+    colors: Colors,
+    noBackground?: boolean
+): string => {
     const color = colors[getActiveColorName(colorName)];
     return `
-        background-color: ${color};
+        background-color: ${noBackground ? "transparent" : color};
         border-color: ${color};
     `;
 };

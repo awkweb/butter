@@ -1,10 +1,6 @@
 // from 'flexboxgrid/dist/flexboxgrid.min.css'
-// tslint:disable-next-line
-import { injectGlobal } from "styled-components";
 
-export default () => {
-    // tslint:disable-next-line:no-unused-expression
-    injectGlobal`
+export default () => `
         .container,
         .container-fluid {
             margin-right: auto;
@@ -1163,4 +1159,3 @@ export default () => {
             }
         }
     `;
-};

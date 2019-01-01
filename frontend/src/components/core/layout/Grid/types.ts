@@ -4,9 +4,7 @@ import { LazyResponsive, Responsive } from "../../../utils/responsive";
 export const ValidMaxWidths = Object.freeze({
     sm: 64 as 64,
     md: 104 as 104,
-    lg: 144 as 144,
-    // TODO: remove all usages of this value
-    "lg-legacy": 142 as 142
+    lg: 144 as 144
 });
 type ResponsiveNumber = LazyResponsive<number>;
 export type MaxWidth = keyof typeof ValidMaxWidths;

@@ -1,10 +1,6 @@
 // from 'normalize.css/normalize.css'
-// tslint:disable-next-line
-import { injectGlobal } from "styled-components";
 
-export default () => {
-    // tslint:disable-next-line:no-unused-expression
-    injectGlobal`
+export default () => `
         /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
         /**
         * 1. Set default font family to sans-serif.
@@ -345,4 +341,3 @@ export default () => {
           padding: 0;
         }
 	`;
-};
