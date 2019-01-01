@@ -102,7 +102,7 @@ interface StyledProps {
     css?:
         | string
         | InterpolationValue[]
-        | Array<FlattenInterpolation<ThemedStyledProps<Props, Theme>>>;
+        | FlattenInterpolation<ThemedStyledProps<Props, Theme>>;
 
     /**
      * CSS [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display). Accepts `<Responsive>` values. Keyword values are `none`, `block`, `flex`, `inline-block`, `inline-flex`, `inline`, and `inherit`. `<div>` (default element) defaults to `block`.

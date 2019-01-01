@@ -1,17 +1,23 @@
+import { createGlobalStyle } from "styled-components";
 import buttons from "./buttons";
 import colors from "./colors";
 import cornerRadii from "./corner-radii";
 import field from "./field";
-import initBase from "./global/base";
-import initFlexboxgrid from "./global/flexboxgrid";
-import initFonts from "./global/fonts";
-import initNormalize from "./global/normalize";
+import base from "./global/base";
+import flexboxgrid from "./global/flexboxgrid";
+import normalize from "./global/normalize";
 import responsive from "./responsive";
 import strokeWidths from "./stroke-widths";
 import text from "./text";
 import transitions from "./transitions";
 import units from "./units";
 import zIndex from "./z-index";
+
+export const GlobalStyle = createGlobalStyle`
+    ${base}
+    ${flexboxgrid}
+    ${normalize}
+`;
 
 const theme = Object.freeze({
     name: "wilbur",
@@ -27,14 +33,5 @@ const theme = Object.freeze({
     zIndex
 });
 
-// Consider removing *all* global styles and relying on component styling only.
-export const initGlobalThemeStyles = () => {
-    initBase();
-    initFlexboxgrid();
-    initFonts();
-    initNormalize();
-};
-
 export type Theme = typeof theme;
-
 export default theme;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 import { Color, Size } from "../../../types/button";
-import { Target } from "../../../types/target";
 import {
     responsiveConditionalStyle,
     responsiveStyle
@@ -11,10 +11,10 @@ import {
     LazyResponsive,
     Responsive
 } from "../../../utils/responsive";
-import { cssFactory, styledFactory } from "../../../utils/styled-components";
 import { Box } from "../../layout/Box";
 import { ThemeConsumer } from "../../theme/ThemeConsumer";
 import { TextAlign } from "../../../types/css";
+import { cssFactory, styledFactory } from "../../../utils/styled-components";
 
 interface SharedProps {
     /**
@@ -28,7 +28,7 @@ interface SharedProps {
     children?: React.ReactNode;
 
     /**
-     * Defaults to `Button.Color.Secondary`. See color section above.
+     * Defaults to `Button.Color.Secondary`.
      */
     color: Color;
 
@@ -43,19 +43,9 @@ interface SharedProps {
     div?: boolean;
 
     /**
-     * Treat links as downloadable content (rather than redirecting the tab or opening a new tab)
-     */
-    download?: boolean;
-
-    /**
      * Render the button w/ 100% width.
      */
     fluid: LazyResponsive<boolean>;
-
-    /**
-     * Button link destination. When provided, an `<a>` is rendered in place of `<button>`.
-     */
-    href?: string;
 
     /**
      * HTML id property.
@@ -73,6 +63,16 @@ interface SharedProps {
     name?: string;
 
     /**
+     * Remove background color.
+     */
+    noBackground?: boolean;
+
+    /**
+     * Remove border.
+     */
+    noBorder?: boolean;
+
+    /**
      * Prevent button text from wrapping.
      */
     noWrap?: boolean;
@@ -83,15 +83,14 @@ interface SharedProps {
     onClick?: ((e: React.MouseEvent<HTMLElement>) => void) | boolean;
 
     /**
-     * Provide a `target` attribute if an `href` is provided.
-     * See the `target` section of the [MDN <a> docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a).
-     */
-    target?: Target;
-
-    /**
      * Sets text alignment.
      */
     textAlign?: TextAlign;
+
+    /**
+     * Button link destination. When provided, an `<a>` is rendered in place of `<button>`.
+     */
+    to?: object;
 
     /**
      * HTML `type` attribute. See [MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes).
@@ -123,7 +122,6 @@ interface InternalProps extends SharedProps {
 export class Button extends React.Component<Props> {
     public static Color = Color;
     public static Size = Size;
-    public static Target = Target;
     public static TextAlign = TextAlign;
 
     public static defaultProps = {
@@ -154,17 +152,17 @@ export class Button extends React.Component<Props> {
             color,
             disabled,
             div,
-            download,
             fluid,
-            href,
             id,
             input,
             isLoading,
+            noBackground,
+            noBorder,
             noWrap,
             onClick,
             size,
-            target,
             textAlign,
+            to,
             type,
             value,
             name
@@ -178,8 +176,10 @@ export class Button extends React.Component<Props> {
             disabled: isDisabled,
             fluid,
             id,
-            isClickable: !!(onClick || href || type === "submit"),
+            isClickable: !!(onClick || to || type === "submit"),
             name,
+            noBackground,
+            noBorder,
             noWrap,
             onClick: this.handleClick,
             sizesByBreakpoint,
@@ -193,10 +193,17 @@ export class Button extends React.Component<Props> {
                 {theme => (
                     <LoadingWrapper>
                         <LoadingSpinner
-                            color={theme.buttons.getLoadingSpinnerColorName(
-                                color,
-                                theme.colors
-                            )}
+                            color={
+                                noBackground
+                                    ? theme.buttons.getBackgroundColor(
+                                          color,
+                                          theme.colors
+                                      )
+                                    : theme.buttons.getLoadingSpinnerColorName(
+                                          color,
+                                          theme.colors
+                                      )
+                            }
                         />
                     </LoadingWrapper>
                 )}
@@ -214,20 +221,9 @@ export class Button extends React.Component<Props> {
             </Box>
         );
         // Render an <a>
-        if (href || target) {
-            const anchorProps: { [key: string]: string } = {
-                href: href || "#",
-                role: "button"
-            };
-            if (target) {
-                anchorProps.target = target;
-            }
+        if (to) {
             return (
-                <StyledAnchor
-                    {...commonProps}
-                    {...anchorProps}
-                    download={download}
-                >
+                <StyledAnchor {...commonProps} to={to}>
                     {isLoading ? loadingContents : null}
                     {content}
                 </StyledAnchor>
@@ -318,16 +314,22 @@ const commonStyles = cssFactory<InternalProps>(css)`
     background-color: ${props =>
         props.theme.buttons.getBackgroundColor(
             props.color,
-            props.theme.colors
+            props.theme.colors,
+            props.noBackground
         )};
     border-radius: ${props => props.theme.cornerRadii.default};
     border: ${props =>
-        props.theme.buttons.getBorderStyle(props.color, props.theme.colors)};
+        props.theme.buttons.getBorderStyle(
+            props.color,
+            props.theme.colors,
+            props.noBorder
+        )};
     box-sizing: border-box;
     color: ${props =>
         props.theme.buttons.getTextColor(
             props.color,
-            props.theme.colors
+            props.theme.colors,
+            props.noBackground
         )} !important;
     cursor: ${props => (props.isClickable ? "pointer" : "default")};
     display: ${props => (props.block ? "block" : "inline-block")};
@@ -339,7 +341,7 @@ const commonStyles = cssFactory<InternalProps>(css)`
             (size: Size) => props.theme.text.getSize(size)
         )};
     font-weight: ${props => props.theme.buttons.fontWeight};
-    opacity: ${props => (props.disabled ? "0.33" : "unset")};
+    opacity: ${props => (props.disabled ? "0.35" : "unset")};
     ${props =>
         responsiveStyle(
             "padding",
@@ -364,14 +366,15 @@ const commonStyles = cssFactory<InternalProps>(css)`
             props.theme
         )};
     &:focus {
-        ${props => props.theme.buttons.getFocusStyles(props.theme.colors)}
+        ${props => props.theme.buttons.getFocusStyles()}
     }
     &:hover {
         ${props =>
             !props.disabled && props.isClickable
                 ? props.theme.buttons.getHoverStyles(
                       props.color,
-                      props.theme.colors
+                      props.theme.colors,
+                      props.noBackground
                   )
                 : ""};
     }
@@ -380,13 +383,14 @@ const commonStyles = cssFactory<InternalProps>(css)`
             !props.disabled
                 ? props.theme.buttons.getActiveStyles(
                       props.color,
-                      props.theme.colors
+                      props.theme.colors,
+                      props.noBackground
                   )
                 : ""};
     }
 `;
 
-const StyledAnchor = styled.a`
+const StyledAnchor = styled(Link)`
     ${commonStyles};
 `;
 const StyledButton = styled.button`

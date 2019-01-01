@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { AlignSelf, Display, SimpleDisplay } from "../../../types/css";
 import { reduce } from "../../../utils/object";
-import { convertLazy, Responsive } from "../../../utils/responsive";
+import { convertLazy, Responsive, Breakpoint } from "../../../utils/responsive";
 import { styledFactory } from "../../../utils/styled-components";
 import { paddingAtBreakpoint } from "./paddingAtBreakpoint";
 import { InnerProps, MaxWidth, Props, ValidMaxWidths } from "./types";
@@ -67,10 +67,10 @@ export const Inner = styledFactory<InnerProps>(styled.div)`
         props.theme.responsive.cssPropsForBreakpointValues(
             reduce(
                 props.maxWidth,
-                (memo, key) => {
+                (memo: any, key) => {
                     const value = props.maxWidth![key];
                     memo[key] = props.theme.units.getValue(
-                        ValidMaxWidths[value!]
+                        (ValidMaxWidths as any)[value!]
                     );
                     return memo;
                 },
@@ -80,7 +80,7 @@ export const Inner = styledFactory<InnerProps>(styled.div)`
         )};
     width: 100%;
     ${({ theme, p, ph, pv }) =>
-        theme.responsive.BREAKPOINT_NAMES.map(breakpoint => {
+        theme.responsive.BREAKPOINT_NAMES.map((breakpoint: Breakpoint) => {
             const horizontalPadding =
                 (p && p[breakpoint] ? p[breakpoint] : ph[breakpoint]) || 0;
 

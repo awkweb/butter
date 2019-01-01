@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { style } from "../../../utils/css";
 import { Box } from "../../layout/Box";
 import { cssFactory } from "../../../utils/styled-components";
-import { FONT_FAMILY } from "../../../theme/typography";
 import { Size } from "../../../types/text";
 import { AnyColor as Color } from "../../../types/color";
 import { Type } from "../../../types/field";
@@ -175,7 +174,7 @@ interface LabelProps {
 const labelStyles = cssFactory<LabelProps>(css)`
     ${props => style("color", props.error ? Color.Red3 : Color.Gray1)};
     ${style("backgroundColor", Color.White)};
-    ${style("fontFamily", FONT_FAMILY)};
+    ${props => style("fontFamily", props.theme.text.getFont())};
     ${props => style("fontSize", props.theme.text.getSize(Size.Xs))};
     ${props => style("opacity", props.active ? 1 : 0)};
     padding: 0 0.45rem;
@@ -208,7 +207,7 @@ const sharedFieldStyles = cssFactory<InputProps>(css)`
     ${props => style("borderRadius", props.theme.cornerRadii.default)};
     box-sizing: border-box;
     ${props => style("color", props.theme.colors[Color.Gray1])};
-    ${style("fontFamily", FONT_FAMILY)};
+    ${props => style("fontFamily", props.theme.text.getFont())};
     ${props => style("fontSize", props.theme.text.getSize(Size.Md))};
     outline: 0;
     transition: border-color 125ms;

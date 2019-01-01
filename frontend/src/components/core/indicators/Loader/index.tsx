@@ -31,8 +31,8 @@ export class Loader extends React.Component<SharedProps> {
                 justifyContent={center ? Box.JustifyContent.Center : undefined}
                 pt={3}
             >
-                {[0, 1, 2].map(() => (
-                    <StyledLoader color={color} />
+                {[0, 1, 2].map(v => (
+                    <StyledLoader color={color} key={v} />
                 ))}
             </Box>
         );

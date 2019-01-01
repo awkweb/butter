@@ -46,6 +46,12 @@ interface SharedProps {
     ellipsis?: boolean;
 
     /**
+     * Specify the font family to use. `Title` should be used for headings and display text,
+     * and `Body` for everything else. The font should stay the same regardless of screen size.
+     */
+    font: _Text.Font;
+
+    /**
      * HTML id pass-through for ARIA purposes.
      */
     id?: string;
@@ -128,6 +134,7 @@ export default class Text extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         color: _Color.AnyColor.Gray1,
         el: _Text.Element.Div,
+        font: _Text.Font.Body,
         size: _Text.Size.Md,
         weight: _Text.Weight.Normal
     };
@@ -135,6 +142,7 @@ export default class Text extends React.PureComponent<Props> {
     public static Align = _CSS.TextAlign;
     public static Color = _Color.AnyColor;
     public static Element = _Text.Element;
+    public static Font = _Text.Font;
     public static OverflowWrap = _CSS.OverflowWrap;
     public static Size = _Text.Size;
     public static Tracking = _Text.Tracking;
@@ -149,6 +157,7 @@ export default class Text extends React.PureComponent<Props> {
             color: this.props.color,
             el: this.props.el,
             ellipsis: this.props.ellipsis,
+            font: this.props.font,
             id: this.props.id,
             lineHeight: this.props.lineHeight,
             noMargin: this.props.noMargin,
@@ -199,6 +208,7 @@ const styles = cssFactory<StyledProps>(css)`
             color,
             el,
             ellipsis,
+            font,
             lineHeight,
             noMargin,
             noSelect,
@@ -216,6 +226,7 @@ const styles = cssFactory<StyledProps>(css)`
         s.push(
             style("color", get(theme.colors, color || "")),
             style("display", "block", !!ellipsis),
+            style("fontFamily", theme.text.getFont(font)),
             style("fontWeight", theme.text.getWeight(weight!), true, true),
             style("letterSpacing", get(theme.text.tracking, tracking || "")),
             style("lineHeight", lineHeight),

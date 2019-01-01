@@ -2,10 +2,11 @@ import PropTypes from "prop-types";
 import * as React from "react";
 
 import { ThemeProvider as SCThemeProvider } from "styled-components";
-import theme, { initGlobalThemeStyles } from "../../../theme/index";
+import theme, { GlobalStyle } from "../../../theme/index";
+import "../../../../assets/styles/fonts.css";
 
 interface Props {
-    children: React.ReactNode;
+    children: string | number | React.ReactElement<any> | undefined;
     excludeGlobalStyles?: boolean;
 }
 
@@ -32,18 +33,14 @@ export class ThemeProvider extends React.Component<Props> {
         return this.context;
     }
 
-    public componentWillMount() {
-        const { excludeGlobalStyles } = this.props;
-        if (excludeGlobalStyles) {
-            return;
-        }
-        initGlobalThemeStyles();
-    }
-
     public render() {
+        const { children, excludeGlobalStyles } = this.props;
         return (
             <SCThemeProvider theme={theme}>
-                {this.props.children}
+                <React.Fragment>
+                    {!excludeGlobalStyles && <GlobalStyle />}
+                    {children}
+                </React.Fragment>
             </SCThemeProvider>
         );
     }

@@ -1,0 +1,175 @@
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 900;
+    src: url("../../assets/fonts/lato/black.woff2") format("woff2"),
+        url("../../assets/fonts/lato/black.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 900;
+    src: url("../../assets/fonts/lato/blackitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/blackitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 800;
+    src: url("../../assets/fonts/lato/heavy.woff2") format("woff2"),
+        url("../../assets/fonts/lato/heavy.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 800;
+    src: url("../../assets/fonts/lato/heavyitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/heavyitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../../assets/fonts/lato/bold.woff2") format("woff2"),
+        url("../../assets/fonts/lato/bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 700;
+    src: url("../../assets/fonts/lato/bolditalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/bolditalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 600;
+    src: url("../../assets/fonts/lato/semibold.woff2") format("woff2"),
+        url("../../assets/fonts/lato/semibold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 600;
+    src: url("../../assets/fonts/lato/semibolditalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/semibolditalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 500;
+    src: url("../../assets/fonts/lato/medium.woff2") format("woff2"),
+        url("../../assets/fonts/lato/medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 500;
+    src: url("../../assets/fonts/lato/mediumitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/mediumitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../assets/fonts/lato/regular.woff2") format("woff2"),
+        url("../../assets/fonts/lato/regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 400;
+    src: url("../../assets/fonts/lato/regularitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/regularitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 300;
+    src: url("../../assets/fonts/lato/light.woff2") format("woff2"),
+        url("../../assets/fonts/lato/light.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 300;
+    src: url("../../assets/fonts/lato/lightitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/lightitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 100;
+    src: url("../../assets/fonts/lato/thin.woff2") format("woff2"),
+        url("../../assets/fonts/lato/thin.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 100;
+    src: url("../../assets/fonts/lato/thinitalic.woff2") format("woff2"),
+        url("../../assets/fonts/lato/thinitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../../assets/fonts/aleo/bold.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: italic;
+    font-weight: 700;
+    src: url("../../assets/fonts/aleo/bolditalic.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/bolditalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../../assets/fonts/aleo/regular.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: italic;
+    font-weight: 400;
+    src: url("../../assets/fonts/aleo/regularitalic.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/regularitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: normal;
+    font-weight: 300;
+    src: url("../../assets/fonts/aleo/light.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/light.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Aleo";
+    font-style: italic;
+    font-weight: 300;
+    src: url("../../assets/fonts/aleo/lightitalic.woff2") format("woff2"),
+        url("../../assets/fonts/aleo/lightitalic.woff") format("woff");
+}
