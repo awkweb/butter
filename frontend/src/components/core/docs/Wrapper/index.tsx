@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { ThemeProvider } from "../../theme/ThemeProvider";
+import { ThemeProvider } from "../../components/theme/ThemeProvider";
 
 interface Props {
     children: string | number | React.ReactElement<any> | undefined;

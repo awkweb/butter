@@ -1,132 +1,44 @@
 import React, { Component } from "react";
-import Text from "./components/core/typography/Text";
-import { ThemeProvider } from "./components/core/theme/ThemeProvider";
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Redirect,
-    withRouter
-} from "react-router-dom";
-
-const fakeAuth = {
-    isAuthenticated: false,
-    authenticate(cb: Function) {
-        this.isAuthenticated = true;
-        setTimeout(cb, 100); // fake async
-    },
-    signout(cb: Function) {
-        this.isAuthenticated = false;
-        setTimeout(cb, 100);
-    }
-};
-
-const AuthButton = withRouter(({ history }) =>
-    fakeAuth.isAuthenticated ? (
-        <p>
-            Welcome!{" "}
-            <button
-                onClick={() => {
-                    fakeAuth.signout(() => history.push("/"));
-                }}
-            >
-                Sign out
-            </button>
-        </p>
-    ) : (
-        <p>You are not logged in.</p>
-    )
-);
-
-function PrivateRoute({
-    component: Component,
-    ...rest
-}: {
-    component: any;
-    path: string;
-}) {
-    return (
-        <Route
-            {...rest}
-            render={props =>
-                fakeAuth.isAuthenticated ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/login",
-                            state: { from: props.location }
-                        }}
-                    />
-                )
-            }
-        />
-    );
-}
-
-function Public() {
-    return <h3>Public</h3>;
-}
-
-function Protected() {
-    return <h3>Protected</h3>;
-}
-
-interface LoginProps {
-    location: any;
-}
-class Login extends React.Component<LoginProps> {
-    state = { redirectToReferrer: false };
-
-    login = () => {
-        fakeAuth.authenticate(() => {
-            this.setState({ redirectToReferrer: true });
-        });
-    };
-
-    render() {
-        let { from } = this.props.location.state || { from: { pathname: "/" } };
-        let { redirectToReferrer } = this.state;
-
-        if (redirectToReferrer) return <Redirect to={from} />;
-
-        return (
-            <div>
-                <p>You must log in to view the page at {from.pathname}</p>
-                <button onClick={this.login}>Log in</button>
-            </div>
-        );
-    }
-}
+import { BrowserRouter as Router } from "react-router-dom";
+import { observer, Provider } from "mobx-react";
+import DocumentTitle from "react-document-title";
+import RootStore from "./store";
+import { Home, LogIn, Register } from "./pages";
+import { PrivateRoute, PublicRoute, ThemeProvider } from "./components";
 
 class App extends Component {
+    rootStore = new RootStore();
+
     render() {
+        const { isAuthenticated } = this.rootStore;
         return (
             <ThemeProvider>
-                <Router>
-                    <div>
-                        <AuthButton />
-                        <ul>
-                            <li>
-                                <Link to="/public">Public Page</Link>
-                            </li>
-                            <li>
-                                <Link to="/protected">Protected Page</Link>
-                            </li>
-                        </ul>
-                        <div className="App">
-                            <Text font={Text.Font.Title} size={Text.Size.Md}>
-                                merp
-                            </Text>
-                        </div>
-                        <Route path="/public" component={Public} />
-                        <Route path="/login" component={Login} />
-                        <PrivateRoute path="/protected" component={Protected} />
-                    </div>
-                </Router>
+                <Provider rootStore={this.rootStore}>
+                    <DocumentTitle title="Wilbur">
+                        <Router>
+                            <React.Fragment>
+                                <PublicRoute
+                                    path="/login"
+                                    component={LogIn}
+                                    isAuthenticated={isAuthenticated}
+                                />
+                                <PublicRoute
+                                    path="/register"
+                                    component={Register}
+                                    isAuthenticated={isAuthenticated}
+                                />
+                                <PrivateRoute
+                                    path="/"
+                                    component={Home}
+                                    isAuthenticated={isAuthenticated}
+                                />
+                            </React.Fragment>
+                        </Router>
+                    </DocumentTitle>
+                </Provider>
             </ThemeProvider>
         );
     }
 }
 
-export default App;
+export default observer(App);
