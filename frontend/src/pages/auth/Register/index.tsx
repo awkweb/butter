@@ -48,11 +48,9 @@ class RegisterClass extends React.Component<Props> {
         this.props.rootStore.registerStore.setPasswordConfirm(e.target.value);
     };
 
-    onClickRegister = () => {
+    onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
         this.props.rootStore.registerStore.register();
-        // fakeAuth.authenticate(() => {
-        //     this.setState({ redirectToReferrer: true });
-        // });
     };
 
     render() {
@@ -112,6 +110,7 @@ class RegisterClass extends React.Component<Props> {
                                     display={Box.Display.Flex}
                                     el={Box.Element.Form}
                                     flexDirection={Box.FlexDirection.Column}
+                                    onSubmit={this.onSubmit}
                                 >
                                     <Box mb={2}>
                                         <Field
@@ -185,7 +184,7 @@ class RegisterClass extends React.Component<Props> {
                                             isLoading={isLoading}
                                             size={Button.Size.Md}
                                             textAlign={Button.TextAlign.Left}
-                                            onClick={this.onClickRegister}
+                                            type="submit"
                                         >
                                             Sign Up
                                         </Button>

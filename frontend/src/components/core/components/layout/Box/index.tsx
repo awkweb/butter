@@ -200,6 +200,11 @@ interface StyledProps {
     onMouseLeave?: ((e: React.MouseEvent<HTMLElement>) => void);
 
     /**
+     * Callback function for Box submit.
+     */
+    onSubmit?: ((e: React.FormEvent<HTMLElement>) => void);
+
+    /**
      * By default, flex items are laid out in the source order. However, the order property controls the order in which they appear in the flex container.
      */
     order?: LazyResponsive<number>;
@@ -333,6 +338,7 @@ export class Box extends React.Component<Props> {
             onClick: this.props.onClick,
             onMouseEnter: this.props.onMouseEnter,
             onMouseLeave: this.props.onMouseLeave,
+            onSubmit: this.props.onSubmit,
             order: this.props.order,
             overflow: this.props.overflow,
             p: this.props.p,

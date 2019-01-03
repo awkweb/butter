@@ -186,7 +186,8 @@ export class Button extends React.Component<Props> {
             sizesByBreakpoint,
             tabIndex: isDisabled ? -1 : 0,
             textAlign,
-            type
+            type,
+            value
         };
 
         const loadingContents = (
