@@ -114,7 +114,12 @@ export default class RegisterStore implements Props {
 
     register() {
         this.isLoading = true;
-        console.log(this.email, this.password, this.passwordConfirm);
+        setTimeout(() => {
+            this.rootStore.setUser({
+                email: this.email
+            });
+            this.isLoading = false;
+        }, 1000);
     }
 
     reset() {

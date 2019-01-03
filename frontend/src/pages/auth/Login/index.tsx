@@ -46,7 +46,8 @@ class LogInClass extends React.Component<Props> {
         this.props.rootStore.logInStore.setPassword(e.target.value);
     };
 
-    onClickLogIn = () => {
+    onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
         this.props.rootStore.logInStore.logIn();
         // fakeAuth.authenticate(() => {
         //     this.setState({ redirectToReferrer: true });
@@ -109,6 +110,7 @@ class LogInClass extends React.Component<Props> {
                                     display={Box.Display.Flex}
                                     el={Box.Element.Form}
                                     flexDirection={Box.FlexDirection.Column}
+                                    onSubmit={this.onSubmit}
                                 >
                                     <Box mb={2}>
                                         <Field
@@ -138,7 +140,7 @@ class LogInClass extends React.Component<Props> {
                                             isLoading={isLoading}
                                             size={Button.Size.Md}
                                             textAlign={Button.TextAlign.Left}
-                                            onClick={this.onClickLogIn}
+                                            type="submit"
                                         >
                                             Log In
                                         </Button>
