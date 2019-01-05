@@ -1,46 +1,61 @@
-const path = require('path')
+const path = require("path");
 
 module.exports = {
-    title: 'Wilbur Style Guide',
-    exampleMode: 'expand',
+    exampleMode: "expand",
+
     pagePerSection: true,
-    require: [path.join(__dirname, 'src/components/docs/index.js')],
-    usageMode: 'expand',
+
+    propsParser: require("react-docgen-typescript").parse,
+
     sections: [
         {
-            name: 'Color',
-            content: 'src/components/core/color/README.md',
-            exampleMode: 'hide',
+            name: "Color",
+            content: "src/components/core/components/color/readme.md",
+            exampleMode: "hide"
         },
         {
-            name: 'Layout',
-            content: 'src/components/core/layout/README.md',
-            components: 'src/components/core/layout/*/*.vue',
-            sectionDepth: 1,
+            name: "Typography",
+            content: "src/components/core/components/typography/readme.md",
+            components:
+                "src/components/core/components/typography/**/*/index.tsx",
+            sectionDepth: 2
         },
         {
-            name: 'Typography',
-            content: 'src/components/core/typography/README.md',
-            components: 'src/components/core/typography/*/*.vue',
-            sectionDepth: 1,
+            name: "Layout",
+            content: "src/components/core/components/layout/readme.md",
+            components: "src/components/core/components/layout/**/*/index.tsx",
+            sectionDepth: 2
         },
         {
-            name: 'Actions',
-            content: 'src/components/core/actions/README.md',
-            components: 'src/components/core/actions/*/*.vue',
-            sectionDepth: 1,
+            name: "Actions",
+            content: "src/components/core/components/actions/readme.md",
+            components: "src/components/core/components/actions/**/*/index.tsx",
+            sectionDepth: 2
         },
         {
-            name: 'Form Elements',
-            content: 'src/components/core/form/README.md',
-            components: 'src/components/core/form/*/*.vue',
-            sectionDepth: 1,
+            name: "Form",
+            content: "src/components/core/components/form/readme.md",
+            components: "src/components/core/components/form/**/*/index.tsx",
+            sectionDepth: 2
         },
         {
-            name: 'Indicators',
-            content: 'src/components/core/indicators/README.md',
-            components: 'src/components/core/indicators/*/*.vue',
-            sectionDepth: 1,
-        },
+            name: "Indicators",
+            content: "src/components/core/components/indicators/readme.md",
+            components:
+                "src/components/core/components/indicators/**/*/index.tsx",
+            sectionDepth: 2
+        }
     ],
-}
+
+    title: "Wilbur Style Guide",
+
+    serverPort: 3003,
+
+    styleguideComponents: {
+        Wrapper: path.join(__dirname, "src/components/core/docs/Wrapper")
+    },
+
+    usageMode: "expand",
+
+    webpackConfig: require("react-scripts/config/webpack.config")
+};
