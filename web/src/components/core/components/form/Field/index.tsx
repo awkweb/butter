@@ -193,7 +193,11 @@ const labelStyles = cssFactory<LabelProps>(css)`
             "color",
             props.error ? props.theme.colors.red2 : props.theme.colors.gray1
         )};
-    ${style("backgroundColor", Color.White)};
+    ${props => style("backgroundColor", props.theme.colors.white)};
+    background-image: ${props =>
+        `linear-gradient(to bottom, ${props.theme.colors.background} 45%, ${
+            props.theme.colors.white
+        } 45%)`};
     ${props => style("fontFamily", props.theme.text.getFont())};
     ${props => style("fontSize", props.theme.text.getSize(Size.Xs))};
     ${props => style("opacity", props.active ? 1 : 0)};
@@ -254,7 +258,7 @@ const inputStyles = cssFactory<InputProps>(css)`
     ${props =>
         style(
             "padding",
-            props.theme.units.getValues(props.theme.field.padding)
+            props.theme.units.getValues(props.theme.field.padding.input)
         )};
     
     &::-webkit-outer-spin-button,
@@ -271,7 +275,10 @@ export const StyledInput = styled.input`
 const textareaStyles = cssFactory<InputProps>(css)`
     ${sharedFieldStyles}
     ${props =>
-        style("padding", props.theme.units.getValues([0.55, 0.5, 0.15, 0.5]))};
+        style(
+            "padding",
+            props.theme.units.getValues(props.theme.field.padding.textarea)
+        )};
     resize: none;
 
     &[rows] {

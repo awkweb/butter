@@ -56,6 +56,12 @@ export default class TableRow extends React.Component<Props> {
 }
 
 const StyledTableRow = styled.tr`
+    &:last-child {
+        td {
+            border-bottom: 0;
+        }
+    }
+
     td {
         border-bottom: 1px solid ${props => props.theme.colors.gray8};
         padding-bottom: 1rem;

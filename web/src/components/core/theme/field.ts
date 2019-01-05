@@ -28,7 +28,10 @@ const field = Object.freeze({
     getBorderStyle,
     getFocusStyles,
 
-    padding: [0, 4, 0, 2]
+    padding: {
+        input: [0, 4, 0, 2],
+        textarea: [1, 4, 0, 2]
+    }
 });
 
 export type Field = typeof field;

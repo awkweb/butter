@@ -1,4 +1,5 @@
 import { observable, action, decorate, computed } from "mobx";
+import ItemsStore from "./items.store";
 import BudgetFormStore from "./budget-form.store";
 import BudgetsStore from "./budgets.store";
 import LogInStore from "./login.store";
@@ -10,6 +11,7 @@ import User from "../types/user";
 interface Props {
     budgetFormStore: BudgetFormStore;
     budgetsStore: BudgetsStore;
+    itemsStore: ItemsStore;
     logInStore: LogInStore;
     registerStore: RegisterStore;
     /**
@@ -29,6 +31,7 @@ interface Props {
 }
 
 export default class RootStore implements Props {
+    itemsStore: ItemsStore;
     budgetFormStore: BudgetFormStore;
     budgetsStore: BudgetsStore;
     logInStore: LogInStore;
@@ -38,6 +41,7 @@ export default class RootStore implements Props {
     constructor() {
         this.budgetFormStore = new BudgetFormStore(this);
         this.budgetsStore = new BudgetsStore(this);
+        this.itemsStore = new ItemsStore(this);
         this.logInStore = new LogInStore(this);
         this.registerStore = new RegisterStore(this);
     }

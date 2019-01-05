@@ -1,3 +1,4 @@
+export { Accounts } from "./Accounts";
 export { Dashboard } from "./Dashboard";
 export { Budgets } from "./Budgets";
 export { Budget } from "./Budget";

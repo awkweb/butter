@@ -5,7 +5,15 @@ import RootStore from "./store";
 import { ThemeProvider, Navbar, PrivateRoute, PublicRoute } from "./components";
 import { get } from "./utils";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { NoMatch, Budgets, Register, LogIn, Dashboard, Budget } from "./pages";
+import {
+    NoMatch,
+    Budgets,
+    Register,
+    LogIn,
+    Dashboard,
+    Budget,
+    Accounts
+} from "./pages";
 
 class App extends React.Component {
     rootStore = new RootStore();
@@ -39,6 +47,11 @@ class App extends React.Component {
                                     <PublicRoute
                                         path="/register"
                                         component={Register}
+                                        isAuthenticated={isAuthenticated}
+                                    />
+                                    <PrivateRoute
+                                        path="/accounts"
+                                        component={Accounts}
                                         isAuthenticated={isAuthenticated}
                                     />
                                     <PrivateRoute

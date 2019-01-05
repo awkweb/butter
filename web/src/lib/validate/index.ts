@@ -17,7 +17,7 @@ export class Validator {
     validation: Validation;
     validators: Validators;
 
-    constructor(value: any, validators: Validators) {
+    constructor(value: any, validators: Validators = {}) {
         this.initialValue = value;
         this.validators = validators;
         this.validation = this.validate(value);
@@ -29,7 +29,8 @@ export class Validator {
             key => (results[key] = this.validators[key](value))
         );
         const valid = Object.values(results).reduce(
-            (accumulator, currentValue) => accumulator && currentValue
+            (accumulator, currentValue) => accumulator && currentValue,
+            true
         );
         return {
             ...results,

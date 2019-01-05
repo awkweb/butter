@@ -11,7 +11,7 @@ export default axios.create({
     transformResponse: [
         data => {
             if (data) {
-                return camelize(JSON.parse(data));
+                return camelize(JSON.parse(data), { recursive: true });
             }
         }
     ]

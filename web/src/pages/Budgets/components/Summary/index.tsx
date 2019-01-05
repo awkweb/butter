@@ -14,6 +14,7 @@ export default class Summary extends React.Component<Props> {
         return (
             <Box
                 b
+                backgroundColor={Box.BackgroundColor.White}
                 borderColor={Box.BorderColor.Gray8}
                 cornerRadius={Box.CornerRadius.Small}
                 display={Box.Display.Flex}

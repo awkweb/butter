@@ -34,7 +34,8 @@ export const colors = Object.freeze({
     gray9: "hsl(0, 0%, 88%)",
     gray10: "hsl(0, 0%, 97%)",
 
-    white: "hsl(0, 0%, 100%)"
+    white: "hsl(0, 0%, 100%)",
+    background: "hsl(0, 0%, 99%)"
 });
 
 interface Color {

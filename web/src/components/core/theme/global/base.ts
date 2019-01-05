@@ -15,7 +15,7 @@ export default () => `
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background-color: ${colors.white};
+            background-color: ${colors.background};
             color: ${colors.gray1};
             font-family: ${text.getFont()};
             min-width: ${PAGE_MIN_WIDTH};

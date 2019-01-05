@@ -12,10 +12,14 @@ import api from "../api";
 
 interface Props {
     rootStore: RootStore;
+    amountValidator: Validator;
+    nameValidator: Validator;
+    descriptionValidator: Validator;
     /**
      * observable
      */
     amount: number;
+    description: string;
     error: string;
     id: string;
     isLoading: boolean;
@@ -29,6 +33,7 @@ interface Props {
     networkActive: boolean;
     amountValidation: Validation;
     nameValidation: Validation;
+    descriptionValidation: Validation;
     validations: Validations;
     nameError?: string;
     amountError?: string;
@@ -43,6 +48,7 @@ interface Props {
     initForm: Function;
     reset: Function;
     setAmount: Function;
+    setDescription: Function;
     setId: Function;
     setName: Function;
 }
@@ -51,8 +57,10 @@ export default class BudgetFormStore implements Props {
     rootStore: RootStore;
     amountValidator: Validator;
     nameValidator: Validator;
+    descriptionValidator: Validator;
 
     amount = 100;
+    description = "";
     error = "";
     id = "";
     isDeleting = false;
@@ -64,6 +72,7 @@ export default class BudgetFormStore implements Props {
         this.rootStore = rootStore;
         this.amountValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
+        this.descriptionValidator = new Validator(this.description);
     }
 
     get isUpdatable(): boolean {
@@ -82,11 +91,20 @@ export default class BudgetFormStore implements Props {
         return this.nameValidator.validate(this.name);
     }
 
+    get descriptionValidation() {
+        return this.descriptionValidator.validate(this.description);
+    }
+
     get validations(): Validations {
         return {
             amount: this.amountValidation,
             name: this.nameValidation,
-            all: validateAll(this.amountValidation, this.nameValidation)
+            description: this.descriptionValidation,
+            all: validateAll(
+                this.amountValidation,
+                this.nameValidation,
+                this.descriptionValidation
+            )
         };
     }
 
@@ -109,7 +127,7 @@ export default class BudgetFormStore implements Props {
     getBudget = async () => {
         try {
             const { data: budget } = await api.getBudget(this.id);
-            this.initForm(budget.amountCents, budget.name);
+            this.initForm(budget.amountCents, budget.name, budget.description);
         } catch (err) {
             const error = get(() => err.response.data);
             console.log(error);
@@ -121,7 +139,8 @@ export default class BudgetFormStore implements Props {
             this.isLoading = true;
             const { data: budget } = await api.createBudget({
                 name: this.name,
-                amount_cents: toCents(this.amount)
+                amount_cents: toCents(this.amount),
+                description: this.description
             });
             this.rootStore.budgetsStore.addBudget({
                 ...budget,
@@ -163,7 +182,8 @@ export default class BudgetFormStore implements Props {
             this.isLoading = true;
             const { data: budget } = await api.updateBudget(this.id, {
                 name: this.name,
-                amount_cents: toCents(this.amount)
+                amount_cents: toCents(this.amount),
+                description: this.description
             });
             this.rootStore.budgetsStore.updateBudget(budget);
         } catch (err) {
@@ -174,15 +194,18 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    initForm = (amountCents: number, name: string) => {
+    initForm = (amountCents: number, name: string, description: string) => {
         this.amount = toAmount(amountCents);
         this.name = name;
+        this.description = description;
         this.amountValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
+        this.descriptionValidator = new Validator(this.description);
     };
 
     reset = () => {
         this.amount = 100;
+        this.description = "";
         this.error = "";
         this.id = "";
         this.isLoading = false;
@@ -195,6 +218,10 @@ export default class BudgetFormStore implements Props {
         this.amount = amount;
     };
 
+    setDescription = (description: string) => {
+        this.description = description.slice(0, 241);
+    };
+
     setId = (id: string) => {
         this.id = id;
     };
@@ -205,6 +232,7 @@ export default class BudgetFormStore implements Props {
 }
 decorate(BudgetFormStore, {
     amount: observable,
+    description: observable,
     error: observable,
     id: observable,
     isLoading: observable,
@@ -218,6 +246,7 @@ decorate(BudgetFormStore, {
     networkActive: computed,
     amountValidation: computed,
     nameValidation: computed,
+    descriptionValidation: computed,
     validations: computed,
     nameError: computed,
     amountError: computed,
@@ -232,6 +261,7 @@ decorate(BudgetFormStore, {
     initForm: action,
     reset: action,
     setAmount: action,
+    setDescription: action,
     setId: action,
     setName: action
 });

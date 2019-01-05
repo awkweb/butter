@@ -39,7 +39,7 @@ class BudgetClass extends React.Component<Props> {
             const budget = get(() => state.budget);
             if (budget) {
                 const amountCents = budget.budgeted;
-                initForm(amountCents, budget.name);
+                initForm(amountCents, budget.name, budget.description);
             } else {
                 getBudget();
             }
@@ -60,6 +60,10 @@ class BudgetClass extends React.Component<Props> {
 
     onChangeAmount = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.budgetFormStore.setAmount(e.target.value);
+    };
+
+    onChangeDescription = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.budgetFormStore.setDescription(e.target.value);
     };
 
     onSubmit = async (e: React.FormEvent) => {
@@ -102,6 +106,7 @@ class BudgetClass extends React.Component<Props> {
                 budgetFormStore: {
                     name,
                     amount,
+                    description,
                     error,
                     isUpdatable,
                     isLoading,
@@ -159,7 +164,7 @@ class BudgetClass extends React.Component<Props> {
                                     />
                                 </Box>
 
-                                <Box mb={4}>
+                                <Box mb={2}>
                                     <Field
                                         error={amountError}
                                         id="amount"
@@ -167,6 +172,16 @@ class BudgetClass extends React.Component<Props> {
                                         type={Field.Type.Number}
                                         value={amount}
                                         onChange={this.onChangeAmount}
+                                    />
+                                </Box>
+
+                                <Box mb={4}>
+                                    <Field
+                                        id="description"
+                                        label="Description"
+                                        type={Field.Type.Textarea}
+                                        value={description}
+                                        onChange={this.onChangeDescription}
                                     />
                                 </Box>
 
