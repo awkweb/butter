@@ -12,5 +12,6 @@ export { ThemeProvider } from "./core/components/theme/ThemeProvider";
 
 export { Navbar } from "./app/Navbar";
 export { PasswordFeatures } from "./app/PasswordFeatures";
+export { PlaidLink } from "./app/PlaidLink";
 export { PrivateRoute } from "./app/PrivateRoute";
 export { PublicRoute } from "./app/PublicRoute";

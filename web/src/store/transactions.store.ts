@@ -2,28 +2,27 @@ import { action, decorate, observable } from "mobx";
 import api from "../api";
 import RootStore from "./index";
 import { get } from "../utils";
-import { Item } from "../types/item";
+import { Transaction } from "../types/transaction";
 
 interface Props {
     rootStore: RootStore;
     /**
      * observable
      */
-    items: Array<Item>;
+    transactions: Array<Transaction>;
     error: string;
     isLoading: boolean;
     /**
      * action
      */
-    createItem: Function;
-    getItems: Function;
+    getTransactions: Function;
     reset: Function;
 }
 
-export default class ItemsStore implements Props {
+export default class TransactionsStore implements Props {
     rootStore: RootStore;
 
-    items: Array<Item> = [];
+    transactions: Array<Transaction> = [];
     error = "";
     isLoading = false;
 
@@ -31,22 +30,12 @@ export default class ItemsStore implements Props {
         this.rootStore = rootStore;
     }
 
-    createItem = async (data: object) => {
-        try {
-            const { data: item } = await api.createItem(data);
-            this.items = [...this.items, item];
-        } catch (err) {
-            const error = get(() => err.response.data);
-            console.log(error);
-        }
-    };
-
-    getItems = async () => {
+    getTransactions = async () => {
         try {
             this.error = "";
             this.isLoading = true;
-            const { data: items } = await api.getItems();
-            this.items = items;
+            const { data: transactions } = await api.getTransactions({});
+            this.transactions = transactions;
         } catch (err) {
             const error = get(() => err.response.data);
             console.log(error);
@@ -56,22 +45,21 @@ export default class ItemsStore implements Props {
     };
 
     reset = () => {
-        this.items = [];
+        this.transactions = [];
         this.error = "";
         this.isLoading = false;
     };
 }
-decorate(ItemsStore, {
+decorate(TransactionsStore, {
     /**
      * observable
      */
-    items: observable,
+    transactions: observable,
     error: observable,
     isLoading: observable,
     /**
      * action
      */
-    createItem: action,
-    getItems: action,
+    getTransactions: action,
     reset: action
 });

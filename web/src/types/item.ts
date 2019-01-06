@@ -1,4 +1,5 @@
 export interface Account {
+    id: string;
     accountId: string;
     mask: string;
     name: string;
@@ -7,6 +8,7 @@ export interface Account {
 }
 
 export interface Institution {
+    color: string;
     institutionId: string;
     name: string;
 }

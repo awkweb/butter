@@ -4,6 +4,7 @@ import BudgetFormStore from "./budget-form.store";
 import BudgetsStore from "./budgets.store";
 import LogInStore from "./login.store";
 import RegisterStore from "./register.store";
+import TransactionStore from "./transactions.store";
 import { get } from "../utils";
 import api from "../api";
 import User from "../types/user";
@@ -14,6 +15,7 @@ interface Props {
     itemsStore: ItemsStore;
     logInStore: LogInStore;
     registerStore: RegisterStore;
+    transactionStore: TransactionStore;
     /**
      * observable
      */
@@ -36,6 +38,7 @@ export default class RootStore implements Props {
     budgetsStore: BudgetsStore;
     logInStore: LogInStore;
     registerStore: RegisterStore;
+    transactionStore: TransactionStore;
     user?: User;
 
     constructor() {
@@ -44,6 +47,7 @@ export default class RootStore implements Props {
         this.itemsStore = new ItemsStore(this);
         this.logInStore = new LogInStore(this);
         this.registerStore = new RegisterStore(this);
+        this.transactionStore = new TransactionStore(this);
     }
 
     get isAuthenticated() {

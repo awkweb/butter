@@ -12,7 +12,8 @@ import {
     LogIn,
     Dashboard,
     Budget,
-    Accounts
+    Accounts,
+    Transactions
 } from "./pages";
 
 class App extends React.Component {
@@ -62,6 +63,11 @@ class App extends React.Component {
                                     <PrivateRoute
                                         path="/budgets"
                                         component={Budgets}
+                                        isAuthenticated={isAuthenticated}
+                                    />
+                                    <PrivateRoute
+                                        path="/transactions"
+                                        component={Transactions}
                                         isAuthenticated={isAuthenticated}
                                     />
                                     <PrivateRoute

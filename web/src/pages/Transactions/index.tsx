@@ -3,40 +3,32 @@ import { inject, observer } from "mobx-react";
 import DocumentTitle from "react-document-title";
 import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
-import Summary from "./components/Summary";
-import Table from "./components/Table";
-
 interface Props {
     rootStore: RootStore;
 }
 
-class BudgetsClass extends React.Component<Props> {
+class TransactionsClass extends React.Component<Props> {
     componentWillMount() {
         const {
             rootStore: {
-                budgetsStore: { budgets, getBudgets }
+                transactionStore: { transactions, getTransactions }
             }
         } = this.props;
-        if (budgets.length) {
+        if (transactions.length) {
             return;
         }
-        getBudgets();
+        getTransactions();
     }
 
     render() {
         const {
             rootStore: {
-                budgetsStore: {
-                    budgets,
-                    isLoading,
-                    totalBudgeted,
-                    totalRemaining,
-                    totalSpent
-                }
+                transactionStore: { transactions, isLoading }
             }
         } = this.props;
+        console.log(transactions);
         return (
-            <DocumentTitle title="Budgets | Wilbur">
+            <DocumentTitle title="Connected Accounts | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
                     <Row>
                         <Col xs={12}>
@@ -53,27 +45,16 @@ class BudgetsClass extends React.Component<Props> {
                                     noMargin
                                     size={Text.Size.Xxl}
                                 >
-                                    Budgets
+                                    Transactions
                                 </Text>
                                 <Box>
                                     <Button
                                         color={Button.Color.Secondary}
                                         to="/budgets/new"
                                     >
-                                        Create Budget
+                                        Create Transaction
                                     </Button>
                                 </Box>
-                            </Box>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12}>
-                            <Box mb={2}>
-                                <Summary
-                                    budgeted={totalBudgeted}
-                                    remaining={totalRemaining}
-                                    spent={totalSpent}
-                                />
                             </Box>
                         </Col>
                     </Row>
@@ -89,12 +70,8 @@ class BudgetsClass extends React.Component<Props> {
                     {!isLoading && (
                         <Row>
                             <Col xs={12}>
-                                {budgets.length > 0 && (
-                                    <Box mb={4}>
-                                        <Table budgets={budgets} />
-                                    </Box>
-                                )}
-                                {budgets.length === 0 && (
+                                {transactions.length > 0 && <Box>Merp</Box>}
+                                {transactions.length === 0 && (
                                     <Box
                                         b
                                         borderColor={Box.BorderColor.Gray9}
@@ -106,8 +83,8 @@ class BudgetsClass extends React.Component<Props> {
                                         textAlign={Box.TextAlign.Center}
                                     >
                                         <Text size={Text.Size.Sm}>
-                                            Create a budget and you'll see it
-                                            right here.
+                                            Create a transaction and you'll see
+                                            it right here.
                                         </Text>
                                     </Box>
                                 )}
@@ -120,4 +97,4 @@ class BudgetsClass extends React.Component<Props> {
     }
 }
 
-export const Budgets = inject("rootStore")(observer(BudgetsClass));
+export const Transactions = inject("rootStore")(observer(TransactionsClass));

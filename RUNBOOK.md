@@ -38,20 +38,15 @@ export PLAID_PUBLIC_KEY=5f198f5da4f3be8da6ecaaadbdfd58
 export PLAID_SECRET=5ea62a857d2361250eb7ed9358133c
 export PLAID_ENV=sandbox
 
+# REACT APP KEYS
+export REACT_APP_PLAID_ENV=sandbox
+export REACT_APP_PLAID_PUBLIC_KEY=5f198adbdf5da4ff3be8da6ecaad58
+
 # LETS ENCRYPT CERTIFICATE PATHS
 
 export SSL_CERTIFICATE=/etc/nginx/certs/local/wilbur.crt
 export SSL_CERTIFICATE_KEY=/etc/nginx/certs/local/wilbur.key
 ```
-
-Add an `.env.development.local` file to the `web` directory:
-
-```bash
-VUE_APP_PLAID_ENV=sandbox
-VUE_APP_PLAID_PUBLIC_KEY=5f198adbdf5da4ff3be8da6ecaad58
-```
-
-See [Environment Variables and Modes](https://cli.vuejs.org/guide/mode-and-env.html) for more.
 
 Update `/etc/hosts` by adding:
 
@@ -114,22 +109,22 @@ brew install black
 
 Docker & ECS:
 
-+ [Take Containers From Development To Amazon ECS](https://docs.bitnami.com/aws/how-to/ecs-rds-tutorial/)
-+ [Docker for Beginners](https://docker-curriculum.com)
+-   [Take Containers From Development To Amazon ECS](https://docs.bitnami.com/aws/how-to/ecs-rds-tutorial/)
+-   [Docker for Beginners](https://docker-curriculum.com)
 
 Django REST Framework:
 
-+ [Django OAuth Toolkit with Django REST Framework Tutorial](https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html)
-+ [dry-rest-permissions](https://github.com/dbkaplan/dry-rest-permissions)
+-   [Django OAuth Toolkit with Django REST Framework Tutorial](https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html)
+-   [dry-rest-permissions](https://github.com/dbkaplan/dry-rest-permissions)
 
 General AWS:
 
-+ [Migrating DNS Service for a Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html)
-+ [Configuring Amazon Route 53 to Route Traffic to an Amazon EC2 Instance](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance.html)
+-   [Migrating DNS Service for a Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html)
+-   [Configuring Amazon Route 53 to Route Traffic to an Amazon EC2 Instance](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance.html)
 
 Other:
 
-+ [Generating a production certificate with Let's Encrypt & ZeroSSL](https://zerossl.com)
-+ [Certificates for localhost](https://letsencrypt.org/docs/certificates-for-localhost/)
-+ [Make Chrome Accept a Self-Signed Certificate (on OSX)](https://www.accuweaver.com/2014/09/19/make-chrome-accept-a-self-signed-certificate-on-osx/)
-+ [Plaid Dev Environment](https://dashboard.plaid.com/overview/development)
+-   [Generating a production certificate with Let's Encrypt & ZeroSSL](https://zerossl.com)
+-   [Certificates for localhost](https://letsencrypt.org/docs/certificates-for-localhost/)
+-   [Make Chrome Accept a Self-Signed Certificate (on OSX)](https://www.accuweaver.com/2014/09/19/make-chrome-accept-a-self-signed-certificate-on-osx/)
+-   [Plaid Dev Environment](https://dashboard.plaid.com/overview/development)
