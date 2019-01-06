@@ -25,6 +25,9 @@ services:
         build: ./web
         command: yarn start
         container_name: web
+        environment:
+            - REACT_APP_PLAID_ENV=$REACT_APP_PLAID_ENV
+            - REACT_APP_PLAID_PUBLIC_KEY=$REACT_APP_PLAID_PUBLIC_KEY
         expose:
             - 3000
         restart: always
