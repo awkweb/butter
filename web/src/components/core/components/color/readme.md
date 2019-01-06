@@ -16,12 +16,12 @@ const colors = require("../../theme/colors").default;
                 key={key}
                 mb={2}
                 mr={2}
-                ph={2}
+                ph={1}
                 pv={6}
                 textAlign={Box.TextAlign.Center}
             >
                 <Text>{key}</Text>
-                <Text>{colors[Box.BackgroundColor.Gray1]}</Text>
+                <Text size={Text.Size.Sm}>{colors[key]}</Text>
             </Box>
         ))}
 </Box>;
@@ -45,12 +45,12 @@ const colors = require("../../theme/colors").default;
                 key={key}
                 mb={2}
                 mr={2}
-                ph={2}
+                ph={1}
                 pv={6}
                 textAlign={Box.TextAlign.Center}
             >
                 <Text>{key}</Text>
-                <Text>{colors[Box.BackgroundColor.Gray1]}</Text>
+                <Text size={Text.Size.Sm}>{colors[key]}</Text>
             </Box>
         ))}
 </Box>;

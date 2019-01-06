@@ -73,6 +73,6 @@ const StyledTableRow = styled.tr`
 `;
 
 const StyledTableData = styled.td`
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 `;

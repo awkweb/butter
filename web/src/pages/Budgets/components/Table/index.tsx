@@ -88,7 +88,7 @@ const StyledTableHeader = styled.thead`
     background-color: ${props => props.theme.colors.gray10};
     th {
         border-bottom: 1px solid ${props => props.theme.colors.gray8};
-        padding: 0.7rem 1rem;
+        padding: 0.7rem 1.5rem;
         word-break: normal;
     }
 `;

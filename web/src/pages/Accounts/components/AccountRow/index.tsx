@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text } from "../../../../components";
+import { Box, Text, Button } from "../../../../components";
 
 interface Props {
     color: string;
@@ -33,7 +33,7 @@ export default class AccountRow extends React.Component<Props> {
                         css={`
                             background-color: #${color};
                             height: 2.5rem;
-                            width: 2.5rem;
+                            min-width: 2.5rem;
                         `}
                         mr={2}
                     />
@@ -56,10 +56,42 @@ export default class AccountRow extends React.Component<Props> {
                         </Text>
                     </Box>
                 </Box>
-                <Box>
-                    <Text color={Text.Color.Blue3} size={Text.Size.Xs}>
-                        Update
-                    </Text>
+                <Box display={Box.Display.Flex}>
+                    <Box
+                        css={`
+                            button {
+                                padding: 0;
+                            }
+                        `}
+                        mr={2}
+                    >
+                        <Button
+                            noBackground
+                            noBorder
+                            onClick={() => alert("Refresh")}
+                        >
+                            <Text color={Text.Color.Blue3} size={Text.Size.Xs}>
+                                Refresh
+                            </Text>
+                        </Button>
+                    </Box>
+                    <Box
+                        css={`
+                            button {
+                                padding: 0;
+                            }
+                        `}
+                    >
+                        <Button
+                            noBackground
+                            noBorder
+                            onClick={() => alert("Delete")}
+                        >
+                            <Text color={Text.Color.Blue3} size={Text.Size.Xs}>
+                                Delete
+                            </Text>
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         );
