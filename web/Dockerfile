@@ -9,6 +9,7 @@ WORKDIR /home/web
 
 # Install yarn globally
 RUN npm i -g yarn
+RUN chmod u+x /usr/local/bin/yarn
 
 # Copy over node requirements and install
 ADD package.json /home/web/
