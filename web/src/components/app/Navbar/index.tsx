@@ -27,6 +27,7 @@ export class Navbar extends React.Component<Props> {
     };
 
     onOutsideClick = () => {
+        console.log("hello?");
         this.setState({ isDropdownOpen: false });
     };
 

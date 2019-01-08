@@ -4,7 +4,7 @@ import { Button } from "../../index";
 interface Props {
     apiVersion?: string;
     children?: React.ReactNode;
-    clientName: string;
+    clientName?: string;
     env: string;
     institution?: string;
     onClick?: Function;
@@ -12,8 +12,10 @@ interface Props {
     onExit?: Function;
     onLoad?: Function;
     onSuccess: Function;
+    noBackground: boolean;
+    noBorder: boolean;
     product?: Array<string>;
-    publicKey: string;
+    publicKey?: string;
     selectAccount?: boolean;
     token?: string;
     webhook?: string;
@@ -31,15 +33,20 @@ export class PlaidLink extends React.Component<Props> {
 
     static defaultProps = {
         apiVersion: "v2",
-        env: "sandbox",
+        clientName: "Wilbur",
+        env: (process.env.REACT_APP_PLAID_ENV as string) || "sandbox",
         institution: null,
+        noBackground: false,
+        noBorder: false,
         product: ["transactions"],
+        publicKey: process.env.REACT_APP_PLAID_PUBLIC_KEY as string,
         selectAccount: true,
         token: null
     };
 
     async componentWillMount() {
         try {
+            // const { token } = this.props;
             const { initializeURL } = this.state;
             await this.loadScript(initializeURL);
             this.onScriptLoaded();
@@ -48,9 +55,14 @@ export class PlaidLink extends React.Component<Props> {
         }
     }
 
+    componentWillUnmount() {
+        const { token } = this.props;
+        this.removeScript(token);
+    }
+
     loadScript = (src: string) => {
         return new Promise(function(resolve, reject) {
-            if (document.querySelector('script[src="' + src + '"]')) {
+            if (document.querySelector(`script[src="${src}"]`)) {
                 resolve();
                 return;
             }
@@ -63,6 +75,11 @@ export class PlaidLink extends React.Component<Props> {
             el.addEventListener("abort", reject);
             document.head.appendChild(el);
         });
+    };
+
+    removeScript = (id: string = "plaid-link") => {
+        const el = document.getElementById(id);
+        console.log(id, el);
     };
 
     onScriptError = () => {
@@ -128,9 +145,14 @@ export class PlaidLink extends React.Component<Props> {
 
     render() {
         const { disabledButton } = this.state;
-        const { children } = this.props;
+        const { children, noBackground, noBorder } = this.props;
         return (
-            <Button disabled={disabledButton} onClick={this.handleOnClick}>
+            <Button
+                disabled={disabledButton}
+                noBackground={noBackground}
+                noBorder={noBorder}
+                onClick={this.handleOnClick}
+            >
                 {children}
             </Button>
         );

@@ -62,12 +62,12 @@ const StyledDropdownItem = styled.li`
     }
     a,
     button {
-        padding: 1.25rem;
+        padding: 0.85rem 1rem;
         width: 100%;
     }
 `;
 
-const commonStyles = cssFactory<Props>(css)`
+const dropdownStyles = cssFactory<Props>(css)`
     background-color: ${props => props.theme.colors.white};
     border: 1px solid ${props => props.theme.colors.gray7};
     border-radius: ${props => props.theme.cornerRadii.small};
@@ -81,10 +81,10 @@ const commonStyles = cssFactory<Props>(css)`
     right: 0;
     ${props => style("top", props.open ? "3.5rem" : "2rem")};
     transition: all 0.2s cubic-bezier(0.7, 0, 0.175, 1) 0s;
-    width: 16rem;
+    width: 12rem;
     z-index: ${props => props.theme.zIndex.Z_INDEX_HIGHEST};
 `;
 
 const StyledDropdown = styled.ul`
-    ${commonStyles};
+    ${dropdownStyles};
 `;

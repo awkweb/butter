@@ -76,6 +76,7 @@ export default class RootStore implements Props {
             await api.logOut();
             this.setUser(undefined);
             this.budgetFormStore.reset();
+            this.itemsStore.reset();
         } catch (err) {
             throw get(() => err.response.data);
         }

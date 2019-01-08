@@ -11,11 +11,6 @@ interface Props {
 }
 
 class AccountsClass extends React.Component<Props> {
-    state = {
-        plaidPublicKey: process.env.REACT_APP_PLAID_PUBLIC_KEY as string,
-        plaidEnv: process.env.REACT_APP_PLAID_ENV
-    };
-
     componentWillMount() {
         const {
             rootStore: {
@@ -30,7 +25,6 @@ class AccountsClass extends React.Component<Props> {
 
     onSuccess = (token: string, data: Item) => {
         const { account, institution } = data;
-        console.log(token, account, institution);
         this.props.rootStore.itemsStore.createItem({
             institution,
             account: {
@@ -42,14 +36,16 @@ class AccountsClass extends React.Component<Props> {
         });
     };
 
+    handleDelete = (id: string) => {
+        this.props.rootStore.itemsStore.deleteItem(id);
+    };
+
     render() {
         const {
             rootStore: {
-                itemsStore: { items, isLoading }
+                itemsStore: { items, isDeleting, isLoading }
             }
         } = this.props;
-        const { plaidPublicKey, plaidEnv } = this.state;
-        console.log(items);
         return (
             <DocumentTitle title="Connected Accounts | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -71,12 +67,7 @@ class AccountsClass extends React.Component<Props> {
                                     Connected Accounts
                                 </Text>
                                 <Box>
-                                    <PlaidLink
-                                        env={plaidEnv}
-                                        clientName="Wilbur"
-                                        publicKey={plaidPublicKey}
-                                        onSuccess={this.onSuccess}
-                                    >
+                                    <PlaidLink onSuccess={this.onSuccess}>
                                         Add Account
                                     </PlaidLink>
                                 </Box>
@@ -103,20 +94,25 @@ class AccountsClass extends React.Component<Props> {
                                             Box.BackgroundColor.White
                                         }
                                         cornerRadius={Box.CornerRadius.Small}
+                                        mb={4}
                                     >
                                         {items.map((item, index) => (
                                             <AccountRow
                                                 color={item.institution.color}
                                                 key={item.id}
+                                                id={item.id}
                                                 institution={
                                                     item.institution.name
                                                 }
                                                 mask={item.account.mask}
                                                 name={item.account.name}
+                                                networkActive={isDeleting}
                                                 last={
                                                     index === items.length - 1
                                                 }
+                                                publicToken={item.publicToken}
                                                 type={item.account.subtype}
+                                                handleDelete={this.handleDelete}
                                             />
                                         ))}
                                     </Box>

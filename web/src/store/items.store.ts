@@ -11,11 +11,13 @@ interface Props {
      */
     items: Array<Item>;
     error: string;
+    isDeleting: boolean;
     isLoading: boolean;
     /**
      * action
      */
     createItem: Function;
+    deleteItem: Function;
     getItems: Function;
     reset: Function;
 }
@@ -25,6 +27,7 @@ export default class ItemsStore implements Props {
 
     items: Array<Item> = [];
     error = "";
+    isDeleting = false;
     isLoading = false;
 
     constructor(rootStore: RootStore) {
@@ -41,6 +44,19 @@ export default class ItemsStore implements Props {
         }
     };
 
+    deleteItem = async (id: string) => {
+        try {
+            this.isDeleting = true;
+            await api.deleteItem(id);
+            this.items = [...this.items.filter(item => item.id !== id)];
+        } catch (err) {
+            const error = get(() => err.response.data);
+            console.log(error);
+        } finally {
+            this.isDeleting = false;
+        }
+    };
+
     getItems = async () => {
         try {
             this.error = "";
@@ -50,6 +66,7 @@ export default class ItemsStore implements Props {
         } catch (err) {
             const error = get(() => err.response.data);
             console.log(error);
+            this.error = error;
         } finally {
             this.isLoading = false;
         }
@@ -58,6 +75,7 @@ export default class ItemsStore implements Props {
     reset = () => {
         this.items = [];
         this.error = "";
+        this.isDeleting = false;
         this.isLoading = false;
     };
 }
@@ -67,11 +85,13 @@ decorate(ItemsStore, {
      */
     items: observable,
     error: observable,
+    isDeleting: observable,
     isLoading: observable,
     /**
      * action
      */
     createItem: action,
+    deleteItem: action,
     getItems: action,
     reset: action
 });
