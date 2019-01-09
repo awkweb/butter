@@ -13,6 +13,7 @@ import {
     Dashboard,
     Budget,
     Accounts,
+    Transaction,
     Transactions
 } from "./pages";
 
@@ -63,6 +64,11 @@ class App extends React.Component {
                                     <PrivateRoute
                                         path="/budgets"
                                         component={Budgets}
+                                        isAuthenticated={isAuthenticated}
+                                    />
+                                    <PrivateRoute
+                                        path="/transactions/:id"
+                                        component={Transaction}
                                         isAuthenticated={isAuthenticated}
                                     />
                                     <PrivateRoute

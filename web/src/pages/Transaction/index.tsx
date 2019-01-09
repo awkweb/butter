@@ -22,7 +22,7 @@ interface Props {
     rootStore: RootStore;
 }
 
-class BudgetClass extends React.Component<Props> {
+class TransactionClass extends React.Component<Props> {
     async componentWillMount() {
         const {
             history,
@@ -31,44 +31,54 @@ class BudgetClass extends React.Component<Props> {
             },
             location: { state },
             rootStore: {
-                budgetFormStore: { initForm, getBudget, setId },
-                budgetsStore: { budgets, getBudgets }
+                budgetsStore: { budgets, getBudgets },
+                transactionFormStore: { initForm, getTransaction, setId },
+                transactionsStore: { transactions, getTransactions }
             }
         } = this.props;
         setId(id);
         if (id !== "new") {
-            const budget = get(() => state.budget);
-            if (budget) {
-                const amountCents = budget.budgeted;
-                initForm(amountCents, budget.name, budget.description);
+            const transaction = get(() => state.transaction);
+            if (transaction) {
+                initForm(
+                    transaction.amountCents,
+                    transaction.name,
+                    transaction.description,
+                    transaction.date,
+                    transaction.budget
+                );
             } else {
                 try {
-                    await getBudget();
+                    getTransaction();
                 } catch (e) {
-                    history.replace("/budgets");
+                    history.replace("/transactions");
                 }
             }
         }
-        if (budgets.length) {
-            return;
+        if (!transactions.length) {
+            getTransactions();
         }
-        getBudgets();
+        if (!budgets.length) {
+            getBudgets();
+        }
     }
 
     componentWillUnmount() {
-        this.props.rootStore.budgetFormStore.reset();
+        this.props.rootStore.transactionFormStore.reset();
     }
 
     onChangeName = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setName(e.target.value);
+        this.props.rootStore.transactionFormStore.setName(e.target.value);
     };
 
     onChangeAmount = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setAmount(e.target.value);
+        this.props.rootStore.transactionFormStore.setAmount(e.target.value);
     };
 
     onChangeDescription = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setDescription(e.target.value);
+        this.props.rootStore.transactionFormStore.setDescription(
+            e.target.value
+        );
     };
 
     onSubmit = async (e: React.FormEvent) => {
@@ -76,41 +86,47 @@ class BudgetClass extends React.Component<Props> {
         const {
             history,
             rootStore: {
-                budgetFormStore: { isUpdatable, handleUpdate, handleCreate }
+                transactionFormStore: {
+                    isUpdatable,
+                    handleUpdate,
+                    handleCreate
+                }
             }
         } = this.props;
         if (isUpdatable) {
             handleUpdate();
-            history.push("/budgets");
+            history.push("/transactions");
         } else {
             await handleCreate();
-            history.push("/budgets");
+            history.push("/transactions");
         }
     };
 
     onOutsideClick = () => {
-        this.props.rootStore.budgetFormStore.handleOutsideClick();
+        this.props.rootStore.transactionFormStore.handleOutsideClick();
     };
 
     onClickDelete = async () => {
         const {
             history,
             rootStore: {
-                budgetFormStore: { handleDelete, startDelete }
+                transactionFormStore: { handleDelete, startDelete }
             }
         } = this.props;
         await handleDelete();
         if (startDelete) {
-            history.push("/budgets");
+            history.push("/transactions");
         }
     };
 
     render() {
         const {
             rootStore: {
-                budgetFormStore: {
+                transactionFormStore: {
                     name,
                     amount,
+                    budget,
+                    date,
                     description,
                     error,
                     isUpdatable,
@@ -124,7 +140,7 @@ class BudgetClass extends React.Component<Props> {
                 }
             }
         } = this.props;
-        const title = `${isUpdatable ? "Update" : "Create"} Budget`;
+        const title = `${isUpdatable ? "Update" : "Create"} Transaction`;
         return (
             <DocumentTitle title={`${title} | Wilbur`}>
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -180,6 +196,24 @@ class BudgetClass extends React.Component<Props> {
                                     />
                                 </Box>
 
+                                <Box mb={2}>
+                                    <Field
+                                        id="date"
+                                        label="Date"
+                                        value={date}
+                                        onChange={() => {}}
+                                    />
+                                </Box>
+
+                                <Box mb={2}>
+                                    <Field
+                                        id="budget"
+                                        label="Budget"
+                                        value={budget}
+                                        onChange={() => {}}
+                                    />
+                                </Box>
+
                                 <Box mb={4}>
                                     <Field
                                         id="description"
@@ -218,7 +252,7 @@ class BudgetClass extends React.Component<Props> {
                                             <Link
                                                 disabled={networkActive}
                                                 size={Link.Size.Sm}
-                                                to="/budgets"
+                                                to="/transactions"
                                             >
                                                 Cancel
                                             </Link>
@@ -264,4 +298,4 @@ class BudgetClass extends React.Component<Props> {
     }
 }
 
-export const Budget = inject("rootStore")(observer(BudgetClass));
+export const Transaction = inject("rootStore")(observer(TransactionClass));

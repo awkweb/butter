@@ -11,7 +11,7 @@ class TransactionsClass extends React.Component<Props> {
     componentWillMount() {
         const {
             rootStore: {
-                transactionStore: { transactions, getTransactions }
+                transactionsStore: { transactions, getTransactions }
             }
         } = this.props;
         if (transactions.length) {
@@ -23,7 +23,7 @@ class TransactionsClass extends React.Component<Props> {
     render() {
         const {
             rootStore: {
-                transactionStore: { transactions, isLoading }
+                transactionsStore: { transactions, isLoading }
             }
         } = this.props;
         console.log(transactions);
@@ -50,7 +50,7 @@ class TransactionsClass extends React.Component<Props> {
                                 <Box>
                                     <Button
                                         color={Button.Color.Secondary}
-                                        to="/budgets/new"
+                                        to="/transactions/new"
                                     >
                                         Create Transaction
                                     </Button>

@@ -1,4 +1,0 @@
-{
-    "python.formatting.provider": "black",
-    "python.pythonPath": "/usr/local/opt/pyenv/versions/budget/bin/python"
-}

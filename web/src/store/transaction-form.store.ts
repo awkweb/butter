@@ -19,6 +19,8 @@ interface Props {
      * observable
      */
     amount: number;
+    budget: string;
+    date: string;
     description: string;
     error: string;
     id: string;
@@ -40,7 +42,7 @@ interface Props {
     /**
      * action
      */
-    getBudget: Function;
+    getTransaction: Function;
     handleCreate: Function;
     handleDelete: Function;
     handleOutsideClick: Function;
@@ -53,13 +55,15 @@ interface Props {
     setName: Function;
 }
 
-export default class BudgetFormStore implements Props {
+export default class TransactionFormStore implements Props {
     rootStore: RootStore;
     amountValidator: Validator;
     nameValidator: Validator;
     descriptionValidator: Validator;
 
     amount = 100;
+    budget = "";
+    date = "";
     description = "";
     error = "";
     id = "";
@@ -124,10 +128,16 @@ export default class BudgetFormStore implements Props {
         return error;
     }
 
-    getBudget = async () => {
+    getTransaction = async () => {
         try {
-            const { data: budget } = await api.getBudget(this.id);
-            this.initForm(budget.amountCents, budget.name, budget.description);
+            const { data: transaction } = await api.getTransaction(this.id);
+            this.initForm(
+                transaction.amountCents,
+                transaction.name,
+                transaction.description,
+                transaction.budget,
+                transaction.date
+            );
         } catch (err) {
             const error = get(() => err.response.data);
             throw error;
@@ -194,10 +204,18 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    initForm = (amountCents: number, name: string, description: string) => {
+    initForm = (
+        amountCents: number,
+        name: string,
+        description: string,
+        budget: string,
+        date: string
+    ) => {
         this.amount = toAmount(amountCents);
         this.name = name;
         this.description = description;
+        this.date = date;
+        this.budget = budget;
         this.amountValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
@@ -205,6 +223,8 @@ export default class BudgetFormStore implements Props {
 
     reset = () => {
         this.amount = 100;
+        this.budget = "";
+        this.date = "";
         this.description = "";
         this.error = "";
         this.id = "";
@@ -230,8 +250,10 @@ export default class BudgetFormStore implements Props {
         this.name = name;
     };
 }
-decorate(BudgetFormStore, {
+decorate(TransactionFormStore, {
     amount: observable,
+    budget: observable,
+    date: observable,
     description: observable,
     error: observable,
     id: observable,
@@ -253,7 +275,7 @@ decorate(BudgetFormStore, {
     /**
      * action
      */
-    getBudget: action,
+    getTransaction: action,
     handleCreate: action,
     handleDelete: action,
     handleOutsideClick: action,
