@@ -1,10 +1,10 @@
 import React from "react";
 import { observer, Provider } from "mobx-react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import DocumentTitle from "react-document-title";
 import RootStore from "./store";
-import { ThemeProvider, Navbar, PrivateRoute, PublicRoute } from "./components";
 import { get } from "./utils";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { ThemeProvider, Navbar, PrivateRoute, PublicRoute } from "./components";
 import {
     NoMatch,
     Budgets,

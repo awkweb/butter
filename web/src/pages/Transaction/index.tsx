@@ -1,6 +1,9 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
+import { Moment } from "moment";
 import DocumentTitle from "react-document-title";
+import { SingleDatePicker } from "react-dates";
+import Select from "react-select";
 import OutsideClickHandler from "react-outside-click-handler";
 import {
     Box,
@@ -14,6 +17,7 @@ import {
 } from "../../components";
 import RootStore from "../../store";
 import { get } from "../../utils";
+import { ValueType } from "react-select/lib/types";
 
 interface Props {
     location: any;
@@ -81,6 +85,23 @@ class TransactionClass extends React.Component<Props> {
         );
     };
 
+    onChangeDate = (date: Moment | null) => {
+        this.props.rootStore.transactionFormStore.setDate(date);
+    };
+
+    onChangeDateFocused = ({ focused }: { focused: boolean | null }) => {
+        this.props.rootStore.transactionFormStore.setDateFocused(!!focused);
+    };
+
+    onChangeBudget = (
+        selectedOption: ValueType<{
+            value: string;
+            label: string;
+        }>
+    ) => {
+        this.props.rootStore.transactionFormStore.setBudget(selectedOption);
+    };
+
     onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const {
@@ -122,11 +143,13 @@ class TransactionClass extends React.Component<Props> {
     render() {
         const {
             rootStore: {
+                budgetsStore: { budgets },
                 transactionFormStore: {
                     name,
                     amount,
                     budget,
                     date,
+                    dateFocused,
                     description,
                     error,
                     isUpdatable,
@@ -197,20 +220,27 @@ class TransactionClass extends React.Component<Props> {
                                 </Box>
 
                                 <Box mb={2}>
-                                    <Field
-                                        id="date"
-                                        label="Date"
-                                        value={date}
-                                        onChange={() => {}}
+                                    <SingleDatePicker
+                                        date={date}
+                                        onDateChange={this.onChangeDate}
+                                        focused={dateFocused}
+                                        onFocusChange={this.onChangeDateFocused}
+                                        id="Date"
                                     />
                                 </Box>
 
                                 <Box mb={2}>
-                                    <Field
-                                        id="budget"
-                                        label="Budget"
+                                    <Select
+                                        isSearchable
+                                        menuPlacement="auto"
+                                        name="budget"
+                                        placeholder="Budget"
+                                        options={budgets.map(b => ({
+                                            value: b.id,
+                                            label: b.name
+                                        }))}
                                         value={budget}
-                                        onChange={() => {}}
+                                        onChange={this.onChangeBudget}
                                     />
                                 </Box>
 

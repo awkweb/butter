@@ -1,4 +1,6 @@
-import { decorate, observable, action, computed } from "mobx";
+import { decorate, observable, action, computed, transaction } from "mobx";
+import moment, { Moment } from "moment";
+import { ValueType } from "react-select/lib/types";
 import RootStore from "./index";
 import { required } from "../lib/validate/validators";
 import {
@@ -19,8 +21,9 @@ interface Props {
      * observable
      */
     amount: number;
-    budget: string;
-    date: string;
+    budget: ValueType<{ value: string; label: string }>;
+    date: Moment | null;
+    dateFocused: boolean;
     description: string;
     error: string;
     id: string;
@@ -50,7 +53,10 @@ interface Props {
     initForm: Function;
     reset: Function;
     setAmount: Function;
+    setBudget: Function;
     setDescription: Function;
+    setDate: Function;
+    setDateFocused: Function;
     setId: Function;
     setName: Function;
 }
@@ -62,8 +68,9 @@ export default class TransactionFormStore implements Props {
     descriptionValidator: Validator;
 
     amount = 100;
-    budget = "";
-    date = "";
+    budget: ValueType<{ value: string; label: string }> = undefined;
+    date: Moment | null = moment();
+    dateFocused = false;
     description = "";
     error = "";
     id = "";
@@ -147,16 +154,12 @@ export default class TransactionFormStore implements Props {
     handleCreate = async () => {
         try {
             this.isLoading = true;
-            const { data: budget } = await api.createBudget({
+            const { data: transaction } = await api.createBudget({
                 name: this.name,
                 amount_cents: toCents(this.amount),
                 description: this.description
             });
-            this.rootStore.budgetsStore.addBudget({
-                ...budget,
-                budgeted: budget.amountCents,
-                spent: 0
-            });
+            // this.rootStore.transactionsStore.addTransaction(transaction);
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -170,7 +173,7 @@ export default class TransactionFormStore implements Props {
             try {
                 this.isDeleting = true;
                 await api.deleteBudget(this.id);
-                this.rootStore.budgetsStore.removeBudget(this.id);
+                // this.rootStore.transactionsStore.removeTransaction(this.id);
             } catch (err) {
                 const error = get(() => err.response.data);
                 this.error = error;
@@ -190,12 +193,14 @@ export default class TransactionFormStore implements Props {
     handleUpdate = async () => {
         try {
             this.isLoading = true;
-            const { data: budget } = await api.updateBudget(this.id, {
+            const { data: transaction } = await api.updateTransaction(this.id, {
                 name: this.name,
                 amount_cents: toCents(this.amount),
-                description: this.description
+                description: this.description,
+                budget: this.budget,
+                date: this.date
             });
-            this.rootStore.budgetsStore.updateBudget(budget);
+            // this.rootStore.transactionsStore.updateTransaction(transaction);
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -208,8 +213,8 @@ export default class TransactionFormStore implements Props {
         amountCents: number,
         name: string,
         description: string,
-        budget: string,
-        date: string
+        budget: ValueType<{ value: string; label: string }>,
+        date: Moment
     ) => {
         this.amount = toAmount(amountCents);
         this.name = name;
@@ -223,8 +228,8 @@ export default class TransactionFormStore implements Props {
 
     reset = () => {
         this.amount = 100;
-        this.budget = "";
-        this.date = "";
+        this.budget = undefined;
+        this.date = moment();
         this.description = "";
         this.error = "";
         this.id = "";
@@ -236,6 +241,18 @@ export default class TransactionFormStore implements Props {
 
     setAmount = (amount: number) => {
         this.amount = amount;
+    };
+
+    setBudget = (budget: ValueType<{ value: string; label: string }>) => {
+        this.budget = budget;
+    };
+
+    setDate = (date: Moment | null) => {
+        this.date = date;
+    };
+
+    setDateFocused = (dateFocused: boolean) => {
+        this.dateFocused = dateFocused;
     };
 
     setDescription = (description: string) => {
@@ -254,6 +271,7 @@ decorate(TransactionFormStore, {
     amount: observable,
     budget: observable,
     date: observable,
+    dateFocused: observable,
     description: observable,
     error: observable,
     id: observable,
@@ -283,7 +301,10 @@ decorate(TransactionFormStore, {
     initForm: action,
     reset: action,
     setAmount: action,
+    setBudget: action,
     setDescription: action,
+    setDate: action,
+    setDateFocused: action,
     setId: action,
     setName: action
 });
