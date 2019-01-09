@@ -15,6 +15,7 @@ export interface Institution {
 
 export interface Item {
     account: Account;
+    expired: boolean;
     dateCreated: string;
     id: string;
     institution: Institution;

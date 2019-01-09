@@ -1,9 +1,12 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Box, Text, Button } from "../../../../components";
+import { Box, Text, Button, PlaidLink } from "../../../../components";
+import { cssFactory } from "../../../../components/core/utils/styled-components";
+import { css } from "styled-components";
 
 interface Props {
     color: string;
+    expired: boolean;
     id: string;
     institution: string;
     last: boolean;
@@ -33,14 +36,18 @@ export default class AccountRow extends React.Component<Props> {
         }
     };
 
+    onSuccess = () => {};
+
     render() {
         const {
             color,
+            expired,
             institution,
             last,
             mask,
             name,
             networkActive,
+            publicToken,
             type
         } = this.props;
         const { startDelete } = this.state;
@@ -90,23 +97,50 @@ export default class AccountRow extends React.Component<Props> {
                     alignItems={Box.AlignItems.Center}
                     display={Box.Display.Flex}
                 >
-                    <OutsideClickHandler
-                        disabled={!startDelete}
-                        onOutsideClick={this.onOutsideClick}
-                    >
-                        <Button
-                            color={Button.Color.Primary}
-                            disabled={networkActive}
-                            isLoading={startDelete && networkActive}
-                            noBackground
-                            noBorder
-                            onClick={this.onClickDelete}
+                    {expired && (
+                        <Box css={genActionCSS()} mr={3}>
+                            <PlaidLink
+                                noBackground
+                                noBorder
+                                token={publicToken}
+                                onSuccess={this.onSuccess}
+                            >
+                                <Text
+                                    color={Text.Color.Blue3}
+                                    size={Text.Size.Xs}
+                                    weight={Text.Weight.Medium}
+                                >
+                                    Renew Link
+                                </Text>
+                            </PlaidLink>
+                        </Box>
+                    )}
+                    <Box css={genActionCSS()}>
+                        <OutsideClickHandler
+                            disabled={!startDelete}
+                            onOutsideClick={this.onOutsideClick}
                         >
-                            {startDelete ? "Really delete?" : "Delete"}
-                        </Button>
-                    </OutsideClickHandler>
+                            <Button
+                                color={Button.Color.Primary}
+                                disabled={networkActive}
+                                isLoading={startDelete && networkActive}
+                                noBackground
+                                noBorder
+                                onClick={this.onClickDelete}
+                            >
+                                {startDelete ? "Really delete?" : "Delete"}
+                            </Button>
+                        </OutsideClickHandler>
+                    </Box>
                 </Box>
             </Box>
         );
     }
 }
+
+const genActionCSS = () =>
+    cssFactory(css)`
+        button {
+            padding: 0;
+        }
+    `;

@@ -46,6 +46,8 @@ class AccountsClass extends React.Component<Props> {
                 itemsStore: { items, isDeleting, isLoading }
             }
         } = this.props;
+
+        const webhook = "https://11886770.ngrok.io/v1/items/hooks";
         return (
             <DocumentTitle title="Connected Accounts | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -67,7 +69,10 @@ class AccountsClass extends React.Component<Props> {
                                     Connected Accounts
                                 </Text>
                                 <Box>
-                                    <PlaidLink onSuccess={this.onSuccess}>
+                                    <PlaidLink
+                                        webhook={webhook}
+                                        onSuccess={this.onSuccess}
+                                    >
                                         Add Account
                                     </PlaidLink>
                                 </Box>
@@ -99,6 +104,7 @@ class AccountsClass extends React.Component<Props> {
                                         {items.map((item, index) => (
                                             <AccountRow
                                                 color={item.institution.color}
+                                                expired={item.expired}
                                                 key={item.id}
                                                 id={item.id}
                                                 institution={
