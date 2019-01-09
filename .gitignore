@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+.vscode
 .env
 budget.pem
 nginx/certs/letsencrypt
