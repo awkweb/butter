@@ -8,8 +8,10 @@ const unimportantTextSize = (size: Size) =>
     (text.getSize(size) as string).replace(" !important", "");
 
 export default () => `
-        html {
+        * {
             box-sizing: border-box;
+        }
+        html {
             font-size: ${typeScaleRoot};
         }
         body {

@@ -207,9 +207,10 @@ const labelStyles = cssFactory<LabelProps>(css)`
     left: 0.6rem;
     ${props => style("top", props.active ? "-0.5rem" : 0)};
     transition: color, opacity, top 125ms;
+    ${props => style("zIndex", props.theme.zIndex.Z_INDEX_1)};
 `;
 
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
     ${labelStyles}
 `;
 

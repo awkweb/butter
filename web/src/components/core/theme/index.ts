@@ -1,11 +1,12 @@
 import { createGlobalStyle } from "styled-components";
+import base from "./global/base";
+import flexboxgrid from "./global/flexboxgrid";
+import normalize from "./global/normalize";
+import reactDates from "./global/react-dates";
 import buttons from "./buttons";
 import colors from "./colors";
 import cornerRadii from "./corner-radii";
 import field from "./field";
-import base from "./global/base";
-import flexboxgrid from "./global/flexboxgrid";
-import normalize from "./global/normalize";
 import responsive from "./responsive";
 import strokeWidths from "./stroke-widths";
 import text from "./text";
@@ -17,6 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     ${normalize}
     ${flexboxgrid}
     ${base}
+    ${reactDates}
 `;
 
 const theme = Object.freeze({

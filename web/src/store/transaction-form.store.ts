@@ -16,8 +16,9 @@ import { Budget } from "../types/budget";
 interface Props {
     rootStore: RootStore;
     amountValidator: Validator;
-    nameValidator: Validator;
+    dateValidator: Validator;
     descriptionValidator: Validator;
+    nameValidator: Validator;
     /**
      * observable
      */
@@ -41,11 +42,13 @@ interface Props {
     isUpdatable: boolean;
     networkActive: boolean;
     amountValidation: Validation;
-    nameValidation: Validation;
+    dateValidation: Validation;
     descriptionValidation: Validation;
+    nameValidation: Validation;
     validations: Validations;
-    nameError?: string;
     amountError?: string;
+    dateError?: string;
+    nameError?: string;
     /**
      * action
      */
@@ -69,8 +72,9 @@ interface Props {
 export default class TransactionFormStore implements Props {
     rootStore: RootStore;
     amountValidator: Validator;
-    nameValidator: Validator;
+    dateValidator: Validator;
     descriptionValidator: Validator;
+    nameValidator: Validator;
 
     amount = 100;
     budget: ValueType<{ value: string; label: string }> = undefined;
@@ -88,8 +92,9 @@ export default class TransactionFormStore implements Props {
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.amountValidator = new Validator(this.amount, { required });
-        this.nameValidator = new Validator(this.name, { required });
+        this.dateValidator = new Validator(this.date, { required });
         this.descriptionValidator = new Validator(this.description);
+        this.nameValidator = new Validator(this.name, { required });
     }
 
     get budgetId(): string {
@@ -112,23 +117,29 @@ export default class TransactionFormStore implements Props {
         return this.amountValidator.validate(this.amount);
     }
 
-    get nameValidation() {
-        return this.nameValidator.validate(this.name);
+    get dateValidation() {
+        return this.dateValidator.validate(this.date);
     }
 
     get descriptionValidation() {
         return this.descriptionValidator.validate(this.description);
     }
 
+    get nameValidation() {
+        return this.nameValidator.validate(this.name);
+    }
+
     get validations(): Validations {
         return {
             amount: this.amountValidation,
-            name: this.nameValidation,
+            date: this.dateValidation,
             description: this.descriptionValidation,
+            name: this.nameValidation,
             all: validateAll(
                 this.amountValidation,
-                this.nameValidation,
-                this.descriptionValidation
+                this.dateValidation,
+                this.descriptionValidation,
+                this.nameValidation
             )
         };
     }
@@ -137,6 +148,14 @@ export default class TransactionFormStore implements Props {
         let error = undefined;
         if (!this.amountValidation.required) {
             error = "Amount is required";
+        }
+        return error;
+    }
+
+    get dateError(): string | undefined {
+        let error = undefined;
+        if (!this.dateValidation.required) {
+            error = "Date is required";
         }
         return error;
     }
@@ -250,6 +269,7 @@ export default class TransactionFormStore implements Props {
         this.date = moment(date);
         this.budget = budget && { label: budget.name, value: budgetId };
         this.amountValidator = new Validator(this.amount, { required });
+        this.dateValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
     };
@@ -317,11 +337,13 @@ decorate(TransactionFormStore, {
     isUpdatable: computed,
     networkActive: computed,
     amountValidation: computed,
+    dateValidation: computed,
     nameValidation: computed,
     descriptionValidation: computed,
     validations: computed,
-    nameError: computed,
     amountError: computed,
+    dateError: computed,
+    nameError: computed,
     /**
      * action
      */

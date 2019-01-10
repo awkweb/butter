@@ -18,6 +18,10 @@ import {
 import RootStore from "../../store";
 import { get } from "../../utils";
 import { ValueType } from "react-select/lib/types";
+import {
+    StyledLabel,
+    StyledFieldset
+} from "../../components/core/components/form/Field";
 
 interface Props {
     location: any;
@@ -44,7 +48,6 @@ class TransactionClass extends React.Component<Props> {
                 transactionsStore: { transactions, getTransactions }
             }
         } = this.props;
-        await getBudgets();
         setId(id);
         if (id !== "new") {
             const transaction = get(() => state.transaction);
@@ -64,6 +67,7 @@ class TransactionClass extends React.Component<Props> {
                 }
             }
         }
+        getBudgets();
         if (!transactions.length) {
             getTransactions();
         }
@@ -161,6 +165,7 @@ class TransactionClass extends React.Component<Props> {
                     startDelete,
                     validations,
                     amountError,
+                    dateError,
                     nameError
                 }
             }
@@ -222,13 +227,34 @@ class TransactionClass extends React.Component<Props> {
                                 </Box>
 
                                 <Box mb={2}>
-                                    <SingleDatePicker
-                                        date={date}
-                                        onDateChange={this.onChangeDate}
-                                        focused={dateFocused}
-                                        onFocusChange={this.onChangeDateFocused}
-                                        id="Date"
-                                    />
+                                    <StyledFieldset>
+                                        <StyledLabel
+                                            {...{
+                                                active: !!date || !!dateError,
+                                                error: !!dateError,
+                                                htmlFor: "date"
+                                            }}
+                                        >
+                                            {dateError || "Date"}
+                                        </StyledLabel>
+                                        <SingleDatePicker
+                                            block
+                                            date={date}
+                                            focused={dateFocused}
+                                            hideKeyboardShortcutsPanel
+                                            id="date"
+                                            noBorder
+                                            numberOfMonths={1}
+                                            placeholder={
+                                                !!dateError ? "" : "Date"
+                                            }
+                                            transitionDuration={0}
+                                            onDateChange={this.onChangeDate}
+                                            onFocusChange={
+                                                this.onChangeDateFocused
+                                            }
+                                        />
+                                    </StyledFieldset>
                                 </Box>
 
                                 <Box mb={2}>
