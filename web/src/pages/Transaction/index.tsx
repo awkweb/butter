@@ -35,11 +35,16 @@ class TransactionClass extends React.Component<Props> {
             },
             location: { state },
             rootStore: {
-                budgetsStore: { budgets, getBudgets },
-                transactionFormStore: { initForm, getTransaction, setId },
+                transactionFormStore: {
+                    initForm,
+                    getBudgets,
+                    getTransaction,
+                    setId
+                },
                 transactionsStore: { transactions, getTransactions }
             }
         } = this.props;
+        await getBudgets();
         setId(id);
         if (id !== "new") {
             const transaction = get(() => state.transaction);
@@ -53,7 +58,7 @@ class TransactionClass extends React.Component<Props> {
                 );
             } else {
                 try {
-                    getTransaction();
+                    await getTransaction();
                 } catch (e) {
                     history.replace("/transactions");
                 }
@@ -61,9 +66,6 @@ class TransactionClass extends React.Component<Props> {
         }
         if (!transactions.length) {
             getTransactions();
-        }
-        if (!budgets.length) {
-            getBudgets();
         }
     }
 
@@ -143,11 +145,11 @@ class TransactionClass extends React.Component<Props> {
     render() {
         const {
             rootStore: {
-                budgetsStore: { budgets },
                 transactionFormStore: {
                     name,
                     amount,
                     budget,
+                    budgets,
                     date,
                     dateFocused,
                     description,

@@ -34,7 +34,13 @@ export default class TableRow extends React.Component<Props> {
                 </StyledTableData>
 
                 <StyledTableData>
-                    <Text align={Text.Align.Right} size={Text.Size.Sm}>
+                    <Text
+                        align={Text.Align.Right}
+                        color={
+                            remaining < 0 ? Text.Color.Red2 : Text.Color.Gray1
+                        }
+                        size={Text.Size.Sm}
+                    >
                         {prettyNumber(remaining)}
                     </Text>
                 </StyledTableData>

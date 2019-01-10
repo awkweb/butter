@@ -1,4 +1,4 @@
-import { decorate, observable, action, computed, transaction } from "mobx";
+import { decorate, observable, action, computed } from "mobx";
 import moment, { Moment } from "moment";
 import { ValueType } from "react-select/lib/types";
 import RootStore from "./index";
@@ -11,6 +11,7 @@ import {
 } from "../lib/validate";
 import { get, toAmount, toCents } from "../utils";
 import api from "../api";
+import { Budget } from "../types/budget";
 
 interface Props {
     rootStore: RootStore;
@@ -22,6 +23,7 @@ interface Props {
      */
     amount: number;
     budget: ValueType<{ value: string; label: string }>;
+    budgets: Array<Budget>;
     date: Moment | null;
     dateFocused: boolean;
     description: string;
@@ -34,6 +36,8 @@ interface Props {
     /**
      * computed
      */
+    budgetId: string;
+    dateString: string;
     isUpdatable: boolean;
     networkActive: boolean;
     amountValidation: Validation;
@@ -45,6 +49,7 @@ interface Props {
     /**
      * action
      */
+    getBudgets: Function;
     getTransaction: Function;
     handleCreate: Function;
     handleDelete: Function;
@@ -69,6 +74,7 @@ export default class TransactionFormStore implements Props {
 
     amount = 100;
     budget: ValueType<{ value: string; label: string }> = undefined;
+    budgets: Array<Budget> = [];
     date: Moment | null = moment();
     dateFocused = false;
     description = "";
@@ -84,6 +90,14 @@ export default class TransactionFormStore implements Props {
         this.amountValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
+    }
+
+    get budgetId(): string {
+        return get(() => (this.budget as any).value);
+    }
+
+    get dateString(): string {
+        return get(() => (this.date as Moment).format("YYYY-MM-DD"));
     }
 
     get isUpdatable(): boolean {
@@ -135,6 +149,17 @@ export default class TransactionFormStore implements Props {
         return error;
     }
 
+    getBudgets = async () => {
+        try {
+            this.error = "";
+            const { data: budgets } = await api.getBudgets();
+            this.budgets = budgets;
+        } catch (err) {
+            const error = get(() => err.response.data);
+            console.log(error);
+        }
+    };
+
     getTransaction = async () => {
         try {
             const { data: transaction } = await api.getTransaction(this.id);
@@ -154,12 +179,14 @@ export default class TransactionFormStore implements Props {
     handleCreate = async () => {
         try {
             this.isLoading = true;
-            const { data: transaction } = await api.createBudget({
+            const { data: transaction } = await api.createTransaction({
                 name: this.name,
                 amount_cents: toCents(this.amount),
-                description: this.description
+                description: this.description,
+                date: this.dateString,
+                budget: this.budgetId
             });
-            // this.rootStore.transactionsStore.addTransaction(transaction);
+            this.rootStore.transactionsStore.addTransaction(transaction);
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -172,8 +199,8 @@ export default class TransactionFormStore implements Props {
         if (this.startDelete) {
             try {
                 this.isDeleting = true;
-                await api.deleteBudget(this.id);
-                // this.rootStore.transactionsStore.removeTransaction(this.id);
+                await api.deleteTransaction(this.id);
+                this.rootStore.transactionsStore.removeTransaction(this.id);
             } catch (err) {
                 const error = get(() => err.response.data);
                 this.error = error;
@@ -197,10 +224,10 @@ export default class TransactionFormStore implements Props {
                 name: this.name,
                 amount_cents: toCents(this.amount),
                 description: this.description,
-                budget: this.budget,
-                date: this.date
+                date: this.dateString,
+                budget: this.budgetId
             });
-            // this.rootStore.transactionsStore.updateTransaction(transaction);
+            this.rootStore.transactionsStore.updateTransaction(transaction);
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -213,14 +240,15 @@ export default class TransactionFormStore implements Props {
         amountCents: number,
         name: string,
         description: string,
-        budget: ValueType<{ value: string; label: string }>,
+        budgetId: string,
         date: Moment
     ) => {
+        const budget = this.budgets.find(budget => budget.id === budgetId);
         this.amount = toAmount(amountCents);
         this.name = name;
         this.description = description;
-        this.date = date;
-        this.budget = budget;
+        this.date = moment(date);
+        this.budget = budget && { label: budget.name, value: budgetId };
         this.amountValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
@@ -228,6 +256,7 @@ export default class TransactionFormStore implements Props {
 
     reset = () => {
         this.amount = 100;
+        this.budgets = [];
         this.budget = undefined;
         this.date = moment();
         this.description = "";
@@ -270,6 +299,7 @@ export default class TransactionFormStore implements Props {
 decorate(TransactionFormStore, {
     amount: observable,
     budget: observable,
+    budgets: observable,
     date: observable,
     dateFocused: observable,
     description: observable,
@@ -282,6 +312,8 @@ decorate(TransactionFormStore, {
     /**
      * computed
      */
+    budgetId: computed,
+    dateString: computed,
     isUpdatable: computed,
     networkActive: computed,
     amountValidation: computed,
@@ -293,6 +325,7 @@ decorate(TransactionFormStore, {
     /**
      * action
      */
+    getBudgets: action,
     getTransaction: action,
     handleCreate: action,
     handleDelete: action,

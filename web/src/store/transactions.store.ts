@@ -30,6 +30,39 @@ export default class TransactionsStore implements Props {
         this.rootStore = rootStore;
     }
 
+    addTransaction = (transaction: Transaction) => {
+        this.transactions = [transaction, ...this.transactions];
+    };
+
+    removeTransaction = (transactionId: string) => {
+        this.transactions = [
+            ...this.transactions.filter(
+                transaction => transaction.id !== transactionId
+            )
+        ];
+    };
+
+    updateTransaction = (transaction: Transaction) => {
+        const transactionIndex = this.transactions.findIndex(
+            t => t.id === transaction.id
+        );
+        const transactionToUpdate = this.transactions.find(
+            t => t.id === transaction.id
+        );
+        const updatedTransaction = {
+            ...transactionToUpdate,
+            ...transaction
+        };
+        this.transactions = [
+            ...this.transactions.slice(0, transactionIndex),
+            updatedTransaction,
+            ...this.transactions.slice(
+                transactionIndex + 1,
+                this.transactions.length
+            )
+        ];
+    };
+
     getTransactions = async () => {
         try {
             this.error = "";
