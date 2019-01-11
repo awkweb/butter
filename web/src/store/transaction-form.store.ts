@@ -23,7 +23,7 @@ interface Props {
     /**
      * observable
      */
-    amount: number;
+    amount: number | undefined;
     budget: ValueType<{ value: string; label: string }>;
     budgets: Array<Budget>;
     date: Moment | null;
@@ -79,10 +79,10 @@ export default class TransactionFormStore implements Props {
     descriptionValidator: Validator;
     nameValidator: Validator;
 
-    amount = 100;
+    amount: number | undefined = undefined;
     budget: ValueType<{ value: string; label: string }> = undefined;
     budgets: Array<Budget> = [];
-    date: Moment | null = moment();
+    date: Moment | null = null;
     dateFocused = false;
     description = "";
     error = "";
@@ -218,7 +218,7 @@ export default class TransactionFormStore implements Props {
             this.isLoading = true;
             const { data: transaction } = await api.createTransaction({
                 name: this.name,
-                amount_cents: toCents(this.amount),
+                amount_cents: toCents(this.amount as number),
                 description: this.description,
                 date: this.dateString,
                 budget: this.budgetId
@@ -259,7 +259,7 @@ export default class TransactionFormStore implements Props {
             this.isLoading = true;
             const { data: transaction } = await api.updateTransaction(this.id, {
                 name: this.name,
-                amount_cents: toCents(this.amount),
+                amount_cents: toCents(this.amount as number),
                 description: this.description,
                 date: this.dateString,
                 budget: this.budgetId
@@ -293,7 +293,7 @@ export default class TransactionFormStore implements Props {
     };
 
     reset = () => {
-        this.amount = 100;
+        this.amount = undefined;
         this.budgets = [];
         this.budget = undefined;
         this.date = moment();

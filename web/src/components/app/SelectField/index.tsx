@@ -54,7 +54,6 @@ export class SelectField extends React.Component<Props> {
                     </StyledLabel>
                     <Select
                         classNamePrefix="react-select"
-                        isSearchable
                         menuPlacement="auto"
                         name={id}
                         placeholder={hasError ? "" : placeholder}
@@ -72,45 +71,71 @@ export class SelectField extends React.Component<Props> {
 const genInputCSS = (error: boolean) =>
     cssFactory(css)`
 	.react-select__control {
-		background-color: ${props => props.theme.colors.white} !important;
+		background-color: ${props => props.theme.colors.white};
 		border: ${props =>
-            field.getBorderStyle(
-                Color.Gray8,
-                props.theme.colors,
-                error
-            )} !important;
-		border-radius: ${props => props.theme.cornerRadii.default} !important;
+            field.getBorderStyle(Color.Gray8, props.theme.colors, error)};
+		border-radius: ${props => props.theme.cornerRadii.default};
 		box-sizing: border-box;
-		color: ${props => props.theme.colors.gray1} !important;
+		color: ${props => props.theme.colors.gray1};
 		font-family: ${props => props.theme.text.getFont()};
-		font-weight: ${props => props.theme.text.getWeight(Weight.Normal)} !important;
+		font-weight: ${props => props.theme.text.getWeight(Weight.Normal)};
 		font-size: ${props => props.theme.text.getSize(Size.Md)};
 		height: 2.8125rem;
 		padding: 0;
 		outline: 0;
 		transition: border-color 125ms;
-		width: 100%;
+        width: 100%;
+        
+        &:hover {
+            border: ${props =>
+                field.getBorderStyle(Color.Gray8, props.theme.colors, error)};
+        }
+    }
 
-		&::-webkit-input-placeholder {
-        	color: ${props => props.theme.colors.gray6};
-		}
+    .react-select__placeholder {
+        color: ${props => props.theme.colors.gray6};
+    }
 
-		&:focus {
-			border: ${props =>
-                field.getFocusStyles(
-                    Color.Gold3,
-                    props.theme.colors,
-                    error
-                )} !important;
-		}
+    .react-select__control--is-focused {
+        border: ${props =>
+            field.getFocusStyles(Color.Gold3, props.theme.colors, error)};
+        box-shadow: none;
     }
     
     .react-select__value-container {
-		padding: ${props =>
-            props.theme.units.getValues(field.padding.input)} !important;
+		padding: ${props => props.theme.units.getValues(field.padding.input)};
     }
 
-	.SingleDatePicker_picker {
-		top: 54px !important;
-	}
+    .react-select__indicator-separator {
+        border-color: ${props => props.theme.colors.gray8};
+    }
+
+	.react-select__menu {
+        background-color: ${props => props.theme.colors.white};
+        border-radius: ${props => props.theme.cornerRadii.default};
+        box-sizing: border-box;
+        margin: 0;
+        position: absolute;
+        top: 54px;
+        width: 100%;
+        z-index: ${props => props.theme.zIndex.Z_INDEX_2};
+    }
+
+    .react-select__menu-list {
+        padding: 0;
+    }
+
+    .react-select__option {
+        padding: 0.65rem 1rem;
+    }
+
+    .react-select__option--is-focused {
+        background-color: ${props => props.theme.colors.gray9};
+        color: ${props => props.theme.colors.gray1};
+    }
+    
+    .react-select__option--is-selected {
+        background-color: ${props => props.theme.colors.blue3};
+        color: ${props => props.theme.colors.white};
+    }
 `;

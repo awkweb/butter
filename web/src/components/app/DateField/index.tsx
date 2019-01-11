@@ -107,6 +107,7 @@ const genInputCSS = (error: boolean) =>
 	}
 
 	.SingleDatePicker_picker {
-		top: 54px !important;
+        top: 54px !important;
+        z-index: ${props => props.theme.zIndex.Z_INDEX_2};
 	}
 `;
