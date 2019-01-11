@@ -16,6 +16,7 @@ import { Budget } from "../types/budget";
 interface Props {
     rootStore: RootStore;
     amountValidator: Validator;
+    budgetValidator: Validator;
     dateValidator: Validator;
     descriptionValidator: Validator;
     nameValidator: Validator;
@@ -47,6 +48,7 @@ interface Props {
     nameValidation: Validation;
     validations: Validations;
     amountError?: string;
+    budgetError?: string;
     dateError?: string;
     nameError?: string;
     /**
@@ -72,6 +74,7 @@ interface Props {
 export default class TransactionFormStore implements Props {
     rootStore: RootStore;
     amountValidator: Validator;
+    budgetValidator: Validator;
     dateValidator: Validator;
     descriptionValidator: Validator;
     nameValidator: Validator;
@@ -92,6 +95,7 @@ export default class TransactionFormStore implements Props {
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.amountValidator = new Validator(this.amount, { required });
+        this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.date, { required });
         this.descriptionValidator = new Validator(this.description);
         this.nameValidator = new Validator(this.name, { required });
@@ -117,6 +121,10 @@ export default class TransactionFormStore implements Props {
         return this.amountValidator.validate(this.amount);
     }
 
+    get budgetValidation() {
+        return this.budgetValidator.validate(this.budget);
+    }
+
     get dateValidation() {
         return this.dateValidator.validate(this.date);
     }
@@ -132,11 +140,13 @@ export default class TransactionFormStore implements Props {
     get validations(): Validations {
         return {
             amount: this.amountValidation,
+            budget: this.budgetValidation,
             date: this.dateValidation,
             description: this.descriptionValidation,
             name: this.nameValidation,
             all: validateAll(
                 this.amountValidation,
+                this.budgetValidation,
                 this.dateValidation,
                 this.descriptionValidation,
                 this.nameValidation
@@ -148,6 +158,14 @@ export default class TransactionFormStore implements Props {
         let error = undefined;
         if (!this.amountValidation.required) {
             error = "Amount is required";
+        }
+        return error;
+    }
+
+    get budgetError(): string | undefined {
+        let error = undefined;
+        if (!this.budgetValidation.required) {
+            error = "Budget is required";
         }
         return error;
     }
@@ -337,11 +355,13 @@ decorate(TransactionFormStore, {
     isUpdatable: computed,
     networkActive: computed,
     amountValidation: computed,
+    budgetValidation: computed,
     dateValidation: computed,
     nameValidation: computed,
     descriptionValidation: computed,
     validations: computed,
     amountError: computed,
+    budgetError: computed,
     dateError: computed,
     nameError: computed,
     /**

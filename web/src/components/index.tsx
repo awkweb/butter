@@ -16,3 +16,4 @@ export { PasswordFeatures } from "./app/PasswordFeatures";
 export { PlaidLink } from "./app/PlaidLink";
 export { PrivateRoute } from "./app/PrivateRoute";
 export { PublicRoute } from "./app/PublicRoute";
+export { SelectField } from "./app/SelectField";

@@ -2,7 +2,6 @@ import React from "react";
 import { inject, observer } from "mobx-react";
 import { Moment } from "moment";
 import DocumentTitle from "react-document-title";
-import Select from "react-select";
 import OutsideClickHandler from "react-outside-click-handler";
 import {
     Box,
@@ -13,11 +12,11 @@ import {
     Field,
     Button,
     Link,
-    DateField
+    DateField,
+    SelectField
 } from "../../components";
 import RootStore from "../../store";
 import { get } from "../../utils";
-import { ValueType } from "react-select/lib/types";
 
 interface Props {
     location: any;
@@ -95,15 +94,6 @@ class TransactionClass extends React.Component<Props> {
         this.props.rootStore.transactionFormStore.setDateFocused(!!focused);
     };
 
-    onChangeBudget = (
-        selectedOption: ValueType<{
-            value: string;
-            label: string;
-        }>
-    ) => {
-        this.props.rootStore.transactionFormStore.setBudget(selectedOption);
-    };
-
     onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const {
@@ -161,8 +151,10 @@ class TransactionClass extends React.Component<Props> {
                     startDelete,
                     validations,
                     amountError,
+                    budgetError,
                     dateError,
-                    nameError
+                    nameError,
+                    setBudget
                 }
             }
         } = this.props;
@@ -233,17 +225,16 @@ class TransactionClass extends React.Component<Props> {
                                 </Box>
 
                                 <Box mb={2}>
-                                    <Select
-                                        isSearchable
-                                        menuPlacement="auto"
-                                        name="budget"
-                                        placeholder="Budget"
+                                    <SelectField
+                                        error={budgetError}
+                                        id="budget"
                                         options={budgets.map(b => ({
                                             value: b.id,
                                             label: b.name
                                         }))}
+                                        placeholder="Budget"
                                         value={budget}
-                                        onChange={this.onChangeBudget}
+                                        onChange={setBudget}
                                     />
                                 </Box>
 
