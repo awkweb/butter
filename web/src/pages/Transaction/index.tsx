@@ -2,7 +2,6 @@ import React from "react";
 import { inject, observer } from "mobx-react";
 import { Moment } from "moment";
 import DocumentTitle from "react-document-title";
-import { SingleDatePicker } from "react-dates";
 import Select from "react-select";
 import OutsideClickHandler from "react-outside-click-handler";
 import {
@@ -13,15 +12,12 @@ import {
     Row,
     Field,
     Button,
-    Link
+    Link,
+    DateField
 } from "../../components";
 import RootStore from "../../store";
 import { get } from "../../utils";
 import { ValueType } from "react-select/lib/types";
-import {
-    StyledLabel,
-    StyledFieldset
-} from "../../components/core/components/form/Field";
 
 interface Props {
     location: any;
@@ -227,34 +223,13 @@ class TransactionClass extends React.Component<Props> {
                                 </Box>
 
                                 <Box mb={2}>
-                                    <StyledFieldset>
-                                        <StyledLabel
-                                            {...{
-                                                active: !!date || !!dateError,
-                                                error: !!dateError,
-                                                htmlFor: "date"
-                                            }}
-                                        >
-                                            {dateError || "Date"}
-                                        </StyledLabel>
-                                        <SingleDatePicker
-                                            block
-                                            date={date}
-                                            focused={dateFocused}
-                                            hideKeyboardShortcutsPanel
-                                            id="date"
-                                            noBorder
-                                            numberOfMonths={1}
-                                            placeholder={
-                                                !!dateError ? "" : "Date"
-                                            }
-                                            transitionDuration={0}
-                                            onDateChange={this.onChangeDate}
-                                            onFocusChange={
-                                                this.onChangeDateFocused
-                                            }
-                                        />
-                                    </StyledFieldset>
+                                    <DateField
+                                        error={dateError}
+                                        focused={dateFocused}
+                                        value={date}
+                                        onChange={this.onChangeDate}
+                                        onFocusChange={this.onChangeDateFocused}
+                                    />
                                 </Box>
 
                                 <Box mb={2}>

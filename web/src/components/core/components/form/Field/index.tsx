@@ -82,9 +82,7 @@ export class Field extends React.Component<Props> {
         type: Type.Text
     };
 
-    state = {
-        isTouched: false
-    };
+    state = { isTouched: false, autofocusFlag: !this.props.autofocus };
 
     public handleChange = (e: React.ChangeEvent<any>) => {
         if (this.props.onChange && typeof this.props.onChange === "function") {
@@ -93,7 +91,15 @@ export class Field extends React.Component<Props> {
     };
 
     private onBlur = () => {
-        if (!this.state.isTouched) this.setState({ isTouched: true });
+        const { isTouched, autofocusFlag } = this.state;
+        if (autofocusFlag && !isTouched) {
+            this.setState({
+                isTouched: true
+            });
+        }
+        if (!autofocusFlag) {
+            this.setState({ autofocusFlag: true });
+        }
     };
 
     public render() {
@@ -138,15 +144,9 @@ export class Field extends React.Component<Props> {
             );
         }
 
-        const labelProps = {
-            active,
-            error: isTouched && error,
-            htmlFor: id
-        };
+        const labelProps = { active, error: isTouched && error, htmlFor: id };
 
-        const numberInputProps = type === Type.Number && {
-            step: 0.01
-        };
+        const numberInputProps = type === Type.Number && { step: 0.01 };
 
         return (
             <StyledFieldset>
@@ -261,16 +261,16 @@ const inputStyles = cssFactory<InputProps>(css)`
             "padding",
             props.theme.units.getValues(props.theme.field.padding.input)
         )};
-    
+`;
+
+const StyledInput = styled.input`
+    ${inputStyles}
+
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
-`;
-
-export const StyledInput = styled.input`
-    ${inputStyles}
 `;
 
 const textareaStyles = cssFactory<InputProps>(css)`

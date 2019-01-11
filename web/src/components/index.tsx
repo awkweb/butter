@@ -10,6 +10,7 @@ export { Text } from "./core/components/typography/Text";
 export { ThemeConsumer } from "./core/components/theme/ThemeConsumer";
 export { ThemeProvider } from "./core/components/theme/ThemeProvider";
 
+export { DateField } from "./app/DateField";
 export { Navbar } from "./app/Navbar";
 export { PasswordFeatures } from "./app/PasswordFeatures";
 export { PlaidLink } from "./app/PlaidLink";
