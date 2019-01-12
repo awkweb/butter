@@ -10,7 +10,6 @@ interface Props {
      * observable
      */
     transactions: Array<Transaction>;
-    error: string;
     isLoading: boolean;
     /**
      * action
@@ -23,7 +22,6 @@ export default class TransactionsStore implements Props {
     rootStore: RootStore;
 
     transactions: Array<Transaction> = [];
-    error = "";
     isLoading = false;
 
     constructor(rootStore: RootStore) {
@@ -65,13 +63,12 @@ export default class TransactionsStore implements Props {
 
     getTransactions = async () => {
         try {
-            this.error = "";
             this.isLoading = true;
             const { data: transactions } = await api.getTransactions({});
             this.transactions = transactions;
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
+            throw error;
         } finally {
             this.isLoading = false;
         }
@@ -79,7 +76,6 @@ export default class TransactionsStore implements Props {
 
     reset = () => {
         this.transactions = [];
-        this.error = "";
         this.isLoading = false;
     };
 }
@@ -88,7 +84,6 @@ decorate(TransactionsStore, {
      * observable
      */
     transactions: observable,
-    error: observable,
     isLoading: observable,
     /**
      * action

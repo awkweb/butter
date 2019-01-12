@@ -11,6 +11,8 @@ interface Props {
 }
 
 class AccountsClass extends React.Component<Props> {
+    state = { linkLoaded: false };
+
     componentWillMount() {
         const {
             rootStore: {
@@ -22,6 +24,10 @@ class AccountsClass extends React.Component<Props> {
         }
         getItems();
     }
+
+    onLoad = () => {
+        this.setState({ linkLoaded: true });
+    };
 
     onSuccess = (token: string, data: Item) => {
         const { account, institution } = data;
@@ -40,14 +46,17 @@ class AccountsClass extends React.Component<Props> {
         this.props.rootStore.itemsStore.deleteItem(id);
     };
 
+    handleRenewLink = (id: string) => {
+        this.props.rootStore.itemsStore.renewLink(id);
+    };
+
     render() {
         const {
             rootStore: {
                 itemsStore: { items, isDeleting, isLoading }
             }
         } = this.props;
-
-        const webhook = "https://11886770.ngrok.io/v1/items/hooks";
+        const { linkLoaded } = this.state;
         return (
             <DocumentTitle title="Connected Accounts | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -70,7 +79,7 @@ class AccountsClass extends React.Component<Props> {
                                 </Text>
                                 <Box>
                                     <PlaidLink
-                                        webhook={webhook}
+                                        onLoad={this.onLoad}
                                         onSuccess={this.onSuccess}
                                     >
                                         Add Account
@@ -110,15 +119,19 @@ class AccountsClass extends React.Component<Props> {
                                                 institution={
                                                     item.institution.name
                                                 }
-                                                mask={item.account.mask}
-                                                name={item.account.name}
-                                                networkActive={isDeleting}
                                                 last={
                                                     index === items.length - 1
                                                 }
+                                                linkLoaded={linkLoaded}
+                                                mask={item.account.mask}
+                                                name={item.account.name}
+                                                networkActive={isDeleting}
                                                 publicToken={item.publicToken}
                                                 type={item.account.subtype}
                                                 handleDelete={this.handleDelete}
+                                                handleRenewLink={
+                                                    this.handleRenewLink
+                                                }
                                             />
                                         ))}
                                     </Box>

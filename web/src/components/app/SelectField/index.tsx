@@ -127,15 +127,40 @@ const genInputCSS = (error: boolean) =>
 
     .react-select__option {
         padding: 0.65rem 1rem;
+
+        &:active {
+            background-color: ${props => props.theme.colors.gray8};
+        }
+
+        &:first-child {
+            border-top-right-radius: ${props =>
+                props.theme.cornerRadii.default};
+            border-top-left-radius: ${props => props.theme.cornerRadii.default};
+        }
+
+        &:last-child {
+            border-bottom-right-radius: ${props =>
+                props.theme.cornerRadii.default};
+            border-bottom-left-radius: ${props =>
+                props.theme.cornerRadii.default};
+        }
     }
 
     .react-select__option--is-focused {
-        background-color: ${props => props.theme.colors.gray9};
+        background-color: ${props => props.theme.colors.gray10};
         color: ${props => props.theme.colors.gray1};
+
+        &:active {
+            background-color: ${props => props.theme.colors.gray9};
+        }
     }
     
     .react-select__option--is-selected {
         background-color: ${props => props.theme.colors.blue3};
         color: ${props => props.theme.colors.white};
+
+        &:active {
+            background-color: ${props => props.theme.colors.blue2};
+        }
     }
 `;

@@ -41,23 +41,21 @@ export class PlaidLink extends React.Component<Props> {
         product: ["transactions"],
         publicKey: process.env.REACT_APP_PLAID_PUBLIC_KEY as string,
         selectAccount: true,
-        token: null
+        token: null,
+        webhook:
+            process.env.NODE_ENV === "production"
+                ? "https://api.wilbur.app/v1/items/hooks/"
+                : "http://c9080a24.ngrok.io/v1/items/hooks/"
     };
 
     async componentWillMount() {
         try {
-            // const { token } = this.props;
             const { initializeURL } = this.state;
             await this.loadScript(initializeURL);
             this.onScriptLoaded();
         } catch (e) {
             this.onScriptError();
         }
-    }
-
-    componentWillUnmount() {
-        const { token } = this.props;
-        this.removeScript(token);
     }
 
     loadScript = (src: string) => {
@@ -75,11 +73,6 @@ export class PlaidLink extends React.Component<Props> {
             el.addEventListener("abort", reject);
             document.head.appendChild(el);
         });
-    };
-
-    removeScript = (id: string = "plaid-link") => {
-        const el = document.getElementById(id);
-        console.log(id, el);
     };
 
     onScriptError = () => {

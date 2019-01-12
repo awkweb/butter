@@ -10,12 +10,14 @@ interface Props {
     id: string;
     institution: string;
     last: boolean;
+    linkLoaded: boolean;
     mask: string;
     name: string;
     networkActive: boolean;
     publicToken: string;
     type: string;
     handleDelete: Function;
+    handleRenewLink: Function;
 }
 
 export default class AccountRow extends React.Component<Props> {
@@ -36,7 +38,10 @@ export default class AccountRow extends React.Component<Props> {
         }
     };
 
-    onSuccess = () => {};
+    onSuccess = () => {
+        const { id, handleRenewLink } = this.props;
+        handleRenewLink(id);
+    };
 
     render() {
         const {
@@ -44,6 +49,7 @@ export default class AccountRow extends React.Component<Props> {
             expired,
             institution,
             last,
+            linkLoaded,
             mask,
             name,
             networkActive,
@@ -97,7 +103,7 @@ export default class AccountRow extends React.Component<Props> {
                     alignItems={Box.AlignItems.Center}
                     display={Box.Display.Flex}
                 >
-                    {expired && (
+                    {linkLoaded && expired && (
                         <Box css={genActionCSS()} mr={3}>
                             <PlaidLink
                                 noBackground
@@ -106,7 +112,7 @@ export default class AccountRow extends React.Component<Props> {
                                 onSuccess={this.onSuccess}
                             >
                                 <Text
-                                    color={Text.Color.Blue3}
+                                    color={Text.Color.Blue2}
                                     size={Text.Size.Xs}
                                     weight={Text.Weight.Medium}
                                 >

@@ -33,6 +33,7 @@ interface Props {
     id: string;
     isLoading: boolean;
     isDeleting: boolean;
+    initialAmount: number | undefined;
     name: string;
     startDelete: boolean;
     /**
@@ -89,6 +90,7 @@ export default class TransactionFormStore implements Props {
     id = "";
     isDeleting = false;
     isLoading = false;
+    initialAmount: number | undefined = undefined;
     name = "";
     startDelete = false;
 
@@ -188,12 +190,15 @@ export default class TransactionFormStore implements Props {
 
     getBudgets = async () => {
         try {
-            this.error = "";
             const { data: budgets } = await api.getBudgets();
-            this.budgets = budgets;
+            this.budgets = budgets.sort((a: Budget, b: Budget) => {
+                if (a.name > b.name) return 1;
+                else if (a.name < b.name) return -1;
+                return 0;
+            });
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
+            throw error;
         }
     };
 
@@ -216,14 +221,19 @@ export default class TransactionFormStore implements Props {
     handleCreate = async () => {
         try {
             this.isLoading = true;
+            const amountCents = toCents(this.amount as number);
             const { data: transaction } = await api.createTransaction({
                 name: this.name,
-                amount_cents: toCents(this.amount as number),
+                amount_cents: amountCents,
                 description: this.description,
                 date: this.dateString,
                 budget: this.budgetId
             });
             this.rootStore.transactionsStore.addTransaction(transaction);
+            this.rootStore.budgetsStore.addTransaction(
+                this.budgetId,
+                amountCents
+            );
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -238,6 +248,10 @@ export default class TransactionFormStore implements Props {
                 this.isDeleting = true;
                 await api.deleteTransaction(this.id);
                 this.rootStore.transactionsStore.removeTransaction(this.id);
+                this.rootStore.budgetsStore.removeTransaction(
+                    this.budgetId,
+                    toCents(this.amount as number)
+                );
             } catch (err) {
                 const error = get(() => err.response.data);
                 this.error = error;
@@ -257,14 +271,26 @@ export default class TransactionFormStore implements Props {
     handleUpdate = async () => {
         try {
             this.isLoading = true;
+            const amountCents = toCents(this.amount as number);
+            const initialAmountCents = toCents(this.initialAmount as number);
+            const budget = this.budgetId;
+
             const { data: transaction } = await api.updateTransaction(this.id, {
+                budget,
                 name: this.name,
-                amount_cents: toCents(this.amount as number),
+                amount_cents: amountCents,
                 description: this.description,
-                date: this.dateString,
-                budget: this.budgetId
+                date: this.dateString
             });
+
             this.rootStore.transactionsStore.updateTransaction(transaction);
+            const difference = initialAmountCents - amountCents;
+            if (difference !== 0) {
+                this.rootStore.budgetsStore.updateTransaction(
+                    budget,
+                    difference
+                );
+            }
         } catch (err) {
             const error = get(() => err.response.data);
             this.error = error;
@@ -280,13 +306,19 @@ export default class TransactionFormStore implements Props {
         budgetId: string,
         date: Moment
     ) => {
+        const amount = toAmount(amountCents);
+        this.amount = amount;
+        this.initialAmount = amount;
+
         const budget = this.budgets.find(budget => budget.id === budgetId);
-        this.amount = toAmount(amountCents);
+        this.budget = budget && { label: budget.name, value: budgetId };
+
         this.name = name;
         this.description = description;
         this.date = moment(date);
-        this.budget = budget && { label: budget.name, value: budgetId };
+
         this.amountValidator = new Validator(this.amount, { required });
+        this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
@@ -296,12 +328,13 @@ export default class TransactionFormStore implements Props {
         this.amount = undefined;
         this.budgets = [];
         this.budget = undefined;
-        this.date = moment();
+        this.date = null;
         this.description = "";
         this.error = "";
         this.id = "";
         this.isLoading = false;
         this.isDeleting = false;
+        this.initialAmount = undefined;
         this.name = "";
         this.startDelete = false;
     };
@@ -345,6 +378,7 @@ decorate(TransactionFormStore, {
     id: observable,
     isLoading: observable,
     isDeleting: observable,
+    initialAmount: observable,
     name: observable,
     startDelete: observable,
     /**

@@ -1,8 +1,18 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import DocumentTitle from "react-document-title";
-import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
+import {
+    Box,
+    Col,
+    Text,
+    Grid,
+    Row,
+    Button,
+    Loader,
+    Link
+} from "../../components";
 import RootStore from "../../store";
+import { toAmount } from "../../utils";
 interface Props {
     rootStore: RootStore;
 }
@@ -26,7 +36,6 @@ class TransactionsClass extends React.Component<Props> {
                 transactionsStore: { transactions, isLoading }
             }
         } = this.props;
-        console.log(transactions);
         return (
             <DocumentTitle title="Connected Accounts | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -70,7 +79,26 @@ class TransactionsClass extends React.Component<Props> {
                     {!isLoading && (
                         <Row>
                             <Col xs={12}>
-                                {transactions.length > 0 && <Box>Merp</Box>}
+                                {transactions.length > 0 && (
+                                    <Box>
+                                        {transactions.map(transaction => (
+                                            <Link
+                                                to={`transactions/${
+                                                    transaction.id
+                                                }`}
+                                                key={transaction.id}
+                                            >
+                                                <Text>
+                                                    {transaction.date}{" "}
+                                                    {transaction.name} $
+                                                    {toAmount(
+                                                        transaction.amountCents
+                                                    )}
+                                                </Text>
+                                            </Link>
+                                        ))}
+                                    </Box>
+                                )}
                                 {transactions.length === 0 && (
                                     <Box
                                         b

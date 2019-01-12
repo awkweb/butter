@@ -18,7 +18,7 @@ interface Props {
     /**
      * observable
      */
-    amount: number;
+    amount: number | undefined;
     description: string;
     error: string;
     id: string;
@@ -59,7 +59,7 @@ export default class BudgetFormStore implements Props {
     nameValidator: Validator;
     descriptionValidator: Validator;
 
-    amount = 100;
+    amount: number | undefined = undefined;
     description = "";
     error = "";
     id = "";
@@ -139,7 +139,7 @@ export default class BudgetFormStore implements Props {
             this.isLoading = true;
             const { data: budget } = await api.createBudget({
                 name: this.name,
-                amount_cents: toCents(this.amount),
+                amount_cents: toCents(this.amount as number),
                 description: this.description
             });
             this.rootStore.budgetsStore.addBudget({
@@ -182,7 +182,7 @@ export default class BudgetFormStore implements Props {
             this.isLoading = true;
             const { data: budget } = await api.updateBudget(this.id, {
                 name: this.name,
-                amount_cents: toCents(this.amount),
+                amount_cents: toCents(this.amount as number),
                 description: this.description
             });
             this.rootStore.budgetsStore.updateBudget(budget);
@@ -204,7 +204,7 @@ export default class BudgetFormStore implements Props {
     };
 
     reset = () => {
-        this.amount = 100;
+        this.amount = undefined;
         this.description = "";
         this.error = "";
         this.id = "";

@@ -10,7 +10,6 @@ interface Props {
      * observable
      */
     budgets: Array<Budget>;
-    error: string;
     isLoading: boolean;
     /**
      * computed
@@ -21,6 +20,9 @@ interface Props {
     /**
      * action
      */
+    addTransaction: Function;
+    removeTransaction: Function;
+    updateTransaction: Function;
     addBudget: Function;
     getBudgets: Function;
     reset: Function;
@@ -30,7 +32,6 @@ export default class BudgetsStore implements Props {
     rootStore: RootStore;
 
     budgets: Array<Budget> = [];
-    error = "";
     isLoading = false;
 
     constructor(rootStore: RootStore) {
@@ -59,6 +60,47 @@ export default class BudgetsStore implements Props {
         return this.totalBudgeted - this.totalSpent;
     }
 
+    addTransaction = (budgetId: string, amount: number) => {
+        const budget = this.budgets.find(b => b.id === budgetId);
+        if (budget) {
+            const spent = budget.spent + amount;
+            this.updateBudget({
+                ...budget,
+                spent,
+                amountCents: budget.budgeted,
+                remaining: budget.budgeted - spent,
+                transactionCount: budget.transactionCount + 1
+            } as Budget);
+        }
+    };
+
+    removeTransaction = (budgetId: string, amount: number) => {
+        const budget = this.budgets.find(b => b.id === budgetId);
+        if (budget) {
+            const spent = budget.spent - amount;
+            this.updateBudget({
+                ...budget,
+                spent,
+                amountCents: budget.budgeted,
+                remaining: budget.budgeted - spent,
+                transactionCount: budget.transactionCount - 1
+            } as Budget);
+        }
+    };
+
+    updateTransaction = (budgetId: string, amount: number) => {
+        const budget = this.budgets.find(b => b.id === budgetId);
+        if (budget) {
+            const spent = budget.spent - amount;
+            this.updateBudget({
+                ...budget,
+                spent,
+                amountCents: budget.budgeted,
+                remaining: budget.budgeted - spent
+            } as Budget);
+        }
+    };
+
     addBudget = (budget: Budget) => {
         this.budgets = [...this.budgets, budget].sort((a, b) => {
             if (a.name > b.name) return 1;
@@ -78,9 +120,9 @@ export default class BudgetsStore implements Props {
         const budgetToUpdate = this.budgets.find(b => b.id === budget.id);
         const updatedBudget = {
             ...budgetToUpdate,
-            ...budget,
             budgeted: budget.amountCents,
-            remaining: budget.amountCents - (budgetToUpdate as Budget).spent
+            remaining: budget.amountCents - (budgetToUpdate as Budget).spent,
+            ...budget
         };
         this.budgets = [
             ...this.budgets.slice(0, budgetIndex),
@@ -91,13 +133,12 @@ export default class BudgetsStore implements Props {
 
     getBudgets = async () => {
         try {
-            this.error = "";
             this.isLoading = true;
             const { data: budgets } = await api.getBudgetsDashboard();
             this.budgets = budgets;
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
+            throw error;
         } finally {
             this.isLoading = false;
         }
@@ -105,7 +146,6 @@ export default class BudgetsStore implements Props {
 
     reset = () => {
         this.budgets = [];
-        this.error = "";
         this.isLoading = false;
     };
 }
@@ -114,7 +154,6 @@ decorate(BudgetsStore, {
      * observable
      */
     budgets: observable,
-    error: observable,
     isLoading: observable,
     /**
      * computed
@@ -125,6 +164,9 @@ decorate(BudgetsStore, {
     /**
      * action
      */
+    addTransaction: action,
+    removeTransaction: action,
+    updateTransaction: action,
     addBudget: action,
     getBudgets: action,
     reset: action

@@ -28,7 +28,12 @@ export default class SummaryStat extends React.Component<Props> {
                 pt={3.5}
             >
                 <Box>
-                    <Text size={Text.Size.Lg}>${prettyNumber(value)}</Text>
+                    <Text
+                        color={value < 0 ? Text.Color.Red2 : Text.Color.Gray1}
+                        size={Text.Size.Lg}
+                    >
+                        ${prettyNumber(value)}
+                    </Text>
                 </Box>
                 <Box mt={0.5}>
                     <Text color={Text.Color.Gray3} size={Text.Size.Sm}>

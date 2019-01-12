@@ -10,7 +10,6 @@ interface Props {
      * observable
      */
     items: Array<Item>;
-    error: string;
     isDeleting: boolean;
     isLoading: boolean;
     /**
@@ -19,6 +18,7 @@ interface Props {
     createItem: Function;
     deleteItem: Function;
     getItems: Function;
+    renewLink: Function;
     reset: Function;
 }
 
@@ -26,7 +26,6 @@ export default class ItemsStore implements Props {
     rootStore: RootStore;
 
     items: Array<Item> = [];
-    error = "";
     isDeleting = false;
     isLoading = false;
 
@@ -40,7 +39,7 @@ export default class ItemsStore implements Props {
             this.items = [...this.items, item];
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
+            throw error;
         }
     };
 
@@ -51,22 +50,38 @@ export default class ItemsStore implements Props {
             this.items = [...this.items.filter(item => item.id !== id)];
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
+            throw error;
         } finally {
             this.isDeleting = false;
         }
     };
 
+    renewLink = async (id: string) => {
+        try {
+            await api.updateItem(id, {
+                expired: false
+            });
+            const itemIndex = this.items.findIndex(i => i.id === id);
+            const item = this.items.find(i => i.id === id);
+            this.items = [
+                ...this.items.slice(0, itemIndex),
+                { ...item, expired: false } as Item,
+                ...this.items.slice(itemIndex + 1, this.items.length)
+            ];
+        } catch (err) {
+            const error = get(() => err.response.data);
+            throw error;
+        }
+    };
+
     getItems = async () => {
         try {
-            this.error = "";
             this.isLoading = true;
             const { data: items } = await api.getItems();
             this.items = items;
         } catch (err) {
             const error = get(() => err.response.data);
-            console.log(error);
-            this.error = error;
+            throw error;
         } finally {
             this.isLoading = false;
         }
@@ -74,7 +89,6 @@ export default class ItemsStore implements Props {
 
     reset = () => {
         this.items = [];
-        this.error = "";
         this.isDeleting = false;
         this.isLoading = false;
     };
@@ -84,7 +98,6 @@ decorate(ItemsStore, {
      * observable
      */
     items: observable,
-    error: observable,
     isDeleting: observable,
     isLoading: observable,
     /**
@@ -93,5 +106,6 @@ decorate(ItemsStore, {
     createItem: action,
     deleteItem: action,
     getItems: action,
+    renewLink: action,
     reset: action
 });

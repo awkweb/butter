@@ -24,7 +24,6 @@ export class PublicRoute extends React.Component<Props> {
             exact,
             path
         };
-        console.log(path, isAuthenticated, location);
         return (
             <Route
                 {...routeProps}

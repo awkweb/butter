@@ -44,6 +44,7 @@ class TransactionClass extends React.Component<Props> {
             }
         } = this.props;
         setId(id);
+        await getBudgets();
         if (id !== "new") {
             const transaction = get(() => state.transaction);
             if (transaction) {
@@ -62,7 +63,6 @@ class TransactionClass extends React.Component<Props> {
                 }
             }
         }
-        getBudgets();
         if (!transactions.length) {
             getTransactions();
         }

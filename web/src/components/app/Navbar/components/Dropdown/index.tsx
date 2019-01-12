@@ -43,7 +43,6 @@ export default class Dropdown extends React.Component<Props> {
 }
 
 const StyledDropdownItem = styled.li`
-    border-bottom: 1px solid ${props => props.theme.colors.gray7};
     &:hover {
         background-color: ${props => props.theme.colors.gray10};
     }
@@ -52,7 +51,6 @@ const StyledDropdownItem = styled.li`
         border-top-left-radius: ${props => props.theme.cornerRadii.small};
     }
     &:last-child {
-        border-bottom: 0;
         border-bottom-right-radius: ${props => props.theme.cornerRadii.small};
         border-bottom-left-radius: ${props => props.theme.cornerRadii.small};
     }
@@ -69,9 +67,8 @@ const StyledDropdownItem = styled.li`
 
 const dropdownStyles = cssFactory<Props>(css)`
     background-color: ${props => props.theme.colors.white};
-    border: 1px solid ${props => props.theme.colors.gray7};
     border-radius: ${props => props.theme.cornerRadii.small};
-    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 0 0 1px hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
     list-style-type: none;
     margin: 0;
     ${props => style("opacity", props.open ? 1 : 0)};
