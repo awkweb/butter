@@ -97,13 +97,15 @@ See [Django Migrations Worflow](https://docs.djangoproject.com/en/2.0/topics/mig
 
 ## Set Up Dev Tools
 
+#### Webhooks
+
+[ngrok](https://ngrok.com)
+
+#### Formatting
+
 [Prettier](https://prettier.io/)
 
 [Black](https://github.com/ambv/black)
-
-```bash
-brew install black
-```
 
 ## Helpful links
 
@@ -116,6 +118,7 @@ Django REST Framework:
 
 -   [Django OAuth Toolkit with Django REST Framework Tutorial](https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html)
 -   [dry-rest-permissions](https://github.com/dbkaplan/dry-rest-permissions)
+-   [ngrok and webhooks](https://hackernoon.com/handling-webhooks-using-django-and-ngrok-b7ff27a6fd47)
 
 General AWS:
 
