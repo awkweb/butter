@@ -9,9 +9,9 @@ export { Field } from "./core/components/form/Field";
 export { Text } from "./core/components/typography/Text";
 export { ThemeConsumer } from "./core/components/theme/ThemeConsumer";
 export { ThemeProvider } from "./core/components/theme/ThemeProvider";
+export * from "./core/components/icons/Icon";
 
 export { DateField } from "./app/DateField";
-export { DynamicIcon } from "./app/DynamicIcon";
 export { Navbar } from "./app/Navbar";
 export { PasswordFeatures } from "./app/PasswordFeatures";
 export { PlaidLink } from "./app/PlaidLink";

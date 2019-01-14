@@ -1,12 +1,6 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import {
-    Box,
-    Text,
-    Button,
-    PlaidLink,
-    DynamicIcon
-} from "../../../../components";
+import { Box, Text, Button, PlaidLink } from "../../../../components";
 import { cssFactory } from "../../../../components/core/utils/styled-components";
 import { css } from "styled-components";
 
@@ -28,9 +22,19 @@ interface Props {
 }
 
 export default class AccountRow extends React.Component<Props> {
-    static defaultProps = { last: false };
+    static defaultProps = { color: "", last: false };
 
-    state = { startDelete: false };
+    state = { iconComponent: undefined, startDelete: false };
+
+    async componentWillMount() {
+        const { icon } = this.props;
+        try {
+            const iconComponent = await import(`../../../../components/core/components/icons/Icon/svgs/${icon}`);
+            this.setState({ iconComponent: iconComponent.default });
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     onOutsideClick = () => {
         this.setState({ startDelete: false });
@@ -54,7 +58,6 @@ export default class AccountRow extends React.Component<Props> {
         const {
             color,
             expired,
-            icon,
             institution,
             last,
             linkLoaded,
@@ -64,7 +67,10 @@ export default class AccountRow extends React.Component<Props> {
             publicToken,
             type
         } = this.props;
-        const { startDelete } = this.state;
+        const {
+            iconComponent: IconComponent,
+            startDelete
+        }: { iconComponent: any; startDelete: boolean } = this.state;
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
@@ -91,9 +97,7 @@ export default class AccountRow extends React.Component<Props> {
                         justifyContent={Box.JustifyContent.Center}
                         mr={2}
                     >
-                        <DynamicIcon
-                            path={`../../assets/icons/logos/${icon}.svg`}
-                        />
+                        {IconComponent && <IconComponent />}
                     </Box>
                     <Box>
                         <Box mb={0.15}>

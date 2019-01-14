@@ -3,27 +3,27 @@ import units from "./units";
 import { Element, Font, Size, Weight } from "../types/text";
 
 export const TEXT_SIZES = {
-    xxs: 0.75,
-    xs: 0.875,
-    sm: 1,
-    md: 1.125,
-    lg: 1.25,
-    xl: 1.5,
-    xxl: 1.875,
-    xxxl: 2.25,
-    xxxxl: 3,
-    xxxxxl: 3.75
+    [Size.Xxs]: 0.75,
+    [Size.Xs]: 0.875,
+    [Size.Sm]: 1,
+    [Size.Md]: 1.125,
+    [Size.Lg]: 1.25,
+    [Size.Xl]: 1.5,
+    [Size.Xxl]: 1.875,
+    [Size.Xxxl]: 2.25,
+    [Size.Xxxxl]: 3,
+    [Size.Xxxxxl]: 3.75
 };
 
 const WEIGHTS = {
-    thin: 100,
-    light: 300,
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700,
-    heavy: 800,
-    black: 900
+    [Weight.Thin]: 100,
+    [Weight.Light]: 300,
+    [Weight.Normal]: 400,
+    [Weight.Medium]: 500,
+    [Weight.SemiBold]: 600,
+    [Weight.Bold]: 700,
+    [Weight.Heavy]: 800,
+    [Weight.Black]: 900
 };
 
 export const typeScaleRoot = "16px";

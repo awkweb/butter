@@ -7,6 +7,7 @@ import buttons from "./buttons";
 import colors from "./colors";
 import cornerRadii from "./corner-radii";
 import field from "./field";
+import icon from "./icon";
 import responsive from "./responsive";
 import strokeWidths from "./stroke-widths";
 import text from "./text";
@@ -27,6 +28,7 @@ const theme = Object.freeze({
     colors,
     cornerRadii,
     field,
+    icon,
     responsive,
     strokeWidths,
     text,
