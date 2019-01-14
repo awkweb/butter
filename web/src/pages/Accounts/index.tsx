@@ -116,6 +116,10 @@ class AccountsClass extends React.Component<Props> {
                                                 expired={item.expired}
                                                 key={item.id}
                                                 id={item.id}
+                                                icon={
+                                                    item.institution
+                                                        .institutionId
+                                                }
                                                 institution={
                                                     item.institution.name
                                                 }

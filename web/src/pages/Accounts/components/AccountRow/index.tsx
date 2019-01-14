@@ -1,6 +1,12 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Box, Text, Button, PlaidLink } from "../../../../components";
+import {
+    Box,
+    Text,
+    Button,
+    PlaidLink,
+    DynamicIcon
+} from "../../../../components";
 import { cssFactory } from "../../../../components/core/utils/styled-components";
 import { css } from "styled-components";
 
@@ -8,6 +14,7 @@ interface Props {
     color: string;
     expired: boolean;
     id: string;
+    icon: string;
     institution: string;
     last: boolean;
     linkLoaded: boolean;
@@ -47,6 +54,7 @@ export default class AccountRow extends React.Component<Props> {
         const {
             color,
             expired,
+            icon,
             institution,
             last,
             linkLoaded,
@@ -71,15 +79,22 @@ export default class AccountRow extends React.Component<Props> {
                     display={Box.Display.Flex}
                 >
                     <Box
-                        cornerRadius={Box.CornerRadius.Circle}
+                        alignItems={Box.AlignItems.Center}
                         backgroundColor={Box.BackgroundColor.Gold3}
+                        cornerRadius={Box.CornerRadius.Circle}
                         css={`
                             background-color: #${color};
                             height: 2.5rem;
                             min-width: 2.5rem;
                         `}
+                        display={Box.Display.Flex}
+                        justifyContent={Box.JustifyContent.Center}
                         mr={2}
-                    />
+                    >
+                        <DynamicIcon
+                            path={`../../assets/icons/logos/${icon}.svg`}
+                        />
+                    </Box>
                     <Box>
                         <Box mb={0.15}>
                             <Text color={Text.Color.Gray4} size={Text.Size.Xs}>

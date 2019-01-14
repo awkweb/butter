@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="chase" transform="translate(-13.000000, -12.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="logo" transform="translate(11.000000, 12.000000)">
+                <path d="M11.0858462,0 C10.5969231,0 10.2027692,0.396307692 10.2027692,0.885230769 L10.2027692,7.09046154 L26.5913846,7.09046154 L19.1304615,0 L11.0858462,0 Z" id="Shape"></path>
+                <path d="M27.1944615,8.96646154 C27.1944615,8.47753846 26.7981538,8.08123077 26.3070769,8.08123077 L20.1061538,8.08123077 L20.1061538,24.472 L27.1901538,17.0046154 L27.1944615,8.96646154 Z" id="Shape"></path>
+                <path d="M18.2258462,25.0686154 C18.7147692,25.0686154 19.1089231,24.6723077 19.1089231,24.1833846 L19.1089231,17.9803077 L2.716,17.9803077 L10.1833846,25.0686154 L18.2258462,25.0686154 Z" id="Shape"></path>
+                <path d="M2.11723077,16.1021538 C2.11723077,16.5910769 2.51353846,16.9895385 3.00030769,16.9895385 L9.20553846,16.9895385 L9.20553846,0.598769231 L2.11723077,8.064 L2.11723077,16.1021538 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
