@@ -126,6 +126,7 @@ const genInputCSS = (error: boolean) =>
     }
 
     .react-select__option {
+        cursor: pointer;
         padding: 0.65rem 1rem;
 
         &:active {

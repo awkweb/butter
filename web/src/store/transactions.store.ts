@@ -64,7 +64,9 @@ export default class TransactionsStore implements Props {
     getTransactions = async () => {
         try {
             this.isLoading = true;
-            const { data: transactions } = await api.getTransactions({});
+            const {
+                data: { results: transactions }
+            } = await api.getTransactions({});
             this.transactions = transactions;
         } catch (err) {
             const error = get(() => err.response.data);

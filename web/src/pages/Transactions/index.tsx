@@ -80,23 +80,55 @@ class TransactionsClass extends React.Component<Props> {
                         <Row>
                             <Col xs={12}>
                                 {transactions.length > 0 && (
-                                    <Box>
-                                        {transactions.map(transaction => (
-                                            <Link
-                                                to={`transactions/${
-                                                    transaction.id
-                                                }`}
-                                                key={transaction.id}
-                                            >
-                                                <Text>
-                                                    {transaction.date}{" "}
-                                                    {transaction.name} $
-                                                    {toAmount(
-                                                        transaction.amountCents
-                                                    )}
-                                                </Text>
-                                            </Link>
-                                        ))}
+                                    <Box
+                                        b
+                                        borderColor={Box.BorderColor.Gray9}
+                                        backgroundColor={
+                                            Box.BackgroundColor.White
+                                        }
+                                        cornerRadius={Box.CornerRadius.Small}
+                                        mb={4}
+                                    >
+                                        {transactions.map(
+                                            (transaction, index) => (
+                                                <Box
+                                                    alignItems={
+                                                        Box.AlignItems.Center
+                                                    }
+                                                    display={Box.Display.Flex}
+                                                    bb={
+                                                        index !==
+                                                        transactions.length - 1
+                                                    }
+                                                    borderColor={
+                                                        Box.BorderColor.Gray9
+                                                    }
+                                                    justifyContent={
+                                                        Box.JustifyContent
+                                                            .SpaceBetween
+                                                    }
+                                                    p={2}
+                                                >
+                                                    <Link
+                                                        to={`transactions/${
+                                                            transaction.id
+                                                        }`}
+                                                        key={transaction.id}
+                                                    >
+                                                        <Text
+                                                            size={Text.Size.Xs}
+                                                        >
+                                                            {transaction.date}{" "}
+                                                            {transaction.name} $
+                                                            {toAmount(
+                                                                transaction.amountCents
+                                                            )}
+                                                            {transaction.budget}
+                                                        </Text>
+                                                    </Link>
+                                                </Box>
+                                            )
+                                        )}
                                     </Box>
                                 )}
                                 {transactions.length === 0 && (
