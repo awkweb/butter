@@ -9,6 +9,9 @@ import { paddingAtBreakpoint } from "./paddingAtBreakpoint";
 import { InnerProps, MaxWidth, Props, ValidMaxWidths } from "./types";
 import { AnyColor } from "../../../types/color";
 
+/**
+ * Use `<Grid>` to lay out content in sophisticated, responsive ways.
+ */
 export class Grid extends React.Component<Props> {
     public static AlignSelf = AlignSelf;
     public static BackgroundColor = AnyColor;

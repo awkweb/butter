@@ -120,6 +120,9 @@ interface InternalProps extends SharedProps {
     sizesByBreakpoint: Responsive<Size>;
 }
 
+/**
+ * Use `<Button>` to perform an action, such as triggering an API request, navigating to another page, or changing application state.
+ */
 export class Button extends React.Component<Props> {
     public static Color = Color;
     public static Size = Size;

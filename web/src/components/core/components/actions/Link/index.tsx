@@ -50,6 +50,9 @@ interface Props {
     weight: _Text.Weight;
 }
 
+/**
+ * Use `<Link>` to navigate the site. (Wraps react-router's [`Link`](https://reacttraining.com/react-router/web/api/Link) component.)
+ */
 export class Link extends React.Component<Props> {
     public static Color = Color;
     public static Size = _Text.Size;

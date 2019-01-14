@@ -71,6 +71,9 @@ interface Props {
     value: string | number | undefined;
 }
 
+/**
+ * Use `<Field>` to capture numbers or text. Supports `number` and `text` input types, and `textarea`.
+ */
 export class Field extends React.Component<Props> {
     public static Color = Color;
     public static Type = Type;
@@ -129,6 +132,7 @@ export class Field extends React.Component<Props> {
             autoComplete: autocomplete,
             autoFocus: autofocus,
             error: isTouched && error,
+            name: id,
             onBlur: this.onBlur,
             onChange: this.handleChange,
             placeholder: active ? "" : label,

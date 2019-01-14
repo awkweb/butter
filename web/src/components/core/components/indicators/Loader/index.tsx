@@ -17,6 +17,9 @@ interface SharedProps {
     center: boolean;
 }
 
+/**
+ * Use `<Loader>` while there is a large amount of content not ready for viewing.
+ */
 export class Loader extends React.Component<SharedProps> {
     public static Color = Color;
 
@@ -68,6 +71,6 @@ const loaderStyles = cssFactory<LoaderProps>(css)`
     }
 `;
 
-const StyledLoader = styled.label`
+const StyledLoader = styled.div`
     ${loaderStyles}
 `;
