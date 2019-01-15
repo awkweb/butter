@@ -1,6 +1,7 @@
 import { Size } from "../types/icon";
 
 export const ICON_SIZES = {
+    [Size.Xxxs]: 1.35,
     [Size.Xxs]: 1.65,
     [Size.Xs]: 2,
     [Size.Sm]: 2.5,

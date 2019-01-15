@@ -1,4 +1,5 @@
 export enum Size {
+    Xxxs = "xxxs",
     Xxs = "xxs",
     Xs = "xs",
     Sm = "sm",

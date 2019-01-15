@@ -3,10 +3,12 @@ import styled, { css } from "styled-components";
 import { style } from "../../../utils/css";
 import { cssFactory } from "../../../utils/styled-components";
 import { AnyColor as Color } from "../../../types/color";
+import { getBorderStyle } from "./utils";
+import { Check, Deselect, Icon } from "../../icons/Icon";
 
 interface Props {
     /**
-     * Defaults to `BooleanField.Color.Gold3`.
+     * Sets checked color.
      */
     color: Color;
 
@@ -14,6 +16,11 @@ interface Props {
      * Input is set to true
      */
     checked: boolean;
+
+    /**
+     * Show deselect icon.
+     */
+    deselect: boolean;
 
     /**
      * Applies disabled styling to the button.
@@ -24,11 +31,6 @@ interface Props {
      * HTML id property.
      */
     id?: string;
-
-    /**
-     * Sets the label.
-     */
-    label?: React.ReactNode;
 
     /**
      * Callback function for checkbox change.
@@ -47,44 +49,57 @@ interface Props {
 export class BooleanField extends React.Component<Props> {
     public static Color = Color;
 
-    public static defaultProps = { color: Color.Gold3 };
+    public static defaultProps = { color: Color.Blue3 };
 
     public render() {
-        const { color, checked, id, label, onChange } = this.props;
+        const { color, checked, deselect, id, onChange } = this.props;
+
+        let icon;
+        if (deselect) {
+            icon = <Deselect color={Icon.Color.White} size={Icon.Size.Xxxs} />;
+        } else {
+            icon = <Check color={Icon.Color.White} size={Icon.Size.Xxxs} />;
+        }
 
         return (
-            <StyledContainer color={color}>
-                <input
+            <StyledContainer checked={checked} color={color} role="checkbox">
+                <StyledInput
                     checked={checked}
                     id={id}
                     name={id}
                     type="checkbox"
                     onChange={onChange}
                 />
-                {label && label}
+                {checked && icon}
             </StyledContainer>
         );
     }
 }
 
 interface BooleanFieldProps {
+    checked: boolean;
     color: Color;
 }
 
 const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
-    ${props => style("background", props.theme.colors[props.color])};
-    width: 20px;
-    height: 20px;
+    align-items: center;
+    ${props =>
+        style("background", props.theme.colors[props.color], props.checked)};
+    border-radius: 3px;
+    border: ${props =>
+        getBorderStyle(Color.Gray8, props.theme.colors, props.checked)};
+    color: ${props => props.theme.colors.white};
     cursor: pointer;
     display: inline-flex;
-    align-items: center;
+    height: 20px;
     justify-content: center;
-    border: 1px solid #dadfe2;
-    border-radius: 3px;
-    color: #fff;
-    flex: none;
+    width: 20px;
 `;
 
 const StyledContainer = styled.label`
     ${checkboxStyles}
+`;
+
+const StyledInput = styled.input`
+    display: none;
 `;

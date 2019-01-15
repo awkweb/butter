@@ -29,7 +29,6 @@ export class InstitutionLogo extends React.Component<Props> {
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
-                backgroundColor={Box.BackgroundColor.Gold3}
                 cornerRadius={Box.CornerRadius.Circle}
                 css={genOuterCSS(id)}
                 display={Box.Display.Flex}
@@ -47,4 +46,5 @@ const genOuterCSS = (id: string) =>
     background-color: ${getColorForId(id)};
     height: 2.5rem;
     min-width: 2.5rem;
+    * { width: 1.5rem !important; }
 `;

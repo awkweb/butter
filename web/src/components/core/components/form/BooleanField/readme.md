@@ -1,6 +1,7 @@
 ```js
 initialState = { checked: false };
-<Checkbox
+<BooleanField
+    id="checkbox"
     checked={state.checked}
     onChange={() => setState({ checked: !state.checked })}
 />;

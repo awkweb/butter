@@ -3,6 +3,7 @@ export { Icon } from "./Icon";
 export * from "./svgs/caret-down";
 export * from "./svgs/check";
 export * from "./svgs/check-circle";
+export * from "./svgs/deselect";
 
 export * from "./svgs/bank";
 export * from "./svgs/ins_1";
