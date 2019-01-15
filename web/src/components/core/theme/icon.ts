@@ -1,12 +1,11 @@
 import { Size } from "../types/icon";
 
 export const ICON_SIZES = {
-    [Size.Xxs]: 1,
+    [Size.Xxs]: 1.65,
     [Size.Xs]: 2,
-    [Size.Sm]: 3,
-    [Size.Md]: 4,
-    [Size.Lg]: 5,
-    [Size.Xl]: 6
+    [Size.Sm]: 2.5,
+    [Size.Md]: 3,
+    [Size.Lg]: 4
 };
 
 const getSize = (size: Size) => {

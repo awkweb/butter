@@ -22,7 +22,7 @@ export class Icon extends React.Component<Props> {
     public static Size = Size;
     public static VerticalAlign = VerticalAlign;
 
-    public static defaultProps = { color: Color.White, size: Size.Sm };
+    public static defaultProps = { color: Color.White, size: Size.Md };
 
     public getIconSize() {
         return transformValues(

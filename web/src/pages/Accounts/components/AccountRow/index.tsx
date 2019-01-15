@@ -1,15 +1,20 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Box, Text, Button, PlaidLink } from "../../../../components";
+import {
+    Box,
+    Text,
+    Button,
+    PlaidLink,
+    InstitutionLogo
+} from "../../../../components";
 import { cssFactory } from "../../../../components/core/utils/styled-components";
 import { css } from "styled-components";
 
 interface Props {
-    color: string;
     expired: boolean;
     id: string;
-    icon: string;
-    institution: string;
+    institutionId: string;
+    institutionName: string;
     last: boolean;
     linkLoaded: boolean;
     mask: string;
@@ -22,19 +27,9 @@ interface Props {
 }
 
 export default class AccountRow extends React.Component<Props> {
-    static defaultProps = { color: "", last: false };
+    static defaultProps = { last: false };
 
-    state = { iconComponent: undefined, startDelete: false };
-
-    async componentWillMount() {
-        const { icon } = this.props;
-        try {
-            const iconComponent = await import(`../../../../components/core/components/icons/Icon/svgs/${icon}`);
-            this.setState({ iconComponent: iconComponent.default });
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    state = { startDelete: false };
 
     onOutsideClick = () => {
         this.setState({ startDelete: false });
@@ -56,9 +51,9 @@ export default class AccountRow extends React.Component<Props> {
 
     render() {
         const {
-            color,
             expired,
-            institution,
+            institutionId,
+            institutionName,
             last,
             linkLoaded,
             mask,
@@ -67,10 +62,7 @@ export default class AccountRow extends React.Component<Props> {
             publicToken,
             type
         } = this.props;
-        const {
-            iconComponent: IconComponent,
-            startDelete
-        }: { iconComponent: any; startDelete: boolean } = this.state;
+        const { startDelete } = this.state;
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
@@ -84,25 +76,11 @@ export default class AccountRow extends React.Component<Props> {
                     alignItems={Box.AlignItems.FlexStart}
                     display={Box.Display.Flex}
                 >
-                    <Box
-                        alignItems={Box.AlignItems.Center}
-                        backgroundColor={Box.BackgroundColor.Gold3}
-                        cornerRadius={Box.CornerRadius.Circle}
-                        css={`
-                            background-color: #${color};
-                            height: 2.5rem;
-                            min-width: 2.5rem;
-                        `}
-                        display={Box.Display.Flex}
-                        justifyContent={Box.JustifyContent.Center}
-                        mr={2}
-                    >
-                        {IconComponent && <IconComponent />}
-                    </Box>
+                    <InstitutionLogo id={institutionId} />
                     <Box>
                         <Box mb={0.15}>
                             <Text color={Text.Color.Gray4} size={Text.Size.Xs}>
-                                {institution} -{" "}
+                                {institutionName} -{" "}
                                 <Text
                                     color={Text.Color.Gray4}
                                     el={Text.Element.Span}

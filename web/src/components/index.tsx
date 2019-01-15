@@ -12,6 +12,7 @@ export { ThemeProvider } from "./core/components/theme/ThemeProvider";
 export * from "./core/components/icons/Icon";
 
 export { DateField } from "./app/DateField";
+export { InstitutionLogo } from "./app/InstitutionLogo";
 export { Navbar } from "./app/Navbar";
 export { PasswordFeatures } from "./app/PasswordFeatures";
 export { PlaidLink } from "./app/PlaidLink";

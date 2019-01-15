@@ -36,7 +36,13 @@ export default class ItemsStore implements Props {
     createItem = async (data: object) => {
         try {
             const { data: item } = await api.createItem(data);
-            this.items = [...this.items, item];
+            this.items = [...this.items, item].sort((a, b) => {
+                const aName = a.institution.name;
+                const bName = b.institution.name;
+                if (aName > bName) return 1;
+                else if (aName < bName) return -1;
+                return 0;
+            });
         } catch (err) {
             const error = get(() => err.response.data);
             throw error;

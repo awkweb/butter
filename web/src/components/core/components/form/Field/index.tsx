@@ -6,8 +6,7 @@ import { cssFactory } from "../../../utils/styled-components";
 import { Size } from "../../../types/text";
 import { AnyColor as Color } from "../../../types/color";
 import { Type } from "../../../types/field";
-import { ReactComponent as IconSuccess } from "../../../../../assets/icons/input-success.svg";
-import { ThemeConsumer } from "../../theme/ThemeConsumer";
+import { CheckCircle, Icon } from "../../icons/Icon";
 
 interface Props {
     /**
@@ -157,20 +156,18 @@ export class Field extends React.Component<Props> {
                 <StyledLabel {...labelProps}>{error || label}</StyledLabel>
                 <StyledInput {...inputProps} {...numberInputProps} />
                 {showSuccess && isValid && (
-                    <ThemeConsumer>
-                        {theme => (
-                            <Box
-                                css={`
-                                    right: 0.6rem;
-                                    top: 0.8rem;
-                                    fill: ${theme.colors.green3};
-                                `}
-                                position={Box.Position.Absolute}
-                            >
-                                <IconSuccess />
-                            </Box>
-                        )}
-                    </ThemeConsumer>
+                    <Box
+                        css={`
+                            right: 0.6rem;
+                            top: 0.8rem;
+                        `}
+                        position={Box.Position.Absolute}
+                    >
+                        <CheckCircle
+                            color={Icon.Color.Green3}
+                            size={Icon.Size.Sm}
+                        />
+                    </Box>
                 )}
             </StyledFieldset>
         );

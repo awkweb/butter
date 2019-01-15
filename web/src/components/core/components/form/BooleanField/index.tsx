@@ -6,7 +6,7 @@ import { AnyColor as Color } from "../../../types/color";
 
 interface Props {
     /**
-     * Defaults to `Field.Color.Gold3`.
+     * Defaults to `BooleanField.Color.Gold3`.
      */
     color: Color;
 
@@ -42,9 +42,9 @@ interface Props {
 }
 
 /**
- * Use `<Checkbox>` if you need a boolean input.
+ * Use `<BooleanField>` if you need a boolean input.
  */
-export class Checkbox extends React.Component<Props> {
+export class BooleanField extends React.Component<Props> {
     public static Color = Color;
 
     public static defaultProps = { color: Color.Gold3 };
@@ -53,7 +53,7 @@ export class Checkbox extends React.Component<Props> {
         const { color, checked, id, label, onChange } = this.props;
 
         return (
-            <StyledCheckbox color={color}>
+            <StyledContainer color={color}>
                 <input
                     checked={checked}
                     id={id}
@@ -62,16 +62,16 @@ export class Checkbox extends React.Component<Props> {
                     onChange={onChange}
                 />
                 {label && label}
-            </StyledCheckbox>
+            </StyledContainer>
         );
     }
 }
 
-interface CheckboxProps {
+interface BooleanFieldProps {
     color: Color;
 }
 
-const checkboxStyles = cssFactory<CheckboxProps>(css)`
+const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
     ${props => style("background", props.theme.colors[props.color])};
     width: 20px;
     height: 20px;
@@ -85,6 +85,6 @@ const checkboxStyles = cssFactory<CheckboxProps>(css)`
     flex: none;
 `;
 
-const StyledCheckbox = styled.label`
+const StyledContainer = styled.label`
     ${checkboxStyles}
 `;

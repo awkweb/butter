@@ -2,9 +2,9 @@ import * as React from "react";
 import { Icon } from "../Icon";
 import { InnerProps as Props } from "../types";
 
-import { ReactComponent as Svg } from "../assets/logos/ins_51.svg";
+import { ReactComponent as Svg } from "../assets/check-circle.svg";
 
-export default class ins_51 extends React.PureComponent<Props> {
+export class Check extends React.PureComponent<Props> {
     render() {
         return (
             <Icon {...this.props}>

@@ -1,9 +1,8 @@
 import * as React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Box, Col, Grid, Link, Row, Text } from "../../index";
+import { Box, CaretDown, Col, Grid, Icon, Link, Row, Text } from "../../index";
 import { cssFactory } from "../../core/utils/styled-components";
 import { css } from "styled-components";
-import { ReactComponent as ChevronDown } from "../../../assets/icons/chevron-down.svg";
 import Dropdown from "./components/Dropdown";
 
 interface Props {
@@ -145,7 +144,10 @@ export class Navbar extends React.Component<Props> {
                                                 </Text>
                                             </Box>
                                             <Box css={genChevronDownCSS()}>
-                                                <ChevronDown />
+                                                <CaretDown
+                                                    color={Icon.Color.Gray6}
+                                                    size={Icon.Size.Xxs}
+                                                />
                                             </Box>
                                         </Box>
                                     </OutsideClickHandler>
@@ -185,9 +187,7 @@ const genAvatarCSS = () =>
 const genChevronDownCSS = () =>
     cssFactory(css)`
         svg {
-            color: ${props => props.theme.colors.gray6};
             margin-left: 0.3rem;
             margin-top: 0.3rem;
-            width: 0.85rem;
         }
     `;

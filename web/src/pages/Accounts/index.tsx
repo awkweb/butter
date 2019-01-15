@@ -112,15 +112,14 @@ class AccountsClass extends React.Component<Props> {
                                     >
                                         {items.map((item, index) => (
                                             <AccountRow
-                                                color={item.institution.color}
                                                 expired={item.expired}
                                                 key={item.id}
                                                 id={item.id}
-                                                icon={
+                                                institutionId={
                                                     item.institution
                                                         .institutionId
                                                 }
-                                                institution={
+                                                institutionName={
                                                     item.institution.name
                                                 }
                                                 last={

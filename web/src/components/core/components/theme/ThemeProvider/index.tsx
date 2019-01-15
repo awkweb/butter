@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { ThemeProvider as SCThemeProvider } from "styled-components";
 import theme, { GlobalStyle } from "../../../theme/index";
-import "../../../../../assets/styles/fonts.css";
+import "./assets/styles/fonts.css";
 
 interface Props {
     children: string | number | React.ReactElement<any> | undefined;
