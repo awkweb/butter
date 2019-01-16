@@ -44,16 +44,16 @@ class TransactionClass extends React.Component<Props> {
             }
         } = this.props;
         setId(id);
-        await getBudgets();
+        getBudgets();
         if (id !== "new") {
             const transaction = get(() => state.transaction);
             if (transaction) {
                 initForm(
                     transaction.amountCents,
-                    transaction.name,
-                    transaction.description,
+                    transaction.budget,
                     transaction.date,
-                    transaction.budget
+                    transaction.description,
+                    transaction.name
                 );
             } else {
                 try {

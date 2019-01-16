@@ -1,6 +1,10 @@
+import { Account } from "./account";
+import { Budget } from "./budget";
+
 export interface Transaction {
+    account: Account;
     amountCents: number;
-    budget: string;
+    budget: Budget;
     date: string;
     description: number;
     id: string;

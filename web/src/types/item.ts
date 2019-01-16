@@ -1,22 +1,10 @@
-export interface Account {
-    id: string;
-    accountId: string;
-    mask: string;
-    name: string;
-    subtype: string;
-    type: string;
-}
-
-export interface Institution {
-    color: string;
-    institutionId: string;
-    name: string;
-}
+import { Account } from "./account";
+import { Institution } from "./institution";
 
 export interface Item {
     account: Account;
-    expired: boolean;
     dateCreated: string;
+    expired: boolean;
     id: string;
     institution: Institution;
     publicToken: string;

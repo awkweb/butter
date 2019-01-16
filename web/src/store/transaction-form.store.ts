@@ -19,7 +19,6 @@ interface Props {
     amountValidator: Validator;
     budgetValidator: Validator;
     dateValidator: Validator;
-    descriptionValidator: Validator;
     nameValidator: Validator;
     /**
      * observable
@@ -46,7 +45,6 @@ interface Props {
     networkActive: boolean;
     amountValidation: Validation;
     dateValidation: Validation;
-    descriptionValidation: Validation;
     nameValidation: Validation;
     validations: Validations;
     amountError?: string;
@@ -78,7 +76,6 @@ export default class TransactionFormStore implements Props {
     amountValidator: Validator;
     budgetValidator: Validator;
     dateValidator: Validator;
-    descriptionValidator: Validator;
     nameValidator: Validator;
 
     amount: number | undefined = undefined;
@@ -103,7 +100,6 @@ export default class TransactionFormStore implements Props {
         });
         this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.date, { required });
-        this.descriptionValidator = new Validator(this.description);
         this.nameValidator = new Validator(this.name, { required });
     }
 
@@ -135,10 +131,6 @@ export default class TransactionFormStore implements Props {
         return this.dateValidator.validate(this.date);
     }
 
-    get descriptionValidation() {
-        return this.descriptionValidator.validate(this.description);
-    }
-
     get nameValidation() {
         return this.nameValidator.validate(this.name);
     }
@@ -148,13 +140,11 @@ export default class TransactionFormStore implements Props {
             amount: this.amountValidation,
             budget: this.budgetValidation,
             date: this.dateValidation,
-            description: this.descriptionValidation,
             name: this.nameValidation,
             all: validateAll(
                 this.amountValidation,
                 this.budgetValidation,
                 this.dateValidation,
-                this.descriptionValidation,
                 this.nameValidation
             )
         };
@@ -215,10 +205,10 @@ export default class TransactionFormStore implements Props {
             const { data: transaction } = await api.getTransaction(this.id);
             this.initForm(
                 transaction.amountCents,
-                transaction.name,
-                transaction.description,
                 transaction.budget,
-                transaction.date
+                transaction.date,
+                transaction.description,
+                transaction.name
             );
         } catch (err) {
             const error = get(() => err.response.data);
@@ -309,18 +299,15 @@ export default class TransactionFormStore implements Props {
 
     initForm = (
         amountCents: number,
-        name: string,
+        budget: Budget,
+        date: Moment,
         description: string,
-        budgetId: string,
-        date: Moment
+        name: string
     ) => {
         const amount = toAmount(amountCents);
         this.amount = amount;
         this.initialAmount = amount;
-
-        const budget = this.budgets.find(budget => budget.id === budgetId);
-        this.budget = budget && { label: budget.name, value: budgetId };
-
+        this.budget = budget && { label: budget.name, value: budget.id };
         this.name = name;
         this.description = description;
         this.date = moment(date);
@@ -332,7 +319,6 @@ export default class TransactionFormStore implements Props {
         this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });
-        this.descriptionValidator = new Validator(this.description);
     };
 
     reset = () => {
@@ -403,7 +389,6 @@ decorate(TransactionFormStore, {
     budgetValidation: computed,
     dateValidation: computed,
     nameValidation: computed,
-    descriptionValidation: computed,
     validations: computed,
     amountError: computed,
     budgetError: computed,

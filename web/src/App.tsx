@@ -1,6 +1,6 @@
 import React from "react";
 import { observer, Provider } from "mobx-react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import DocumentTitle from "react-document-title";
 import RootStore from "./store";
 import { get } from "./lib/get";
@@ -10,7 +10,6 @@ import {
     Budgets,
     Register,
     LogIn,
-    Dashboard,
     Budget,
     Accounts,
     Transaction,
@@ -76,10 +75,11 @@ class App extends React.Component {
                                         component={Transactions}
                                         isAuthenticated={isAuthenticated}
                                     />
-                                    <PrivateRoute
+                                    <Route
                                         path="/"
-                                        component={Dashboard}
-                                        isAuthenticated={isAuthenticated}
+                                        render={() => (
+                                            <Redirect to="/budgets" />
+                                        )}
                                     />
                                     <Route component={NoMatch} />
                                 </Switch>

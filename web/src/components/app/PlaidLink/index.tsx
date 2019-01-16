@@ -45,7 +45,7 @@ export class PlaidLink extends React.Component<Props> {
         webhook:
             process.env.NODE_ENV === "production"
                 ? "https://api.wilbur.app/v1/items/hooks/"
-                : "http://e060b7df.ngrok.io/v1/items/hooks/"
+                : "http://4fe12d88.ngrok.io/v1/items/hooks/"
     };
 
     async componentWillMount() {

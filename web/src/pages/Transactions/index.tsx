@@ -4,6 +4,7 @@ import DocumentTitle from "react-document-title";
 import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
 import TransactionRow from "./components/TransactionRow";
+import { get } from "../../lib/get";
 
 interface Props {
     rootStore: RootStore;
@@ -84,17 +85,33 @@ class TransactionsClass extends React.Component<Props> {
                                         {transactions.map(
                                             (transaction, index) => (
                                                 <TransactionRow
+                                                    amountCents={
+                                                        transaction.amountCents
+                                                    }
+                                                    accountMask={get(
+                                                        () =>
+                                                            transaction.account
+                                                                .mask
+                                                    )}
+                                                    accountName={get(
+                                                        () =>
+                                                            transaction.account
+                                                                .name
+                                                    )}
+                                                    budgetName={get(
+                                                        () =>
+                                                            transaction.budget
+                                                                .name
+                                                    )}
+                                                    date={transaction.date}
+                                                    key={transaction.id}
                                                     id={transaction.id}
-                                                    name={transaction.name}
                                                     last={
                                                         index ===
                                                         transactions.length - 1
                                                     }
-                                                    date={transaction.date}
-                                                    amountCents={
-                                                        transaction.amountCents
-                                                    }
-                                                    budget={transaction.budget}
+                                                    name={transaction.name}
+                                                    transaction={transaction}
                                                 />
                                             )
                                         )}

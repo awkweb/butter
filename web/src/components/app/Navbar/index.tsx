@@ -62,16 +62,6 @@ export class Navbar extends React.Component<Props> {
                                     pt={0.5}
                                 >
                                     <Box>
-                                        <Link to="/">
-                                            <Text
-                                                {...this.getLinkProps("/")}
-                                                size={Text.Size.Xs}
-                                            >
-                                                Dashboard
-                                            </Text>
-                                        </Link>
-                                    </Box>
-                                    <Box ml={3}>
                                         <Link to="/budgets">
                                             <Text
                                                 {...this.getLinkProps(
