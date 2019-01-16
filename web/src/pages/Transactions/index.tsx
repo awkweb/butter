@@ -1,18 +1,10 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import DocumentTitle from "react-document-title";
-import {
-    Box,
-    Col,
-    Text,
-    Grid,
-    Row,
-    Button,
-    Loader,
-    Link
-} from "../../components";
+import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
-import { toAmount } from "../../utils";
+import TransactionRow from "./components/TransactionRow";
+
 interface Props {
     rootStore: RootStore;
 }
@@ -37,7 +29,7 @@ class TransactionsClass extends React.Component<Props> {
             }
         } = this.props;
         return (
-            <DocumentTitle title="Connected Accounts | Wilbur">
+            <DocumentTitle title="Transactions | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
                     <Row>
                         <Col xs={12}>
@@ -91,42 +83,19 @@ class TransactionsClass extends React.Component<Props> {
                                     >
                                         {transactions.map(
                                             (transaction, index) => (
-                                                <Box
-                                                    alignItems={
-                                                        Box.AlignItems.Center
-                                                    }
-                                                    display={Box.Display.Flex}
-                                                    bb={
-                                                        index !==
+                                                <TransactionRow
+                                                    id={transaction.id}
+                                                    name={transaction.name}
+                                                    last={
+                                                        index ===
                                                         transactions.length - 1
                                                     }
-                                                    borderColor={
-                                                        Box.BorderColor.Gray9
+                                                    date={transaction.date}
+                                                    amountCents={
+                                                        transaction.amountCents
                                                     }
-                                                    justifyContent={
-                                                        Box.JustifyContent
-                                                            .SpaceBetween
-                                                    }
-                                                    p={2}
-                                                >
-                                                    <Link
-                                                        to={`transactions/${
-                                                            transaction.id
-                                                        }`}
-                                                        key={transaction.id}
-                                                    >
-                                                        <Text
-                                                            size={Text.Size.Xs}
-                                                        >
-                                                            {transaction.date}{" "}
-                                                            {transaction.name} $
-                                                            {toAmount(
-                                                                transaction.amountCents
-                                                            )}
-                                                            {transaction.budget}
-                                                        </Text>
-                                                    </Link>
-                                                </Box>
+                                                    budget={transaction.budget}
+                                                />
                                             )
                                         )}
                                     </Box>

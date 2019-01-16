@@ -20,7 +20,7 @@ interface Props {
     /**
      * Show deselect icon.
      */
-    deselect: boolean;
+    deselect?: boolean;
 
     /**
      * Applies disabled styling to the button.
@@ -36,11 +36,6 @@ interface Props {
      * Callback function for checkbox change.
      */
     onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void);
-
-    /**
-     * Sets the value.
-     */
-    value: any;
 }
 
 /**
@@ -49,7 +44,7 @@ interface Props {
 export class BooleanField extends React.Component<Props> {
     public static Color = Color;
 
-    public static defaultProps = { color: Color.Blue3 };
+    public static defaultProps = { color: Color.Blue3, disabled: false };
 
     public render() {
         const { color, checked, deselect, id, onChange } = this.props;

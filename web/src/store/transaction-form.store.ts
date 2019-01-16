@@ -2,14 +2,15 @@ import { decorate, observable, action, computed } from "mobx";
 import moment, { Moment } from "moment";
 import { ValueType } from "react-select/lib/types";
 import RootStore from "./index";
-import { required } from "../lib/validate/validators";
+import { numeric, required } from "../lib/validate/validators";
 import {
     Validator,
     Validation,
     Validations,
     validateAll
 } from "../lib/validate";
-import { get, toAmount, toCents } from "../utils";
+import { toAmount, toCents } from "../utils";
+import { get } from "../lib/get";
 import api from "../api";
 import { Budget } from "../types/budget";
 
@@ -96,7 +97,10 @@ export default class TransactionFormStore implements Props {
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-        this.amountValidator = new Validator(this.amount, { required });
+        this.amountValidator = new Validator(this.amount, {
+            required,
+            numeric
+        });
         this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.date, { required });
         this.descriptionValidator = new Validator(this.description);
@@ -160,6 +164,8 @@ export default class TransactionFormStore implements Props {
         let error = undefined;
         if (!this.amountValidation.required) {
             error = "Amount is required";
+        } else if (!this.amountValidation.numeric) {
+            error = "Amount must be numeric";
         }
         return error;
     }
@@ -190,7 +196,9 @@ export default class TransactionFormStore implements Props {
 
     getBudgets = async () => {
         try {
-            const { data: budgets } = await api.getBudgets();
+            const {
+                data: { results: budgets }
+            } = await api.getBudgets();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
                 if (a.name > b.name) return 1;
                 else if (a.name < b.name) return -1;
@@ -317,7 +325,10 @@ export default class TransactionFormStore implements Props {
         this.description = description;
         this.date = moment(date);
 
-        this.amountValidator = new Validator(this.amount, { required });
+        this.amountValidator = new Validator(this.amount, {
+            required,
+            numeric
+        });
         this.budgetValidator = new Validator(this.budget, { required });
         this.dateValidator = new Validator(this.amount, { required });
         this.nameValidator = new Validator(this.name, { required });

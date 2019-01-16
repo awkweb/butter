@@ -3,7 +3,7 @@ import { observer, Provider } from "mobx-react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import DocumentTitle from "react-document-title";
 import RootStore from "./store";
-import { get } from "./utils";
+import { get } from "./lib/get";
 import { ThemeProvider, Navbar, PrivateRoute, PublicRoute } from "./components";
 import {
     NoMatch,

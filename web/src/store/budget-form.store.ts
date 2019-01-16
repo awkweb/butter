@@ -1,13 +1,14 @@
 import { decorate, observable, action, computed } from "mobx";
 import RootStore from "./index";
-import { required } from "../lib/validate/validators";
+import { numeric, required } from "../lib/validate/validators";
 import {
     Validator,
     Validation,
     Validations,
     validateAll
 } from "../lib/validate";
-import { get, toAmount, toCents } from "../utils";
+import { toAmount, toCents } from "../utils";
+import { get } from "../lib/get";
 import api from "../api";
 
 interface Props {
@@ -70,7 +71,10 @@ export default class BudgetFormStore implements Props {
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-        this.amountValidator = new Validator(this.amount, { required });
+        this.amountValidator = new Validator(this.amount, {
+            required,
+            numeric
+        });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
     }
@@ -112,6 +116,8 @@ export default class BudgetFormStore implements Props {
         let error = undefined;
         if (!this.amountValidation.required) {
             error = "Amount is required";
+        } else if (!this.amountValidation.numeric) {
+            error = "Amount must be numeric";
         }
         return error;
     }
@@ -198,7 +204,10 @@ export default class BudgetFormStore implements Props {
         this.amount = toAmount(amountCents);
         this.name = name;
         this.description = description;
-        this.amountValidator = new Validator(this.amount, { required });
+        this.amountValidator = new Validator(this.amount, {
+            required,
+            numeric
+        });
         this.nameValidator = new Validator(this.name, { required });
         this.descriptionValidator = new Validator(this.description);
     };

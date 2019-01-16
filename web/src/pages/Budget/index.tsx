@@ -13,7 +13,7 @@ import {
     Link
 } from "../../components";
 import RootStore from "../../store";
-import { get } from "../../utils";
+import { get } from "../../lib/get";
 
 interface Props {
     location: any;
@@ -175,7 +175,7 @@ class BudgetClass extends React.Component<Props> {
                                         id="amount"
                                         label="Amount"
                                         type={Field.Type.Number}
-                                        value={amount}
+                                        value={amount || ""}
                                         onChange={this.onChangeAmount}
                                     />
                                 </Box>

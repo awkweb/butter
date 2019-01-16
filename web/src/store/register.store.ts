@@ -14,7 +14,7 @@ import {
     validateAll
 } from "../lib/validate";
 import api from "../api";
-import { get } from "../utils";
+import { get } from "../lib/get";
 
 interface Props {
     rootStore: RootStore;

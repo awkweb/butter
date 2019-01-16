@@ -8,7 +8,7 @@ import {
     Validations,
     validateAll
 } from "../lib/validate";
-import { get } from "../utils";
+import { get } from "../lib/get";
 
 interface Props {
     rootStore: RootStore;

@@ -13,7 +13,7 @@ import {
 } from "../../../components";
 import RootStore from "../../../store";
 import { Redirect } from "react-router";
-import { get } from "../../../utils";
+import { get } from "../../../lib/get";
 
 interface Props {
     location: any;

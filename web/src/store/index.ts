@@ -6,7 +6,7 @@ import LogInStore from "./login.store";
 import RegisterStore from "./register.store";
 import TransactionFormStore from "./transaction-form.store";
 import TransactionsStore from "./transactions.store";
-import { get } from "../utils";
+import { get } from "../lib/get";
 import api from "../api";
 import User from "../types/user";
 

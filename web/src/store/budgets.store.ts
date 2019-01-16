@@ -1,7 +1,7 @@
 import { action, computed, decorate, observable } from "mobx";
 import api from "../api";
 import RootStore from "./index";
-import { get } from "../utils";
+import { get } from "../lib/get";
 import { Budget } from "../types/budget";
 
 interface Props {

@@ -153,7 +153,9 @@ export class Field extends React.Component<Props> {
 
         return (
             <StyledFieldset>
-                <StyledLabel {...labelProps}>{error || label}</StyledLabel>
+                <StyledLabel {...labelProps}>
+                    {isTouched && error ? error : label}
+                </StyledLabel>
                 <StyledInput {...inputProps} {...numberInputProps} />
                 {showSuccess && isValid && (
                     <Box
