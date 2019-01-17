@@ -6,17 +6,15 @@ import TableRow from "../TableRow";
 
 interface Props {
     budgets: Array<Budget>;
+    total: { [name: string]: any };
 }
 
 export default class Table extends React.Component<Props> {
     render() {
-        const { budgets } = this.props;
+        const { budgets, total } = this.props;
         return (
             <Box
-                bb
-                bt
                 backgroundColor={Box.BackgroundColor.White}
-                borderColor={Box.BorderColor.Gray8}
                 cornerRadius={Box.CornerRadius.Small}
                 css={`
                     overflow-x: scroll;
@@ -25,25 +23,29 @@ export default class Table extends React.Component<Props> {
                 <StyledTable>
                     <StyledTableHeader>
                         <tr>
-                            <th>&nbsp;</th>
                             <th>
                                 <Text
-                                    align={Text.Align.Right}
-                                    color={Text.Color.Gray3}
-                                    size={Text.Size.Xxs}
-                                    transform={Text.Transform.Uppercase}
-                                    weight={Text.Weight.Bold}
+                                    align={Text.Align.Left}
+                                    color={Text.Color.Gray1}
+                                    size={Text.Size.Sm}
                                 >
-                                    Remaining
+                                    Name
                                 </Text>
                             </th>
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    color={Text.Color.Gray3}
-                                    size={Text.Size.Xxs}
-                                    transform={Text.Transform.Uppercase}
-                                    weight={Text.Weight.Bold}
+                                    color={Text.Color.Gray1}
+                                    size={Text.Size.Sm}
+                                >
+                                    Budgeted
+                                </Text>
+                            </th>
+                            <th>
+                                <Text
+                                    align={Text.Align.Right}
+                                    color={Text.Color.Gray1}
+                                    size={Text.Size.Sm}
                                 >
                                     Spent
                                 </Text>
@@ -51,12 +53,10 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    color={Text.Color.Gray3}
-                                    size={Text.Size.Xxs}
-                                    transform={Text.Transform.Uppercase}
-                                    weight={Text.Weight.Bold}
+                                    color={Text.Color.Gray1}
+                                    size={Text.Size.Sm}
                                 >
-                                    Budgeted
+                                    Remaining
                                 </Text>
                             </th>
                         </tr>
@@ -72,6 +72,11 @@ export default class Table extends React.Component<Props> {
                                 spent={budget.spent}
                             />
                         ))}
+                        <TableRow
+                            name={total.name}
+                            budgeted={total.budgeted}
+                            spent={total.spent}
+                        />
                     </tbody>
                 </StyledTable>
             </Box>
@@ -86,10 +91,10 @@ const StyledTable = styled.table`
 `;
 
 const StyledTableHeader = styled.thead`
-    background-color: ${props => props.theme.colors.gray10};
+    background-color: ${props => props.theme.colors.white};
     th {
-        border-bottom: 1px solid ${props => props.theme.colors.gray8};
-        padding: 0.7rem 1.5rem;
+        border-bottom: 1px solid ${props => props.theme.colors.gray7};
+        padding: 0 1.5rem 0.75rem;
         word-break: normal;
     }
 `;
