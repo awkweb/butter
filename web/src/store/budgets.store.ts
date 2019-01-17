@@ -16,7 +16,6 @@ interface Props {
      */
     totalBudgeted: number;
     totalSpent: number;
-    totalRemaining: number;
     /**
      * action
      */
@@ -54,10 +53,6 @@ export default class BudgetsStore implements Props {
                 0
             ) || 0
         );
-    }
-
-    get totalRemaining(): number {
-        return this.totalBudgeted - this.totalSpent;
     }
 
     addTransaction = (budgetId: string, amount: number) => {
@@ -160,7 +155,6 @@ decorate(BudgetsStore, {
      */
     totalBudgeted: computed,
     totalSpent: computed,
-    totalRemaining: computed,
     /**
      * action
      */

@@ -6,9 +6,9 @@ import { Budget } from "../../../../types/budget";
 import { toJS } from "mobx";
 
 interface Props {
-    id: string;
+    id?: string;
     name: string;
-    budget: Budget;
+    budget?: Budget;
     budgeted?: number;
     spent?: number;
 }
@@ -20,17 +20,35 @@ export default class TableRow extends React.Component<Props> {
         return (
             <StyledTableRow>
                 <StyledTableData>
-                    <Link
-                        color={Link.Color.Blue2}
-                        size={Link.Size.Sm}
-                        to={{
-                            pathname: `/budgets/${id}`,
-                            state: { budget: toJS(budget) }
-                        }}
-                        weight={Link.Weight.SemiBold}
-                    >
-                        {name}
-                    </Link>
+                    {id ? (
+                        <Link
+                            color={Link.Color.Blue2}
+                            size={Link.Size.Md}
+                            to={{
+                                pathname: `/budgets/${id}`,
+                                state: { budget: toJS(budget) }
+                            }}
+                            weight={Link.Weight.Medium}
+                        >
+                            {name}
+                        </Link>
+                    ) : (
+                        <Text color={Link.Color.Gray1} size={Link.Size.Md}>
+                            {name}
+                        </Text>
+                    )}
+                </StyledTableData>
+
+                <StyledTableData>
+                    <Text align={Text.Align.Right} size={Text.Size.Md}>
+                        {prettyNumber(budgeted as number)}
+                    </Text>
+                </StyledTableData>
+
+                <StyledTableData>
+                    <Text align={Text.Align.Right} size={Text.Size.Md}>
+                        {prettyNumber(spent as number)}
+                    </Text>
                 </StyledTableData>
 
                 <StyledTableData>
@@ -39,21 +57,9 @@ export default class TableRow extends React.Component<Props> {
                         color={
                             remaining < 0 ? Text.Color.Red2 : Text.Color.Gray1
                         }
-                        size={Text.Size.Sm}
+                        size={Text.Size.Md}
                     >
                         {prettyNumber(remaining)}
-                    </Text>
-                </StyledTableData>
-
-                <StyledTableData>
-                    <Text align={Text.Align.Right} size={Text.Size.Sm}>
-                        {prettyNumber(spent as number)}
-                    </Text>
-                </StyledTableData>
-
-                <StyledTableData>
-                    <Text align={Text.Align.Right} size={Text.Size.Sm}>
-                        {prettyNumber(budgeted as number)}
                     </Text>
                 </StyledTableData>
             </StyledTableRow>
@@ -62,18 +68,24 @@ export default class TableRow extends React.Component<Props> {
 }
 
 const StyledTableRow = styled.tr`
-    &:last-child {
-        td {
-            border-bottom: 0;
-        }
-    }
-
     td {
-        border-bottom: 1px solid ${props => props.theme.colors.gray8};
+        border-bottom: 1px solid ${props => props.theme.colors.gray9};
         padding-bottom: 1rem;
         padding-top: 1rem;
         &:first-child {
             border-right: 1px solid ${props => props.theme.colors.gray9};
+        }
+    }
+
+    &:nth-last-child(2) {
+        td {
+            border-bottom-color: ${props => props.theme.colors.gray7};
+        }
+    }
+
+    &:last-child {
+        td {
+            border: 0;
         }
     }
 `;

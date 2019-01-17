@@ -3,7 +3,6 @@ import { inject, observer } from "mobx-react";
 import DocumentTitle from "react-document-title";
 import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
-import Summary from "./components/Summary";
 import Table from "./components/Table";
 
 interface Props {
@@ -26,15 +25,14 @@ class BudgetsClass extends React.Component<Props> {
     render() {
         const {
             rootStore: {
-                budgetsStore: {
-                    budgets,
-                    isLoading,
-                    totalBudgeted,
-                    totalRemaining,
-                    totalSpent
-                }
+                budgetsStore: { budgets, isLoading, totalBudgeted, totalSpent }
             }
         } = this.props;
+        const total = {
+            name: "Total",
+            budgeted: totalBudgeted,
+            spent: totalSpent
+        };
         return (
             <DocumentTitle title="Budgets | Wilbur">
                 <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
@@ -66,17 +64,6 @@ class BudgetsClass extends React.Component<Props> {
                             </Box>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs={12}>
-                            <Box mb={2}>
-                                <Summary
-                                    budgeted={totalBudgeted}
-                                    remaining={totalRemaining}
-                                    spent={totalSpent}
-                                />
-                            </Box>
-                        </Col>
-                    </Row>
                     {isLoading && (
                         <Row>
                             <Col xs={12}>
@@ -91,7 +78,10 @@ class BudgetsClass extends React.Component<Props> {
                             <Col xs={12}>
                                 {budgets.length > 0 && (
                                     <Box mb={4}>
-                                        <Table budgets={budgets} />
+                                        <Table
+                                            budgets={budgets}
+                                            total={total}
+                                        />
                                     </Box>
                                 )}
                                 {budgets.length === 0 && (
