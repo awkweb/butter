@@ -79,15 +79,21 @@ interface BooleanFieldProps {
 const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
     align-items: center;
     ${props =>
-        style("background", props.theme.colors[props.color], props.checked)};
+        style(
+            "background",
+            props.checked
+                ? props.theme.colors[props.color]
+                : props.theme.colors.white
+        )};
     border-radius: 3px;
     border: ${props =>
         getBorderStyle(Color.Gray8, props.theme.colors, props.checked)};
     color: ${props => props.theme.colors.white};
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     height: 20px;
     justify-content: center;
+    padding-top: 0.1rem;
     width: 20px;
 `;
 

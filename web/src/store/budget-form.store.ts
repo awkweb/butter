@@ -7,7 +7,7 @@ import {
     Validations,
     validateAll
 } from "../lib/validate";
-import { toAmount, toCents } from "../utils";
+import { toAmount, toCents } from "../lib/currency";
 import { get } from "../lib/get";
 import api from "../api";
 

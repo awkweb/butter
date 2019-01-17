@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "../../../../components";
-import { prettyNumber } from "../../../../utils";
+import { prettyNumber } from "../../../../lib/currency";
 
 interface Props {
     name: string;
@@ -32,7 +32,7 @@ export default class SummaryStat extends React.Component<Props> {
                         color={value < 0 ? Text.Color.Red2 : Text.Color.Gray1}
                         size={Text.Size.Lg}
                     >
-                        ${prettyNumber(value)}
+                        {prettyNumber(value)}
                     </Text>
                 </Box>
                 <Box mt={0.5}>

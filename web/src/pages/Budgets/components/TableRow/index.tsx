@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Text, Link } from "../../../../components";
-import { prettyNumber } from "../../../../utils";
+import { prettyNumber } from "../../../../lib/currency";
 import { Budget } from "../../../../types/budget";
 import { toJS } from "mobx";
 
@@ -53,7 +53,7 @@ export default class TableRow extends React.Component<Props> {
 
                 <StyledTableData>
                     <Text align={Text.Align.Right} size={Text.Size.Sm}>
-                        ${prettyNumber(budgeted as number)}
+                        {prettyNumber(budgeted as number)}
                     </Text>
                 </StyledTableData>
             </StyledTableRow>

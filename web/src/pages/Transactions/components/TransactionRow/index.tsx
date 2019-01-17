@@ -1,7 +1,7 @@
 import React from "react";
 import { toJS } from "mobx";
 import { Box, Text, Link } from "../../../../components";
-import { toAmount } from "../../../../utils";
+import { prettyNumber } from "../../../../lib/currency";
 import { BooleanField } from "../../../../components/core/components/form/BooleanField";
 import { Transaction } from "../../../../types/transaction";
 
@@ -10,20 +10,19 @@ interface Props {
     accountName?: number;
     accountMask?: number;
     budgetName?: string;
+    checked: boolean;
     date: string;
     id: string;
     last: boolean;
     name: string;
     transaction?: Transaction;
+    handleChange: Function;
 }
 
 export default class TransactionRow extends React.Component<Props> {
-    state = {
-        checked: false
-    };
-
     onChange = () => {
-        this.setState({ checked: !this.state.checked });
+        const { id, handleChange } = this.props;
+        handleChange(id);
     };
 
     render() {
@@ -31,12 +30,14 @@ export default class TransactionRow extends React.Component<Props> {
             accountMask,
             accountName,
             amountCents,
+            budgetName,
+            checked,
+            date,
             id,
             last,
             name,
             transaction
         } = this.props;
-        const { checked } = this.state;
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
@@ -47,7 +48,7 @@ export default class TransactionRow extends React.Component<Props> {
                 p={2}
             >
                 <Box display={Box.Display.Flex}>
-                    <Box mr={2} pt={0.35}>
+                    <Box mr={2.5} pt={0.35}>
                         <BooleanField
                             id={`transactions-${id}`}
                             checked={checked}
@@ -56,23 +57,43 @@ export default class TransactionRow extends React.Component<Props> {
                     </Box>
                     <Box>
                         <Link
-                            color={Link.Color.Gray1}
+                            color={Link.Color.Blue2}
                             size={Link.Size.Sm}
                             to={{
                                 pathname: `/transactions/${id}`,
                                 state: { transaction: toJS(transaction) }
                             }}
+                            weight={Link.Weight.SemiBold}
                         >
                             {name}
                         </Link>
-                        {accountMask && accountName && (
-                            <Text color={Text.Color.Gray4} size={Text.Size.Xxs}>
-                                {accountName} - {accountMask}
-                            </Text>
-                        )}
+                        <Text color={Text.Color.Gray4} size={Text.Size.Xxs}>
+                            {date}{" "}
+                            {accountMask &&
+                                accountName &&
+                                `∙ ${accountName} - ${accountMask}`}
+                        </Text>
                     </Box>
                 </Box>
-                <Text size={Text.Size.Md}>${toAmount(amountCents)}</Text>
+                <Box
+                    alignItems={Box.AlignItems.Center}
+                    display={Box.Display.Flex}
+                >
+                    {budgetName && (
+                        <Box
+                            backgroundColor={Box.BackgroundColor.Gray10}
+                            cornerRadius={Box.CornerRadius.Small}
+                            mr={2}
+                            ph={0.75}
+                            pv={0.25}
+                        >
+                            <Text color={Text.Color.Gray1} size={Text.Size.Xxs}>
+                                {budgetName}
+                            </Text>
+                        </Box>
+                    )}
+                    <Text size={Text.Size.Sm}>{prettyNumber(amountCents)}</Text>
+                </Box>
             </Box>
         );
     }
