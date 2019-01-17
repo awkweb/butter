@@ -13,7 +13,8 @@ export default class Table extends React.Component<Props> {
         const { budgets } = this.props;
         return (
             <Box
-                b
+                bb
+                bt
                 backgroundColor={Box.BackgroundColor.White}
                 borderColor={Box.BorderColor.Gray8}
                 cornerRadius={Box.CornerRadius.Small}

@@ -13,10 +13,10 @@ export default class Summary extends React.Component<Props> {
         const { budgeted, remaining, spent } = this.props;
         return (
             <Box
-                b
+                bb
+                bt
                 backgroundColor={Box.BackgroundColor.White}
                 borderColor={Box.BorderColor.Gray8}
-                cornerRadius={Box.CornerRadius.Small}
                 display={Box.Display.Flex}
             >
                 <SummaryStat name="Remaining" value={remaining} />

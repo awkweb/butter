@@ -100,62 +100,47 @@ class TransactionsClass extends React.Component<Props> {
                                             handleDelete={deleteTransactions}
                                         />
                                         <Box
-                                            b
+                                            bt
                                             backgroundColor={
                                                 Box.BackgroundColor.White
                                             }
-                                            borderColor={Box.BorderColor.Gray9}
-                                            cornerRadius={
-                                                Box.CornerRadius.Small
-                                            }
                                             mb={4}
                                         >
-                                            {transactions.map(
-                                                (transaction, index) => (
-                                                    <TransactionRow
-                                                        amountCents={
-                                                            transaction.amountCents
-                                                        }
-                                                        accountMask={get(
-                                                            () =>
-                                                                transaction
-                                                                    .account
-                                                                    .mask
-                                                        )}
-                                                        accountName={get(
-                                                            () =>
-                                                                transaction
-                                                                    .account
-                                                                    .name
-                                                        )}
-                                                        budgetName={get(
-                                                            () =>
-                                                                transaction
-                                                                    .budget.name
-                                                        )}
-                                                        checked={selectedTransactionIds.includes(
-                                                            transaction.id
-                                                        )}
-                                                        date={this.formatDate(
-                                                            transaction.date
-                                                        )}
-                                                        key={transaction.id}
-                                                        id={transaction.id}
-                                                        last={
-                                                            index ===
-                                                            transactions.length -
-                                                                1
-                                                        }
-                                                        name={transaction.name}
-                                                        transaction={
-                                                            transaction
-                                                        }
-                                                        handleChange={
-                                                            selectTransaction
-                                                        }
-                                                    />
-                                                )
-                                            )}
+                                            {transactions.map(transaction => (
+                                                <TransactionRow
+                                                    amountCents={
+                                                        transaction.amountCents
+                                                    }
+                                                    accountMask={get(
+                                                        () =>
+                                                            transaction.account
+                                                                .mask
+                                                    )}
+                                                    accountName={get(
+                                                        () =>
+                                                            transaction.account
+                                                                .name
+                                                    )}
+                                                    budgetName={get(
+                                                        () =>
+                                                            transaction.budget
+                                                                .name
+                                                    )}
+                                                    checked={selectedTransactionIds.includes(
+                                                        transaction.id
+                                                    )}
+                                                    date={this.formatDate(
+                                                        transaction.date
+                                                    )}
+                                                    key={transaction.id}
+                                                    id={transaction.id}
+                                                    name={transaction.name}
+                                                    transaction={transaction}
+                                                    handleChange={
+                                                        selectTransaction
+                                                    }
+                                                />
+                                            ))}
                                         </Box>
                                     </Box>
                                 )}

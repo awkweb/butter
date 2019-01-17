@@ -15,7 +15,6 @@ interface Props {
     id: string;
     institutionId: string;
     institutionName: string;
-    last: boolean;
     linkLoaded: boolean;
     mask: string;
     name: string;
@@ -54,7 +53,6 @@ export default class AccountRow extends React.Component<Props> {
             expired,
             institutionId,
             institutionName,
-            last,
             linkLoaded,
             mask,
             name,
@@ -66,9 +64,9 @@ export default class AccountRow extends React.Component<Props> {
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
-                display={Box.Display.Flex}
-                bb={!last}
+                bb
                 borderColor={Box.BorderColor.Gray9}
+                display={Box.Display.Flex}
                 justifyContent={Box.JustifyContent.SpaceBetween}
                 p={3}
             >

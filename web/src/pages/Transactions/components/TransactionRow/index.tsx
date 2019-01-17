@@ -13,7 +13,6 @@ interface Props {
     checked: boolean;
     date: string;
     id: string;
-    last: boolean;
     name: string;
     transaction?: Transaction;
     handleChange: Function;
@@ -34,16 +33,15 @@ export default class TransactionRow extends React.Component<Props> {
             checked,
             date,
             id,
-            last,
             name,
             transaction
         } = this.props;
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
-                display={Box.Display.Flex}
-                bb={!last}
+                bb
                 borderColor={Box.BorderColor.Gray9}
+                display={Box.Display.Flex}
                 justifyContent={Box.JustifyContent.SpaceBetween}
                 p={2}
             >

@@ -102,15 +102,14 @@ class AccountsClass extends React.Component<Props> {
                             <Col xs={12}>
                                 {items.length > 0 && (
                                     <Box
-                                        b
+                                        bt
                                         borderColor={Box.BorderColor.Gray9}
                                         backgroundColor={
                                             Box.BackgroundColor.White
                                         }
-                                        cornerRadius={Box.CornerRadius.Small}
                                         mb={4}
                                     >
-                                        {items.map((item, index) => (
+                                        {items.map(item => (
                                             <AccountRow
                                                 expired={item.expired}
                                                 key={item.id}
@@ -121,9 +120,6 @@ class AccountsClass extends React.Component<Props> {
                                                 }
                                                 institutionName={
                                                     item.institution.name
-                                                }
-                                                last={
-                                                    index === items.length - 1
                                                 }
                                                 linkLoaded={linkLoaded}
                                                 mask={item.account.mask}
