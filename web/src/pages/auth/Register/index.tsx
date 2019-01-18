@@ -82,7 +82,7 @@ class RegisterClass extends React.Component<Props> {
                                     <Text
                                         font={Text.Font.Title}
                                         size={Text.Size.Xl}
-                                        weight={Text.Weight.Bold}
+                                        weight={Text.Weight.SemiBold}
                                     >
                                         Register an account
                                     </Text>

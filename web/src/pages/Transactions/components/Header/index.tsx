@@ -26,11 +26,11 @@ export default class Header extends React.Component<Props> {
                 bb
                 borderColor={Box.BorderColor.Gray7}
                 css={`
-                    height: 53px;
+                    height: 50px;
                 `}
                 display={Box.Display.Flex}
                 ph={2}
-                pb={2}
+                pb={1.5}
             >
                 <Box mr={2.5}>
                     <BooleanField

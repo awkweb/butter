@@ -71,7 +71,7 @@ export default class AccountRow extends React.Component<Props> {
                 p={3}
             >
                 <Box
-                    alignItems={Box.AlignItems.FlexStart}
+                    alignItems={Box.AlignItems.Center}
                     display={Box.Display.Flex}
                 >
                     <InstitutionLogo id={institutionId} />
@@ -89,7 +89,7 @@ export default class AccountRow extends React.Component<Props> {
                                 </Text>
                             </Text>
                         </Box>
-                        <Text color={Text.Color.Gray1} size={Text.Size.Sm}>
+                        <Text color={Text.Color.Gray1} size={Text.Size.Md}>
                             {name} - {mask}
                         </Text>
                     </Box>
