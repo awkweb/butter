@@ -5,6 +5,7 @@ import { cssFactory } from "../../../utils/styled-components";
 import { AnyColor as Color } from "../../../types/color";
 import { getBorderStyle } from "./utils";
 import { Check, Deselect, Icon } from "../../icons/Icon";
+import { Box } from "../../layout/Box";
 
 interface Props {
     /**
@@ -65,7 +66,17 @@ export class BooleanField extends React.Component<Props> {
                     type="checkbox"
                     onChange={onChange}
                 />
-                {checked && icon}
+                {checked && (
+                    <Box
+                        alignItems={Box.AlignItems.Center}
+                        display={Box.Display.Flex}
+                        fluidHeight
+                        fluidWidth
+                        justifyContent={Box.JustifyContent.Center}
+                    >
+                        {icon}
+                    </Box>
+                )}
             </StyledContainer>
         );
     }
@@ -90,10 +101,9 @@ const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
         getBorderStyle(Color.Gray8, props.theme.colors, props.checked)};
     color: ${props => props.theme.colors.white};
     cursor: pointer;
-    display: flex;
+    display: block;
     height: 20px;
     justify-content: center;
-    padding-top: 0.1rem;
     width: 20px;
 `;
 

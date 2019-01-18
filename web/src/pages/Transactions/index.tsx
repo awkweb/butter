@@ -100,7 +100,6 @@ class TransactionsClass extends React.Component<Props> {
                                             handleDelete={deleteTransactions}
                                         />
                                         <Box
-                                            bt
                                             backgroundColor={
                                                 Box.BackgroundColor.White
                                             }

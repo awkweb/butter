@@ -23,6 +23,8 @@ export default class Header extends React.Component<Props> {
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
+                bb
+                borderColor={Box.BorderColor.Gray7}
                 css={`
                     height: 53px;
                 `}
@@ -30,7 +32,7 @@ export default class Header extends React.Component<Props> {
                 ph={2}
                 pb={2}
             >
-                <Box mr={2.5} pt={0.35}>
+                <Box mr={2.5}>
                     <BooleanField
                         checked={anySelected || allSelected}
                         deselect={anySelected && !allSelected}

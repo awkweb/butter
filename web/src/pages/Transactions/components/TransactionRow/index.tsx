@@ -45,8 +45,14 @@ export default class TransactionRow extends React.Component<Props> {
                 justifyContent={Box.JustifyContent.SpaceBetween}
                 p={2}
             >
-                <Box display={Box.Display.Flex}>
-                    <Box mr={2.5} pt={0.35}>
+                <Box
+                    alignItems={Box.AlignItems.Center}
+                    css={`
+                        width: 45%;
+                    `}
+                    display={Box.Display.Flex}
+                >
+                    <Box mr={2.5}>
                         <BooleanField
                             id={`transactions-${id}`}
                             checked={checked}
@@ -55,17 +61,24 @@ export default class TransactionRow extends React.Component<Props> {
                     </Box>
                     <Box>
                         <Link
-                            color={Link.Color.Blue2}
-                            size={Link.Size.Sm}
                             to={{
                                 pathname: `/transactions/${id}`,
                                 state: { transaction: toJS(transaction) }
                             }}
-                            weight={Link.Weight.SemiBold}
                         >
-                            {name}
+                            <Text
+                                color={Link.Color.Blue2}
+                                whiteSpace={Text.WhiteSpace.NoWrap}
+                                weight={Link.Weight.Medium}
+                            >
+                                {name}
+                            </Text>
                         </Link>
-                        <Text color={Text.Color.Gray4} size={Text.Size.Xxs}>
+                        <Text
+                            color={Text.Color.Gray3}
+                            size={Text.Size.Xs}
+                            whiteSpace={Text.WhiteSpace.NoWrap}
+                        >
                             {date}{" "}
                             {accountMask &&
                                 accountName &&
@@ -73,24 +86,31 @@ export default class TransactionRow extends React.Component<Props> {
                         </Text>
                     </Box>
                 </Box>
+                {budgetName && (
+                    <Box
+                        b
+                        borderColor={Box.BorderColor.Gold4}
+                        cornerRadius={Box.CornerRadius.Round}
+                        ph={1}
+                        pv={0.5}
+                    >
+                        <Text
+                            align={Text.Align.Center}
+                            color={Text.Color.Gold1}
+                            size={Text.Size.Xs}
+                            weight={Text.Weight.Medium}
+                        >
+                            {budgetName}
+                        </Text>
+                    </Box>
+                )}
                 <Box
                     alignItems={Box.AlignItems.Center}
                     display={Box.Display.Flex}
                 >
-                    {budgetName && (
-                        <Box
-                            backgroundColor={Box.BackgroundColor.Gray10}
-                            cornerRadius={Box.CornerRadius.Small}
-                            mr={2}
-                            ph={0.75}
-                            pv={0.25}
-                        >
-                            <Text color={Text.Color.Gray1} size={Text.Size.Xxs}>
-                                {budgetName}
-                            </Text>
-                        </Box>
-                    )}
-                    <Text size={Text.Size.Sm}>{prettyNumber(amountCents)}</Text>
+                    <Text color={Text.Color.Gray2} size={Text.Size.Lg}>
+                        {prettyNumber(amountCents)}
+                    </Text>
                 </Box>
             </Box>
         );
