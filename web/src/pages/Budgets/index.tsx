@@ -35,7 +35,7 @@ class BudgetsClass extends React.Component<Props> {
         };
         return (
             <DocumentTitle title="Budgets | Wilbur">
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
                             <Box

@@ -127,7 +127,7 @@ class BudgetClass extends React.Component<Props> {
         const title = `${isUpdatable ? "Update" : "Create"} Budget`;
         return (
             <DocumentTitle title={`${title} | Wilbur`}>
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
                             <Box

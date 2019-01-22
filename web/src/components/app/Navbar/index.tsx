@@ -47,7 +47,7 @@ export class Navbar extends React.Component<Props> {
                 el={Box.Element.Nav}
                 position={Box.Position.Fixed}
             >
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col bottomPadding={false} fluidHeight xs={12}>
                             <Box

@@ -59,7 +59,7 @@ class AccountsClass extends React.Component<Props> {
         const { linkLoaded } = this.state;
         return (
             <DocumentTitle title="Connected Accounts | Wilbur">
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
                             <Box

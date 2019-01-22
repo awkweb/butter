@@ -15,7 +15,7 @@ class NoMatchClass extends React.Component<Props> {
         } = this.props;
         return (
             <DocumentTitle title="Not Found | Wilbur">
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
                             <Box mt={isAuthenticated ? 12 : 16}>

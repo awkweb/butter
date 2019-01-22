@@ -253,8 +253,8 @@ export default class TransactionFormStore implements Props {
             } catch (err) {
                 const error = get(() => err.response.data);
                 this.error = error;
-                this.startDelete = false;
             } finally {
+                this.startDelete = false;
                 this.isDeleting = false;
             }
         } else {

@@ -1,16 +1,6 @@
 import api from "../init";
 
 export default {
-    changePassword: (
-        password: string,
-        passwordConfirm: string,
-        passwordVerify: string
-    ) =>
-        api.patch("auth/password/change/", {
-            password,
-            password_confirm: passwordConfirm,
-            password_verify: passwordVerify
-        }),
     logIn: (email: string, password: string) =>
         api.post("auth/login/", {
             email,
@@ -29,16 +19,5 @@ export default {
             email,
             password,
             password_confirm: passwordConfirm
-        }),
-    updateUserInfo: (
-        userId: string,
-        email: string,
-        firstName: string,
-        lastName: string
-    ) =>
-        api.patch(`users/${userId}/`, {
-            email,
-            first_name: firstName,
-            last_name: lastName
         })
 };

@@ -7,7 +7,6 @@ export default {
     getBudgetsDashboard: (params: object = {}) =>
         api.get("budgets/dashboard", { params }),
     getBudget: (budgetId: string) => api.get(`budgets/${budgetId}/`),
-    reorderBudgets: (data: object) => api.post("budgets/reorder/", data),
     updateBudget: (budgetId: string, data: object) =>
         api.patch(`budgets/${budgetId}/`, data)
 };

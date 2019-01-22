@@ -16,12 +16,13 @@ class TransactionsClass extends React.Component<Props> {
     componentWillMount() {
         const {
             rootStore: {
-                transactionsStore: { transactions, getTransactions }
+                transactionsStore: { transactions, getBudgets, getTransactions }
             }
         } = this.props;
         if (transactions.length) {
             return;
         }
+        getBudgets();
         getTransactions();
     }
 
@@ -37,20 +38,25 @@ class TransactionsClass extends React.Component<Props> {
         const {
             rootStore: {
                 transactionsStore: {
+                    budgets,
                     allSelected,
                     anySelected,
                     isLoading,
                     selectedTransactionIds,
                     transactions,
+                    startDelete,
                     deleteTransactions,
+                    handleCategorize,
                     handleSelectAll,
-                    selectTransaction
+                    getTransactions,
+                    selectTransaction,
+                    handleOutsideClick
                 }
             }
         } = this.props;
         return (
             <DocumentTitle title="Transactions | Wilbur">
-                <Grid maxWidth="md" ph={{ xs: 2, md: 12 }}>
+                <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
                             <Box
@@ -94,10 +100,17 @@ class TransactionsClass extends React.Component<Props> {
                                 {transactions.length > 0 && (
                                     <Box>
                                         <Header
+                                            budgets={budgets}
                                             allSelected={allSelected}
                                             anySelected={anySelected}
+                                            startDelete={startDelete}
                                             handleOnChange={handleSelectAll}
+                                            handleCategorize={handleCategorize}
                                             handleDelete={deleteTransactions}
+                                            handleFilter={getTransactions}
+                                            handleOutsideClick={
+                                                handleOutsideClick
+                                            }
                                         />
                                         <Box
                                             backgroundColor={

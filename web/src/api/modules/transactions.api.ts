@@ -1,6 +1,10 @@
 import api from "../init";
 
 export default {
+    deleteTransactions: (data: object) =>
+        api.post(`transactions/delete/`, data),
+    categorizeTransactions: (data: object) =>
+        api.post(`transactions/categorize/`, data),
     createTransaction: (data: object) => api.post("transactions/", data),
     deleteTransaction: (transactionId: string) =>
         api.delete(`transactions/${transactionId}/`),
@@ -8,6 +12,5 @@ export default {
     getTransaction: (transactionId: string) =>
         api.get(`transactions/${transactionId}/`),
     updateTransaction: (transactionId: string, data: object) =>
-        api.patch(`transactions/${transactionId}/`, data),
-    fetchTransactions: () => api.get("transactions/fetch")
+        api.patch(`transactions/${transactionId}/`, data)
 };
