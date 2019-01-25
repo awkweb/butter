@@ -78,7 +78,6 @@ interface BooleanFieldProps {
 }
 
 const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
-    align-items: center;
     ${props =>
         style(
             "background",
@@ -93,8 +92,23 @@ const checkboxStyles = cssFactory<BooleanFieldProps>(css)`
     cursor: pointer;
     display: block;
     height: 20px;
-    justify-content: center;
+    position: relative;
     width: 20px;
+
+    &> div {
+        align-items: center;
+        bottom: 0;
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    svg {
+        height: 10px;
+        width: 10px;
+    }
 `;
 
 const StyledContainer = styled.label`
@@ -103,4 +117,6 @@ const StyledContainer = styled.label`
 
 const StyledInput = styled.input`
     display: none;
+    width: 10px;
+    height: 10px;
 `;

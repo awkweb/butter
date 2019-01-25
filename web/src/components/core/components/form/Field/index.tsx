@@ -223,6 +223,7 @@ interface InputProps {
 }
 
 const sharedFieldStyles = cssFactory<InputProps>(css)`
+    -webkit-appearance: none;
     ${props =>
         style(
             "border",
