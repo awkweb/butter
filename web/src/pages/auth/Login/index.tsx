@@ -81,7 +81,6 @@ class LogInClass extends React.Component<Props> {
                                     <Text
                                         font={Text.Font.Title}
                                         size={Text.Size.Xl}
-                                        weight={Text.Weight.SemiBold}
                                     >
                                         Welcome back
                                     </Text>

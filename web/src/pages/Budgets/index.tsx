@@ -49,7 +49,7 @@ class BudgetsClass extends React.Component<Props> {
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
                                     noMargin
-                                    size={Text.Size.Xxl}
+                                    size={Text.Size.Xl}
                                 >
                                     Budgets
                                 </Text>

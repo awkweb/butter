@@ -89,7 +89,7 @@ export default class AccountRow extends React.Component<Props> {
                                 </Text>
                             </Text>
                         </Box>
-                        <Text color={Text.Color.Gray1} size={Text.Size.Md}>
+                        <Text color={Text.Color.Gray1} size={Text.Size.Sm}>
                             {name} - {mask}
                         </Text>
                     </Box>

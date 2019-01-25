@@ -1,12 +1,10 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import DocumentTitle from "react-document-title";
-import moment from "moment";
-import { get } from "../../lib/get";
 import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
-import TransactionRow from "./components/TransactionRow";
-import Header from "./components/Header";
+import Table from "./components/Table";
+import TableHeader from "./components/TableHeader";
 
 interface Props {
     rootStore: RootStore;
@@ -25,14 +23,6 @@ class TransactionsClass extends React.Component<Props> {
         getBudgets();
         getTransactions();
     }
-
-    formatDate = (date: string): string => {
-        const dateMoment = moment(date);
-        const todayMoment = moment();
-        const showYear =
-            dateMoment.year() !== todayMoment.year() ? ", YYYY" : "";
-        return dateMoment.format(`MMM D${showYear}`);
-    };
 
     render() {
         const {
@@ -70,7 +60,7 @@ class TransactionsClass extends React.Component<Props> {
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
                                     noMargin
-                                    size={Text.Size.Xxl}
+                                    size={Text.Size.Xl}
                                 >
                                     Transactions
                                 </Text>
@@ -98,8 +88,8 @@ class TransactionsClass extends React.Component<Props> {
                         <Row>
                             <Col xs={12}>
                                 {transactions.length > 0 && (
-                                    <Box>
-                                        <Header
+                                    <React.Fragment>
+                                        <TableHeader
                                             budgets={budgets}
                                             allSelected={allSelected}
                                             anySelected={anySelected}
@@ -112,49 +102,16 @@ class TransactionsClass extends React.Component<Props> {
                                                 handleOutsideClick
                                             }
                                         />
-                                        <Box
-                                            backgroundColor={
-                                                Box.BackgroundColor.White
+                                        <Table
+                                            transactions={transactions}
+                                            selectedTransactionIds={
+                                                selectedTransactionIds
                                             }
-                                            mb={4}
-                                        >
-                                            {transactions.map(transaction => (
-                                                <TransactionRow
-                                                    amountCents={
-                                                        transaction.amountCents
-                                                    }
-                                                    accountMask={get(
-                                                        () =>
-                                                            transaction.account
-                                                                .mask
-                                                    )}
-                                                    accountName={get(
-                                                        () =>
-                                                            transaction.account
-                                                                .name
-                                                    )}
-                                                    budgetName={get(
-                                                        () =>
-                                                            transaction.budget
-                                                                .name
-                                                    )}
-                                                    checked={selectedTransactionIds.includes(
-                                                        transaction.id
-                                                    )}
-                                                    date={this.formatDate(
-                                                        transaction.date
-                                                    )}
-                                                    key={transaction.id}
-                                                    id={transaction.id}
-                                                    name={transaction.name}
-                                                    transaction={transaction}
-                                                    handleChange={
-                                                        selectTransaction
-                                                    }
-                                                />
-                                            ))}
-                                        </Box>
-                                    </Box>
+                                            selectTransaction={
+                                                selectTransaction
+                                            }
+                                        />
+                                    </React.Fragment>
                                 )}
                                 {transactions.length === 0 && (
                                     <Box

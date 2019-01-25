@@ -20,7 +20,7 @@ interface Props {
     handleOutsideClick: Function;
 }
 
-export default class Header extends React.Component<Props> {
+export default class TableHeader extends React.Component<Props> {
     onChange = () => {
         this.props.handleOnChange();
     };
@@ -66,8 +66,6 @@ export default class Header extends React.Component<Props> {
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
-                bb
-                borderColor={Box.BorderColor.Gray7}
                 css={`
                     height: 50px;
                 `}
