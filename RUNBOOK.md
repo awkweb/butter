@@ -39,6 +39,7 @@ export PLAID_SECRET=5ea62a857d2361250eb7ed9358133c
 export PLAID_ENV=sandbox
 
 # REACT APP KEYS
+export REACT_APP_NGROK_ID=1b2ee782
 export REACT_APP_PLAID_ENV=sandbox
 export REACT_APP_PLAID_PUBLIC_KEY=5f198adbdf5da4ff3be8da6ecaad58
 
