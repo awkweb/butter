@@ -4,8 +4,8 @@ import items from "./modules/items.api";
 import transactions from "./modules/transactions.api";
 
 export default {
-    ...auth,
-    ...budgets,
-    ...items,
-    ...transactions
+    auth,
+    budgets,
+    items,
+    transactions
 };

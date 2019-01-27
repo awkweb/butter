@@ -87,49 +87,24 @@ class TransactionsClass extends React.Component<Props> {
                     {!isLoading && (
                         <Row>
                             <Col xs={12}>
-                                {transactions.length > 0 && (
-                                    <React.Fragment>
-                                        <TableHeader
-                                            budgets={budgets}
-                                            allSelected={allSelected}
-                                            anySelected={anySelected}
-                                            startDelete={startDelete}
-                                            handleOnChange={handleSelectAll}
-                                            handleCategorize={handleCategorize}
-                                            handleDelete={deleteTransactions}
-                                            handleFilter={getTransactions}
-                                            handleOutsideClick={
-                                                handleOutsideClick
-                                            }
-                                        />
-                                        <Table
-                                            transactions={transactions}
-                                            selectedTransactionIds={
-                                                selectedTransactionIds
-                                            }
-                                            selectTransaction={
-                                                selectTransaction
-                                            }
-                                        />
-                                    </React.Fragment>
-                                )}
-                                {transactions.length === 0 && (
-                                    <Box
-                                        b
-                                        borderColor={Box.BorderColor.Gray9}
-                                        backgroundColor={
-                                            Box.BackgroundColor.White
-                                        }
-                                        cornerRadius={Box.CornerRadius.Small}
-                                        p={3}
-                                        textAlign={Box.TextAlign.Center}
-                                    >
-                                        <Text size={Text.Size.Sm}>
-                                            Create a transaction and you'll see
-                                            it right here.
-                                        </Text>
-                                    </Box>
-                                )}
+                                <TableHeader
+                                    budgets={budgets}
+                                    allSelected={allSelected}
+                                    anySelected={anySelected}
+                                    startDelete={startDelete}
+                                    handleOnChange={handleSelectAll}
+                                    handleCategorize={handleCategorize}
+                                    handleDelete={deleteTransactions}
+                                    handleFilter={getTransactions}
+                                    handleOutsideClick={handleOutsideClick}
+                                />
+                                <Table
+                                    transactions={transactions}
+                                    selectedTransactionIds={
+                                        selectedTransactionIds
+                                    }
+                                    selectTransaction={selectTransaction}
+                                />
                             </Col>
                         </Row>
                     )}

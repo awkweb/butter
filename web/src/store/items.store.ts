@@ -35,7 +35,7 @@ export default class ItemsStore implements Props {
 
     createItem = async (data: object) => {
         try {
-            const { data: item } = await api.createItem(data);
+            const { data: item } = await api.items.create(data);
             this.items = [...this.items, item].sort((a, b) => {
                 const aName = a.institution.name;
                 const bName = b.institution.name;
@@ -52,7 +52,7 @@ export default class ItemsStore implements Props {
     deleteItem = async (id: string) => {
         try {
             this.isDeleting = true;
-            await api.deleteItem(id);
+            await api.items.delete(id);
             this.items = [...this.items.filter(item => item.id !== id)];
         } catch (err) {
             const error = get(() => err.response.data);
@@ -64,7 +64,7 @@ export default class ItemsStore implements Props {
 
     renewLink = async (id: string) => {
         try {
-            await api.updateItem(id, {
+            await api.items.update(id, {
                 expired: false
             });
             const itemIndex = this.items.findIndex(i => i.id === id);
@@ -83,7 +83,7 @@ export default class ItemsStore implements Props {
     getItems = async () => {
         try {
             this.isLoading = true;
-            const { data: items } = await api.getItems();
+            const { data: items } = await api.items.getBulk();
             this.items = items;
         } catch (err) {
             const error = get(() => err.response.data);

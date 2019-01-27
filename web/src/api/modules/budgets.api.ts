@@ -1,12 +1,12 @@
 import api from "../init";
 
 export default {
-    createBudget: (data: object) => api.post("budgets/", data),
-    deleteBudget: (budgetId: string) => api.delete(`budgets/${budgetId}/`),
-    getBudgets: () => api.get("budgets/"),
-    getBudgetsDashboard: (params: object = {}) =>
+    create: (data: object) => api.post("budgets/", data),
+    delete: (budgetId: string) => api.delete(`budgets/${budgetId}/`),
+    get: (budgetId: string) => api.get(`budgets/${budgetId}/`),
+    getBulk: () => api.get("budgets/"),
+    getDashboard: (params: object = {}) =>
         api.get("budgets/dashboard", { params }),
-    getBudget: (budgetId: string) => api.get(`budgets/${budgetId}/`),
-    updateBudget: (budgetId: string, data: object) =>
+    update: (budgetId: string, data: object) =>
         api.patch(`budgets/${budgetId}/`, data)
 };

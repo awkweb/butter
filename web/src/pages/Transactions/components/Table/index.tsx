@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "../../../../components";
+import { Box, Text } from "../../../../components";
 import { Transaction } from "../../../../types/transaction";
 import TableRow from "../TableRow";
 import { get } from "../../../../lib/get";
@@ -58,8 +58,17 @@ export default class Table extends React.Component<Props> {
                                 handleChange={selectTransaction}
                             />
                         ))}
+                        {transactions.length === 0 && (
+                            <Box>
+                                <Text>No transactions</Text>
+                            </Box>
+                        )}
                     </tbody>
                 </StyledTable>
+                <Box>
+                    <button>Previous</button>
+                    <button>Next</button>
+                </Box>
             </Box>
         );
     }

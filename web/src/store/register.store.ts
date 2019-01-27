@@ -118,7 +118,7 @@ export default class RegisterStore implements Props {
         try {
             this.error = "";
             this.isLoading = true;
-            const { data: user } = await api.register(
+            const { data: user } = await api.auth.register(
                 this.email,
                 this.password,
                 this.passwordConfirm

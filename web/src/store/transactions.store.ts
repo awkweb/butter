@@ -5,6 +5,8 @@ import { get } from "../lib/get";
 import { Transaction } from "../types/transaction";
 import { Budget } from "../types/budget";
 
+const PAGE_SIZE = 10;
+
 interface Props {
     rootStore: RootStore;
     /**
@@ -13,6 +15,7 @@ interface Props {
     budgets: Array<Budget>;
     selectedTransactionIds: Array<string>;
     transactions: Array<Transaction>;
+    transactionCount: number;
     isLoading: boolean;
     /**
      * computed
@@ -37,6 +40,7 @@ export default class TransactionsStore implements Props {
     selectedTransactionIds: Array<string> = [];
     budgets: Array<Budget> = [];
     transactions: Array<Transaction> = [];
+    transactionCount = 0;
     isLoading = false;
     startDelete = false;
 
@@ -45,7 +49,10 @@ export default class TransactionsStore implements Props {
     }
 
     get allSelected(): boolean {
-        return this.selectedTransactionIds.length === this.transactions.length;
+        return (
+            this.transactions.length > 0 &&
+            this.selectedTransactionIds.length === this.transactions.length
+        );
     }
 
     get anySelected(): boolean {
@@ -56,7 +63,7 @@ export default class TransactionsStore implements Props {
         try {
             const {
                 data: { results: budgets }
-            } = await api.getBudgets();
+            } = await api.budgets.getBulk();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
                 if (a.name > b.name) return 1;
                 else if (a.name < b.name) return -1;
@@ -84,7 +91,7 @@ export default class TransactionsStore implements Props {
         if (this.startDelete) {
             try {
                 const transactionIds = toJS(this.selectedTransactionIds);
-                await api.deleteTransactions(transactionIds);
+                await api.transactions.deleteBulk(transactionIds);
                 this.transactions = [
                     ...this.transactions.filter(
                         transaction => !transactionIds.includes(transaction.id)
@@ -121,14 +128,20 @@ export default class TransactionsStore implements Props {
     };
 
     getTransactions = async (budget = undefined) => {
+        const params = new URLSearchParams(location.search);
+        const page = get(() => parseInt(params.get("page") as string), 1);
+        const offset = (page - 1) * PAGE_SIZE;
+
         try {
             this.isLoading = true;
             const {
-                data: { results: transactions }
-            } = await api.getTransactions({
-                budget
+                data: { count, results: transactions }
+            } = await api.transactions.getBulk({
+                budget,
+                offset
             });
             this.transactions = transactions;
+            this.transactionCount = count;
         } catch (err) {
             const error = get(() => err.response.data);
             throw error;
@@ -152,7 +165,7 @@ export default class TransactionsStore implements Props {
     handleCategorize = async (budgetId: string) => {
         try {
             const transactionIds = toJS(this.selectedTransactionIds);
-            await api.categorizeTransactions({
+            await api.transactions.categorizeBulk({
                 budget_id: budgetId,
                 transaction_ids: transactionIds
             });
@@ -201,6 +214,7 @@ decorate(TransactionsStore, {
     budgets: observable,
     selectedTransactionIds: observable,
     transactions: observable,
+    transactionCount: observable,
     isLoading: observable,
     startDelete: observable,
     /**

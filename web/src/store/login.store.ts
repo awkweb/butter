@@ -87,7 +87,10 @@ export default class LogInStore implements Props {
         try {
             this.error = "";
             this.isLoading = true;
-            const { data: user } = await api.logIn(this.email, this.password);
+            const { data: user } = await api.auth.logIn(
+                this.email,
+                this.password
+            );
             this.rootStore.setUser(user);
             this.redirectToReferrer = true;
         } catch (err) {

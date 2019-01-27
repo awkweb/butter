@@ -67,7 +67,7 @@ export default class RootStore implements Props {
     setUser = (user?: User) => {
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
-            api.setAuthorizationToken(get(() => user.token));
+            api.auth.setAuthorizationToken(get(() => user.token));
         } else {
             localStorage.removeItem("user");
         }
@@ -76,7 +76,7 @@ export default class RootStore implements Props {
 
     logOut = async () => {
         try {
-            await api.logOut();
+            await api.auth.logOut();
             this.setUser(undefined);
             this.budgetFormStore.reset();
             this.itemsStore.reset();

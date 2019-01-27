@@ -129,7 +129,7 @@ export default class BudgetsStore implements Props {
     getBudgets = async () => {
         try {
             this.isLoading = true;
-            const { data: budgets } = await api.getBudgetsDashboard();
+            const { data: budgets } = await api.budgets.getDashboard();
             this.budgets = budgets;
         } catch (err) {
             const error = get(() => err.response.data);

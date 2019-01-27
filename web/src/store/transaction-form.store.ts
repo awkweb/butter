@@ -188,7 +188,7 @@ export default class TransactionFormStore implements Props {
         try {
             const {
                 data: { results: budgets }
-            } = await api.getBudgets();
+            } = await api.budgets.getBulk();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
                 if (a.name > b.name) return 1;
                 else if (a.name < b.name) return -1;
@@ -202,7 +202,7 @@ export default class TransactionFormStore implements Props {
 
     getTransaction = async () => {
         try {
-            const { data: transaction } = await api.getTransaction(this.id);
+            const { data: transaction } = await api.transactions.get(this.id);
             this.initForm(
                 transaction.amountCents,
                 transaction.budget,
@@ -220,7 +220,7 @@ export default class TransactionFormStore implements Props {
         try {
             this.isLoading = true;
             const amountCents = toCents(this.amount as number);
-            const { data: transaction } = await api.createTransaction({
+            const { data: transaction } = await api.transactions.create({
                 name: this.name,
                 amount_cents: amountCents,
                 description: this.description,
@@ -244,7 +244,7 @@ export default class TransactionFormStore implements Props {
         if (this.startDelete) {
             try {
                 this.isDeleting = true;
-                await api.deleteTransaction(this.id);
+                await api.transactions.delete(this.id);
                 this.rootStore.transactionsStore.removeTransaction(this.id);
                 this.rootStore.budgetsStore.removeTransaction(
                     this.budgetId,
@@ -273,13 +273,16 @@ export default class TransactionFormStore implements Props {
             const initialAmountCents = toCents(this.initialAmount as number);
             const budget = this.budgetId;
 
-            const { data: transaction } = await api.updateTransaction(this.id, {
-                budget,
-                name: this.name,
-                amount_cents: amountCents,
-                description: this.description,
-                date: this.dateString
-            });
+            const { data: transaction } = await api.transactions.update(
+                this.id,
+                {
+                    budget,
+                    name: this.name,
+                    amount_cents: amountCents,
+                    description: this.description,
+                    date: this.dateString
+                }
+            );
 
             this.rootStore.transactionsStore.updateTransaction(transaction);
             const difference = initialAmountCents - amountCents;

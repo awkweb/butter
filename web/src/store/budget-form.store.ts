@@ -132,7 +132,7 @@ export default class BudgetFormStore implements Props {
 
     getBudget = async () => {
         try {
-            const { data: budget } = await api.getBudget(this.id);
+            const { data: budget } = await api.budgets.get(this.id);
             this.initForm(budget.amountCents, budget.name, budget.description);
         } catch (err) {
             const error = get(() => err.response.data);
@@ -143,7 +143,7 @@ export default class BudgetFormStore implements Props {
     handleCreate = async () => {
         try {
             this.isLoading = true;
-            const { data: budget } = await api.createBudget({
+            const { data: budget } = await api.budgets.create({
                 name: this.name,
                 amount_cents: toCents(this.amount as number),
                 description: this.description
@@ -165,7 +165,7 @@ export default class BudgetFormStore implements Props {
         if (this.startDelete) {
             try {
                 this.isDeleting = true;
-                await api.deleteBudget(this.id);
+                await api.budgets.delete(this.id);
                 this.rootStore.budgetsStore.removeBudget(this.id);
             } catch (err) {
                 const error = get(() => err.response.data);
@@ -186,7 +186,7 @@ export default class BudgetFormStore implements Props {
     handleUpdate = async () => {
         try {
             this.isLoading = true;
-            const { data: budget } = await api.updateBudget(this.id, {
+            const { data: budget } = await api.budgets.update(this.id, {
                 name: this.name,
                 amount_cents: toCents(this.amount as number),
                 description: this.description
