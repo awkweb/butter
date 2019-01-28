@@ -16,12 +16,16 @@ interface Props {
     selectedTransactionIds: Array<string>;
     transactions: Array<Transaction>;
     transactionCount: number;
+    page: number;
     isLoading: boolean;
     /**
      * computed
      */
     allSelected: boolean;
     anySelected: boolean;
+    nextDisabled: boolean;
+    prevDisabled: boolean;
+    pagesCount: number;
     /**
      * action
      */
@@ -41,6 +45,7 @@ export default class TransactionsStore implements Props {
     budgets: Array<Budget> = [];
     transactions: Array<Transaction> = [];
     transactionCount = 0;
+    page = 1;
     isLoading = false;
     startDelete = false;
 
@@ -57,6 +62,19 @@ export default class TransactionsStore implements Props {
 
     get anySelected(): boolean {
         return this.selectedTransactionIds.length > 0;
+    }
+
+    get nextDisabled(): boolean {
+        const nextOffset = this.page * PAGE_SIZE;
+        return nextOffset > this.transactionCount;
+    }
+
+    get prevDisabled(): boolean {
+        return this.page === 1;
+    }
+
+    get pagesCount(): number {
+        return Math.ceil(this.transactionCount / PAGE_SIZE);
     }
 
     getBudgets = async () => {
@@ -129,8 +147,13 @@ export default class TransactionsStore implements Props {
 
     getTransactions = async (budget = undefined) => {
         const params = new URLSearchParams(location.search);
-        const page = get(() => parseInt(params.get("page") as string), 1);
-        const offset = (page - 1) * PAGE_SIZE;
+        const pageParam = get(() => params.get("page"));
+        let offset;
+        if (pageParam) {
+            const page = parseInt(pageParam);
+            offset = (page - 1) * PAGE_SIZE;
+            this.page = page;
+        }
 
         try {
             this.isLoading = true;
@@ -222,6 +245,9 @@ decorate(TransactionsStore, {
      */
     allSelected: computed,
     anySelected: computed,
+    nextDisabled: computed,
+    prevDisabled: computed,
+    pagesCount: computed,
     /**
      * action
      */

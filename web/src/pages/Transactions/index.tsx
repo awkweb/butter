@@ -34,6 +34,9 @@ class TransactionsClass extends React.Component<Props> {
                     isLoading,
                     selectedTransactionIds,
                     transactions,
+                    nextDisabled,
+                    prevDisabled,
+                    pagesCount,
                     startDelete,
                     deleteTransactions,
                     handleCategorize,
@@ -100,6 +103,9 @@ class TransactionsClass extends React.Component<Props> {
                                 />
                                 <Table
                                     transactions={transactions}
+                                    nextDisabled={nextDisabled}
+                                    prevDisabled={prevDisabled}
+                                    pagesCount={pagesCount}
                                     selectedTransactionIds={
                                         selectedTransactionIds
                                     }

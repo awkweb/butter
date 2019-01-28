@@ -5,9 +5,13 @@ import { Transaction } from "../../../../types/transaction";
 import TableRow from "../TableRow";
 import { get } from "../../../../lib/get";
 import moment from "moment";
+import TablePagination from "../TablePagination";
 
 interface Props {
     transactions: Array<Transaction>;
+    nextDisabled: boolean;
+    prevDisabled: boolean;
+    pagesCount: number;
     selectedTransactionIds: Array<string>;
     selectTransaction: Function;
 }
@@ -24,6 +28,9 @@ export default class Table extends React.Component<Props> {
     render() {
         const {
             transactions,
+            nextDisabled,
+            prevDisabled,
+            pagesCount,
             selectedTransactionIds,
             selectTransaction
         } = this.props;
@@ -65,10 +72,15 @@ export default class Table extends React.Component<Props> {
                         )}
                     </tbody>
                 </StyledTable>
-                <Box>
-                    <button>Previous</button>
-                    <button>Next</button>
-                </Box>
+                {pagesCount > 1 && (
+                    <Box mb={4} mt={3}>
+                        <TablePagination
+                            nextDisabled={nextDisabled}
+                            prevDisabled={prevDisabled}
+                            pagesCount={pagesCount}
+                        />
+                    </Box>
+                )}
             </Box>
         );
     }
