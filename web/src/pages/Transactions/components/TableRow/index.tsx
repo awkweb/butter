@@ -1,8 +1,7 @@
 import React from "react";
 import { toJS } from "mobx";
-import { Box, Text, Link } from "../../../../components";
+import { BooleanField, Box, Text, Link } from "../../../../components";
 import { prettyNumber } from "../../../../lib/currency";
-import { BooleanField } from "../../../../components/core/components/form/BooleanField";
 import { Transaction } from "../../../../types/transaction";
 import styled from "styled-components";
 

@@ -9,8 +9,7 @@ import TablePagination from "../TablePagination";
 
 interface Props {
     transactions: Array<Transaction>;
-    nextDisabled: boolean;
-    prevDisabled: boolean;
+    page: number;
     pagesCount: number;
     selectedTransactionIds: Array<string>;
     selectTransaction: Function;
@@ -28,8 +27,7 @@ export default class Table extends React.Component<Props> {
     render() {
         const {
             transactions,
-            nextDisabled,
-            prevDisabled,
+            page,
             pagesCount,
             selectedTransactionIds,
             selectTransaction
@@ -74,11 +72,7 @@ export default class Table extends React.Component<Props> {
                 </StyledTable>
                 {pagesCount > 1 && (
                     <Box mb={4} mt={3}>
-                        <TablePagination
-                            nextDisabled={nextDisabled}
-                            prevDisabled={prevDisabled}
-                            pagesCount={pagesCount}
-                        />
+                        <TablePagination page={page} pagesCount={pagesCount} />
                     </Box>
                 )}
             </Box>

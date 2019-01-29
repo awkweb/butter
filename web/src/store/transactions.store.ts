@@ -5,7 +5,7 @@ import { get } from "../lib/get";
 import { Transaction } from "../types/transaction";
 import { Budget } from "../types/budget";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 interface Props {
     rootStore: RootStore;
@@ -23,8 +23,6 @@ interface Props {
      */
     allSelected: boolean;
     anySelected: boolean;
-    nextDisabled: boolean;
-    prevDisabled: boolean;
     pagesCount: number;
     /**
      * action
@@ -62,15 +60,6 @@ export default class TransactionsStore implements Props {
 
     get anySelected(): boolean {
         return this.selectedTransactionIds.length > 0;
-    }
-
-    get nextDisabled(): boolean {
-        const nextOffset = this.page * PAGE_SIZE;
-        return nextOffset > this.transactionCount;
-    }
-
-    get prevDisabled(): boolean {
-        return this.page === 1;
     }
 
     get pagesCount(): number {
@@ -148,12 +137,7 @@ export default class TransactionsStore implements Props {
     getTransactions = async (budget = undefined) => {
         const params = new URLSearchParams(location.search);
         const pageParam = get(() => params.get("page"));
-        let offset;
-        if (pageParam) {
-            const page = parseInt(pageParam);
-            offset = (page - 1) * PAGE_SIZE;
-            this.page = page;
-        }
+        const page = pageParam && parseInt(pageParam);
 
         try {
             this.isLoading = true;
@@ -161,8 +145,9 @@ export default class TransactionsStore implements Props {
                 data: { count, results: transactions }
             } = await api.transactions.getBulk({
                 budget,
-                offset
+                page
             });
+            this.page = page || 1;
             this.transactions = transactions;
             this.transactionCount = count;
         } catch (err) {
@@ -245,8 +230,6 @@ decorate(TransactionsStore, {
      */
     allSelected: computed,
     anySelected: computed,
-    nextDisabled: computed,
-    prevDisabled: computed,
     pagesCount: computed,
     /**
      * action

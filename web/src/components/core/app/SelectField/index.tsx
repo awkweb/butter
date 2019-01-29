@@ -1,13 +1,13 @@
 import * as React from "react";
-import { StyledFieldset, StyledLabel } from "../../core/components/form/Field";
-import { Box } from "../../index";
-import { cssFactory } from "../../core/utils/styled-components";
+import { StyledFieldset, StyledLabel } from "../../form/Field";
+import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
-import field from "../../core/theme/field";
-import { AnyColor as Color } from "../../core/types/color";
-import { Weight, Size } from "../../core/types/text";
+import field from "../../../theme/field";
+import { AnyColor as Color } from "../../../types/color";
+import { Weight, Size } from "../../../types/text";
 import Select from "react-select";
 import { GroupType, ValueType, ActionMeta } from "react-select/lib/types";
+import { Box } from "../../layout/Box";
 
 interface Props {
     error?: string;

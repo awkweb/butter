@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Box, Icon } from "../../index";
-import { cssFactory } from "../../core/utils/styled-components";
+import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
 import { getColorForId } from "./utils";
+import { Box } from "../../layout/Box";
+import { Icon } from "../../icons/Icon";
 
 interface Props {
     id: string;
@@ -15,9 +16,9 @@ export class InstitutionLogo extends React.Component<Props> {
         const { id } = this.props;
         let component;
         try {
-            component = await import(`../../../components/core/components/icons/Icon/svgs/${id}`);
+            component = await import(`../../icons/Icon/svgs/${id}`);
         } catch (e) {
-            component = await import("../../../components/core/components/icons/Icon/svgs/bank");
+            component = await import("../../icons/Icon/svgs/bank");
         } finally {
             this.setState({ component: component.default });
         }

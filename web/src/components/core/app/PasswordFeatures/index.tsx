@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Box, Text } from "../../index";
 import styled, { css } from "styled-components";
-import { cssFactory } from "../../core/utils/styled-components";
-import { style } from "../../core/utils/css";
+import { cssFactory } from "../../../utils/styled-components";
+import { style } from "../../../utils/css";
+import { Box } from "../../layout/Box";
+import { Text } from "../../typography/Text";
 
 interface Props {
     hasLowercaseLetter: boolean;

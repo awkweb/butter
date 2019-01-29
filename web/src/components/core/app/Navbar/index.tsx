@@ -1,9 +1,15 @@
 import * as React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Box, CaretDown, Col, Grid, Icon, Link, Row, Text } from "../../index";
-import { cssFactory } from "../../core/utils/styled-components";
+import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
 import Dropdown from "./components/Dropdown";
+import { Text } from "../../typography/Text";
+import { Box } from "../../layout/Box";
+import { Grid } from "../../layout/Grid";
+import { Row } from "../../layout/Row";
+import { Col } from "../../layout/Col";
+import { Link } from "../../actions/Link";
+import { CaretDown, Icon } from "../../icons/Icon";
 
 interface Props {
     location: any;

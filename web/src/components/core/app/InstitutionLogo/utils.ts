@@ -1,4 +1,4 @@
-import colors from "../../core/theme/colors";
+import colors from "../../../theme/colors";
 
 /**
  * Gets institution color for id

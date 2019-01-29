@@ -1,10 +1,9 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import Select from "react-select";
-import { Box, Button, Text } from "../../../../components";
-import { BooleanField } from "../../../../components/core/components/form/BooleanField";
+import { BooleanField, Box, Button, Text } from "../../../../components";
 import { Budget } from "../../../../types/budget";
-import { cssFactory } from "../../../../components/core/utils/styled-components";
+import { cssFactory } from "../../../../components/utils/styled-components";
 import { css } from "styled-components";
 import { ValueType } from "react-select/lib/types";
 

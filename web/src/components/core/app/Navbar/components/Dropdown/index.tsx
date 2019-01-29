@@ -1,8 +1,10 @@
 import * as React from "react";
-import { Button, Text, Link } from "../../../../index";
 import styled, { css } from "styled-components";
-import { cssFactory } from "../../../../core/utils/styled-components";
-import { style } from "../../../../core/utils/css";
+import { cssFactory } from "../../../../../utils/styled-components";
+import { style } from "../../../../../utils/css";
+import { Link } from "../../../../actions/Link";
+import { Text } from "../../../../typography/Text";
+import { Button } from "../../../../actions/Button";
 
 interface Props {
     open: boolean;
@@ -19,8 +21,8 @@ export default class Dropdown extends React.Component<Props> {
             <StyledDropdown {...this.props}>
                 <StyledDropdownItem>
                     <Link
-                        color={Text.Color.Gray2}
-                        size={Text.Size.Xs}
+                        color={Link.Color.Gray2}
+                        size={Link.Size.Xs}
                         to="/accounts"
                     >
                         Connected Accounts

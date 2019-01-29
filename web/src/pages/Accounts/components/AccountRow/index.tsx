@@ -7,7 +7,7 @@ import {
     PlaidLink,
     InstitutionLogo
 } from "../../../../components";
-import { cssFactory } from "../../../../components/core/utils/styled-components";
+import { cssFactory } from "../../../../components/utils/styled-components";
 import { css } from "styled-components";
 
 interface Props {

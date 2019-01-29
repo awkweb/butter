@@ -5,6 +5,7 @@ import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
 import Table from "./components/Table";
 import TableHeader from "./components/TableHeader";
+import { get } from "../../lib/get";
 
 interface Props {
     rootStore: RootStore;
@@ -24,6 +25,22 @@ class TransactionsClass extends React.Component<Props> {
         getTransactions();
     }
 
+    componentDidUpdate() {
+        const params = new URLSearchParams(location.search);
+        const pageParam = get(() => params.get("page"));
+        if (pageParam) {
+            const page = parseInt(pageParam);
+            const {
+                rootStore: {
+                    transactionsStore: { page: currentPage, getTransactions }
+                }
+            } = this.props;
+            if (page !== currentPage) {
+                getTransactions();
+            }
+        }
+    }
+
     render() {
         const {
             rootStore: {
@@ -34,8 +51,7 @@ class TransactionsClass extends React.Component<Props> {
                     isLoading,
                     selectedTransactionIds,
                     transactions,
-                    nextDisabled,
-                    prevDisabled,
+                    page,
                     pagesCount,
                     startDelete,
                     deleteTransactions,
@@ -103,8 +119,7 @@ class TransactionsClass extends React.Component<Props> {
                                 />
                                 <Table
                                     transactions={transactions}
-                                    nextDisabled={nextDisabled}
-                                    prevDisabled={prevDisabled}
+                                    page={page}
                                     pagesCount={pagesCount}
                                     selectedTransactionIds={
                                         selectedTransactionIds
