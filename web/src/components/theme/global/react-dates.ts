@@ -49,8 +49,8 @@ export default () => `
 
 	.CalendarDay__today,
 	.CalendarDay__today:hover {
+		border: 1px double ${colors.gold3} !important;
 		color: ${colors.gray1} !important;
-		background: ${colors.gray10} !important;
 		font-weight: ${text.getWeight(Weight.Bold)};
 	}
 
@@ -58,6 +58,7 @@ export default () => `
 	.CalendarDay__selected,
 	.CalendarDay__selected:hover {
 		background: ${colors.blue3} !important;
+		border-color: ${colors.blue3} !important;
 		color: ${colors.white} !important;
 	}
 `;

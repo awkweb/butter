@@ -27,13 +27,17 @@ export default class TableRow extends React.Component<Props> {
                                 pathname: `/budgets/${id}`,
                                 state: { budget: toJS(budget) }
                             }}
-                            weight={Link.Weight.Medium}
                             size={Text.Size.Sm}
+                            weight={Link.Weight.Medium}
                         >
                             {name}
                         </Link>
                     ) : (
-                        <Text color={Link.Color.Gray1} size={Text.Size.Sm}>
+                        <Text
+                            color={Link.Color.Gray1}
+                            size={Text.Size.Sm}
+                            weight={Link.Weight.Medium}
+                        >
                             {name}
                         </Text>
                     )}

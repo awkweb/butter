@@ -84,7 +84,7 @@ export default class TableHeader extends React.Component<Props> {
                     display={Box.Display.Flex}
                     mr={2}
                 >
-                    <Text size={Text.Size.Sm} weight={Text.Weight.SemiBold}>
+                    <Text size={Text.Size.Sm} weight={Text.Weight.Medium}>
                         Showing
                     </Text>
                     <Box css={genInputCSS()} ml={1}>

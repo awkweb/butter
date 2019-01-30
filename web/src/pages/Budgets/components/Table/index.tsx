@@ -26,8 +26,8 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Left}
-                                    color={Text.Color.Gray1}
                                     size={Text.Size.Sm}
+                                    weight={Text.Weight.Medium}
                                 >
                                     Name
                                 </Text>
@@ -35,8 +35,8 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    color={Text.Color.Gray1}
                                     size={Text.Size.Sm}
+                                    weight={Text.Weight.Medium}
                                 >
                                     Budgeted
                                 </Text>
@@ -44,8 +44,8 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    color={Text.Color.Gray1}
                                     size={Text.Size.Sm}
+                                    weight={Text.Weight.Medium}
                                 >
                                     Spent
                                 </Text>
@@ -53,8 +53,8 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    color={Text.Color.Gray1}
                                     size={Text.Size.Sm}
+                                    weight={Text.Weight.Medium}
                                 >
                                     Remaining
                                 </Text>

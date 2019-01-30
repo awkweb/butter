@@ -68,9 +68,7 @@ export default class TransactionsStore implements Props {
 
     getBudgets = async () => {
         try {
-            const {
-                data: { results: budgets }
-            } = await api.budgets.getBulk();
+            const { data: budgets } = await api.budgets.getBulk();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
                 if (a.name > b.name) return 1;
                 else if (a.name < b.name) return -1;
