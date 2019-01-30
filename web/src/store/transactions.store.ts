@@ -5,7 +5,7 @@ import { get } from "../lib/get";
 import { Transaction } from "../types/transaction";
 import { Budget } from "../types/budget";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 interface Props {
     rootStore: RootStore;
@@ -148,6 +148,7 @@ export default class TransactionsStore implements Props {
                 page
             });
             this.page = page || 1;
+            this.selectedTransactionIds = [];
             this.transactions = transactions;
             this.transactionCount = count;
         } catch (err) {

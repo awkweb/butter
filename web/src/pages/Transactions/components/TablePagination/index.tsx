@@ -1,7 +1,7 @@
 import React from "react";
+import { range } from "lodash";
 import styled, { css } from "styled-components";
 import { Box, Text } from "../../../../components";
-import { range } from "lodash";
 import { cssFactory } from "../../../../components/utils/styled-components";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -11,9 +11,55 @@ interface Props {
 }
 
 export default class TablePagination extends React.Component<Props> {
-    getPageNumberButtons = () => {
+    private first = () => {
+        const { page } = this.props;
+        const active = page === 1;
+        const elProps = {
+            active: active || undefined,
+            key: 1
+        };
+        return (
+            <React.Fragment>
+                <StyledLink
+                    {...elProps}
+                    to={{
+                        pathname: "/transactions",
+                        search: "?page=1"
+                    }}
+                >
+                    1
+                </StyledLink>
+                <StyledBlock>...</StyledBlock>
+            </React.Fragment>
+        );
+    };
+
+    private last = () => {
         const { page, pagesCount } = this.props;
-        return range(1, pagesCount + 1).map(i => {
+        const active = page === pagesCount;
+        const elProps = {
+            active: active || undefined,
+            key: pagesCount
+        };
+        return (
+            <React.Fragment>
+                <StyledBlock>...</StyledBlock>
+                <StyledLink
+                    {...elProps}
+                    to={{
+                        pathname: "/transactions",
+                        search: `?page=${pagesCount}`
+                    }}
+                >
+                    {`${pagesCount}`}
+                </StyledLink>
+            </React.Fragment>
+        );
+    };
+
+    private add = (s: number, f: number) => {
+        const { page } = this.props;
+        return range(s, f).map(i => {
             const active = page === i;
             const elProps = {
                 active: active || undefined,
@@ -33,6 +79,38 @@ export default class TablePagination extends React.Component<Props> {
                 );
             }
         });
+    };
+
+    getPageNumberButtons = () => {
+        const { page, pagesCount } = this.props;
+        const size = pagesCount;
+        const step = 2; // pages before and after current
+
+        if (size < step * 2 + 6) {
+            return this.add(1, size + 1);
+        } else if (page < step * 2 + 1) {
+            return (
+                <React.Fragment>
+                    {this.add(1, step * 2 + 4)}
+                    {this.last()}
+                </React.Fragment>
+            );
+        } else if (page > size - step * 2) {
+            return (
+                <React.Fragment>
+                    {this.first()}
+                    {this.add(size - step * 2 - 2, size + 1)}
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    {this.first()}
+                    {this.add(page - step, page + step + 1)}
+                    {this.last()}
+                </React.Fragment>
+            );
+        }
     };
 
     getNextButton = () => {
