@@ -274,8 +274,10 @@ class TransactionClass extends React.Component<Props> {
                                             ml={3}
                                         >
                                             <Link
+                                                color={Link.Color.Gray5}
                                                 disabled={networkActive}
                                                 size={Link.Size.Sm}
+                                                weight={Link.Weight.Medium}
                                                 to="/transactions"
                                             >
                                                 Cancel

@@ -17,6 +17,7 @@ interface Props {
     transactions: Array<Transaction>;
     transactionCount: number;
     page: number;
+    budgetFilter: string;
     isLoading: boolean;
     /**
      * computed
@@ -44,6 +45,7 @@ export default class TransactionsStore implements Props {
     transactions: Array<Transaction> = [];
     transactionCount = 0;
     page = 1;
+    budgetFilter = "all";
     isLoading = false;
     startDelete = false;
 
@@ -132,10 +134,12 @@ export default class TransactionsStore implements Props {
         ];
     };
 
-    getTransactions = async (budget = undefined) => {
+    getTransactions = async () => {
         const params = new URLSearchParams(location.search);
         const pageParam = get(() => params.get("page"));
         const page = pageParam && parseInt(pageParam);
+        const budgetParam = get(() => params.get("budget"));
+        const budget = budgetParam !== "all" ? budgetParam : undefined;
 
         try {
             this.isLoading = true;
@@ -146,6 +150,7 @@ export default class TransactionsStore implements Props {
                 page
             });
             this.page = page || 1;
+            this.budgetFilter = budget || "all";
             this.selectedTransactionIds = [];
             this.transactions = transactions;
             this.transactionCount = count;
@@ -211,6 +216,8 @@ export default class TransactionsStore implements Props {
         this.selectedTransactionIds = [];
         this.transactions = [];
         this.startDelete = false;
+        this.page = 1;
+        this.budgetFilter = "all";
         this.isLoading = false;
     };
 }
@@ -222,6 +229,8 @@ decorate(TransactionsStore, {
     selectedTransactionIds: observable,
     transactions: observable,
     transactionCount: observable,
+    page: observable,
+    budgetFilter: observable,
     isLoading: observable,
     startDelete: observable,
     /**

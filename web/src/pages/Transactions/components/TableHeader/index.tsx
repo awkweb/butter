@@ -9,6 +9,7 @@ import { ValueType } from "react-select/lib/types";
 
 interface Props {
     budgets: Array<Budget>;
+    budgetFilter: string;
     allSelected: boolean;
     anySelected: boolean;
     startDelete: boolean;
@@ -57,11 +58,21 @@ export default class TableHeader extends React.Component<Props> {
     };
 
     render() {
-        const { budgets, allSelected, anySelected, startDelete } = this.props;
-        const options = budgets.map(b => ({
-            value: b.id,
-            label: b.name
-        }));
+        const {
+            budgets,
+            allSelected,
+            anySelected,
+            startDelete,
+            budgetFilter
+        } = this.props;
+        const options = [
+            { label: "All Budgets", value: "all" },
+            ...budgets.map(b => ({
+                value: b.id,
+                label: b.name
+            }))
+        ];
+        const selectedOption = options.find(o => o.value === budgetFilter);
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
@@ -94,7 +105,7 @@ export default class TableHeader extends React.Component<Props> {
                             menuPlacement="auto"
                             placeholder="All Budgets"
                             options={options}
-                            value={undefined}
+                            value={selectedOption}
                             onChange={this.onChangeFilter}
                         />
                     </Box>
@@ -140,8 +151,6 @@ const genInputCSS = () =>
 		color: ${props => props.theme.colors.gray1};
 		font-family: ${props => props.theme.text.getFont()};
 		height: 37px;
-        max-width: 130px;
-        min-width: 130px;
 		padding: 0;
 		outline: 0;
 		transition: border-color 125ms;
@@ -149,5 +158,13 @@ const genInputCSS = () =>
 
     .react-select__menu {
         width: max-content;
+    }
+
+    .react-select__single-value {
+        max-width: none;
+        overflow: visible;
+        position: relative;
+        top: auto;
+        transform: none;
     }
 `;

@@ -8,6 +8,7 @@ import TableHeader from "./components/TableHeader";
 import { get } from "../../lib/get";
 
 interface Props {
+    history: any;
     rootStore: RootStore;
 }
 
@@ -26,26 +27,49 @@ class TransactionsClass extends React.Component<Props> {
     }
 
     componentDidUpdate() {
+        const {
+            rootStore: {
+                transactionsStore: { page: currentPage, getTransactions }
+            }
+        } = this.props;
+
         const params = new URLSearchParams(location.search);
         const pageParam = get(() => params.get("page"));
-        if (pageParam) {
-            const page = parseInt(pageParam);
-            const {
-                rootStore: {
-                    transactionsStore: { page: currentPage, getTransactions }
-                }
-            } = this.props;
-            if (page !== currentPage) {
-                getTransactions();
-            }
+        const page = pageParam && parseInt(pageParam);
+        const pageChanged = page && page !== currentPage;
+
+        if (pageChanged) {
+            getTransactions();
         }
     }
+
+    setBudgetFilter = (budget: string) => {
+        const {
+            history,
+            rootStore: {
+                transactionsStore: { page }
+            }
+        } = this.props;
+        const params = [];
+        if (page !== 1) {
+            params.push(`page=${page}`);
+        }
+        if (budget) {
+            params.push(`budget=${budget}`);
+        }
+        const search = params.length > 0 ? `?${params.join("&")}` : "";
+        history.push({
+            pathname: "/transactions",
+            search
+        });
+    };
 
     render() {
         const {
             rootStore: {
                 transactionsStore: {
                     budgets,
+                    budgetFilter,
                     allSelected,
                     anySelected,
                     isLoading,
@@ -57,7 +81,6 @@ class TransactionsClass extends React.Component<Props> {
                     deleteTransactions,
                     handleCategorize,
                     handleSelectAll,
-                    getTransactions,
                     selectTransaction,
                     handleOutsideClick
                 }
@@ -94,29 +117,23 @@ class TransactionsClass extends React.Component<Props> {
                             </Box>
                         </Col>
                     </Row>
-                    {isLoading && (
-                        <Row>
-                            <Col xs={12}>
-                                <Box mt={2}>
-                                    <Loader />
-                                </Box>
-                            </Col>
-                        </Row>
-                    )}
-                    {!isLoading && (
-                        <Row>
-                            <Col xs={12}>
-                                <TableHeader
-                                    budgets={budgets}
-                                    allSelected={allSelected}
-                                    anySelected={anySelected}
-                                    startDelete={startDelete}
-                                    handleOnChange={handleSelectAll}
-                                    handleCategorize={handleCategorize}
-                                    handleDelete={deleteTransactions}
-                                    handleFilter={getTransactions}
-                                    handleOutsideClick={handleOutsideClick}
-                                />
+                    <Row>
+                        <Col xs={12}>
+                            <TableHeader
+                                budgets={budgets}
+                                budgetFilter={budgetFilter}
+                                allSelected={allSelected}
+                                anySelected={anySelected}
+                                startDelete={startDelete}
+                                handleOnChange={handleSelectAll}
+                                handleCategorize={handleCategorize}
+                                handleDelete={deleteTransactions}
+                                handleFilter={this.setBudgetFilter}
+                                handleOutsideClick={handleOutsideClick}
+                            />
+                            {isLoading ? (
+                                <Loader />
+                            ) : (
                                 <Table
                                     transactions={transactions}
                                     page={page}
@@ -126,9 +143,9 @@ class TransactionsClass extends React.Component<Props> {
                                     }
                                     selectTransaction={selectTransaction}
                                 />
-                            </Col>
-                        </Row>
-                    )}
+                            )}
+                        </Col>
+                    </Row>
                 </Grid>
             </DocumentTitle>
         );

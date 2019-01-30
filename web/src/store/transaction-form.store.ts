@@ -318,7 +318,7 @@ export default class TransactionFormStore implements Props {
             numeric
         });
         this.budgetValidator = new Validator(this.budget, { required });
-        this.dateValidator = new Validator(this.amount, { required });
+        this.dateValidator = new Validator(this.date, { required });
         this.nameValidator = new Validator(this.name, { required });
     };
 
