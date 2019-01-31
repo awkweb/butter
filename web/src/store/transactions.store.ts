@@ -4,6 +4,7 @@ import RootStore from "./index";
 import { get } from "../lib/get";
 import { Transaction } from "../types/transaction";
 import { Budget } from "../types/budget";
+import { parse } from "query-string";
 
 const PAGE_SIZE = 10;
 
@@ -135,11 +136,14 @@ export default class TransactionsStore implements Props {
     };
 
     getTransactions = async () => {
-        const params = new URLSearchParams(location.search);
-        const pageParam = get(() => params.get("page"));
-        const page = pageParam && parseInt(pageParam);
-        const budgetParam = get(() => params.get("budget"));
-        const budget = budgetParam !== "all" ? budgetParam : undefined;
+        const queryParams = parse(location.search);
+        const page = queryParams.page
+            ? parseInt(queryParams.page as string)
+            : undefined;
+        const budget =
+            queryParams.budget !== "all"
+                ? (queryParams.budget as string)
+                : undefined;
 
         try {
             this.isLoading = true;

@@ -14,6 +14,7 @@ import {
 import RootStore from "../../../store";
 import { Redirect } from "react-router";
 import { get } from "../../../lib/get";
+import { parse } from "query-string";
 
 interface Props {
     location: any;
@@ -28,8 +29,8 @@ class LogInClass extends React.Component<Props> {
                 logInStore: { setEmail }
             }
         } = this.props;
-        const params = new URLSearchParams(location.search);
-        const email = params.get("email");
+        const queryParams = parse(location.search);
+        const email = get(() => queryParams.email);
         if (email) setEmail(email);
     }
 
@@ -56,9 +57,9 @@ class LogInClass extends React.Component<Props> {
             rootStore: { logInStore, isAuthenticated }
         } = this.props;
 
-        const params = new URLSearchParams(location.search);
+        const queryParams = parse(location.search);
         const redirect = get(() => location.state.from) ||
-            params.get("redirect") || { pathname: "/" };
+            queryParams.redirect || { pathname: "/" };
         if (logInStore.redirectToReferrer || isAuthenticated) {
             return <Redirect to={redirect} />;
         }

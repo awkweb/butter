@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { Box, Text } from "../../../../components";
 import { cssFactory } from "../../../../components/utils/styled-components";
 import { Link as RouterLink } from "react-router-dom";
+import { parse, stringify } from "query-string";
 
 interface Props {
     page: number;
@@ -11,6 +12,14 @@ interface Props {
 }
 
 export default class TablePagination extends React.Component<Props> {
+    private getQueryStringForPageNumber = (page: number): string => {
+        const queryParams = {
+            ...parse(location.search),
+            page
+        };
+        return stringify(queryParams);
+    };
+
     private first = () => {
         const { page } = this.props;
         const active = page === 1;
@@ -24,7 +33,7 @@ export default class TablePagination extends React.Component<Props> {
                     {...elProps}
                     to={{
                         pathname: "/transactions",
-                        search: "?page=1"
+                        search: this.getQueryStringForPageNumber(1)
                     }}
                 >
                     1
@@ -48,7 +57,7 @@ export default class TablePagination extends React.Component<Props> {
                     {...elProps}
                     to={{
                         pathname: "/transactions",
-                        search: `?page=${pagesCount}`
+                        search: this.getQueryStringForPageNumber(pagesCount)
                     }}
                 >
                     {`${pagesCount}`}
@@ -73,7 +82,7 @@ export default class TablePagination extends React.Component<Props> {
                         {...elProps}
                         to={{
                             pathname: "/transactions",
-                            search: `?page=${i}`
+                            search: this.getQueryStringForPageNumber(i)
                         }}
                     >{`${i}`}</StyledLink>
                 );

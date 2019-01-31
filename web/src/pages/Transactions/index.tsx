@@ -6,6 +6,7 @@ import RootStore from "../../store";
 import Table from "./components/Table";
 import TableHeader from "./components/TableHeader";
 import { get } from "../../lib/get";
+import { parse, stringify } from "query-string";
 
 interface Props {
     history: any;
@@ -29,38 +30,33 @@ class TransactionsClass extends React.Component<Props> {
     componentDidUpdate() {
         const {
             rootStore: {
-                transactionsStore: { page: currentPage, getTransactions }
+                transactionsStore: {
+                    budgetFilter: currentBudget,
+                    page: currentPage,
+                    getTransactions
+                }
             }
         } = this.props;
 
-        const params = new URLSearchParams(location.search);
-        const pageParam = get(() => params.get("page"));
-        const page = pageParam && parseInt(pageParam);
-        const pageChanged = page && page !== currentPage;
+        const queryParams = parse(location.search);
+        const page = parseInt(get(() => queryParams.page, "1"));
+        const pageChanged = page !== currentPage;
+        const budget = get(() => queryParams.budget, "all");
+        const budgetChanged = budget !== currentBudget;
 
-        if (pageChanged) {
+        if (pageChanged || budgetChanged) {
             getTransactions();
         }
     }
 
     setBudgetFilter = (budget: string) => {
-        const {
-            history,
-            rootStore: {
-                transactionsStore: { page }
-            }
-        } = this.props;
-        const params = [];
-        if (page !== 1) {
-            params.push(`page=${page}`);
-        }
-        if (budget) {
-            params.push(`budget=${budget}`);
-        }
-        const search = params.length > 0 ? `?${params.join("&")}` : "";
-        history.push({
+        const queryParams = {
+            budget: budget === "all" ? undefined : budget,
+            page: 1
+        };
+        this.props.history.push({
             pathname: "/transactions",
-            search
+            search: stringify(queryParams)
         });
     };
 

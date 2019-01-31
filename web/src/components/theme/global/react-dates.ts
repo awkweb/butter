@@ -49,7 +49,8 @@ export default () => `
 
 	.CalendarDay__today,
 	.CalendarDay__today:hover {
-		border: 1px double ${colors.gold3} !important;
+		background: ${colors.gray9} !important;
+		border: 1px double ${colors.gray9} !important;
 		color: ${colors.gray1} !important;
 		font-weight: ${text.getWeight(Weight.Bold)};
 	}
@@ -60,5 +61,6 @@ export default () => `
 		background: ${colors.blue3} !important;
 		border-color: ${colors.blue3} !important;
 		color: ${colors.white} !important;
+		font-weight: ${text.getWeight(Weight.Bold)};
 	}
 `;

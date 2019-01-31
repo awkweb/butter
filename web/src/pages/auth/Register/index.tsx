@@ -13,6 +13,8 @@ import {
     Text
 } from "../../../components";
 import RootStore from "../../../store";
+import { parse } from "query-string";
+import { get } from "../../../lib/get";
 
 interface Props {
     location: Location;
@@ -27,8 +29,8 @@ class RegisterClass extends React.Component<Props> {
                 registerStore: { setEmail }
             }
         } = this.props;
-        const params = new URLSearchParams(location.search);
-        const email = params.get("email");
+        const queryParams = parse(location.search);
+        const email = get(() => queryParams.email);
         if (email) setEmail(email);
     }
 
