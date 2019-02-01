@@ -3,6 +3,8 @@ import api from "../api";
 import RootStore from "./index";
 import { get } from "../lib/get";
 import { Budget } from "../types/budget";
+import moment, { Moment } from "moment";
+import { parse } from "query-string";
 
 interface Props {
     rootStore: RootStore;
@@ -10,6 +12,8 @@ interface Props {
      * observable
      */
     budgets: Array<Budget>;
+    startDate: Moment | null;
+    endDate: Moment | null;
     isLoading: boolean;
     /**
      * computed
@@ -24,6 +28,8 @@ interface Props {
     updateTransaction: Function;
     addBudget: Function;
     getBudgets: Function;
+    setStartDate: Function;
+    setEndDate: Function;
     reset: Function;
 }
 
@@ -31,6 +37,8 @@ export default class BudgetsStore implements Props {
     rootStore: RootStore;
 
     budgets: Array<Budget> = [];
+    startDate: Moment | null = moment().startOf("month");
+    endDate: Moment | null = moment();
     isLoading = false;
 
     constructor(rootStore: RootStore) {
@@ -127,9 +135,18 @@ export default class BudgetsStore implements Props {
     };
 
     getBudgets = async () => {
+        const queryParams = parse(location.search);
+        const startDate = queryParams.start_date;
+        const endDate = queryParams.end_date;
+
         try {
             this.isLoading = true;
-            const { data: budgets } = await api.budgets.getDashboard();
+            const { data: budgets } = await api.budgets.getDashboard({
+                start_date: startDate,
+                end_date: endDate
+            });
+            this.startDate = moment(startDate);
+            if (endDate) this.endDate = moment(endDate);
             this.budgets = budgets;
         } catch (err) {
             const error = get(() => err.response.data);
@@ -137,6 +154,14 @@ export default class BudgetsStore implements Props {
         } finally {
             this.isLoading = false;
         }
+    };
+
+    setStartDate = (startDate: Moment | null) => {
+        this.startDate = startDate;
+    };
+
+    setEndDate = (endDate: Moment | null) => {
+        this.endDate = endDate;
     };
 
     reset = () => {
@@ -149,6 +174,8 @@ decorate(BudgetsStore, {
      * observable
      */
     budgets: observable,
+    startDate: observable,
+    endDate: observable,
     isLoading: observable,
     /**
      * computed
@@ -163,5 +190,7 @@ decorate(BudgetsStore, {
     updateTransaction: action,
     addBudget: action,
     getBudgets: action,
+    setStartDate: action,
+    setEndDate: action,
     reset: action
 });

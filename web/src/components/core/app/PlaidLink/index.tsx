@@ -146,6 +146,7 @@ export class PlaidLink extends React.Component<Props> {
                 disabled={disabledButton}
                 noBackground={noBackground}
                 noBorder={noBorder}
+                noWrap
                 onClick={this.handleOnClick}
             >
                 {children}

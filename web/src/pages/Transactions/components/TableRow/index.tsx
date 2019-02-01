@@ -36,6 +36,10 @@ export default class TableRow extends React.Component<Props> {
             name,
             transaction
         } = this.props;
+        const accountInfo =
+            accountMask && accountName
+                ? `${accountName} - ${accountMask}`
+                : "Manually Created";
         return (
             <StyledTableRow>
                 <StyledTableData>
@@ -69,9 +73,7 @@ export default class TableRow extends React.Component<Props> {
                                 whiteSpace={Text.WhiteSpace.NoWrap}
                             >
                                 {date}
-                                {accountMask &&
-                                    accountName &&
-                                    ` ∙ ${accountName} - ${accountMask}`}
+                                {` ∙ ${accountInfo}`}
                             </Text>
                         </Box>
                     </Box>

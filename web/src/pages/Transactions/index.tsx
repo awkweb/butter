@@ -105,6 +105,7 @@ class TransactionsClass extends React.Component<Props> {
                                 <Box>
                                     <Button
                                         color={Button.Color.Secondary}
+                                        noWrap
                                         to="/transactions/new"
                                     >
                                         Create Transaction

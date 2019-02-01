@@ -47,19 +47,35 @@ export default () => `
 		box-shadow: 0 0 0 1px hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
 	}
 
-	.CalendarDay__today,
-	.CalendarDay__today:hover {
-		background: ${colors.gray9} !important;
-		border: 1px double ${colors.gray9} !important;
-		color: ${colors.gray1} !important;
-		font-weight: ${text.getWeight(Weight.Bold)};
+	// Will edit when the second date (end date) in a range of dates
+	// is not yet selected. Edits the dates between your mouse and said date
+	.CalendarDay__hovered_span:hover,
+	.CalendarDay__hovered_span {
+		background: ${colors.blue5} !important;
+		border-color: ${colors.blue5} !important;
+		color: ${colors.blue1} !important;
+	}
+
+	.CalendarDay__selected_span:hover,
+	.CalendarDay__selected_span {
+		color: ${colors.white} !important;
+	}
+
+	.CalendarDay__selected_span {
+		background: ${colors.blue4} !important;
+		border-color: ${colors.blue4} !important;
+	}
+
+	.CalendarDay__selected_span:hover {
+		background: ${colors.blue3} !important;
+		border-color: ${colors.blue3} !important;
 	}
 
 	// Will edit selected date or the endpoints of a range of dates
 	.CalendarDay__selected,
 	.CalendarDay__selected:hover {
-		background: ${colors.blue3} !important;
-		border-color: ${colors.blue3} !important;
+		background: ${colors.blue2} !important;
+		border-color: ${colors.blue2} !important;
 		color: ${colors.white} !important;
 		font-weight: ${text.getWeight(Weight.Bold)};
 	}

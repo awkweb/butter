@@ -5,8 +5,11 @@ import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
 import Table from "./components/Table";
 import DateRangePicker from "./components/DateRangePicker";
+import moment, { Moment } from "moment";
+import { stringify } from "query-string";
 
 interface Props {
+    history: any;
     rootStore: RootStore;
 }
 
@@ -23,10 +26,52 @@ class BudgetsClass extends React.Component<Props> {
         getBudgets();
     }
 
+    handleDatesChange = (startDate: Moment | null, endDate: Moment | null) => {
+        const {
+            rootStore: {
+                budgetsStore: { setStartDate, setEndDate }
+            }
+        } = this.props;
+        setStartDate(startDate);
+        setEndDate(endDate);
+    };
+
+    handleClose = (startDate: Moment, endDate: Moment | null) => {
+        const {
+            rootStore: {
+                budgetsStore: { setStartDate, setEndDate, getBudgets }
+            }
+        } = this.props;
+
+        const dateOne = startDate && moment(startDate);
+        const dateTwo = !endDate ? dateOne : moment(endDate);
+        setStartDate(dateOne);
+        setEndDate(dateTwo);
+
+        const queryParams = {
+            start_date: dateOne.format("YYYY-MM-DD"),
+            end_date: dateTwo.isSame(dateOne)
+                ? undefined
+                : dateTwo.format("YYYY-MM-DD")
+        };
+        this.props.history.push({
+            pathname: "/budgets",
+            search: stringify(queryParams)
+        });
+        getBudgets();
+    };
+
     render() {
         const {
             rootStore: {
-                budgetsStore: { budgets, isLoading, totalBudgeted, totalSpent }
+                budgetsStore: {
+                    budgets,
+                    startDate,
+                    endDate,
+                    isLoading,
+                    totalBudgeted,
+                    totalSpent
+                }
             }
         } = this.props;
         const total = {
@@ -59,11 +104,19 @@ class BudgetsClass extends React.Component<Props> {
                                     display={Box.Display.Flex}
                                 >
                                     <Box mr={2}>
-                                        <DateRangePicker />
+                                        <DateRangePicker
+                                            startDate={startDate}
+                                            endDate={endDate}
+                                            handleDatesChange={
+                                                this.handleDatesChange
+                                            }
+                                            handleClose={this.handleClose}
+                                        />
                                     </Box>
                                     <Box>
                                         <Button
                                             color={Button.Color.Secondary}
+                                            noWrap
                                             to="/budgets/new"
                                         >
                                             Create Budget
