@@ -4,6 +4,7 @@ import DocumentTitle from "react-document-title";
 import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
 import RootStore from "../../store";
 import Table from "./components/Table";
+import DateRangePicker from "./components/DateRangePicker";
 
 interface Props {
     rootStore: RootStore;
@@ -53,13 +54,21 @@ class BudgetsClass extends React.Component<Props> {
                                 >
                                     Budgets
                                 </Text>
-                                <Box>
-                                    <Button
-                                        color={Button.Color.Secondary}
-                                        to="/budgets/new"
-                                    >
-                                        Create Budget
-                                    </Button>
+                                <Box
+                                    alignItems={Box.AlignItems.Center}
+                                    display={Box.Display.Flex}
+                                >
+                                    <Box mr={2}>
+                                        <DateRangePicker />
+                                    </Box>
+                                    <Box>
+                                        <Button
+                                            color={Button.Color.Secondary}
+                                            to="/budgets/new"
+                                        >
+                                            Create Budget
+                                        </Button>
+                                    </Box>
                                 </Box>
                             </Box>
                         </Col>

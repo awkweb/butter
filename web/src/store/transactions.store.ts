@@ -185,11 +185,25 @@ export default class TransactionsStore implements Props {
                 budget_id: budgetId,
                 transaction_ids: transactionIds
             });
-            // this.transactions = [
-            //     ...this.transactions.filter(
-            //         transaction => !transactionIds.includes(transaction.id)
-            //     )
-            // ];
+            const budget = this.budgets.find(b => b.id === budgetId) as Budget;
+            const updatedTransactions = [
+                ...this.transactions.filter(
+                    transaction => !transactionIds.includes(transaction.id)
+                ),
+                ...this.transactions
+                    .filter(transaction =>
+                        transactionIds.includes(transaction.id)
+                    )
+                    .map(transaction => ({
+                        ...transaction,
+                        budget
+                    }))
+            ].sort((a: Transaction, b: Transaction) => {
+                if (a.date < b.date) return 1;
+                else if (a.date > b.date) return -1;
+                return 0;
+            });
+            this.transactions = updatedTransactions;
             this.selectedTransactionIds = [];
         } catch (err) {
             const error = get(() => err.response.data);

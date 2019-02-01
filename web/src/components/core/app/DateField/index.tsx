@@ -13,8 +13,8 @@ interface Props {
     error?: string;
     focused: boolean;
     value: Moment | null;
-    onChange: ((date: Moment | null) => void);
-    onFocusChange: ((arg: { focused: boolean | null }) => void);
+    onChange: (date: Moment | null) => void;
+    onFocusChange: (arg: { focused: boolean | null }) => void;
 }
 
 export class DateField extends React.Component<Props> {
