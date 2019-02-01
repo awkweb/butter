@@ -15,13 +15,13 @@ interface Props {
     options?: GroupType<any>[] | any[] | undefined;
     placeholder: string;
     value: any;
-    onChange: ((
+    onChange: (
         value: ValueType<{
             value: string;
             label: string;
         }>,
         action: ActionMeta
-    ) => void);
+    ) => void;
 }
 
 export class SelectField extends React.Component<Props> {
@@ -71,13 +71,8 @@ export class SelectField extends React.Component<Props> {
 const genInputCSS = (error: boolean) =>
     cssFactory(css)`
 	.react-select__control {
-		background-color: ${props => props.theme.colors.white};
 		border: ${props =>
             field.getBorderStyle(Color.Gray8, props.theme.colors, error)};
-		border-radius: ${props => props.theme.cornerRadii.default};
-		box-sizing: border-box;
-		color: ${props => props.theme.colors.gray1};
-		font-family: ${props => props.theme.text.getFont()};
 		font-weight: ${props => props.theme.text.getWeight(Weight.Normal)};
 		font-size: ${props => props.theme.text.getSize(Size.Md)};
 		height: 2.8125rem;
@@ -92,14 +87,9 @@ const genInputCSS = (error: boolean) =>
         }
     }
 
-    .react-select__placeholder {
-        color: ${props => props.theme.colors.gray6};
-    }
-
     .react-select__control--is-focused {
         border: ${props =>
             field.getFocusStyles(Color.Gold3, props.theme.colors, error)};
-        box-shadow: none;
     }
     
     .react-select__value-container {
@@ -111,57 +101,14 @@ const genInputCSS = (error: boolean) =>
     }
 
 	.react-select__menu {
-        background-color: ${props => props.theme.colors.white};
-        border-radius: ${props => props.theme.cornerRadii.default};
-        box-sizing: border-box;
-        margin: 0;
-        position: absolute;
-        top: 54px;
+        top: 54px !important;
         width: 100%;
-        z-index: ${props => props.theme.zIndex.Z_INDEX_2};
-    }
-
-    .react-select__menu-list {
-        padding: 0;
     }
 
     .react-select__option {
-        cursor: pointer;
-        padding: 0.65rem 1rem;
-
-        &:active {
-            background-color: ${props => props.theme.colors.gray8};
-        }
-
-        &:first-child {
-            border-top-right-radius: ${props =>
-                props.theme.cornerRadii.default};
-            border-top-left-radius: ${props => props.theme.cornerRadii.default};
-        }
-
-        &:last-child {
-            border-bottom-right-radius: ${props =>
-                props.theme.cornerRadii.default};
-            border-bottom-left-radius: ${props =>
-                props.theme.cornerRadii.default};
-        }
-    }
-
-    .react-select__option--is-focused {
-        background-color: ${props => props.theme.colors.gray10};
-        color: ${props => props.theme.colors.gray1};
-
-        &:active {
-            background-color: ${props => props.theme.colors.gray9};
-        }
-    }
-    
-    .react-select__option--is-selected {
-        background-color: ${props => props.theme.colors.blue3};
-        color: ${props => props.theme.colors.white};
-
-        &:active {
-            background-color: ${props => props.theme.colors.blue2};
-        }
+        font-size: ${props => props.theme.text.getSize(Size.Md)};
+        padding: ${props => props.theme.units.getValues(field.padding.input)};
+        padding-bottom: 0.65rem;
+        padding-top: 0.65rem;
     }
 `;

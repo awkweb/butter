@@ -126,6 +126,7 @@ export class Navbar extends React.Component<Props> {
                                                     Box.JustifyContent.Center
                                                 }
                                                 css={genAvatarCSS()}
+                                                mr={0.25}
                                             >
                                                 <Text
                                                     color={Text.Color.White}
@@ -139,10 +140,10 @@ export class Navbar extends React.Component<Props> {
                                                     {userInitial}
                                                 </Text>
                                             </Box>
-                                            <Box css={genChevronDownCSS()}>
+                                            <Box mt={0.7}>
                                                 <CaretDown
                                                     color={Icon.Color.Gray6}
-                                                    size={Icon.Size.Xxs}
+                                                    size={Icon.Size.Xs}
                                                 />
                                             </Box>
                                         </Box>
@@ -178,12 +179,4 @@ const genAvatarCSS = () =>
     cssFactory(css)`
         height: 2rem;
         width: 2rem;
-    `;
-
-const genChevronDownCSS = () =>
-    cssFactory(css)`
-        svg {
-            margin-left: 0.3rem;
-            margin-top: 0.3rem;
-        }
     `;

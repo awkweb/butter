@@ -3,6 +3,7 @@ import base from "./global/base";
 import flexboxgrid from "./global/flexboxgrid";
 import normalize from "./global/normalize";
 import reactDates from "./global/react-dates";
+import reactSelect from "./global/react-select";
 import buttons from "./buttons";
 import colors from "./colors";
 import cornerRadii from "./corner-radii";
@@ -20,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
     ${flexboxgrid}
     ${base}
     ${reactDates}
+    ${reactSelect}
 `;
 
 const theme = Object.freeze({

@@ -65,14 +65,17 @@ export default class TableHeader extends React.Component<Props> {
             startDelete,
             budgetFilter
         } = this.props;
-        const options = [
+        const budgetOptions = budgets.map(b => ({
+            value: b.id,
+            label: b.name
+        }));
+        const filterOptions = [
             { label: "All Budgets", value: "all" },
-            ...budgets.map(b => ({
-                value: b.id,
-                label: b.name
-            }))
+            ...budgetOptions
         ];
-        const selectedOption = options.find(o => o.value === budgetFilter);
+        const selectedFilterOption = filterOptions.find(
+            o => o.value === budgetFilter
+        );
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
@@ -98,14 +101,19 @@ export default class TableHeader extends React.Component<Props> {
                     <Text size={Text.Size.Sm} weight={Text.Weight.Medium}>
                         Showing
                     </Text>
-                    <Box css={genInputCSS()} ml={1}>
+                    <Box css={genBudgetFilterCSS()} ml={1}>
                         <Select
                             classNamePrefix="react-select"
-                            components={{ IndicatorSeparator: null }}
+                            components={{
+                                DropdownIndicator: null,
+                                IndicatorSeparator: null
+                            }}
+                            isSearchable={false}
+                            maxMenuHeight={200}
                             menuPlacement="auto"
                             placeholder="All Budgets"
-                            options={options}
-                            value={selectedOption}
+                            options={filterOptions}
+                            value={selectedFilterOption}
                             onChange={this.onChangeFilter}
                         />
                     </Box>
@@ -124,14 +132,19 @@ export default class TableHeader extends React.Component<Props> {
                                 </Button>
                             </OutsideClickHandler>
                         </Box>
-                        <Box css={genInputCSS()}>
+                        <Box css={genBudgetFilterCSS()}>
                             <Select
                                 classNamePrefix="react-select"
-                                components={{ IndicatorSeparator: null }}
+                                components={{
+                                    DropdownIndicator: null,
+                                    IndicatorSeparator: null
+                                }}
+                                isSearchable={false}
+                                maxMenuHeight={200}
                                 menuPlacement="auto"
                                 placeholder="Add to"
-                                options={options}
-                                value={undefined}
+                                options={budgetOptions}
+                                value={{ label: "Add to", value: "-1" }}
                                 onChange={this.onChangeSelect}
                             />
                         </Box>
@@ -142,22 +155,22 @@ export default class TableHeader extends React.Component<Props> {
     }
 }
 
-const genInputCSS = () =>
+const genBudgetFilterCSS = () =>
     cssFactory(css)`
 	.react-select__control {
-		background-color: ${props => props.theme.colors.white};
-		border-radius: ${props => props.theme.cornerRadii.default};
-		box-sizing: border-box;
-		color: ${props => props.theme.colors.gray1};
-		font-family: ${props => props.theme.text.getFont()};
-		height: 37px;
-		padding: 0;
-		outline: 0;
-		transition: border-color 125ms;
+        border-color: ${props => props.theme.colors.gray8};
+        font-weight: ${props => props.theme.text.getWeight(Text.Weight.Medium)};
+        font-size: ${props => props.theme.text.getSize(Text.Size.Xs)};
+        height: 37px;
+        min-height: 37px;
+        
+        &:hover {
+            border-color: ${props => props.theme.colors.gray8};
+        }
     }
 
-    .react-select__menu {
-        width: max-content;
+    .react-select__single-value {
+		color: ${props => props.theme.colors.gray1};
     }
 
     .react-select__single-value {
@@ -166,5 +179,14 @@ const genInputCSS = () =>
         position: relative;
         top: auto;
         transform: none;
+    }
+
+    .react-select__menu {
+        top: 45px !important;
+        width: max-content;
+    }
+
+    .react-select__option {
+		font-size: ${props => props.theme.text.getSize(Text.Size.Xs)};
     }
 `;
