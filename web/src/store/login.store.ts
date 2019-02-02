@@ -1,14 +1,16 @@
-import { action, decorate, computed, observable } from "mobx";
+import { action, computed, decorate, observable } from "mobx";
+
 import api from "../api";
-import RootStore from "./index";
-import { email, required } from "../lib/validate/validators";
+import { get } from "../lib/get";
 import {
-    Validator,
+    validateAll,
     Validation,
     Validations,
-    validateAll
+    Validator
 } from "../lib/validate";
-import { get } from "../lib/get";
+import { email, required } from "../lib/validate/validators";
+
+import RootStore from "./index";
 
 interface Props {
     rootStore: RootStore;
@@ -31,22 +33,22 @@ interface Props {
     /**
      * action
      */
-    setEmail: Function;
-    setPassword: Function;
-    logIn: Function;
-    reset: Function;
+    setEmail: (email: string) => void;
+    setPassword: (password: string) => void;
+    logIn: () => void;
+    reset: () => void;
 }
 
 export default class LogInStore implements Props {
-    rootStore: RootStore;
-    emailValidator: Validator;
-    passwordValidator: Validator;
+    public rootStore: RootStore;
+    public emailValidator: Validator;
+    public passwordValidator: Validator;
 
-    email = "";
-    error = "";
-    isLoading = false;
-    password = "";
-    redirectToReferrer = false;
+    public email = "";
+    public error = "";
+    public isLoading = false;
+    public password = "";
+    public redirectToReferrer = false;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -75,15 +77,15 @@ export default class LogInStore implements Props {
         };
     }
 
-    setEmail = (email: string) => {
-        this.email = email;
+    public setEmail = (nextEmail: string) => {
+        this.email = nextEmail;
     };
 
-    setPassword = (password: string) => {
+    public setPassword = (password: string) => {
         this.password = password;
     };
 
-    logIn = async () => {
+    public logIn = async () => {
         try {
             this.error = "";
             this.isLoading = true;
@@ -107,7 +109,7 @@ export default class LogInStore implements Props {
         }
     };
 
-    reset() {
+    public reset() {
         this.email = "";
         this.error = "";
         this.isLoading = false;
