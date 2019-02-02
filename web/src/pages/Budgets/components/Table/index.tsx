@@ -72,11 +72,34 @@ export default class Table extends React.Component<Props> {
                                 spent={budget.spent}
                             />
                         ))}
-                        <TableRow
-                            name={total.name}
-                            budgeted={total.budgeted}
-                            spent={total.spent}
-                        />
+                        {budgets.length === 0 && (
+                            <tr>
+                                <td colSpan={4}>
+                                    <Box
+                                        bb
+                                        borderColor={Box.BorderColor.Gray7}
+                                        fluidWidth
+                                        ph={3}
+                                        pv={2}
+                                    >
+                                        <Text
+                                            align={Text.Align.Center}
+                                            size={Text.Size.Sm}
+                                            weight={Text.Weight.Medium}
+                                        >
+                                            No budgets
+                                        </Text>
+                                    </Box>
+                                </td>
+                            </tr>
+                        )}
+                        {budgets.length > 0 && (
+                            <TableRow
+                                name={total.name}
+                                budgeted={total.budgeted}
+                                spent={total.spent}
+                            />
+                        )}
                     </tbody>
                 </StyledTable>
             </Box>

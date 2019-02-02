@@ -64,8 +64,19 @@ export default class Table extends React.Component<Props> {
                             />
                         ))}
                         {transactions.length === 0 && (
-                            <Box>
-                                <Text>No transactions</Text>
+                            <Box
+                                bb
+                                bt
+                                borderColor={Box.BorderColor.Gray7}
+                                p={2}
+                            >
+                                <Text
+                                    align={Text.Align.Center}
+                                    size={Text.Size.Sm}
+                                    weight={Text.Weight.Medium}
+                                >
+                                    No transactions
+                                </Text>
                             </Box>
                         )}
                     </tbody>

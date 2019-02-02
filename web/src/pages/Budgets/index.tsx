@@ -138,31 +138,9 @@ class BudgetsClass extends React.Component<Props> {
                     {!isLoading && (
                         <Row>
                             <Col xs={12}>
-                                {budgets.length > 0 && (
-                                    <Box mb={4}>
-                                        <Table
-                                            budgets={budgets}
-                                            total={total}
-                                        />
-                                    </Box>
-                                )}
-                                {budgets.length === 0 && (
-                                    <Box
-                                        b
-                                        borderColor={Box.BorderColor.Gray9}
-                                        backgroundColor={
-                                            Box.BackgroundColor.White
-                                        }
-                                        cornerRadius={Box.CornerRadius.Small}
-                                        p={3}
-                                        textAlign={Box.TextAlign.Center}
-                                    >
-                                        <Text size={Text.Size.Sm}>
-                                            Create a budget and you'll see it
-                                            right here.
-                                        </Text>
-                                    </Box>
-                                )}
+                                <Box mb={4}>
+                                    <Table budgets={budgets} total={total} />
+                                </Box>
                             </Col>
                         </Row>
                     )}

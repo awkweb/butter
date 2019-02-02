@@ -39,7 +39,7 @@ export default class TableRow extends React.Component<Props> {
         const accountInfo =
             accountMask && accountName
                 ? `${accountName} - ${accountMask}`
-                : "Manually Created";
+                : "Wilbur";
         return (
             <StyledTableRow>
                 <StyledTableData>

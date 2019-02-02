@@ -152,7 +152,7 @@ class LogInClass extends React.Component<Props> {
                                             color={Text.Color.Gray5}
                                             size={Text.Size.Xxs}
                                         >
-                                            So splendid to see you again, Old
+                                            Splendid to see you again, Old
                                             Sport.
                                         </Text>
                                     </Box>

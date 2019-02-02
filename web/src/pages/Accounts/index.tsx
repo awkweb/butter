@@ -137,18 +137,17 @@ class AccountsClass extends React.Component<Props> {
                                 )}
                                 {items.length === 0 && (
                                     <Box
-                                        b
+                                        bb
+                                        bt
                                         borderColor={Box.BorderColor.Gray9}
                                         backgroundColor={
                                             Box.BackgroundColor.White
                                         }
-                                        cornerRadius={Box.CornerRadius.Small}
-                                        p={3}
+                                        p={4}
                                         textAlign={Box.TextAlign.Center}
                                     >
                                         <Text size={Text.Size.Sm}>
-                                            Link an account and you'll see it
-                                            right here.
+                                            No accounts
                                         </Text>
                                     </Box>
                                 )}
