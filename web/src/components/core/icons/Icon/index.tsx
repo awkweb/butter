@@ -6,6 +6,6 @@ export * from "./svgs/check-circle";
 export * from "./svgs/deselect";
 
 export * from "./svgs/bank";
-export * from "./svgs/ins_1";
-export * from "./svgs/ins_3";
-export * from "./svgs/ins_51";
+export * from "./svgs/institutions/ins_1";
+export * from "./svgs/institutions/ins_3";
+export * from "./svgs/institutions/ins_51";

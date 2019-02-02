@@ -9,7 +9,7 @@ export default {
     logOut: () => api.post("auth/logout/"),
     setAuthorizationToken(token: string) {
         if (token) {
-            api.defaults.headers.common["Authorization"] = `Token ${token}`;
+            api.defaults.headers.common.Authorization = `Token ${token}`;
         } else {
             api.defaults.headers.common = {};
         }

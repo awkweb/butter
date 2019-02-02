@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import * as React from "react";
-
 import { ThemeProvider as SCThemeProvider } from "styled-components";
+
 import theme, { GlobalStyle } from "../../../theme/index";
+
 import "./assets/styles/fonts.css";
 
 interface Props {

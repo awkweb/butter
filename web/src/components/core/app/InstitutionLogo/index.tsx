@@ -1,22 +1,24 @@
 import * as React from "react";
-import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
-import { getColorForId } from "./utils";
-import { Box } from "../../layout/Box";
+
+import { cssFactory } from "../../../utils/styled-components";
 import { Icon } from "../../icons/Icon";
+import { Box } from "../../layout/Box";
+
+import { getColorForId } from "./utils";
 
 interface Props {
     id: string;
 }
 
 export class InstitutionLogo extends React.Component<Props> {
-    state = { component: undefined };
+    public state = { component: undefined };
 
-    async componentWillMount() {
+    public async componentWillMount() {
         const { id } = this.props;
         let component;
         try {
-            component = await import(`../../icons/Icon/svgs/${id}`);
+            component = await import(`../../icons/Icon/svgs/institutions/${id}`);
         } catch (e) {
             component = await import("../../icons/Icon/svgs/bank");
         } finally {
@@ -24,7 +26,7 @@ export class InstitutionLogo extends React.Component<Props> {
         }
     }
 
-    render() {
+    public render() {
         const { id } = this.props;
         const { component: Component }: { component: any } = this.state;
         return (

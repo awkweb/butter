@@ -1,7 +1,7 @@
 import {
+    transformValues as transformValuesUtil,
     Breakpoint,
-    Responsive,
-    transformValues as transformValuesUtil
+    Responsive
 } from "../utils/responsive";
 
 const DEFAULT_PIXEL_SIZE = 16;

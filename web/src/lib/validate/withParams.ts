@@ -30,8 +30,8 @@ function addParams(params: object) {
     }
 }
 
-function withParamsDirect(params: object, validator: Function) {
-    return withParamsClosure((add: Function) => {
+function withParamsDirect(params: object, validator: any) {
+    return withParamsClosure((add: any) => {
         return function(this: any, ...args: any[]) {
             add(params);
             return validator.apply(this, args);
@@ -39,7 +39,7 @@ function withParamsDirect(params: object, validator: Function) {
     });
 }
 
-function withParamsClosure(closure: Function) {
+function withParamsClosure(closure: any) {
     const validator = closure(addParams);
     return function(this: any, ...args: any[]) {
         pushParams();
@@ -51,12 +51,9 @@ function withParamsClosure(closure: Function) {
     };
 }
 
-export function withParams(
-    paramsOrClosure: object | Function,
-    maybeValidator: Function
-) {
+export function withParams(paramsOrClosure: object | any, maybeValidator: any) {
     if (typeof paramsOrClosure === "object" && maybeValidator !== undefined) {
         return withParamsDirect(paramsOrClosure, maybeValidator);
     }
-    return withParamsClosure(paramsOrClosure as Function);
+    return withParamsClosure(paramsOrClosure as any);
 }

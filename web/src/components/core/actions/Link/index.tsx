@@ -1,12 +1,13 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
+import styled, { css } from "styled-components";
+
+import { AnyColor as Color } from "../../../types/color";
+import * as _Text from "../../../types/text";
 import { style } from "../../../utils/css";
 import { LazyResponsive } from "../../../utils/responsive";
-import { Text } from "../../typography/Text";
-import * as _Text from "../../../types/text";
-import { AnyColor as Color } from "../../../types/color";
 import { cssFactory } from "../../../utils/styled-components";
+import { Text } from "../../typography/Text";
 
 interface Props {
     /**

@@ -2,7 +2,9 @@ import { withParams } from "../withParams";
 
 // "required" core, used in almost every validator to allow empty values
 export const req = (value: any) => {
-    if (Array.isArray(value)) return !!value.length;
+    if (Array.isArray(value)) {
+        return !!value.length;
+    }
     if (value === undefined || value === null) {
         return false;
     }
@@ -17,7 +19,10 @@ export const req = (value: any) => {
     }
 
     if (typeof value === "object") {
-        for (let _ in value) return true;
+        // tslint:disable-next-line
+        for (const _ in value) {
+            return true;
+        }
         return false;
     }
 
@@ -26,7 +31,9 @@ export const req = (value: any) => {
 
 // get length in type-agnostic way
 export const len = (value: any) => {
-    if (Array.isArray(value)) return value.length;
+    if (Array.isArray(value)) {
+        return value.length;
+    }
     if (typeof value === "object") {
         return Object.keys(value).length;
     }

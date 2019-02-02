@@ -1,8 +1,10 @@
 import { mapValues } from "lodash";
 import { CSSProperties } from "react";
+
 import { Theme } from "../theme/index";
-import { LazyResponsive } from "./responsive";
+
 import { camelCaseToDash } from "./camelCaseToDash";
+import { LazyResponsive } from "./responsive";
 
 export function style<Property extends keyof CSSProperties>(
     property: Property,

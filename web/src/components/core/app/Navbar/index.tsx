@@ -1,26 +1,28 @@
 import * as React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
-import Dropdown from "./components/Dropdown";
-import { Text } from "../../typography/Text";
-import { Box } from "../../layout/Box";
-import { Grid } from "../../layout/Grid";
-import { Row } from "../../layout/Row";
-import { Col } from "../../layout/Col";
+
+import { cssFactory } from "../../../utils/styled-components";
 import { Link } from "../../actions/Link";
 import { CaretDown, Icon } from "../../icons/Icon";
+import { Box } from "../../layout/Box";
+import { Col } from "../../layout/Col";
+import { Grid } from "../../layout/Grid";
+import { Row } from "../../layout/Row";
+import { Text } from "../../typography/Text";
+
+import Dropdown from "./components/Dropdown";
 
 interface Props {
     location: any;
     userInitial: string;
-    handleLogOut: Function;
+    handleLogOut: () => Promise<void>;
 }
 
 export class Navbar extends React.Component<Props> {
-    state = { isDropdownOpen: false };
+    public state = { isDropdownOpen: false };
 
-    getLinkProps = (path: string) => {
+    public getLinkProps = (path: string) => {
         const {
             location: { pathname }
         } = this.props;
@@ -31,17 +33,17 @@ export class Navbar extends React.Component<Props> {
         };
     };
 
-    onOutsideClick = () => {
+    public onOutsideClick = () => {
         this.setState({ isDropdownOpen: false });
     };
 
-    onClickDropdown = () => {
+    public onClickDropdown = () => {
         this.setState({
             isDropdownOpen: !this.state.isDropdownOpen
         });
     };
 
-    render() {
+    public render() {
         const { userInitial, handleLogOut } = this.props;
         const { isDropdownOpen } = this.state;
         return (

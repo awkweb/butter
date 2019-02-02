@@ -1,9 +1,10 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { style } from "../../../utils/css";
-import { Box } from "../../layout/Box";
-import { cssFactory } from "../../../utils/styled-components";
+
 import { AnyColor as Color } from "../../../types/color";
+import { style } from "../../../utils/css";
+import { cssFactory } from "../../../utils/styled-components";
+import { Box } from "../../layout/Box";
 
 interface SharedProps {
     /**

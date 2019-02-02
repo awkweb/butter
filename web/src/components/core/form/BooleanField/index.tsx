@@ -1,10 +1,12 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
+
+import { AnyColor as Color } from "../../../types/color";
 import { style } from "../../../utils/css";
 import { cssFactory } from "../../../utils/styled-components";
-import { AnyColor as Color } from "../../../types/color";
-import { getBorderStyle } from "./utils";
 import { Check, Deselect, Icon } from "../../icons/Icon";
+
+import { getBorderStyle } from "./utils";
 // import { Box } from "../../layout/Box";
 
 interface Props {
@@ -36,7 +38,7 @@ interface Props {
     /**
      * Callback function for checkbox change.
      */
-    onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void);
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -50,12 +52,11 @@ export class BooleanField extends React.Component<Props> {
     public render() {
         const { color, checked, deselect, id, onChange } = this.props;
 
-        let icon;
-        if (deselect) {
-            icon = <Deselect color={Icon.Color.White} size={Icon.Size.Xxxs} />;
-        } else {
-            icon = <Check color={Icon.Color.White} size={Icon.Size.Xxxs} />;
-        }
+        const icon = deselect ? (
+            <Deselect color={Icon.Color.White} size={Icon.Size.Xxxs} />
+        ) : (
+            <Check color={Icon.Color.White} size={Icon.Size.Xxxs} />
+        );
 
         return (
             <StyledContainer checked={checked} color={color} role="checkbox">

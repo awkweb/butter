@@ -1,12 +1,13 @@
+import { Moment } from "moment";
 import * as React from "react";
 import { SingleDatePicker } from "react-dates";
-import { Moment } from "moment";
-import { StyledFieldset, StyledLabel } from "../../form/Field";
-import { cssFactory } from "../../../utils/styled-components";
 import { css } from "styled-components";
+
 import field from "../../../theme/field";
 import { AnyColor as Color } from "../../../types/color";
-import { Weight, Size } from "../../../types/text";
+import { Size, Weight } from "../../../types/text";
+import { cssFactory } from "../../../utils/styled-components";
+import { StyledFieldset, StyledLabel } from "../../form/Field";
 import { Box } from "../../layout/Box";
 
 interface Props {
@@ -18,18 +19,20 @@ interface Props {
 }
 
 export class DateField extends React.Component<Props> {
-    state = { isTouched: false, isTouchedFlag: false };
+    public state = { isTouched: false, isTouchedFlag: false };
 
     public handleFocusChange = (arg: { focused: boolean | null }) => {
         this.props.onFocusChange(arg);
         const { isTouched, isTouchedFlag } = this.state;
-        if (isTouchedFlag && !isTouched) this.setState({ isTouched: true });
+        if (isTouchedFlag && !isTouched) {
+            this.setState({ isTouched: true });
+        }
         if (!isTouchedFlag) {
             this.setState({ isTouchedFlag: true });
         }
     };
 
-    render() {
+    public render() {
         const { error, focused, value, onChange } = this.props;
         const { isTouched } = this.state;
         const hasError = isTouched && !!error;
@@ -51,7 +54,7 @@ export class DateField extends React.Component<Props> {
                         focused={focused}
                         hideKeyboardShortcutsPanel
                         id="date"
-                        isOutsideRange={() => false}
+                        isOutsideRange={this.isOutsideRange}
                         noBorder
                         numberOfMonths={1}
                         placeholder={hasError ? "" : "Date"}
@@ -63,6 +66,8 @@ export class DateField extends React.Component<Props> {
             </Box>
         );
     }
+
+    private isOutsideRange = () => false;
 }
 
 const genInputCSS = (error: boolean) =>

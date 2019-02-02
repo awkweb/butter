@@ -1,6 +1,6 @@
-import units from "./units";
-
 import { Element, Font, Size, Weight } from "../types/text";
+
+import units from "./units";
 
 export const TEXT_SIZES = {
     [Size.Xxs]: 0.625,

@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
+
 import { BREAKPOINT_NAMES } from "../../../theme/responsive";
 import { AlignSelf, SimpleDisplay as Display } from "../../../types/css";
 import { alignSelf, order } from "../../../utils/respondTo";

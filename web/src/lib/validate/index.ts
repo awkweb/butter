@@ -1,5 +1,5 @@
 interface Validators {
-    [name: string]: Function;
+    [name: string]: any;
 }
 
 export interface Validation {
@@ -13,9 +13,9 @@ export interface Validations {
 }
 
 export class Validator {
-    initialValue: any;
-    validation: Validation;
-    validators: Validators;
+    public initialValue: any;
+    public validation: Validation;
+    public validators: Validators;
 
     constructor(value: any, validators: Validators = {}) {
         this.initialValue = value;
@@ -23,7 +23,7 @@ export class Validator {
         this.validation = this.validate(value);
     }
 
-    validate(value: any): Validation {
+    public validate(value: any): Validation {
         const results: { [id: string]: boolean } = {};
         Object.keys(this.validators).forEach(
             key => (results[key] = this.validators[key](value))
@@ -40,7 +40,7 @@ export class Validator {
     }
 }
 
-export function validateAll(...validations: Array<Validation>) {
+export function validateAll(...validations: Validation[]) {
     return {
         dirty: validations
             .map(validation => validation.dirty)

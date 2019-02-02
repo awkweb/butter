@@ -1,8 +1,9 @@
-import { len, req } from "./common";
 import { withParams } from "../withParams";
+
+import { len, req } from "./common";
 
 export default (length: number) =>
     withParams(
         { type: "minLength", min: length },
-        (value: string | Array<any>) => !req(value) || len(value) >= length
+        (value: string | any[]) => !req(value) || len(value) >= length
     );

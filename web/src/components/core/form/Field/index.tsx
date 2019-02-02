@@ -1,12 +1,13 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { style } from "../../../utils/css";
-import { Box } from "../../layout/Box";
-import { cssFactory } from "../../../utils/styled-components";
-import { Size } from "../../../types/text";
+
 import { AnyColor as Color } from "../../../types/color";
 import { Type } from "../../../types/field";
+import { Size } from "../../../types/text";
+import { style } from "../../../utils/css";
+import { cssFactory } from "../../../utils/styled-components";
 import { CheckCircle, Icon } from "../../icons/Icon";
+import { Box } from "../../layout/Box";
 
 interface Props {
     /**
@@ -52,7 +53,7 @@ interface Props {
     /**
      * Callback function for field change.
      */
-    onChange: ((e: React.ChangeEvent<any>) => void);
+    onChange: (e: React.ChangeEvent<any>) => void;
 
     /**
      * If valid, show success icon.
@@ -84,23 +85,11 @@ export class Field extends React.Component<Props> {
         type: Type.Text
     };
 
-    state = { isTouched: false, autofocusFlag: !this.props.autofocus };
+    public state = { isTouched: false, autofocusFlag: !this.props.autofocus };
 
     public handleChange = (e: React.ChangeEvent<any>) => {
         if (this.props.onChange && typeof this.props.onChange === "function") {
             this.props.onChange(e);
-        }
-    };
-
-    private onBlur = () => {
-        const { isTouched, autofocusFlag } = this.state;
-        if (autofocusFlag && !isTouched) {
-            this.setState({
-                isTouched: true
-            });
-        }
-        if (!autofocusFlag) {
-            this.setState({ autofocusFlag: true });
         }
     };
 
@@ -174,6 +163,18 @@ export class Field extends React.Component<Props> {
             </StyledFieldset>
         );
     }
+
+    private onBlur = () => {
+        const { isTouched, autofocusFlag } = this.state;
+        if (autofocusFlag && !isTouched) {
+            this.setState({
+                isTouched: true
+            });
+        }
+        if (!autofocusFlag) {
+            this.setState({ autofocusFlag: true });
+        }
+    };
 }
 
 export const StyledFieldset = styled.div`

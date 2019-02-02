@@ -1,13 +1,14 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import { AnyColor } from "../../../types/color";
 import { AlignSelf, Display, SimpleDisplay } from "../../../types/css";
 import { reduce } from "../../../utils/object";
-import { convertLazy, Responsive, Breakpoint } from "../../../utils/responsive";
+import { convertLazy, Breakpoint, Responsive } from "../../../utils/responsive";
 import { styledFactory } from "../../../utils/styled-components";
+
 import { paddingAtBreakpoint } from "./paddingAtBreakpoint";
 import { InnerProps, MaxWidth, Props, ValidMaxWidths } from "./types";
-import { AnyColor } from "../../../types/color";
 
 /**
  * Use `<Grid>` to lay out content in sophisticated, responsive ways.
@@ -77,6 +78,7 @@ export const Inner = styledFactory<InnerProps>(styled.div)`
                     );
                     return memo;
                 },
+                // tslint:disable-next-line
                 {} as Responsive<string>
             ),
             "max-width"

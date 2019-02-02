@@ -3,9 +3,9 @@ import { AnyColor } from "../../../types/color";
 import { Units } from "../../../types/space";
 import {
     convertLazy,
+    transformValues,
     LazyResponsive,
-    Responsive,
-    transformValues
+    Responsive
 } from "../../../utils/responsive";
 
 import { Border, Props } from "./";

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { withTheme } from "styled-components";
+
 import { Theme } from "../../../theme/index";
 
 interface Props {

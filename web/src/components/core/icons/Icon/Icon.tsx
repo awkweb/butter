@@ -1,17 +1,16 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import { ICON_SIZES } from "../../../theme/icon";
 import { AnyColor as Color } from "../../../types/color";
 import { VerticalAlign } from "../../../types/css";
 import { Size } from "../../../types/icon";
-import { Props } from "./types";
-
-import { SvgImage } from "../SvgImage";
-
 import { responsiveConditionalStyle } from "../../../utils/css";
 import { convertLazy, transformValues } from "../../../utils/responsive";
 import { styledFactory } from "../../../utils/styled-components";
-import { ICON_SIZES } from "../../../theme/icon";
+import { SvgImage } from "../SvgImage";
+
+import { Props } from "./types";
 
 export interface WrapperProps extends Pick<Props, "title" | "verticalAlign"> {
     children: React.ReactElement<any>;

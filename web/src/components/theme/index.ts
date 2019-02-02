@@ -1,13 +1,14 @@
 import { createGlobalStyle } from "styled-components";
+
+import buttons from "./buttons";
+import colors from "./colors";
+import cornerRadii from "./corner-radii";
+import field from "./field";
 import base from "./global/base";
 import flexboxgrid from "./global/flexboxgrid";
 import normalize from "./global/normalize";
 import reactDates from "./global/react-dates";
 import reactSelect from "./global/react-select";
-import buttons from "./buttons";
-import colors from "./colors";
-import cornerRadii from "./corner-radii";
-import field from "./field";
 import icon from "./icon";
 import responsive from "./responsive";
 import strokeWidths from "./stroke-widths";

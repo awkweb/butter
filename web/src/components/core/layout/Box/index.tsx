@@ -5,12 +5,6 @@ import styled, {
     InterpolationValue,
     ThemedStyledProps
 } from "styled-components";
-import {
-    responsiveConditionalStyle,
-    responsiveStyle,
-    style
-} from "../../../utils/css";
-import { cssFactory } from "../../../utils/styled-components";
 
 import { Theme } from "../../../theme/index";
 import * as _Color from "../../../types/color";
@@ -18,9 +12,15 @@ import * as _CSS from "../../../types/css";
 import * as _Element from "../../../types/element";
 import * as _Shape from "../../../types/shape";
 import * as _Size from "../../../types/space";
-import { LazyResponsive } from "../../../utils/responsive";
-
+import {
+    responsiveConditionalStyle,
+    responsiveStyle,
+    style
+} from "../../../utils/css";
 import { alignItems } from "../../../utils/respondTo";
+import { LazyResponsive } from "../../../utils/responsive";
+import { cssFactory } from "../../../utils/styled-components";
+
 import { getBorder, getMargin, getPadding } from "./utils";
 
 export type Border = boolean | string;
@@ -187,22 +187,22 @@ interface StyledProps {
     /**
      * Callback function for Box click.
      */
-    onClick?: ((e: React.MouseEvent<HTMLElement>) => void);
+    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 
     /**
      * Callback function for Box mouseEnter.
      */
-    onMouseEnter?: ((e: React.MouseEvent<HTMLElement>) => void);
+    onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
 
     /**
      * Callback function for Box mouseLeave.
      */
-    onMouseLeave?: ((e: React.MouseEvent<HTMLElement>) => void);
+    onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
 
     /**
      * Callback function for Box submit.
      */
-    onSubmit?: ((e: React.FormEvent<HTMLElement>) => void);
+    onSubmit?: (e: React.FormEvent<HTMLElement>) => void;
 
     /**
      * By default, flex items are laid out in the source order. However, the order property controls the order in which they appear in the flex container.
@@ -381,84 +381,66 @@ export class Box extends React.Component<Props> {
 }
 
 const styles = cssFactory<StyledProps>(css)`
-    ${alignItems}
-    ${props => {
-        const {
-            alignContent,
-            alignSelf,
-            backgroundColor,
-            cornerRadius,
-            display,
-            flexBasis,
-            flexDirection,
-            flexGrow,
-            flexWrap,
-            fluidHeight,
-            fluidWidth,
-            justifyContent,
-            onClick,
-            order,
-            overflow,
-            position,
-            textAlign,
-            theme,
-            verticalAlign
-        } = props;
-        const s = [];
-        s.push(
-            responsiveStyle("alignContent", alignContent, theme),
-            responsiveStyle("alignSelf", alignSelf, theme),
-            responsiveStyle(
-                "backgroundColor",
-                backgroundColor,
-                theme,
-                (c: _Color.AnyColor) => theme.colors[c]
-            ),
-            responsiveStyle(
-                "borderRadius",
-                cornerRadius,
-                theme,
-                (cr: _Shape.CornerRadius) => theme.cornerRadii[cr]
-            ),
-            style("boxSizing", "border-box"),
-            responsiveStyle("display", display, theme),
-            responsiveStyle(
-                "flexBasis",
-                flexBasis,
-                theme,
-                (fb: _CSS.FlexBasis) =>
-                    typeof fb === "number" ? theme.units.getValue(fb) : fb
-            ),
-            style("cursor", "pointer", !!onClick),
-            responsiveStyle("flexDirection", flexDirection, theme),
-            responsiveStyle("flexGrow", flexGrow, theme),
-            responsiveStyle("flexWrap", flexWrap, theme),
-            responsiveConditionalStyle(
-                "height",
-                fluidHeight,
-                "100%",
-                "initial",
-                theme
-            ),
-            responsiveStyle("justifyContent", justifyContent, theme),
-            responsiveStyle("order", order, theme),
-            responsiveStyle("overflow", overflow, theme),
-            responsiveStyle("position", position, theme),
-            responsiveStyle("textAlign", textAlign, theme),
-            responsiveStyle("verticalAlign", verticalAlign, theme),
-            responsiveConditionalStyle(
-                "width",
-                fluidWidth,
-                "100%",
-                "initial",
-                theme
-            ),
-            getPadding(props),
-            getMargin(props),
-            getBorder(props)
-        );
-        return s.join(";\n");
-    }}
+    ${alignItems};
+    ${props =>
+        responsiveStyle("alignContent", props.alignContent, props.theme)};
+    ${props => responsiveStyle("alignSelf", props.alignSelf, props.theme)};
+    ${props =>
+        responsiveStyle(
+            "backgroundColor",
+            props.backgroundColor,
+            props.theme,
+            (c: _Color.AnyColor) => props.theme.colors[c]
+        )};
+    ${props =>
+        responsiveStyle(
+            "borderRadius",
+            props.cornerRadius,
+            props.theme,
+            (cr: _Shape.CornerRadius) => props.theme.cornerRadii[cr]
+        )};
+    ${style("boxSizing", "border-box")};
+    ${props => responsiveStyle("display", props.display, props.theme)};
+    ${props =>
+        responsiveStyle(
+            "flexBasis",
+            props.flexBasis,
+            props.theme,
+            (fb: _CSS.FlexBasis) =>
+                typeof fb === "number" ? props.theme.units.getValue(fb) : fb
+        )};
+    ${props => style("cursor", "pointer", !!props.onClick)};
+    ${props =>
+        responsiveStyle("flexDirection", props.flexDirection, props.theme)};
+    ${props => responsiveStyle("flexGrow", props.flexGrow, props.theme)};
+    ${props => responsiveStyle("flexWrap", props.flexWrap, props.theme)};
+    ${props =>
+        responsiveConditionalStyle(
+            "height",
+            props.fluidHeight,
+            "100%",
+            "initial",
+            props.theme
+        )};
+    ${props =>
+        responsiveStyle("justifyContent", props.justifyContent, props.theme)};
+    ${props => responsiveStyle("order", props.order, props.theme)};
+    ${props => responsiveStyle("overflow", props.overflow, props.theme)};
+    ${props => responsiveStyle("position", props.position, props.theme)};
+    ${props => responsiveStyle("textAlign", props.textAlign, props.theme)};
+    ${props =>
+        responsiveStyle("verticalAlign", props.verticalAlign, props.theme)};
+    ${props =>
+        responsiveConditionalStyle(
+            "width",
+            props.fluidWidth,
+            "100%",
+            "initial",
+            props.theme
+        )};
+    ${props => getPadding(props)};
+    ${props => getMargin(props)};
+    ${props => getBorder(props)};
     ${props => props.css};
 `;
 

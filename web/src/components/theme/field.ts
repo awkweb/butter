@@ -1,4 +1,5 @@
 import { AnyColor as Color } from "../types/color";
+
 import { Colors } from "./colors";
 import { strokeWidths } from "./stroke-widths";
 

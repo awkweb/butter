@@ -27,27 +27,7 @@ interface Props {
 }
 
 export default class AccountRow extends React.Component<Props> {
-    public static defaultProps = { last: false };
-
     public state = { startDelete: false };
-
-    public onOutsideClick = () => {
-        this.setState({ startDelete: false });
-    };
-
-    public onClickDelete = () => {
-        if (this.state.startDelete) {
-            const { id, handleDelete } = this.props;
-            handleDelete(id);
-        } else {
-            this.setState({ startDelete: true });
-        }
-    };
-
-    public onSuccess = () => {
-        const { id, handleRenewLink } = this.props;
-        handleRenewLink(id);
-    };
 
     public render() {
         const {
@@ -138,6 +118,24 @@ export default class AccountRow extends React.Component<Props> {
             </Box>
         );
     }
+
+    private onOutsideClick = () => {
+        this.setState({ startDelete: false });
+    };
+
+    private onClickDelete = () => {
+        if (this.state.startDelete) {
+            const { id, handleDelete } = this.props;
+            handleDelete(id);
+        } else {
+            this.setState({ startDelete: true });
+        }
+    };
+
+    private onSuccess = () => {
+        const { id, handleRenewLink } = this.props;
+        handleRenewLink(id);
+    };
 }
 
 const genActionCSS = () =>

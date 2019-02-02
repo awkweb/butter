@@ -1,13 +1,14 @@
 import {
     CSSObject,
     FlattenInterpolation,
-    Interpolation,
-    SimpleInterpolation,
-    ThemedStyledProps,
     FlattenSimpleInterpolation,
+    Interpolation,
     InterpolationFunction,
-    ThemedStyledFunction
+    SimpleInterpolation,
+    ThemedStyledFunction,
+    ThemedStyledProps
 } from "styled-components";
+
 import { Theme } from "../theme/index";
 
 /**

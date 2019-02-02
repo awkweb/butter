@@ -1,7 +1,8 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { cssFactory } from "../../../utils/styled-components";
+
 import { style } from "../../../utils/css";
+import { cssFactory } from "../../../utils/styled-components";
 import { Box } from "../../layout/Box";
 import { Text } from "../../typography/Text";
 
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export class PasswordFeatures extends React.Component<Props> {
-    render() {
+    public render() {
         const {
             hasLowercaseLetter,
             hasUppercaseLetter,

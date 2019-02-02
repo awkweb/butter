@@ -1,7 +1,9 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
+
 import { Color, Size } from "../../../types/button";
+import { TextAlign } from "../../../types/css";
 import {
     responsiveConditionalStyle,
     responsiveStyle,
@@ -12,10 +14,9 @@ import {
     LazyResponsive,
     Responsive
 } from "../../../utils/responsive";
+import { cssFactory, styledFactory } from "../../../utils/styled-components";
 import { Box } from "../../layout/Box";
 import { ThemeConsumer } from "../../theme/ThemeConsumer";
-import { TextAlign } from "../../../types/css";
-import { cssFactory, styledFactory } from "../../../utils/styled-components";
 
 interface SharedProps {
     /**

@@ -1,4 +1,6 @@
 import React from "react";
+
+import { Item } from "../../../../types/item";
 import { Button } from "../../actions/Button";
 
 interface Props {
@@ -7,14 +9,14 @@ interface Props {
     clientName?: string;
     env: string;
     institution?: string;
-    onClick?: Function;
-    onEvent?: Function;
-    onExit?: Function;
-    onLoad?: Function;
-    onSuccess: Function;
+    onClick?: () => void;
+    onEvent?: () => void;
+    onExit?: () => void;
+    onLoad?: () => void;
+    onSuccess: (token: string, data: Item) => void;
     noBackground: boolean;
     noBorder: boolean;
-    product?: Array<string>;
+    product?: string[];
     publicKey?: string;
     selectAccount?: boolean;
     token?: string;
@@ -25,13 +27,7 @@ interface Props {
  * Modified from [`react-plaid-link`](https://github.com/pbernasconi/react-plaid-link/blob/master/src/PlaidLink.js)
  */
 export class PlaidLink extends React.Component<Props> {
-    state = {
-        disabledButton: true,
-        linkLoaded: false,
-        initializeURL: "https://cdn.plaid.com/link/v2/stable/link-initialize.js"
-    };
-
-    static defaultProps = {
+    public static defaultProps = {
         apiVersion: "v2",
         clientName: "Wilbur",
         env: (process.env.REACT_APP_PLAID_ENV as string) || "sandbox",
@@ -49,8 +45,13 @@ export class PlaidLink extends React.Component<Props> {
                       process.env.REACT_APP_NGROK_ID
                   }.ngrok.io/v1/items/hooks/`
     };
+    public state = {
+        disabledButton: true,
+        linkLoaded: false,
+        initializeURL: "https://cdn.plaid.com/link/v2/stable/link-initialize.js"
+    };
 
-    async componentWillMount() {
+    public async componentWillMount() {
         try {
             const { initializeURL } = this.state;
             await this.loadScript(initializeURL);
@@ -60,8 +61,8 @@ export class PlaidLink extends React.Component<Props> {
         }
     }
 
-    loadScript = (src: string) => {
-        return new Promise(function(resolve, reject) {
+    public loadScript = (src: string) => {
+        return new Promise((resolve, reject) => {
             if (document.querySelector(`script[src="${src}"]`)) {
                 resolve();
                 return;
@@ -77,13 +78,14 @@ export class PlaidLink extends React.Component<Props> {
         });
     };
 
-    onScriptError = () => {
+    public onScriptError = () => {
+        // tslint:disable-next-line
         console.error(
             "There was an issue loading the link-initialize.js script"
         );
     };
 
-    onScriptLoaded = () => {
+    public onScriptLoaded = () => {
         const reactWindow = window as any;
         const {
             apiVersion,
@@ -116,29 +118,33 @@ export class PlaidLink extends React.Component<Props> {
         this.setState({ disabledButton: false });
     };
 
-    handleLinkOnLoad = () => {
+    public handleLinkOnLoad = () => {
         const { onLoad } = this.props;
-        if (onLoad != null) onLoad();
+        if (onLoad != null) {
+            onLoad();
+        }
         this.setState({ linkLoaded: true });
     };
 
-    handleOnClick = () => {
+    public handleOnClick = () => {
         const { institution, onClick } = this.props;
-        if (onClick != null) onClick();
+        if (onClick != null) {
+            onClick();
+        }
         const reactWindow = window as any;
         if (reactWindow.linkHandler) {
             reactWindow.linkHandler.open(institution);
         }
     };
 
-    exit = (configurationObject: object) => {
+    public exit = (configurationObject: object) => {
         const reactWindow = window as any;
         if (reactWindow.linkHandler) {
             reactWindow.linkHandler.exit(configurationObject);
         }
     };
 
-    render() {
+    public render() {
         const { disabledButton } = this.state;
         const { children, noBackground, noBorder } = this.props;
         return (

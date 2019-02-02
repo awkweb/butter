@@ -1,25 +1,26 @@
-import React from "react";
 import { observer, Provider } from "mobx-react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
 import DocumentTitle from "react-document-title";
-import RootStore from "./store";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+
+import { Navbar, PrivateRoute, PublicRoute, ThemeProvider } from "./components";
 import { get } from "./lib/get";
-import { ThemeProvider, Navbar, PrivateRoute, PublicRoute } from "./components";
 import {
-    NoMatch,
-    Budgets,
-    Register,
-    LogIn,
-    Budget,
     Accounts,
+    Budget,
+    Budgets,
+    LogIn,
+    NoMatch,
+    Register,
     Transaction,
     Transactions
 } from "./pages";
+import RootStore from "./store";
 
 class App extends React.Component {
-    rootStore = new RootStore();
+    public rootStore = new RootStore();
 
-    componentWillMount() {
+    public componentWillMount() {
         const user = get(() =>
             JSON.parse(localStorage.getItem("user") as string)
         );
@@ -28,7 +29,7 @@ class App extends React.Component {
         }
     }
 
-    render() {
+    public render() {
         const { isAuthenticated, userInitial, logOut } = this.rootStore;
         return (
             <ThemeProvider>
@@ -77,9 +78,7 @@ class App extends React.Component {
                                     />
                                     <Route
                                         path="/"
-                                        render={() => (
-                                            <Redirect to="/budgets" />
-                                        )}
+                                        render={this.budgetRedirect}
                                     />
                                     <Route component={NoMatch} />
                                 </Switch>
@@ -90,6 +89,10 @@ class App extends React.Component {
             </ThemeProvider>
         );
     }
+
+    private budgetRedirect = () => {
+        return <Redirect to="/budgets" />;
+    };
 }
 
 export default observer(App);

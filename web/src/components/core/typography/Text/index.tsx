@@ -2,17 +2,16 @@ import { get } from "lodash";
 import * as React from "react";
 import styled, { css } from "styled-components";
 
-import { style } from "../../../utils/css";
-import { cssFactory } from "../../../utils/styled-components";
-
 import * as _Color from "../../../types/color";
 import * as _CSS from "../../../types/css";
 import * as _Text from "../../../types/text";
+import { style } from "../../../utils/css";
 import {
     isResponsive,
     LazyResponsive,
     Responsive
 } from "../../../utils/responsive";
+import { cssFactory } from "../../../utils/styled-components";
 
 import {
     getResponsiveTextSize,
@@ -203,50 +202,40 @@ export class Text extends React.PureComponent<Props> {
 }
 
 const styles = cssFactory<StyledProps>(css)`
-    ${props => {
-        const {
-            align,
-            color,
-            el,
-            ellipsis,
-            font,
-            lineHeight,
-            noMargin,
-            noSelect,
-            opacity,
-            overflowWrap,
-            responsiveTextSize,
-            theme,
-            tracking,
-            transform,
-            verticalAlign,
-            weight,
-            whiteSpace
-        } = props;
-        const s = [];
-        s.push(
-            style("color", get(theme.colors, color || "")),
-            style("display", "block", !!ellipsis),
-            style("fontFamily", theme.text.getFont(font)),
-            style("fontWeight", theme.text.getWeight(weight!), true, true),
-            style("letterSpacing", get(theme.text.tracking, tracking || "")),
-            style("lineHeight", lineHeight),
-            style("margin", noMargin ? "0" : theme.text.getMargin(el!)),
-            style("opacity", opacity),
-            style("overflowWrap", overflowWrap),
-            style("overflow", "hidden", !!ellipsis),
-            style("position", "relative"),
-            style("textAlign", align),
-            style("textOverflow", "ellipsis", !!ellipsis),
-            style("textTransform", transform),
-            style("transition", theme.transitions.default),
-            style("userSelect", "none", !!noSelect),
-            style("verticalAlign", verticalAlign),
-            style("whiteSpace", ellipsis ? "nowrap" : whiteSpace),
-            getResponsiveTextSizeCSS(responsiveTextSize, theme)
-        );
-        return s.join(";\n");
-    }}
+    ${props => style("color", get(props.theme.colors, props.color || ""))};
+    ${props => style("display", "block", !!props.ellipsis)};
+    ${props => style("fontFamily", props.theme.text.getFont(props.font))};
+    ${props =>
+        style(
+            "fontWeight",
+            props.theme.text.getWeight(props.weight!),
+            true,
+            true
+        )};
+    ${props =>
+        style(
+            "letterSpacing",
+            get(props.theme.text.tracking, props.tracking || "")
+        )};
+    ${props => style("lineHeight", props.lineHeight)};
+    ${props =>
+        style(
+            "margin",
+            props.noMargin ? "0" : props.theme.text.getMargin(props.el!)
+        )};
+    ${props => style("opacity", props.opacity)};
+    ${props => style("overflowWrap", props.overflowWrap)};
+    ${props => style("overflow", "hidden", !!props.ellipsis)};
+    style("position", "relative")};
+    ${props => style("textAlign", props.align)};
+    ${props => style("textOverflow", "ellipsis", !!props.ellipsis)};
+    ${props => style("textTransform", props.transform)};
+    ${props => style("transition", props.theme.transitions.default)};
+    ${props => style("userSelect", "none", !!props.noSelect)};
+    ${props => style("verticalAlign", props.verticalAlign)};
+    ${props =>
+        style("whiteSpace", props.ellipsis ? "nowrap" : props.whiteSpace)};
+    ${props => getResponsiveTextSizeCSS(props.responsiveTextSize, props.theme)}
 
     strong, b {
         font-weight: ${props => props.theme.text.getWeight(_Text.Weight.Bold)};

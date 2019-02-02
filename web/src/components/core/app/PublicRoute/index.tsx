@@ -1,40 +1,33 @@
 import * as React from "react";
-import { Route, Redirect } from "react-router";
+import { Redirect, Route } from "react-router";
 
 interface Props {
     component: any;
     exact: boolean;
     isAuthenticated: boolean;
-    path: string | Array<string>;
+    path: string | string[];
 }
 
 export class PublicRoute extends React.Component<Props> {
-    static defaultProps = {
+    public static defaultProps = {
         exact: true
     };
 
-    render() {
-        const {
-            component: Component,
-            exact,
-            isAuthenticated,
-            path
-        } = this.props;
+    public render() {
+        const { exact, path } = this.props;
         const routeProps = {
             exact,
             path
         };
-        return (
-            <Route
-                {...routeProps}
-                render={props =>
-                    !isAuthenticated ? (
-                        <Component {...props} />
-                    ) : (
-                        <Redirect to="/" />
-                    )
-                }
-            />
-        );
+        return <Route {...routeProps} render={this.renderComponent} />;
     }
+
+    private renderComponent = (props: any) => {
+        const { component: Component, isAuthenticated } = this.props;
+        return !isAuthenticated ? (
+            <Component {...props} />
+        ) : (
+            <Redirect to="/" />
+        );
+    };
 }

@@ -1,14 +1,14 @@
 import * as React from "react";
+
 import { Icon } from "../Icon";
+import { ReactComponent as BankSvg } from "../assets/bank.svg";
 import { InnerProps as Props } from "../types";
 
-import { ReactComponent as Bank } from "../assets/bank.svg";
-
-export default class bank extends React.PureComponent<Props> {
-    render() {
+export default class Bank extends React.PureComponent<Props> {
+    public render() {
         return (
             <Icon {...this.props}>
-                <Bank />
+                <BankSvg />
             </Icon>
         );
     }
