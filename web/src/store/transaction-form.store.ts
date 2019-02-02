@@ -1,21 +1,21 @@
-import { decorate, observable, action, computed } from "mobx";
+import { action, computed, decorate, observable } from "mobx";
 import moment, { Moment } from "moment";
-import { ValueType } from "react-select/lib/types";
-import RootStore from "./index";
-import { numeric, required } from "../lib/validate/validators";
-import {
-    Validator,
-    Validation,
-    Validations,
-    validateAll
-} from "../lib/validate";
+
+import api from "../api";
 import { toAmount, toCents } from "../lib/currency";
 import { get } from "../lib/get";
-import api from "../api";
+import {
+    validateAll,
+    Validation,
+    Validations,
+    Validator
+} from "../lib/validate";
+import { numeric, required } from "../lib/validate/validators";
 import { Budget } from "../types/budget";
 
+import RootStore from "./index";
+
 interface Props {
-    rootStore: RootStore;
     amountValidator: Validator;
     budgetValidator: Validator;
     dateValidator: Validator;
@@ -24,8 +24,8 @@ interface Props {
      * observable
      */
     amount: number | undefined;
-    budget: ValueType<{ value: string; label: string }>;
-    budgets: Array<Budget>;
+    budget: { value: string; label: string } | undefined;
+    budgets: Budget[];
     date: Moment | null;
     dateFocused: boolean;
     description: string;
@@ -42,55 +42,63 @@ interface Props {
     budgetId: string;
     dateString: string;
     isUpdatable: boolean;
+    isFormDisabled: boolean;
     networkActive: boolean;
     amountValidation: Validation;
     dateValidation: Validation;
     nameValidation: Validation;
     validations: Validations;
-    amountError?: string;
-    budgetError?: string;
-    dateError?: string;
-    nameError?: string;
+    amountError: string | undefined;
+    budgetError: string | undefined;
+    dateError: string | undefined;
+    nameError: string | undefined;
     /**
      * action
      */
-    getBudgets: Function;
-    getTransaction: Function;
-    handleCreate: Function;
-    handleDelete: Function;
-    handleOutsideClick: Function;
-    handleUpdate: Function;
-    initForm: Function;
-    reset: Function;
-    setAmount: Function;
-    setBudget: Function;
-    setDescription: Function;
-    setDate: Function;
-    setDateFocused: Function;
-    setId: Function;
-    setName: Function;
+    getBudgets: () => void;
+    getTransaction: () => void;
+    handleCreate: () => void;
+    handleDelete: () => void;
+    handleOutsideClick: () => void;
+    handleUpdate: () => void;
+    initForm: (
+        amountCents: number,
+        budget: Budget,
+        date: Moment,
+        description: string,
+        name: string
+    ) => void;
+    reset: () => void;
+    setAmount: (amount: number) => void;
+    setBudget: (budget: any) => void;
+    setDescription: (description: string) => void;
+    setDate: (date: Moment | null) => void;
+    setDateFocused: (dateFocused: boolean) => void;
+    setId: (id: string) => void;
+    setName: (name: string) => void;
 }
 
 export default class TransactionFormStore implements Props {
-    rootStore: RootStore;
-    amountValidator: Validator;
-    budgetValidator: Validator;
-    dateValidator: Validator;
-    nameValidator: Validator;
+    public amountValidator: Validator;
+    public budgetValidator: Validator;
+    public dateValidator: Validator;
+    public nameValidator: Validator;
 
-    amount: number | undefined = undefined;
-    budget: ValueType<{ value: string; label: string }> = undefined;
-    budgets: Array<Budget> = [];
-    date: Moment | null = null;
-    dateFocused = false;
-    description = "";
-    error = "";
-    id = "";
-    isDeleting = false;
-    isLoading = false;
-    initialAmount: number | undefined = undefined;
-    name = "";
-    startDelete = false;
+    public amount: number | undefined = undefined;
+    public budget: { value: string; label: string } | undefined = undefined;
+    public budgets: Budget[] = [];
+    public date: Moment | null = null;
+    public dateFocused = false;
+    public description = "";
+    public error = "";
+    public id = "";
+    public isDeleting = false;
+    public isLoading = false;
+    public initialAmount: number | undefined = undefined;
+    public name = "";
+    public startDelete = false;
+
+    private rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -113,6 +121,14 @@ export default class TransactionFormStore implements Props {
 
     get isUpdatable(): boolean {
         return this.id !== "new";
+    }
+
+    get isFormDisabled(): boolean {
+        return (
+            !this.validations.all.valid ||
+            !this.validations.all.dirty ||
+            this.networkActive
+        );
     }
 
     get networkActive(): boolean {
@@ -151,7 +167,7 @@ export default class TransactionFormStore implements Props {
     }
 
     get amountError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.amountValidation.required) {
             error = "Amount is required";
         } else if (!this.amountValidation.numeric) {
@@ -161,7 +177,7 @@ export default class TransactionFormStore implements Props {
     }
 
     get budgetError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.budgetValidation.required) {
             error = "Budget is required";
         }
@@ -169,7 +185,7 @@ export default class TransactionFormStore implements Props {
     }
 
     get dateError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.dateValidation.required) {
             error = "Date is required";
         }
@@ -177,19 +193,22 @@ export default class TransactionFormStore implements Props {
     }
 
     get nameError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.nameValidation.required) {
             error = "Name is required";
         }
         return error;
     }
 
-    getBudgets = async () => {
+    public getBudgets = async () => {
         try {
             const { data: budgets } = await api.budgets.getBulk();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
-                if (a.name > b.name) return 1;
-                else if (a.name < b.name) return -1;
+                if (a.name > b.name) {
+                    return 1;
+                } else if (a.name < b.name) {
+                    return -1;
+                }
                 return 0;
             });
         } catch (err) {
@@ -198,7 +217,7 @@ export default class TransactionFormStore implements Props {
         }
     };
 
-    getTransaction = async () => {
+    public getTransaction = async () => {
         try {
             const { data: transaction } = await api.transactions.get(this.id);
             this.initForm(
@@ -214,7 +233,7 @@ export default class TransactionFormStore implements Props {
         }
     };
 
-    handleCreate = async () => {
+    public handleCreate = async () => {
         try {
             this.isLoading = true;
             const amountCents = toCents(this.amount as number);
@@ -226,9 +245,10 @@ export default class TransactionFormStore implements Props {
                 budget: this.budgetId
             });
             this.rootStore.transactionsStore.addTransaction(transaction);
-            this.rootStore.budgetsStore.addTransaction(
+            this.rootStore.budgetsStore.changeTransactions(
                 this.budgetId,
-                amountCents
+                amountCents,
+                1
             );
         } catch (err) {
             const error = get(() => err.response.data);
@@ -238,15 +258,16 @@ export default class TransactionFormStore implements Props {
         }
     };
 
-    handleDelete = async () => {
+    public handleDelete = async () => {
         if (this.startDelete) {
             try {
                 this.isDeleting = true;
                 await api.transactions.delete(this.id);
                 this.rootStore.transactionsStore.removeTransaction(this.id);
-                this.rootStore.budgetsStore.removeTransaction(
+                this.rootStore.budgetsStore.changeTransactions(
                     this.budgetId,
-                    toCents(this.amount as number)
+                    -toCents(this.amount as number),
+                    -1
                 );
             } catch (err) {
                 const error = get(() => err.response.data);
@@ -260,11 +281,11 @@ export default class TransactionFormStore implements Props {
         }
     };
 
-    handleOutsideClick = () => {
+    public handleOutsideClick = () => {
         this.startDelete = false;
     };
 
-    handleUpdate = async () => {
+    public handleUpdate = async () => {
         try {
             this.isLoading = true;
             const amountCents = toCents(this.amount as number);
@@ -285,9 +306,10 @@ export default class TransactionFormStore implements Props {
             this.rootStore.transactionsStore.updateTransaction(transaction);
             const difference = initialAmountCents - amountCents;
             if (difference !== 0) {
-                this.rootStore.budgetsStore.updateTransaction(
+                this.rootStore.budgetsStore.changeTransactions(
                     budget,
-                    difference
+                    difference,
+                    0
                 );
             }
         } catch (err) {
@@ -298,7 +320,7 @@ export default class TransactionFormStore implements Props {
         }
     };
 
-    initForm = (
+    public initForm = (
         amountCents: number,
         budget: Budget,
         date: Moment,
@@ -322,7 +344,7 @@ export default class TransactionFormStore implements Props {
         this.nameValidator = new Validator(this.name, { required });
     };
 
-    reset = () => {
+    public reset = () => {
         this.amount = undefined;
         this.budgets = [];
         this.budget = undefined;
@@ -337,31 +359,31 @@ export default class TransactionFormStore implements Props {
         this.startDelete = false;
     };
 
-    setAmount = (amount: number) => {
+    public setAmount = (amount: number) => {
         this.amount = amount;
     };
 
-    setBudget = (budget: ValueType<{ value: string; label: string }>) => {
+    public setBudget = (budget: any) => {
         this.budget = budget;
     };
 
-    setDate = (date: Moment | null) => {
+    public setDate = (date: Moment | null) => {
         this.date = date;
     };
 
-    setDateFocused = (dateFocused: boolean) => {
+    public setDateFocused = (dateFocused: boolean) => {
         this.dateFocused = dateFocused;
     };
 
-    setDescription = (description: string) => {
+    public setDescription = (description: string) => {
         this.description = description.slice(0, 241);
     };
 
-    setId = (id: string) => {
+    public setId = (id: string) => {
         this.id = id;
     };
 
-    setName = (name: string) => {
+    public setName = (name: string) => {
         this.name = name;
     };
 }
@@ -385,6 +407,7 @@ decorate(TransactionFormStore, {
     budgetId: computed,
     dateString: computed,
     isUpdatable: computed,
+    isFormDisabled: computed,
     networkActive: computed,
     amountValidation: computed,
     budgetValidation: computed,

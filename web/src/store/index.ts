@@ -1,14 +1,16 @@
-import { observable, action, decorate, computed } from "mobx";
-import ItemsStore from "./items.store";
+import { action, computed, decorate, observable } from "mobx";
+
+import api from "../api";
+import { get } from "../lib/get";
+import User from "../types/user";
+
+import LogInStore from "./auth/login.store";
+import RegisterStore from "./auth/register.store";
 import BudgetFormStore from "./budget-form.store";
 import BudgetsStore from "./budgets.store";
-import LogInStore from "./login.store";
-import RegisterStore from "./register.store";
+import ItemsStore from "./items.store";
 import TransactionFormStore from "./transaction-form.store";
 import TransactionsStore from "./transactions.store";
-import { get } from "../lib/get";
-import api from "../api";
-import User from "../types/user";
 
 interface Props {
     budgetFormStore: BudgetFormStore;
@@ -29,24 +31,24 @@ interface Props {
     /**
      * action
      */
-    setUser: Function;
-    logOut: Function;
+    setUser: (user?: User) => void;
+    logOut: () => void;
 }
 
 export default class RootStore implements Props {
-    itemsStore: ItemsStore;
-    budgetFormStore: BudgetFormStore;
-    budgetsStore: BudgetsStore;
-    logInStore: LogInStore;
-    registerStore: RegisterStore;
-    transactionFormStore: TransactionFormStore;
-    transactionsStore: TransactionsStore;
-    user?: User;
+    public itemsStore: ItemsStore;
+    public budgetFormStore: BudgetFormStore;
+    public budgetsStore: BudgetsStore;
+    public logInStore: LogInStore;
+    public registerStore: RegisterStore;
+    public transactionFormStore: TransactionFormStore;
+    public transactionsStore: TransactionsStore;
+    public user?: User;
 
     constructor() {
         this.budgetFormStore = new BudgetFormStore(this);
-        this.budgetsStore = new BudgetsStore(this);
-        this.itemsStore = new ItemsStore(this);
+        this.budgetsStore = new BudgetsStore();
+        this.itemsStore = new ItemsStore();
         this.logInStore = new LogInStore(this);
         this.registerStore = new RegisterStore(this);
         this.transactionFormStore = new TransactionFormStore(this);
@@ -64,7 +66,7 @@ export default class RootStore implements Props {
         );
     }
 
-    setUser = (user?: User) => {
+    public setUser = (user?: User) => {
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
             api.auth.setAuthorizationToken(get(() => user.token));
@@ -74,12 +76,14 @@ export default class RootStore implements Props {
         this.user = user;
     };
 
-    logOut = async () => {
+    public logOut = async () => {
         try {
             await api.auth.logOut();
             this.setUser(undefined);
             this.budgetFormStore.reset();
+            this.budgetsStore.reset();
             this.itemsStore.reset();
+            this.transactionsStore.reset();
             this.transactionFormStore.reset();
         } catch (err) {
             throw get(() => err.response.data);

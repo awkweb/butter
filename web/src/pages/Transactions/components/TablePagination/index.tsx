@@ -1,10 +1,11 @@
-import React from "react";
 import { range } from "lodash";
+import { parse, stringify } from "query-string";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import styled, { css } from "styled-components";
+
 import { Box, Text } from "../../../../components";
 import { cssFactory } from "../../../../components/utils/styled-components";
-import { Link as RouterLink } from "react-router-dom";
-import { parse, stringify } from "query-string";
 
 interface Props {
     page: number;
@@ -12,6 +13,83 @@ interface Props {
 }
 
 export default class TablePagination extends React.Component<Props> {
+    public render() {
+        return (
+            <Box
+                display={Box.Display.Flex}
+                justifyContent={Box.JustifyContent.Center}
+            >
+                {this.getPreviousButton()}
+                {this.getPageNumberButtons()}
+                {this.getNextButton()}
+            </Box>
+        );
+    }
+
+    private getPreviousButton = () => {
+        const { page } = this.props;
+        return page === 1 ? (
+            <StyledBlock>Previous</StyledBlock>
+        ) : (
+            <StyledLink
+                to={{
+                    pathname: "/transactions",
+                    search: `?page=${page - 1}`
+                }}
+            >
+                Previous
+            </StyledLink>
+        );
+    };
+
+    private getNextButton = () => {
+        const { page, pagesCount } = this.props;
+        return page === pagesCount ? (
+            <StyledBlock>Next</StyledBlock>
+        ) : (
+            <StyledLink
+                to={{
+                    pathname: "/transactions",
+                    search: `?page=${page + 1}`
+                }}
+            >
+                Next
+            </StyledLink>
+        );
+    };
+
+    private getPageNumberButtons = () => {
+        const { page, pagesCount } = this.props;
+        const size = pagesCount;
+        const step = 2; // pages before and after current
+
+        if (size < step * 2 + 6) {
+            return this.add(1, size + 1);
+        } else if (page < step * 2 + 1) {
+            return (
+                <React.Fragment>
+                    {this.add(1, step * 2 + 4)}
+                    {this.last()}
+                </React.Fragment>
+            );
+        } else if (page > size - step * 2) {
+            return (
+                <React.Fragment>
+                    {this.first()}
+                    {this.add(size - step * 2 - 2, size + 1)}
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    {this.first()}
+                    {this.add(page - step, page + step + 1)}
+                    {this.last()}
+                </React.Fragment>
+            );
+        }
+    };
+
     private getQueryStringForPageNumber = (page: number): string => {
         const queryParams = {
             ...parse(location.search),
@@ -84,88 +162,13 @@ export default class TablePagination extends React.Component<Props> {
                             pathname: "/transactions",
                             search: this.getQueryStringForPageNumber(i)
                         }}
-                    >{`${i}`}</StyledLink>
+                    >
+                        {`${i}`}
+                    </StyledLink>
                 );
             }
         });
     };
-
-    getPageNumberButtons = () => {
-        const { page, pagesCount } = this.props;
-        const size = pagesCount;
-        const step = 2; // pages before and after current
-
-        if (size < step * 2 + 6) {
-            return this.add(1, size + 1);
-        } else if (page < step * 2 + 1) {
-            return (
-                <React.Fragment>
-                    {this.add(1, step * 2 + 4)}
-                    {this.last()}
-                </React.Fragment>
-            );
-        } else if (page > size - step * 2) {
-            return (
-                <React.Fragment>
-                    {this.first()}
-                    {this.add(size - step * 2 - 2, size + 1)}
-                </React.Fragment>
-            );
-        } else {
-            return (
-                <React.Fragment>
-                    {this.first()}
-                    {this.add(page - step, page + step + 1)}
-                    {this.last()}
-                </React.Fragment>
-            );
-        }
-    };
-
-    getNextButton = () => {
-        const { page, pagesCount } = this.props;
-        return page === pagesCount ? (
-            <StyledBlock>Next</StyledBlock>
-        ) : (
-            <StyledLink
-                to={{
-                    pathname: "/transactions",
-                    search: `?page=${page + 1}`
-                }}
-            >
-                Next
-            </StyledLink>
-        );
-    };
-
-    getPreviousButton = () => {
-        const { page } = this.props;
-        return page === 1 ? (
-            <StyledBlock>Previous</StyledBlock>
-        ) : (
-            <StyledLink
-                to={{
-                    pathname: "/transactions",
-                    search: `?page=${page - 1}`
-                }}
-            >
-                Previous
-            </StyledLink>
-        );
-    };
-
-    render() {
-        return (
-            <Box
-                display={Box.Display.Flex}
-                justifyContent={Box.JustifyContent.Center}
-            >
-                {this.getPreviousButton()}
-                {this.getPageNumberButtons()}
-                {this.getNextButton()}
-            </Box>
-        );
-    }
 }
 
 const commonStyles = cssFactory(css)`

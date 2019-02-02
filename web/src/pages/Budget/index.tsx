@@ -1,19 +1,20 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
+import React from "react";
 import DocumentTitle from "react-document-title";
 import OutsideClickHandler from "react-outside-click-handler";
+
 import {
     Box,
-    Col,
-    Text,
-    Grid,
-    Row,
-    Field,
     Button,
-    Link
+    Col,
+    Field,
+    Grid,
+    Link,
+    Row,
+    Text
 } from "../../components";
-import RootStore from "../../store";
 import { get } from "../../lib/get";
+import RootStore from "../../store";
 
 interface Props {
     location: any;
@@ -23,7 +24,7 @@ interface Props {
 }
 
 class BudgetClass extends React.Component<Props> {
-    async componentWillMount() {
+    public async componentWillMount() {
         const {
             history,
             match: {
@@ -55,23 +56,23 @@ class BudgetClass extends React.Component<Props> {
         getBudgets();
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.props.rootStore.budgetFormStore.reset();
     }
 
-    onChangeName = (e: React.ChangeEvent<any>) => {
+    public onChangeName = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.budgetFormStore.setName(e.target.value);
     };
 
-    onChangeAmount = (e: React.ChangeEvent<any>) => {
+    public onChangeAmount = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.budgetFormStore.setAmount(e.target.value);
     };
 
-    onChangeDescription = (e: React.ChangeEvent<any>) => {
+    public onChangeDescription = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.budgetFormStore.setDescription(e.target.value);
     };
 
-    onSubmit = async (e: React.FormEvent) => {
+    public onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const {
             history,
@@ -88,11 +89,7 @@ class BudgetClass extends React.Component<Props> {
         }
     };
 
-    onOutsideClick = () => {
-        this.props.rootStore.budgetFormStore.handleOutsideClick();
-    };
-
-    onClickDelete = async () => {
+    public onClickDelete = async () => {
         const {
             history,
             rootStore: {
@@ -105,7 +102,7 @@ class BudgetClass extends React.Component<Props> {
         }
     };
 
-    render() {
+    public render() {
         const {
             rootStore: {
                 budgetFormStore: {
@@ -113,14 +110,15 @@ class BudgetClass extends React.Component<Props> {
                     amount,
                     description,
                     error,
+                    isFormDisabled,
                     isUpdatable,
                     isLoading,
                     isDeleting,
                     networkActive,
                     startDelete,
-                    validations,
                     amountError,
-                    nameError
+                    nameError,
+                    handleOutsideClick
                 }
             }
         } = this.props;
@@ -142,7 +140,7 @@ class BudgetClass extends React.Component<Props> {
                                 <Text
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
-                                    noMargin
+                                    noMargin={true}
                                     size={Text.Size.Xxl}
                                 >
                                     {title}
@@ -160,7 +158,7 @@ class BudgetClass extends React.Component<Props> {
                             >
                                 <Box mb={2}>
                                     <Field
-                                        autofocus
+                                        autofocus={true}
                                         error={nameError}
                                         id="Name"
                                         label="Name"
@@ -199,11 +197,7 @@ class BudgetClass extends React.Component<Props> {
                                     <Box display={Box.Display.Flex}>
                                         <Button
                                             color={Button.Color.Brand}
-                                            disabled={
-                                                !validations.all.valid ||
-                                                !validations.all.dirty ||
-                                                networkActive
-                                            }
+                                            disabled={isFormDisabled}
                                             isLoading={isLoading}
                                             size={Button.Size.Lg}
                                             type="submit"
@@ -228,13 +222,13 @@ class BudgetClass extends React.Component<Props> {
 
                                     {isUpdatable && (
                                         <OutsideClickHandler
-                                            onOutsideClick={this.onOutsideClick}
+                                            onOutsideClick={handleOutsideClick}
                                         >
                                             <Button
                                                 color={Button.Color.Error}
                                                 disabled={networkActive}
                                                 isLoading={isDeleting}
-                                                noBackground
+                                                noBackground={true}
                                                 size={Button.Size.Lg}
                                                 onClick={this.onClickDelete}
                                             >

@@ -1,6 +1,8 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
+import { parse } from "query-string";
+import React from "react";
 import DocumentTitle from "react-document-title";
+
 import {
     Box,
     Button,
@@ -12,9 +14,8 @@ import {
     Row,
     Text
 } from "../../../components";
-import RootStore from "../../../store";
-import { parse } from "query-string";
 import { get } from "../../../lib/get";
+import RootStore from "../../../store";
 
 interface Props {
     location: Location;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 class RegisterClass extends React.Component<Props> {
-    componentWillMount() {
+    public componentWillMount() {
         const {
             location,
             rootStore: {
@@ -31,31 +32,16 @@ class RegisterClass extends React.Component<Props> {
         } = this.props;
         const queryParams = parse(location.search);
         const email = get(() => queryParams.email);
-        if (email) setEmail(email);
+        if (email) {
+            setEmail(email);
+        }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.props.rootStore.registerStore.reset();
     }
 
-    onChangeEmail = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.registerStore.setEmail(e.target.value);
-    };
-
-    onChangePassword = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.registerStore.setPassword(e.target.value);
-    };
-
-    onChangeConfirmPassword = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.registerStore.setPasswordConfirm(e.target.value);
-    };
-
-    onSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        this.props.rootStore.registerStore.register();
-    };
-
-    render() {
+    public render() {
         const {
             rootStore: {
                 registerStore: {
@@ -73,7 +59,7 @@ class RegisterClass extends React.Component<Props> {
                 <Grid maxWidth="md">
                     <Row>
                         <Col
-                            fluidHeight
+                            fluidHeight={true}
                             bottomPadding={false}
                             md={6}
                             xs={12}
@@ -94,7 +80,7 @@ class RegisterClass extends React.Component<Props> {
                                         Been here before?{" "}
                                         <Link
                                             color={Link.Color.Gray1}
-                                            decoration
+                                            decoration={true}
                                             to={{
                                                 pathname: "/login",
                                                 search:
@@ -115,11 +101,11 @@ class RegisterClass extends React.Component<Props> {
                                     <Box mb={2}>
                                         <Field
                                             autocomplete="username email"
-                                            autofocus
+                                            autofocus={true}
                                             id="email"
                                             isValid={validations.email.valid}
                                             label="Email"
-                                            showSuccess
+                                            showSuccess={true}
                                             value={email}
                                             onChange={this.onChangeEmail}
                                         />
@@ -131,7 +117,7 @@ class RegisterClass extends React.Component<Props> {
                                             id="password"
                                             isValid={validations.password.valid}
                                             label="Password"
-                                            showSuccess
+                                            showSuccess={true}
                                             type={Field.Type.Password}
                                             value={password}
                                             onChange={this.onChangePassword}
@@ -170,7 +156,7 @@ class RegisterClass extends React.Component<Props> {
                                                     .valid
                                             }
                                             label="Confirm Password"
-                                            showSuccess
+                                            showSuccess={true}
                                             type={Field.Type.Password}
                                             value={passwordConfirm}
                                             onChange={
@@ -179,11 +165,11 @@ class RegisterClass extends React.Component<Props> {
                                         />
                                     </Box>
 
-                                    <Box fluidWidth>
+                                    <Box fluidWidth={true}>
                                         <Button
                                             color={Button.Color.Brand}
                                             disabled={!validations.all.valid}
-                                            fluid
+                                            fluid={true}
                                             isLoading={isLoading}
                                             size={Button.Size.Lg}
                                             textAlign={Button.TextAlign.Left}
@@ -202,7 +188,7 @@ class RegisterClass extends React.Component<Props> {
                                             to Wilbur&#8217;s{" "}
                                             <Link
                                                 color={Text.Color.Gray5}
-                                                decoration
+                                                decoration={true}
                                                 size={Text.Size.Xs}
                                                 to="/terms"
                                             >
@@ -227,6 +213,23 @@ class RegisterClass extends React.Component<Props> {
             </DocumentTitle>
         );
     }
+
+    private onChangeEmail = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.registerStore.setEmail(e.target.value);
+    };
+
+    private onChangePassword = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.registerStore.setPassword(e.target.value);
+    };
+
+    private onChangeConfirmPassword = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.registerStore.setPasswordConfirm(e.target.value);
+    };
+
+    private onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        this.props.rootStore.registerStore.register();
+    };
 }
 
 export const Register = inject("rootStore")(observer(RegisterClass));

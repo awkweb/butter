@@ -1,30 +1,23 @@
+import moment from "moment";
 import React from "react";
 import styled from "styled-components";
+
 import { Box, Text } from "../../../../components";
-import { Transaction } from "../../../../types/transaction";
-import TableRow from "../TableRow";
 import { get } from "../../../../lib/get";
-import moment from "moment";
+import { Transaction } from "../../../../types/transaction";
 import TablePagination from "../TablePagination";
+import TableRow from "../TableRow";
 
 interface Props {
-    transactions: Array<Transaction>;
+    transactions: Transaction[];
     page: number;
     pagesCount: number;
-    selectedTransactionIds: Array<string>;
-    selectTransaction: Function;
+    selectedTransactionIds: string[];
+    selectTransaction: (id: string) => void;
 }
 
 export default class Table extends React.Component<Props> {
-    formatDate = (date: string): string => {
-        const dateMoment = moment(date);
-        const todayMoment = moment();
-        const showYear =
-            dateMoment.year() !== todayMoment.year() ? ", YYYY" : "";
-        return dateMoment.format(`MMM D${showYear}`);
-    };
-
-    render() {
+    public render() {
         const {
             transactions,
             page,
@@ -88,6 +81,13 @@ export default class Table extends React.Component<Props> {
             </Box>
         );
     }
+    private formatDate = (date: string): string => {
+        const dateMoment = moment(date);
+        const todayMoment = moment();
+        const showYear =
+            dateMoment.year() !== todayMoment.year() ? ", YYYY" : "";
+        return dateMoment.format(`MMM D${showYear}`);
+    };
 }
 
 const StyledTable = styled.table`

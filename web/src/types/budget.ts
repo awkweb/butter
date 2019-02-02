@@ -6,5 +6,6 @@ export interface Budget {
     id: string;
     name: string;
     spent: number;
+    remaining: number;
     transactionCount: number;
 }

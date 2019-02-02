@@ -1,7 +1,8 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
+import React from "react";
 import DocumentTitle from "react-document-title";
-import { Box, Col, Text, Grid, Row, Button } from "../../components";
+
+import { Box, Button, Col, Grid, Row, Text } from "../../components";
 import RootStore from "../../store";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 
 class NoMatchClass extends React.Component<Props> {
-    render() {
+    public render() {
         const {
             rootStore: { isAuthenticated }
         } = this.props;
@@ -31,7 +32,7 @@ class NoMatchClass extends React.Component<Props> {
                                     <Text
                                         el={Text.Element.H1}
                                         font={Text.Font.Title}
-                                        noMargin
+                                        noMargin={true}
                                         size={Text.Size.Xxl}
                                     >
                                         Something is amiss

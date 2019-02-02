@@ -1,18 +1,19 @@
-import { decorate, observable, action, computed } from "mobx";
-import RootStore from "./index";
-import { numeric, required } from "../lib/validate/validators";
-import {
-    Validator,
-    Validation,
-    Validations,
-    validateAll
-} from "../lib/validate";
+import { action, computed, decorate, observable } from "mobx";
+
+import api from "../api";
 import { toAmount, toCents } from "../lib/currency";
 import { get } from "../lib/get";
-import api from "../api";
+import {
+    validateAll,
+    Validation,
+    Validations,
+    Validator
+} from "../lib/validate";
+import { numeric, required } from "../lib/validate/validators";
+
+import RootStore from "./index";
 
 interface Props {
-    rootStore: RootStore;
     amountValidator: Validator;
     nameValidator: Validator;
     descriptionValidator: Validator;
@@ -30,44 +31,46 @@ interface Props {
     /**
      * computed
      */
+    isFormDisabled: boolean;
     isUpdatable: boolean;
     networkActive: boolean;
     amountValidation: Validation;
     nameValidation: Validation;
     descriptionValidation: Validation;
     validations: Validations;
-    nameError?: string;
-    amountError?: string;
+    nameError: string | undefined;
+    amountError: string | undefined;
     /**
      * action
      */
-    getBudget: Function;
-    handleCreate: Function;
-    handleDelete: Function;
-    handleOutsideClick: Function;
-    handleUpdate: Function;
-    initForm: Function;
-    reset: Function;
-    setAmount: Function;
-    setDescription: Function;
-    setId: Function;
-    setName: Function;
+    getBudget: () => void;
+    handleCreate: () => void;
+    handleDelete: () => void;
+    handleOutsideClick: () => void;
+    handleUpdate: () => void;
+    initForm: (amountCents: number, name: string, description: string) => void;
+    reset: () => void;
+    setAmount: (amount: number) => void;
+    setDescription: (description: string) => void;
+    setId: (id: string) => void;
+    setName: (name: string) => void;
 }
 
 export default class BudgetFormStore implements Props {
-    rootStore: RootStore;
-    amountValidator: Validator;
-    nameValidator: Validator;
-    descriptionValidator: Validator;
+    public amountValidator: Validator;
+    public nameValidator: Validator;
+    public descriptionValidator: Validator;
 
-    amount: number | undefined = undefined;
-    description = "";
-    error = "";
-    id = "";
-    isDeleting = false;
-    isLoading = false;
-    name = "";
-    startDelete = false;
+    public amount: number | undefined = undefined;
+    public description = "";
+    public error = "";
+    public id = "";
+    public isDeleting = false;
+    public isLoading = false;
+    public name = "";
+    public startDelete = false;
+
+    private rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -81,6 +84,14 @@ export default class BudgetFormStore implements Props {
 
     get isUpdatable(): boolean {
         return this.id !== "new";
+    }
+
+    get isFormDisabled(): boolean {
+        return (
+            !this.validations.all.valid ||
+            !this.validations.all.dirty ||
+            this.networkActive
+        );
     }
 
     get networkActive(): boolean {
@@ -113,7 +124,7 @@ export default class BudgetFormStore implements Props {
     }
 
     get amountError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.amountValidation.required) {
             error = "Amount is required";
         } else if (!this.amountValidation.numeric) {
@@ -123,14 +134,14 @@ export default class BudgetFormStore implements Props {
     }
 
     get nameError(): string | undefined {
-        let error = undefined;
+        let error;
         if (!this.nameValidation.required) {
             error = "Name is required";
         }
         return error;
     }
 
-    getBudget = async () => {
+    public getBudget = async () => {
         try {
             const { data: budget } = await api.budgets.get(this.id);
             this.initForm(budget.amountCents, budget.name, budget.description);
@@ -140,7 +151,7 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    handleCreate = async () => {
+    public handleCreate = async () => {
         try {
             this.isLoading = true;
             const { data: budget } = await api.budgets.create({
@@ -161,7 +172,7 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    handleDelete = async () => {
+    public handleDelete = async () => {
         if (this.startDelete) {
             try {
                 this.isDeleting = true;
@@ -179,11 +190,11 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    handleOutsideClick = () => {
+    public handleOutsideClick = () => {
         this.startDelete = false;
     };
 
-    handleUpdate = async () => {
+    public handleUpdate = async () => {
         try {
             this.isLoading = true;
             const { data: budget } = await api.budgets.update(this.id, {
@@ -200,7 +211,11 @@ export default class BudgetFormStore implements Props {
         }
     };
 
-    initForm = (amountCents: number, name: string, description: string) => {
+    public initForm = (
+        amountCents: number,
+        name: string,
+        description: string
+    ) => {
         this.amount = toAmount(amountCents);
         this.name = name;
         this.description = description;
@@ -212,30 +227,30 @@ export default class BudgetFormStore implements Props {
         this.descriptionValidator = new Validator(this.description);
     };
 
-    reset = () => {
+    public reset = () => {
         this.amount = undefined;
         this.description = "";
         this.error = "";
         this.id = "";
-        this.isLoading = false;
         this.isDeleting = false;
+        this.isLoading = false;
         this.name = "";
         this.startDelete = false;
     };
 
-    setAmount = (amount: number) => {
+    public setAmount = (amount: number) => {
         this.amount = amount;
     };
 
-    setDescription = (description: string) => {
+    public setDescription = (description: string) => {
         this.description = description.slice(0, 241);
     };
 
-    setId = (id: string) => {
+    public setId = (id: string) => {
         this.id = id;
     };
 
-    setName = (name: string) => {
+    public setName = (name: string) => {
         this.name = name;
     };
 }
@@ -251,6 +266,7 @@ decorate(BudgetFormStore, {
     /**
      * computed
      */
+    isFormDisabled: computed,
     isUpdatable: computed,
     networkActive: computed,
     amountValidation: computed,

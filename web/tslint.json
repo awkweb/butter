@@ -1,6 +1,7 @@
 {
+    "enabled": true,
+    "run": "onType",
     "defaultSeverity": "error",
-    "extends": ["tslint:recommended", "tslint-config-prettier"],
     "jsRules": {},
     "rules": {
         "interface-name": false,
@@ -14,7 +15,18 @@
                 "named-imports-order": "lowercase-first",
                 "module-source-path": "full"
             }
-        ]
+        ],
+        // tslint-react
+        "jsx-alignment": true,
+        "jsx-ban-elements": true,
+        "jsx-ban-props": true,
+        "jsx-boolean-value": false,
+        "jsx-curly-spacing": true,
+        "jsx-no-lambda": true,
+        "jsx-no-multiline-js": false,
+        "jsx-self-close": true,
+        "jsx-wrap-multiline": true
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"]
 }

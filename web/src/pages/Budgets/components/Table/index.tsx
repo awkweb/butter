@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+
 import { Box, Text } from "../../../../components";
 import { Budget } from "../../../../types/budget";
 import TableRow from "../TableRow";
 
 interface Props {
-    budgets: Array<Budget>;
+    budgets: Budget[];
     total: { [name: string]: any };
 }
 
 export default class Table extends React.Component<Props> {
-    render() {
+    public render() {
         const { budgets, total } = this.props;
         return (
             <Box
@@ -72,9 +73,9 @@ export default class Table extends React.Component<Props> {
                             <tr>
                                 <td colSpan={4}>
                                     <Box
-                                        bb
+                                        bb={true}
                                         borderColor={Box.BorderColor.Gray7}
-                                        fluidWidth
+                                        fluidWidth={true}
                                         ph={3}
                                         pv={2}
                                     >

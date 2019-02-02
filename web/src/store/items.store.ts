@@ -1,46 +1,42 @@
 import { action, decorate, observable } from "mobx";
+
 import api from "../api";
-import RootStore from "./index";
 import { get } from "../lib/get";
 import { Item } from "../types/item";
 
 interface Props {
-    rootStore: RootStore;
     /**
      * observable
      */
-    items: Array<Item>;
+    items: Item[];
     isDeleting: boolean;
     isLoading: boolean;
     /**
      * action
      */
-    createItem: Function;
-    deleteItem: Function;
-    getItems: Function;
-    renewLink: Function;
-    reset: Function;
+    createItem: (data: object) => void;
+    deleteItem: (id: string) => void;
+    getItems: () => void;
+    renewLink: (id: string) => void;
+    reset: () => void;
 }
 
 export default class ItemsStore implements Props {
-    rootStore: RootStore;
+    public items: Item[] = [];
+    public isDeleting = false;
+    public isLoading = false;
 
-    items: Array<Item> = [];
-    isDeleting = false;
-    isLoading = false;
-
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-    }
-
-    createItem = async (data: object) => {
+    public createItem = async (data: object) => {
         try {
             const { data: item } = await api.items.create(data);
             this.items = [...this.items, item].sort((a, b) => {
                 const aName = a.institution.name;
                 const bName = b.institution.name;
-                if (aName > bName) return 1;
-                else if (aName < bName) return -1;
+                if (aName > bName) {
+                    return 1;
+                } else if (aName < bName) {
+                    return -1;
+                }
                 return 0;
             });
         } catch (err) {
@@ -49,7 +45,7 @@ export default class ItemsStore implements Props {
         }
     };
 
-    deleteItem = async (id: string) => {
+    public deleteItem = async (id: string) => {
         try {
             this.isDeleting = true;
             await api.items.delete(id);
@@ -62,7 +58,7 @@ export default class ItemsStore implements Props {
         }
     };
 
-    renewLink = async (id: string) => {
+    public renewLink = async (id: string) => {
         try {
             await api.items.update(id, {
                 expired: false
@@ -71,6 +67,7 @@ export default class ItemsStore implements Props {
             const item = this.items.find(i => i.id === id);
             this.items = [
                 ...this.items.slice(0, itemIndex),
+                // tslint:disable-next-line
                 { ...item, expired: false } as Item,
                 ...this.items.slice(itemIndex + 1, this.items.length)
             ];
@@ -80,7 +77,7 @@ export default class ItemsStore implements Props {
         }
     };
 
-    getItems = async () => {
+    public getItems = async () => {
         try {
             this.isLoading = true;
             const { data: items } = await api.items.getBulk();
@@ -93,7 +90,7 @@ export default class ItemsStore implements Props {
         }
     };
 
-    reset = () => {
+    public reset = () => {
         this.items = [];
         this.isDeleting = false;
         this.isLoading = false;

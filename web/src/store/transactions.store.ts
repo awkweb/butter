@@ -11,7 +11,6 @@ import RootStore from "./index";
 const PAGE_SIZE = 10;
 
 interface Props {
-    rootStore: RootStore;
     /**
      * observable
      */
@@ -41,8 +40,6 @@ interface Props {
 }
 
 export default class TransactionsStore implements Props {
-    public rootStore: RootStore;
-
     public selectedTransactionIds: string[] = [];
     public budgets: Budget[] = [];
     public transactions: Transaction[] = [];
@@ -51,6 +48,8 @@ export default class TransactionsStore implements Props {
     public budgetFilter = "all";
     public isLoading = false;
     public startDelete = false;
+
+    private rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -111,6 +110,8 @@ export default class TransactionsStore implements Props {
                     )
                 ];
                 this.selectedTransactionIds = [];
+                // tslint:disable-next-line
+                console.log(this.rootStore);
             } catch (err) {
                 const error = get(() => err.response.data);
                 throw error;

@@ -1,63 +1,27 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import Select from "react-select";
-import { BooleanField, Box, Button, Text } from "../../../../components";
-import { Budget } from "../../../../types/budget";
-import { cssFactory } from "../../../../components/utils/styled-components";
 import { css } from "styled-components";
-import { ValueType } from "react-select/lib/types";
+
+import { BooleanField, Box, Button, Text } from "../../../../components";
+import { cssFactory } from "../../../../components/utils/styled-components";
+import { Budget } from "../../../../types/budget";
 
 interface Props {
-    budgets: Array<Budget>;
+    budgets: Budget[];
     budgetFilter: string;
     allSelected: boolean;
     anySelected: boolean;
     startDelete: boolean;
-    handleOnChange: Function;
-    handleCategorize: Function;
-    handleDelete: Function;
-    handleFilter: Function;
-    handleOutsideClick: Function;
+    handleOnChange: () => void;
+    handleCategorize: (budgetId: string) => void;
+    handleDelete: () => void;
+    handleFilter: (budget: string) => void;
+    handleOutsideClick: () => void;
 }
 
 export default class TableHeader extends React.Component<Props> {
-    onChange = () => {
-        this.props.handleOnChange();
-    };
-
-    onChangeSelect = (
-        value: ValueType<{
-            value: string;
-            label: string;
-        }>
-    ) => {
-        if (value) {
-            const budgetId = (value as any).value;
-            this.props.handleCategorize(budgetId);
-        }
-    };
-
-    onChangeFilter = (
-        value: ValueType<{
-            value: string;
-            label: string;
-        }>
-    ) => {
-        if (value) {
-            const budgetId = (value as any).value;
-            this.props.handleFilter(budgetId);
-        }
-    };
-
-    onClickDelete = () => {
-        this.props.handleDelete();
-    };
-
-    onOutsideClick = () => {
-        this.props.handleOutsideClick();
-    };
-
-    render() {
+    public render() {
         const {
             budgets,
             allSelected,
@@ -153,6 +117,30 @@ export default class TableHeader extends React.Component<Props> {
             </Box>
         );
     }
+    private onClickDelete = () => {
+        this.props.handleDelete();
+    };
+
+    private onOutsideClick = () => {
+        this.props.handleOutsideClick();
+    };
+    private onChange = () => {
+        this.props.handleOnChange();
+    };
+
+    private onChangeSelect = (value: any) => {
+        if (value) {
+            const budgetId = (value as any).value;
+            this.props.handleCategorize(budgetId);
+        }
+    };
+
+    private onChangeFilter = (value: any) => {
+        if (value) {
+            const budgetId = (value as any).value;
+            this.props.handleFilter(budgetId);
+        }
+    };
 }
 
 const genBudgetFilterCSS = () =>

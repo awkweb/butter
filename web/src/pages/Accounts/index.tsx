@@ -1,9 +1,11 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
+import React from "react";
 import DocumentTitle from "react-document-title";
-import { Box, Col, Text, Grid, Row, Loader, PlaidLink } from "../../components";
+
+import { Box, Col, Grid, Loader, PlaidLink, Row, Text } from "../../components";
 import RootStore from "../../store";
 import { Item } from "../../types/item";
+
 import AccountRow from "./components/AccountRow";
 
 interface Props {
@@ -11,9 +13,9 @@ interface Props {
 }
 
 class AccountsClass extends React.Component<Props> {
-    state = { linkLoaded: false };
+    public state = { linkLoaded: false };
 
-    componentWillMount() {
+    public componentWillMount() {
         const {
             rootStore: {
                 itemsStore: { items, getItems }
@@ -25,35 +27,16 @@ class AccountsClass extends React.Component<Props> {
         getItems();
     }
 
-    onLoad = () => {
-        this.setState({ linkLoaded: true });
-    };
-
-    onSuccess = (token: string, data: Item) => {
-        const { account, institution } = data;
-        this.props.rootStore.itemsStore.createItem({
-            institution,
-            account: {
-                ...account,
-                account_id: account.id,
-                id: undefined
-            },
-            public_token: token
-        });
-    };
-
-    handleDelete = (id: string) => {
-        this.props.rootStore.itemsStore.deleteItem(id);
-    };
-
-    handleRenewLink = (id: string) => {
-        this.props.rootStore.itemsStore.renewLink(id);
-    };
-
-    render() {
+    public render() {
         const {
             rootStore: {
-                itemsStore: { items, isDeleting, isLoading }
+                itemsStore: {
+                    items,
+                    isDeleting,
+                    isLoading,
+                    deleteItem,
+                    renewLink
+                }
             }
         } = this.props;
         const { linkLoaded } = this.state;
@@ -72,7 +55,7 @@ class AccountsClass extends React.Component<Props> {
                                 <Text
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
-                                    noMargin
+                                    noMargin={true}
                                     size={Text.Size.Xxl}
                                 >
                                     Connected Accounts
@@ -102,7 +85,7 @@ class AccountsClass extends React.Component<Props> {
                             <Col xs={12}>
                                 {items.length > 0 && (
                                     <Box
-                                        bt
+                                        bt={true}
                                         borderColor={Box.BorderColor.Gray9}
                                         backgroundColor={
                                             Box.BackgroundColor.White
@@ -127,18 +110,16 @@ class AccountsClass extends React.Component<Props> {
                                                 networkActive={isDeleting}
                                                 publicToken={item.publicToken}
                                                 type={item.account.subtype}
-                                                handleDelete={this.handleDelete}
-                                                handleRenewLink={
-                                                    this.handleRenewLink
-                                                }
+                                                handleDelete={deleteItem}
+                                                handleRenewLink={renewLink}
                                             />
                                         ))}
                                     </Box>
                                 )}
                                 {items.length === 0 && (
                                     <Box
-                                        bb
-                                        bt
+                                        bb={true}
+                                        bt={true}
                                         borderColor={Box.BorderColor.Gray9}
                                         backgroundColor={
                                             Box.BackgroundColor.White
@@ -156,6 +137,23 @@ class AccountsClass extends React.Component<Props> {
             </DocumentTitle>
         );
     }
+
+    private onLoad = () => {
+        this.setState({ linkLoaded: true });
+    };
+
+    private onSuccess = (token: string, data: Item) => {
+        const { account, institution } = data;
+        this.props.rootStore.itemsStore.createItem({
+            institution,
+            account: {
+                ...account,
+                account_id: account.id,
+                id: undefined
+            },
+            public_token: token
+        });
+    };
 }
 
 export const Accounts = inject("rootStore")(observer(AccountsClass));

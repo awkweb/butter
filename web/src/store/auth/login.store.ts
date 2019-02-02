@@ -1,19 +1,17 @@
 import { action, computed, decorate, observable } from "mobx";
 
-import api from "../api";
-import { get } from "../lib/get";
+import api from "../../api";
+import { get } from "../../lib/get";
 import {
     validateAll,
     Validation,
     Validations,
     Validator
-} from "../lib/validate";
-import { email, required } from "../lib/validate/validators";
-
-import RootStore from "./index";
+} from "../../lib/validate";
+import { email as vEmail, required } from "../../lib/validate/validators";
+import RootStore from "../index";
 
 interface Props {
-    rootStore: RootStore;
     emailValidator: Validator;
     passwordValidator: Validator;
     /**
@@ -40,7 +38,6 @@ interface Props {
 }
 
 export default class LogInStore implements Props {
-    public rootStore: RootStore;
     public emailValidator: Validator;
     public passwordValidator: Validator;
 
@@ -50,10 +47,12 @@ export default class LogInStore implements Props {
     public password = "";
     public redirectToReferrer = false;
 
+    private rootStore: RootStore;
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.emailValidator = new Validator(this.email, {
-            email,
+            vEmail,
             required
         });
         this.passwordValidator = new Validator(this.password, {
@@ -77,8 +76,8 @@ export default class LogInStore implements Props {
         };
     }
 
-    public setEmail = (nextEmail: string) => {
-        this.email = nextEmail;
+    public setEmail = (email: string) => {
+        this.email = email;
     };
 
     public setPassword = (password: string) => {

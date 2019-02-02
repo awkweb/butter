@@ -1,23 +1,23 @@
-import { action, decorate, computed, observable } from "mobx";
-import RootStore from "./index";
+import { action, computed, decorate, observable } from "mobx";
+
+import api from "../../api";
+import { get } from "../../lib/get";
 import {
-    email,
+    validateAll,
+    Validation,
+    Validations,
+    Validator
+} from "../../lib/validate";
+import {
+    email as vEmail,
     helpers,
     minLength,
     required,
     sameAs
-} from "../lib/validate/validators";
-import {
-    Validator,
-    Validation,
-    Validations,
-    validateAll
-} from "../lib/validate";
-import api from "../api";
-import { get } from "../lib/get";
+} from "../../lib/validate/validators";
+import RootStore from "../index";
 
 interface Props {
-    rootStore: RootStore;
     emailValidator: Validator;
     passwordValidator: Validator;
     passwordConfirmValidator: Validator;
@@ -39,29 +39,30 @@ interface Props {
     /**
      * action
      */
-    setEmail: Function;
-    setPassword: Function;
-    setPasswordConfirm: Function;
-    register: Function;
-    reset: Function;
+    setEmail: (email: string) => void;
+    setPassword: (password: string) => void;
+    setPasswordConfirm: (passwordConfirm: string) => void;
+    register: () => void;
+    reset: () => void;
 }
 
 export default class RegisterStore implements Props {
-    rootStore: RootStore;
-    emailValidator: Validator;
-    passwordValidator: Validator;
-    passwordConfirmValidator: Validator;
+    public emailValidator: Validator;
+    public passwordValidator: Validator;
+    public passwordConfirmValidator: Validator;
 
-    email = "";
-    error = "";
-    isLoading = false;
-    password = "";
-    passwordConfirm = "";
+    public email = "";
+    public error = "";
+    public isLoading = false;
+    public password = "";
+    public passwordConfirm = "";
+
+    private rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.emailValidator = new Validator(this.email, {
-            email,
+            vEmail,
             required
         });
         this.passwordValidator = new Validator(this.password, {
@@ -102,19 +103,19 @@ export default class RegisterStore implements Props {
         };
     }
 
-    setEmail = (email: string) => {
+    public setEmail = (email: string) => {
         this.email = email;
     };
 
-    setPassword = (password: string) => {
+    public setPassword = (password: string) => {
         this.password = password;
     };
 
-    setPasswordConfirm = (passwordConfirm: string) => {
+    public setPasswordConfirm = (passwordConfirm: string) => {
         this.passwordConfirm = passwordConfirm;
     };
 
-    register = async () => {
+    public register = async () => {
         try {
             this.error = "";
             this.isLoading = true;
@@ -136,7 +137,7 @@ export default class RegisterStore implements Props {
         }
     };
 
-    reset() {
+    public reset() {
         this.email = "";
         this.error = "";
         this.isLoading = false;

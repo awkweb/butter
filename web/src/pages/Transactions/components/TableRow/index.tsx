@@ -1,9 +1,10 @@
-import React from "react";
 import { toJS } from "mobx";
-import { BooleanField, Box, Text, Link } from "../../../../components";
+import React from "react";
+import styled from "styled-components";
+
+import { BooleanField, Box, Link, Text } from "../../../../components";
 import { prettyNumber } from "../../../../lib/currency";
 import { Transaction } from "../../../../types/transaction";
-import styled from "styled-components";
 
 interface Props {
     amountCents: number;
@@ -15,16 +16,11 @@ interface Props {
     id: string;
     name: string;
     transaction?: Transaction;
-    handleChange: Function;
+    handleChange: (id: string) => void;
 }
 
 export default class TableRow extends React.Component<Props> {
-    onChange = () => {
-        const { id, handleChange } = this.props;
-        handleChange(id);
-    };
-
-    render() {
+    public render() {
         const {
             accountMask,
             accountName,
@@ -88,6 +84,11 @@ export default class TableRow extends React.Component<Props> {
             </StyledTableRow>
         );
     }
+
+    private onChange = () => {
+        const { id, handleChange } = this.props;
+        handleChange(id);
+    };
 }
 
 const StyledTableRow = styled.tr`

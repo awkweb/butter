@@ -1,12 +1,14 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
-import DocumentTitle from "react-document-title";
-import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
-import RootStore from "../../store";
-import Table from "./components/Table";
-import DateRangePicker from "./components/DateRangePicker";
 import moment, { Moment } from "moment";
 import { stringify } from "query-string";
+import React from "react";
+import DocumentTitle from "react-document-title";
+
+import { Box, Button, Col, Grid, Loader, Row, Text } from "../../components";
+import RootStore from "../../store";
+
+import DateRangePicker from "./components/DateRangePicker";
+import Table from "./components/Table";
 
 interface Props {
     history: any;
@@ -14,7 +16,7 @@ interface Props {
 }
 
 class BudgetsClass extends React.Component<Props> {
-    componentWillMount() {
+    public componentWillMount() {
         const {
             rootStore: {
                 budgetsStore: { budgets, getBudgets }
@@ -26,42 +28,7 @@ class BudgetsClass extends React.Component<Props> {
         getBudgets();
     }
 
-    handleDatesChange = (startDate: Moment | null, endDate: Moment | null) => {
-        const {
-            rootStore: {
-                budgetsStore: { setStartDate, setEndDate }
-            }
-        } = this.props;
-        setStartDate(startDate);
-        setEndDate(endDate);
-    };
-
-    handleClose = (startDate: Moment, endDate: Moment | null) => {
-        const {
-            rootStore: {
-                budgetsStore: { setStartDate, setEndDate, getBudgets }
-            }
-        } = this.props;
-
-        const dateOne = startDate && moment(startDate);
-        const dateTwo = !endDate ? dateOne : moment(endDate);
-        setStartDate(dateOne);
-        setEndDate(dateTwo);
-
-        const queryParams = {
-            start_date: dateOne.format("YYYY-MM-DD"),
-            end_date: dateTwo.isSame(dateOne)
-                ? undefined
-                : dateTwo.format("YYYY-MM-DD")
-        };
-        this.props.history.push({
-            pathname: "/budgets",
-            search: stringify(queryParams)
-        });
-        getBudgets();
-    };
-
-    render() {
+    public render() {
         const {
             rootStore: {
                 budgetsStore: {
@@ -94,7 +61,7 @@ class BudgetsClass extends React.Component<Props> {
                                 <Text
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
-                                    noMargin
+                                    noMargin={true}
                                     size={Text.Size.Xxl}
                                 >
                                     Budgets
@@ -116,7 +83,7 @@ class BudgetsClass extends React.Component<Props> {
                                     <Box>
                                         <Button
                                             color={Button.Color.Secondary}
-                                            noWrap
+                                            noWrap={true}
                                             to="/budgets/new"
                                         >
                                             Create Budget
@@ -148,6 +115,44 @@ class BudgetsClass extends React.Component<Props> {
             </DocumentTitle>
         );
     }
+
+    private handleDatesChange = (
+        startDate: Moment | null,
+        endDate: Moment | null
+    ) => {
+        const {
+            rootStore: {
+                budgetsStore: { setStartDate, setEndDate }
+            }
+        } = this.props;
+        setStartDate(startDate);
+        setEndDate(endDate);
+    };
+
+    private handleClose = (startDate: Moment, endDate: Moment | null) => {
+        const {
+            rootStore: {
+                budgetsStore: { setStartDate, setEndDate, getBudgets }
+            }
+        } = this.props;
+
+        const dateOne = startDate && moment(startDate);
+        const dateTwo = !endDate ? dateOne : moment(endDate);
+        setStartDate(dateOne);
+        setEndDate(dateTwo);
+
+        const queryParams = {
+            start_date: dateOne.format("YYYY-MM-DD"),
+            end_date: dateTwo.isSame(dateOne)
+                ? undefined
+                : dateTwo.format("YYYY-MM-DD")
+        };
+        this.props.history.push({
+            pathname: "/budgets",
+            search: stringify(queryParams)
+        });
+        getBudgets();
+    };
 }
 
 export const Budgets = inject("rootStore")(observer(BudgetsClass));

@@ -1,14 +1,15 @@
 import React from "react";
 import OutsideClickHandler from "react-outside-click-handler";
+import { css } from "styled-components";
+
 import {
     Box,
-    Text,
     Button,
+    InstitutionLogo,
     PlaidLink,
-    InstitutionLogo
+    Text
 } from "../../../../components";
 import { cssFactory } from "../../../../components/utils/styled-components";
-import { css } from "styled-components";
 
 interface Props {
     expired: boolean;
@@ -21,20 +22,20 @@ interface Props {
     networkActive: boolean;
     publicToken: string;
     type: string;
-    handleDelete: Function;
-    handleRenewLink: Function;
+    handleDelete: (id: string) => void;
+    handleRenewLink: (id: string) => void;
 }
 
 export default class AccountRow extends React.Component<Props> {
-    static defaultProps = { last: false };
+    public static defaultProps = { last: false };
 
-    state = { startDelete: false };
+    public state = { startDelete: false };
 
-    onOutsideClick = () => {
+    public onOutsideClick = () => {
         this.setState({ startDelete: false });
     };
 
-    onClickDelete = () => {
+    public onClickDelete = () => {
         if (this.state.startDelete) {
             const { id, handleDelete } = this.props;
             handleDelete(id);
@@ -43,12 +44,12 @@ export default class AccountRow extends React.Component<Props> {
         }
     };
 
-    onSuccess = () => {
+    public onSuccess = () => {
         const { id, handleRenewLink } = this.props;
         handleRenewLink(id);
     };
 
-    render() {
+    public render() {
         const {
             expired,
             institutionId,
@@ -64,7 +65,7 @@ export default class AccountRow extends React.Component<Props> {
         return (
             <Box
                 alignItems={Box.AlignItems.Center}
-                bb
+                bb={true}
                 borderColor={Box.BorderColor.Gray9}
                 display={Box.Display.Flex}
                 justifyContent={Box.JustifyContent.SpaceBetween}
@@ -101,8 +102,8 @@ export default class AccountRow extends React.Component<Props> {
                     {linkLoaded && expired && (
                         <Box css={genActionCSS()} mr={3}>
                             <PlaidLink
-                                noBackground
-                                noBorder
+                                noBackground={true}
+                                noBorder={true}
                                 token={publicToken}
                                 onSuccess={this.onSuccess}
                             >
@@ -125,8 +126,8 @@ export default class AccountRow extends React.Component<Props> {
                                 color={Button.Color.Primary}
                                 disabled={networkActive}
                                 isLoading={startDelete && networkActive}
-                                noBackground
-                                noBorder
+                                noBackground={true}
+                                noBorder={true}
                                 onClick={this.onClickDelete}
                             >
                                 {startDelete ? "Really delete?" : "Delete"}

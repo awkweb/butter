@@ -1,22 +1,22 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
-import { Moment } from "moment";
+import React from "react";
 import DocumentTitle from "react-document-title";
 import OutsideClickHandler from "react-outside-click-handler";
+
 import {
     Box,
-    Col,
-    Text,
-    Grid,
-    Row,
-    Field,
     Button,
-    Link,
+    Col,
     DateField,
-    SelectField
+    Field,
+    Grid,
+    Link,
+    Row,
+    SelectField,
+    Text
 } from "../../components";
-import RootStore from "../../store";
 import { get } from "../../lib/get";
+import RootStore from "../../store";
 
 interface Props {
     location: any;
@@ -26,7 +26,7 @@ interface Props {
 }
 
 class TransactionClass extends React.Component<Props> {
-    async componentWillMount() {
+    public async componentWillMount() {
         const {
             history,
             match: {
@@ -68,33 +68,29 @@ class TransactionClass extends React.Component<Props> {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.props.rootStore.transactionFormStore.reset();
     }
 
-    onChangeName = (e: React.ChangeEvent<any>) => {
+    public onChangeName = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.transactionFormStore.setName(e.target.value);
     };
 
-    onChangeAmount = (e: React.ChangeEvent<any>) => {
+    public onChangeAmount = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.transactionFormStore.setAmount(e.target.value);
     };
 
-    onChangeDescription = (e: React.ChangeEvent<any>) => {
+    public onChangeDescription = (e: React.ChangeEvent<any>) => {
         this.props.rootStore.transactionFormStore.setDescription(
             e.target.value
         );
     };
 
-    onChangeDate = (date: Moment | null) => {
-        this.props.rootStore.transactionFormStore.setDate(date);
-    };
-
-    onChangeDateFocused = ({ focused }: { focused: boolean | null }) => {
+    public onChangeDateFocused = ({ focused }: { focused: boolean | null }) => {
         this.props.rootStore.transactionFormStore.setDateFocused(!!focused);
     };
 
-    onSubmit = async (e: React.FormEvent) => {
+    public onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const {
             history,
@@ -115,11 +111,11 @@ class TransactionClass extends React.Component<Props> {
         }
     };
 
-    onOutsideClick = () => {
+    public onOutsideClick = () => {
         this.props.rootStore.transactionFormStore.handleOutsideClick();
     };
 
-    onClickDelete = async () => {
+    public onClickDelete = async () => {
         const {
             history,
             rootStore: {
@@ -132,7 +128,7 @@ class TransactionClass extends React.Component<Props> {
         }
     };
 
-    render() {
+    public render() {
         const {
             rootStore: {
                 transactionFormStore: {
@@ -145,16 +141,17 @@ class TransactionClass extends React.Component<Props> {
                     description,
                     error,
                     isUpdatable,
+                    isFormDisabled,
                     isLoading,
                     isDeleting,
                     networkActive,
                     startDelete,
-                    validations,
                     amountError,
                     budgetError,
                     dateError,
                     nameError,
-                    setBudget
+                    setBudget,
+                    setDate
                 }
             }
         } = this.props;
@@ -176,7 +173,7 @@ class TransactionClass extends React.Component<Props> {
                                 <Text
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
-                                    noMargin
+                                    noMargin={true}
                                     size={Text.Size.Xxl}
                                 >
                                     {title}
@@ -194,7 +191,7 @@ class TransactionClass extends React.Component<Props> {
                             >
                                 <Box mb={2}>
                                     <Field
-                                        autofocus
+                                        autofocus={true}
                                         error={nameError}
                                         id="Name"
                                         label="Name"
@@ -219,7 +216,7 @@ class TransactionClass extends React.Component<Props> {
                                         error={dateError}
                                         focused={dateFocused}
                                         value={date}
-                                        onChange={this.onChangeDate}
+                                        onChange={setDate}
                                         onFocusChange={this.onChangeDateFocused}
                                     />
                                 </Box>
@@ -257,11 +254,7 @@ class TransactionClass extends React.Component<Props> {
                                     <Box display={Box.Display.Flex}>
                                         <Button
                                             color={Button.Color.Brand}
-                                            disabled={
-                                                !validations.all.valid ||
-                                                !validations.all.dirty ||
-                                                networkActive
-                                            }
+                                            disabled={isFormDisabled}
                                             isLoading={isLoading}
                                             size={Button.Size.Lg}
                                             type="submit"
@@ -292,7 +285,7 @@ class TransactionClass extends React.Component<Props> {
                                                 color={Button.Color.Error}
                                                 disabled={networkActive}
                                                 isLoading={isDeleting}
-                                                noBackground
+                                                noBackground={true}
                                                 size={Button.Size.Lg}
                                                 onClick={this.onClickDelete}
                                             >

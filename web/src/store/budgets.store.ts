@@ -1,17 +1,16 @@
 import { action, computed, decorate, observable } from "mobx";
-import api from "../api";
-import RootStore from "./index";
-import { get } from "../lib/get";
-import { Budget } from "../types/budget";
 import moment, { Moment } from "moment";
 import { parse } from "query-string";
 
+import api from "../api";
+import { get } from "../lib/get";
+import { Budget } from "../types/budget";
+
 interface Props {
-    rootStore: RootStore;
     /**
      * observable
      */
-    budgets: Array<Budget>;
+    budgets: Budget[];
     startDate: Moment | null;
     endDate: Moment | null;
     isLoading: boolean;
@@ -23,27 +22,23 @@ interface Props {
     /**
      * action
      */
-    addTransaction: Function;
-    removeTransaction: Function;
-    updateTransaction: Function;
-    addBudget: Function;
-    getBudgets: Function;
-    setStartDate: Function;
-    setEndDate: Function;
-    reset: Function;
+    changeTransactions: (
+        budgetId: string,
+        amount: number,
+        count: number
+    ) => void;
+    addBudget: (budget: Budget) => void;
+    getBudgets: () => void;
+    setStartDate: (startDate: Moment | null) => void;
+    setEndDate: (endDate: Moment | null) => void;
+    reset: () => void;
 }
 
 export default class BudgetsStore implements Props {
-    rootStore: RootStore;
-
-    budgets: Array<Budget> = [];
-    startDate: Moment | null = moment().startOf("month");
-    endDate: Moment | null = moment();
-    isLoading = false;
-
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-    }
+    public budgets: Budget[] = [];
+    public startDate: Moment | null = moment().startOf("month");
+    public endDate: Moment | null = moment();
+    public isLoading = false;
 
     get totalBudgeted(): number {
         return (
@@ -63,21 +58,11 @@ export default class BudgetsStore implements Props {
         );
     }
 
-    addTransaction = (budgetId: string, amount: number) => {
-        const budget = this.budgets.find(b => b.id === budgetId);
-        if (budget) {
-            const spent = budget.spent + amount;
-            this.updateBudget({
-                ...budget,
-                spent,
-                amountCents: budget.budgeted,
-                remaining: budget.budgeted - spent,
-                transactionCount: budget.transactionCount + 1
-            } as Budget);
-        }
-    };
-
-    removeTransaction = (budgetId: string, amount: number) => {
+    public changeTransactions = (
+        budgetId: string,
+        amount: number,
+        count: number
+    ) => {
         const budget = this.budgets.find(b => b.id === budgetId);
         if (budget) {
             const spent = budget.spent - amount;
@@ -86,39 +71,29 @@ export default class BudgetsStore implements Props {
                 spent,
                 amountCents: budget.budgeted,
                 remaining: budget.budgeted - spent,
-                transactionCount: budget.transactionCount - 1
-            } as Budget);
+                transactionCount: budget.transactionCount + count
+            });
         }
     };
 
-    updateTransaction = (budgetId: string, amount: number) => {
-        const budget = this.budgets.find(b => b.id === budgetId);
-        if (budget) {
-            const spent = budget.spent - amount;
-            this.updateBudget({
-                ...budget,
-                spent,
-                amountCents: budget.budgeted,
-                remaining: budget.budgeted - spent
-            } as Budget);
-        }
-    };
-
-    addBudget = (budget: Budget) => {
+    public addBudget = (budget: Budget) => {
         this.budgets = [...this.budgets, budget].sort((a, b) => {
-            if (a.name > b.name) return 1;
-            else if (a.name < b.name) return -1;
+            if (a.name > b.name) {
+                return 1;
+            } else if (a.name < b.name) {
+                return -1;
+            }
             return 0;
         });
     };
 
-    removeBudget = (budgetId: string) => {
+    public removeBudget = (budgetId: string) => {
         this.budgets = [
             ...this.budgets.filter(budget => budget.id !== budgetId)
         ];
     };
 
-    updateBudget = (budget: Budget) => {
+    public updateBudget = (budget: Budget) => {
         const budgetIndex = this.budgets.findIndex(b => b.id === budget.id);
         const budgetToUpdate = this.budgets.find(b => b.id === budget.id);
         const updatedBudget = {
@@ -134,7 +109,7 @@ export default class BudgetsStore implements Props {
         ];
     };
 
-    getBudgets = async () => {
+    public getBudgets = async () => {
         const queryParams = parse(location.search);
         const startDate = queryParams.start_date;
         const endDate = queryParams.end_date;
@@ -146,7 +121,9 @@ export default class BudgetsStore implements Props {
                 end_date: endDate
             });
             this.startDate = moment(startDate);
-            if (endDate) this.endDate = moment(endDate);
+            if (endDate) {
+                this.endDate = moment(endDate);
+            }
             this.budgets = budgets;
         } catch (err) {
             const error = get(() => err.response.data);
@@ -156,16 +133,18 @@ export default class BudgetsStore implements Props {
         }
     };
 
-    setStartDate = (startDate: Moment | null) => {
+    public setStartDate = (startDate: Moment | null) => {
         this.startDate = startDate;
     };
 
-    setEndDate = (endDate: Moment | null) => {
+    public setEndDate = (endDate: Moment | null) => {
         this.endDate = endDate;
     };
 
-    reset = () => {
+    public reset = () => {
         this.budgets = [];
+        this.startDate = moment().startOf("month");
+        this.endDate = moment();
         this.isLoading = false;
     };
 }
@@ -185,9 +164,7 @@ decorate(BudgetsStore, {
     /**
      * action
      */
-    addTransaction: action,
-    removeTransaction: action,
-    updateTransaction: action,
+    changeTransactions: action,
     addBudget: action,
     getBudgets: action,
     setStartDate: action,

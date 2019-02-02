@@ -1,20 +1,21 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
-import DocumentTitle from "react-document-title";
-import {
-    Grid,
-    Row,
-    Col,
-    Box,
-    Text,
-    Link,
-    Field,
-    Button
-} from "../../../components";
-import RootStore from "../../../store";
-import { Redirect } from "react-router";
-import { get } from "../../../lib/get";
 import { parse } from "query-string";
+import React from "react";
+import DocumentTitle from "react-document-title";
+import { Redirect } from "react-router";
+
+import {
+    Box,
+    Button,
+    Col,
+    Field,
+    Grid,
+    Link,
+    Row,
+    Text
+} from "../../../components";
+import { get } from "../../../lib/get";
+import RootStore from "../../../store";
 
 interface Props {
     location: any;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 class LogInClass extends React.Component<Props> {
-    componentWillMount() {
+    public componentWillMount() {
         const {
             location,
             rootStore: {
@@ -31,27 +32,16 @@ class LogInClass extends React.Component<Props> {
         } = this.props;
         const queryParams = parse(location.search);
         const email = get(() => queryParams.email);
-        if (email) setEmail(email);
+        if (email) {
+            setEmail(email);
+        }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.props.rootStore.logInStore.reset();
     }
 
-    onChangeEmail = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.logInStore.setEmail(e.target.value);
-    };
-
-    onChangePassword = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.logInStore.setPassword(e.target.value);
-    };
-
-    onSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        this.props.rootStore.logInStore.logIn();
-    };
-
-    render() {
+    public render() {
         const {
             location,
             rootStore: { logInStore, isAuthenticated }
@@ -71,7 +61,7 @@ class LogInClass extends React.Component<Props> {
                 <Grid maxWidth="md">
                     <Row>
                         <Col
-                            fluidHeight
+                            fluidHeight={true}
                             bottomPadding={false}
                             md={6}
                             xs={12}
@@ -92,7 +82,7 @@ class LogInClass extends React.Component<Props> {
                                         Need an account?{" "}
                                         <Link
                                             color={Link.Color.Gray1}
-                                            decoration
+                                            decoration={true}
                                             to={{
                                                 pathname: "/register",
                                                 search:
@@ -113,7 +103,7 @@ class LogInClass extends React.Component<Props> {
                                     <Box mb={2}>
                                         <Field
                                             autocomplete="username email"
-                                            autofocus
+                                            autofocus={true}
                                             id="email"
                                             label="Email"
                                             value={email}
@@ -132,11 +122,11 @@ class LogInClass extends React.Component<Props> {
                                         />
                                     </Box>
 
-                                    <Box fluidWidth>
+                                    <Box fluidWidth={true}>
                                         <Button
                                             color={Button.Color.Brand}
                                             disabled={!validations.all.valid}
-                                            fluid
+                                            fluid={true}
                                             isLoading={isLoading}
                                             size={Button.Size.Lg}
                                             textAlign={Button.TextAlign.Left}
@@ -171,6 +161,19 @@ class LogInClass extends React.Component<Props> {
             </DocumentTitle>
         );
     }
+
+    private onChangeEmail = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.logInStore.setEmail(e.target.value);
+    };
+
+    private onChangePassword = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.logInStore.setPassword(e.target.value);
+    };
+
+    private onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        this.props.rootStore.logInStore.logIn();
+    };
 }
 
 export const LogIn = inject("rootStore")(observer(LogInClass));

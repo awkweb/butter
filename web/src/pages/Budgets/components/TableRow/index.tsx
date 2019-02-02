@@ -1,20 +1,21 @@
+import { toJS } from "mobx";
 import React from "react";
 import styled from "styled-components";
-import { Text, Link } from "../../../../components";
+
+import { Link, Text } from "../../../../components";
 import { prettyNumber } from "../../../../lib/currency";
 import { Budget } from "../../../../types/budget";
-import { toJS } from "mobx";
 
 interface Props {
     id?: string;
     name: string;
     budget?: Budget;
-    budgeted?: number;
-    spent?: number;
+    budgeted: number | undefined;
+    spent: number | undefined;
 }
 
 export default class TableRow extends React.Component<Props> {
-    render() {
+    public render() {
         const { id, name, budget, budgeted, spent } = this.props;
         const remaining = (budgeted as number) - (spent as number);
         return (
