@@ -62,14 +62,13 @@ export default class TableRow extends React.Component<Props> {
                                     color={Link.Color.Blue2}
                                     whiteSpace={Text.WhiteSpace.NoWrap}
                                     weight={Link.Weight.Medium}
-                                    size={Text.Size.Sm}
                                 >
                                     {name}
                                 </Text>
                             </Link>
                             <Text
                                 color={Text.Color.Gray3}
-                                size={Text.Size.Xs}
+                                size={Text.Size.Sm}
                                 whiteSpace={Text.WhiteSpace.NoWrap}
                             >
                                 {date}
@@ -79,16 +78,10 @@ export default class TableRow extends React.Component<Props> {
                     </Box>
                 </StyledTableData>
                 <StyledTableData>
-                    {budgetName && (
-                        <Text size={Text.Size.Sm}>{budgetName}</Text>
-                    )}
+                    {budgetName && <Text>{budgetName}</Text>}
                 </StyledTableData>
                 <StyledTableData>
-                    <Text
-                        align={Text.Align.Right}
-                        color={Text.Color.Gray2}
-                        size={Text.Size.Sm}
-                    >
+                    <Text align={Text.Align.Right} color={Text.Color.Gray2}>
                         {prettyNumber(amountCents)}
                     </Text>
                 </StyledTableData>

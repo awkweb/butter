@@ -22,7 +22,7 @@ export default class Dropdown extends React.Component<Props> {
                 <StyledDropdownItem>
                     <Link
                         color={Link.Color.Gray2}
-                        size={Link.Size.Xs}
+                        size={Link.Size.Sm}
                         to="/accounts"
                     >
                         Connected Accounts
@@ -33,7 +33,7 @@ export default class Dropdown extends React.Component<Props> {
                         <Text
                             align={Text.Align.Left}
                             color={Text.Color.Gray2}
-                            size={Text.Size.Xs}
+                            size={Text.Size.Sm}
                         >
                             Log Out
                         </Text>

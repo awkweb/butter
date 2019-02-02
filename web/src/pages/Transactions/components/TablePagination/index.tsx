@@ -173,7 +173,7 @@ const commonStyles = cssFactory(css)`
     border: 1px solid ${props => props.theme.colors.gray9};
     color: ${props => props.theme.colors.blue3};
     cursor: pointer;
-    font-size: ${props => props.theme.text.getSize(Text.Size.Xs)};
+    font-size: ${props => props.theme.text.getSize(Text.Size.Sm)};
     font-weight: ${props => props.theme.text.getWeight(Text.Weight.SemiBold)};
     margin-left: -1px;
     outline: none;

@@ -38,7 +38,7 @@ class NoMatchClass extends React.Component<Props> {
                                     </Text>
                                 </Box>
                                 <Box mb={8} textAlign={Box.TextAlign.Center}>
-                                    <Text size={Text.Size.Sm}>
+                                    <Text>
                                         Apologies, but there&#8217;s nothing
                                         here at the moment.
                                     </Text>

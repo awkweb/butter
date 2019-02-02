@@ -27,7 +27,6 @@ export default class TableRow extends React.Component<Props> {
                                 pathname: `/budgets/${id}`,
                                 state: { budget: toJS(budget) }
                             }}
-                            size={Text.Size.Sm}
                             weight={Link.Weight.Medium}
                         >
                             {name}
@@ -35,7 +34,6 @@ export default class TableRow extends React.Component<Props> {
                     ) : (
                         <Text
                             color={Link.Color.Gray1}
-                            size={Text.Size.Sm}
                             weight={Link.Weight.Medium}
                         >
                             {name}
@@ -44,13 +42,13 @@ export default class TableRow extends React.Component<Props> {
                 </StyledTableData>
 
                 <StyledTableData>
-                    <Text align={Text.Align.Right} size={Text.Size.Sm}>
+                    <Text align={Text.Align.Right}>
                         {prettyNumber(budgeted as number)}
                     </Text>
                 </StyledTableData>
 
                 <StyledTableData>
-                    <Text align={Text.Align.Right} size={Text.Size.Sm}>
+                    <Text align={Text.Align.Right}>
                         {prettyNumber(spent as number)}
                     </Text>
                 </StyledTableData>
@@ -58,7 +56,6 @@ export default class TableRow extends React.Component<Props> {
                 <StyledTableData>
                     <Text
                         align={Text.Align.Right}
-                        size={Text.Size.Sm}
                         color={
                             remaining < 0 ? Text.Color.Red2 : Text.Color.Gray1
                         }

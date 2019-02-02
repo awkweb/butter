@@ -73,7 +73,7 @@ export class Navbar extends React.Component<Props> {
                                                 {...this.getLinkProps(
                                                     "/budgets"
                                                 )}
-                                                size={Text.Size.Xs}
+                                                size={Text.Size.Sm}
                                             >
                                                 Budgets
                                             </Text>
@@ -85,7 +85,7 @@ export class Navbar extends React.Component<Props> {
                                                 {...this.getLinkProps(
                                                     "/transactions"
                                                 )}
-                                                size={Text.Size.Xs}
+                                                size={Text.Size.Sm}
                                             >
                                                 Transactions
                                             </Text>
@@ -131,7 +131,6 @@ export class Navbar extends React.Component<Props> {
                                                 <Text
                                                     color={Text.Color.White}
                                                     el={Text.Element.Span}
-                                                    size={Text.Size.Sm}
                                                     transform={
                                                         Text.Transform.Uppercase
                                                     }

@@ -26,7 +26,6 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Left}
-                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     Name
@@ -35,7 +34,6 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     Budgeted
@@ -44,7 +42,6 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     Spent
@@ -53,7 +50,6 @@ export default class Table extends React.Component<Props> {
                             <th>
                                 <Text
                                     align={Text.Align.Right}
-                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     Remaining
@@ -84,7 +80,6 @@ export default class Table extends React.Component<Props> {
                                     >
                                         <Text
                                             align={Text.Align.Center}
-                                            size={Text.Size.Sm}
                                             weight={Text.Weight.Medium}
                                         >
                                             No budgets

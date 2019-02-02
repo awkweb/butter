@@ -3,16 +3,16 @@ import units from "./units";
 import { Element, Font, Size, Weight } from "../types/text";
 
 export const TEXT_SIZES = {
-    [Size.Xxs]: 0.75,
-    [Size.Xs]: 0.875,
-    [Size.Sm]: 1,
-    [Size.Md]: 1.125,
-    [Size.Lg]: 1.25,
-    [Size.Xl]: 1.5,
-    [Size.Xxl]: 1.875,
-    [Size.Xxxl]: 2.25,
-    [Size.Xxxxl]: 3,
-    [Size.Xxxxxl]: 3.75
+    [Size.Xxs]: 0.625,
+    [Size.Xs]: 0.75,
+    [Size.Sm]: 0.875,
+    [Size.Md]: 1,
+    [Size.Lg]: 1.125,
+    [Size.Xl]: 1.25,
+    [Size.Xxl]: 1.5,
+    [Size.Xxxl]: 1.875,
+    [Size.Xxxxl]: 2.25,
+    [Size.Xxxxxl]: 3
 };
 
 const WEIGHTS = {

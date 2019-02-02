@@ -30,18 +30,18 @@ export class PasswordFeatures extends React.Component<Props> {
             >
                 <Box mr={3}>
                     <StyledPasswordFeature success={hasLowercaseLetter}>
-                        <Text size={Text.Size.Xxs}>One lowercase letter</Text>
+                        <Text size={Text.Size.Xs}>One lowercase letter</Text>
                     </StyledPasswordFeature>
                     <StyledPasswordFeature success={hasUppercaseLetter}>
-                        <Text size={Text.Size.Xxs}>One uppercase letter</Text>
+                        <Text size={Text.Size.Xs}>One uppercase letter</Text>
                     </StyledPasswordFeature>
                 </Box>
                 <Box>
                     <StyledPasswordFeature success={hasNumber}>
-                        <Text size={Text.Size.Xxs}>One number</Text>
+                        <Text size={Text.Size.Xs}>One number</Text>
                     </StyledPasswordFeature>
                     <StyledPasswordFeature success={isMinLength}>
-                        <Text size={Text.Size.Xxs}>8 characters minimum</Text>
+                        <Text size={Text.Size.Xs}>8 characters minimum</Text>
                     </StyledPasswordFeature>
                 </Box>
             </Box>

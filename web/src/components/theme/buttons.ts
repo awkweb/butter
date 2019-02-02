@@ -125,8 +125,8 @@ const buttons = Object.freeze({
     getHoverStyles,
 
     padding: {
-        xs: [1, 2],
-        sm: [1.5, 2]
+        sm: [1, 2],
+        md: [1.5, 2]
     }
 });
 

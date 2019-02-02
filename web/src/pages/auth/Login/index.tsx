@@ -81,19 +81,18 @@ class LogInClass extends React.Component<Props> {
                                 <Box mb={1}>
                                     <Text
                                         font={Text.Font.Title}
-                                        size={Text.Size.Xl}
+                                        size={Text.Size.Xxl}
                                     >
                                         Welcome back
                                     </Text>
                                 </Box>
 
                                 <Box mb={4}>
-                                    <Text size={Text.Size.Sm}>
+                                    <Text>
                                         Need an account?{" "}
                                         <Link
                                             color={Link.Color.Gray1}
                                             decoration
-                                            size={Text.Size.Sm}
                                             to={{
                                                 pathname: "/register",
                                                 search:
@@ -139,7 +138,7 @@ class LogInClass extends React.Component<Props> {
                                             disabled={!validations.all.valid}
                                             fluid
                                             isLoading={isLoading}
-                                            size={Button.Size.Md}
+                                            size={Button.Size.Lg}
                                             textAlign={Button.TextAlign.Left}
                                             type="submit"
                                         >
@@ -150,7 +149,7 @@ class LogInClass extends React.Component<Props> {
                                     <Box mt={1}>
                                         <Text
                                             color={Text.Color.Gray5}
-                                            size={Text.Size.Xxs}
+                                            size={Text.Size.Xs}
                                         >
                                             Splendid to see you again, Old
                                             Sport.
@@ -159,10 +158,7 @@ class LogInClass extends React.Component<Props> {
 
                                     {!!error && (
                                         <Box mt={3}>
-                                            <Text
-                                                color={Text.Color.Red3}
-                                                size={Text.Size.Sm}
-                                            >
+                                            <Text color={Text.Color.Red3}>
                                                 {error}
                                             </Text>
                                         </Box>

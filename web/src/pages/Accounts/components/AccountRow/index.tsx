@@ -77,19 +77,19 @@ export default class AccountRow extends React.Component<Props> {
                     <InstitutionLogo id={institutionId} />
                     <Box>
                         <Box mb={0.15}>
-                            <Text color={Text.Color.Gray4} size={Text.Size.Xs}>
+                            <Text color={Text.Color.Gray4} size={Text.Size.Sm}>
                                 {institutionName} -{" "}
                                 <Text
                                     color={Text.Color.Gray4}
                                     el={Text.Element.Span}
-                                    size={Text.Size.Xs}
+                                    size={Text.Size.Sm}
                                     transform={Text.Transform.Capitalize}
                                 >
                                     {type}
                                 </Text>
                             </Text>
                         </Box>
-                        <Text color={Text.Color.Gray1} size={Text.Size.Sm}>
+                        <Text color={Text.Color.Gray1}>
                             {name} - {mask}
                         </Text>
                     </Box>
@@ -108,7 +108,7 @@ export default class AccountRow extends React.Component<Props> {
                             >
                                 <Text
                                     color={Text.Color.Blue2}
-                                    size={Text.Size.Xs}
+                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     Renew Link

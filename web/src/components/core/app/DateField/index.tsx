@@ -84,7 +84,7 @@ const genInputCSS = (error: boolean) =>
 		color: ${props => props.theme.colors.gray1} !important;
 		font-family: ${props => props.theme.text.getFont()};
 		font-weight: ${props => props.theme.text.getWeight(Weight.Normal)} !important;
-		font-size: ${props => props.theme.text.getSize(Size.Md)};
+		font-size: ${props => props.theme.text.getSize(Size.Lg)};
 		height: 2.8125rem;
 		padding: ${props =>
             props.theme.units.getValues(field.padding.input)} !important;

@@ -74,7 +74,7 @@ const genInputCSS = (error: boolean) =>
 		border: ${props =>
             field.getBorderStyle(Color.Gray8, props.theme.colors, error)};
 		font-weight: ${props => props.theme.text.getWeight(Weight.Normal)};
-		font-size: ${props => props.theme.text.getSize(Size.Md)};
+		font-size: ${props => props.theme.text.getSize(Size.Lg)};
 		height: 2.8125rem;
 		padding: 0;
 		outline: 0;

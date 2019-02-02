@@ -202,7 +202,7 @@ const labelStyles = cssFactory<LabelProps>(css)`
             props.theme.colors.white
         } 45%)`};
     ${props => style("fontFamily", props.theme.text.getFont())};
-    ${props => style("fontSize", props.theme.text.getSize(Size.Xs))};
+    ${props => style("fontSize", props.theme.text.getSize(Size.Sm))};
     ${props => style("opacity", props.active ? 1 : 0)};
     padding: 0 0.45rem;
     ${props => style("pointerEvents", props.active ? "all" : "none")};
@@ -237,7 +237,7 @@ const sharedFieldStyles = cssFactory<InputProps>(css)`
     box-sizing: border-box;
     ${props => style("color", props.theme.colors[Color.Gray1])};
     ${props => style("fontFamily", props.theme.text.getFont())};
-    ${props => style("fontSize", props.theme.text.getSize(Size.Md))};
+    ${props => style("fontSize", props.theme.text.getSize(Size.Lg))};
     outline: 0;
     transition: border-color 125ms;
     width: 100%;

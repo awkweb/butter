@@ -72,7 +72,6 @@ export default class Table extends React.Component<Props> {
                             >
                                 <Text
                                     align={Text.Align.Center}
-                                    size={Text.Size.Sm}
                                     weight={Text.Weight.Medium}
                                 >
                                     No transactions

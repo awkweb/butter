@@ -98,7 +98,7 @@ export default class TableHeader extends React.Component<Props> {
                     display={Box.Display.Flex}
                     mr={2}
                 >
-                    <Text size={Text.Size.Sm} weight={Text.Weight.Medium}>
+                    <Text size={Text.Size.Md} weight={Text.Weight.Medium}>
                         Showing
                     </Text>
                     <Box css={genBudgetFilterCSS()} ml={1}>
@@ -160,7 +160,7 @@ const genBudgetFilterCSS = () =>
 	.react-select__control {
         border-color: ${props => props.theme.colors.gray8};
         font-weight: ${props => props.theme.text.getWeight(Text.Weight.Medium)};
-        font-size: ${props => props.theme.text.getSize(Text.Size.Xs)};
+        font-size: ${props => props.theme.text.getSize(Text.Size.Sm)};
         height: 37px;
         min-height: 37px;
         
@@ -187,6 +187,6 @@ const genBudgetFilterCSS = () =>
     }
 
     .react-select__option {
-		font-size: ${props => props.theme.text.getSize(Text.Size.Xs)};
+		font-size: ${props => props.theme.text.getSize(Text.Size.Sm)};
     }
 `;

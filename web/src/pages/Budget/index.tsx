@@ -143,7 +143,7 @@ class BudgetClass extends React.Component<Props> {
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
                                     noMargin
-                                    size={Text.Size.Xl}
+                                    size={Text.Size.Xxl}
                                 >
                                     {title}
                                 </Text>
@@ -205,7 +205,7 @@ class BudgetClass extends React.Component<Props> {
                                                 networkActive
                                             }
                                             isLoading={isLoading}
-                                            size={Button.Size.Md}
+                                            size={Button.Size.Lg}
                                             type="submit"
                                         >
                                             {isUpdatable ? "Update" : "Create"}
@@ -218,7 +218,6 @@ class BudgetClass extends React.Component<Props> {
                                             <Link
                                                 color={Link.Color.Gray5}
                                                 disabled={networkActive}
-                                                size={Link.Size.Sm}
                                                 weight={Link.Weight.Medium}
                                                 to="/budgets"
                                             >
@@ -236,7 +235,7 @@ class BudgetClass extends React.Component<Props> {
                                                 disabled={networkActive}
                                                 isLoading={isDeleting}
                                                 noBackground
-                                                size={Button.Size.Md}
+                                                size={Button.Size.Lg}
                                                 onClick={this.onClickDelete}
                                             >
                                                 {startDelete
@@ -249,10 +248,7 @@ class BudgetClass extends React.Component<Props> {
 
                                 {!!error && (
                                     <Box mt={3}>
-                                        <Text
-                                            color={Text.Color.Red3}
-                                            size={Text.Size.Sm}
-                                        >
+                                        <Text color={Text.Color.Red3}>
                                             {error}
                                         </Text>
                                     </Box>

@@ -134,7 +134,7 @@ export class Button extends React.Component<Props> {
         disabled: false,
         fluid: false,
         isLoading: false,
-        size: Size.Sm,
+        size: Size.Md,
         textAlign: "center",
         type: "button"
     };

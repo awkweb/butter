@@ -7,6 +7,6 @@ export enum Color {
 }
 
 export enum Size {
-    Sm = "xs",
-    Md = "sm"
+    Md = "sm",
+    Lg = "md"
 }

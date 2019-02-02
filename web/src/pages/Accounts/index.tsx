@@ -73,7 +73,7 @@ class AccountsClass extends React.Component<Props> {
                                     el={Text.Element.H1}
                                     font={Text.Font.Title}
                                     noMargin
-                                    size={Text.Size.Xl}
+                                    size={Text.Size.Xxl}
                                 >
                                     Connected Accounts
                                 </Text>
@@ -146,9 +146,7 @@ class AccountsClass extends React.Component<Props> {
                                         p={4}
                                         textAlign={Box.TextAlign.Center}
                                     >
-                                        <Text size={Text.Size.Sm}>
-                                            No accounts
-                                        </Text>
+                                        <Text>No accounts</Text>
                                     </Box>
                                 )}
                             </Col>
