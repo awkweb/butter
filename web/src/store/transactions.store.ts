@@ -1,10 +1,12 @@
-import { action, decorate, observable, computed, toJS } from "mobx";
-import api from "../api";
-import RootStore from "./index";
-import { get } from "../lib/get";
-import { Transaction } from "../types/transaction";
-import { Budget } from "../types/budget";
+import { action, computed, decorate, observable, toJS } from "mobx";
 import { parse } from "query-string";
+
+import api from "../api";
+import { get } from "../lib/get";
+import { Budget } from "../types/budget";
+import { Transaction } from "../types/transaction";
+
+import RootStore from "./index";
 
 const PAGE_SIZE = 10;
 
@@ -13,9 +15,9 @@ interface Props {
     /**
      * observable
      */
-    budgets: Array<Budget>;
-    selectedTransactionIds: Array<string>;
-    transactions: Array<Transaction>;
+    budgets: Budget[];
+    selectedTransactionIds: string[];
+    transactions: Transaction[];
     transactionCount: number;
     page: number;
     budgetFilter: string;
@@ -29,26 +31,26 @@ interface Props {
     /**
      * action
      */
-    deleteTransactions: Function;
-    getTransactions: Function;
-    handleSelectAll: Function;
-    selectTransaction: Function;
-    handleCategorize: Function;
-    handleOutsideClick: Function;
-    reset: Function;
+    deleteTransactions: () => void;
+    getTransactions: () => void;
+    handleSelectAll: () => void;
+    selectTransaction: (id: string) => void;
+    handleCategorize: (budgetId: string) => void;
+    handleOutsideClick: () => void;
+    reset: () => void;
 }
 
 export default class TransactionsStore implements Props {
-    rootStore: RootStore;
+    public rootStore: RootStore;
 
-    selectedTransactionIds: Array<string> = [];
-    budgets: Array<Budget> = [];
-    transactions: Array<Transaction> = [];
-    transactionCount = 0;
-    page = 1;
-    budgetFilter = "all";
-    isLoading = false;
-    startDelete = false;
+    public selectedTransactionIds: string[] = [];
+    public budgets: Budget[] = [];
+    public transactions: Transaction[] = [];
+    public transactionCount = 0;
+    public page = 1;
+    public budgetFilter = "all";
+    public isLoading = false;
+    public startDelete = false;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -69,12 +71,15 @@ export default class TransactionsStore implements Props {
         return Math.ceil(this.transactionCount / PAGE_SIZE);
     }
 
-    getBudgets = async () => {
+    public getBudgets = async () => {
         try {
             const { data: budgets } = await api.budgets.getBulk();
             this.budgets = budgets.sort((a: Budget, b: Budget) => {
-                if (a.name > b.name) return 1;
-                else if (a.name < b.name) return -1;
+                if (a.name > b.name) {
+                    return 1;
+                } else if (a.name < b.name) {
+                    return -1;
+                }
                 return 0;
             });
         } catch (err) {
@@ -83,11 +88,11 @@ export default class TransactionsStore implements Props {
         }
     };
 
-    addTransaction = (transaction: Transaction) => {
+    public addTransaction = (transaction: Transaction) => {
         this.transactions = [transaction, ...this.transactions];
     };
 
-    removeTransaction = (transactionId: string) => {
+    public removeTransaction = (transactionId: string) => {
         this.transactions = [
             ...this.transactions.filter(
                 transaction => transaction.id !== transactionId
@@ -95,7 +100,7 @@ export default class TransactionsStore implements Props {
         ];
     };
 
-    deleteTransactions = async () => {
+    public deleteTransactions = async () => {
         if (this.startDelete) {
             try {
                 const transactionIds = toJS(this.selectedTransactionIds);
@@ -117,7 +122,7 @@ export default class TransactionsStore implements Props {
         }
     };
 
-    updateTransaction = (transaction: Transaction) => {
+    public updateTransaction = (transaction: Transaction) => {
         const transactionIndex = this.transactions.findIndex(
             t => t.id === transaction.id
         );
@@ -135,10 +140,10 @@ export default class TransactionsStore implements Props {
         ];
     };
 
-    getTransactions = async () => {
+    public getTransactions = async () => {
         const queryParams = parse(location.search);
         const page = queryParams.page
-            ? parseInt(queryParams.page as string)
+            ? parseInt(queryParams.page as string, 10)
             : undefined;
         const budget =
             queryParams.budget !== "all"
@@ -166,7 +171,7 @@ export default class TransactionsStore implements Props {
         }
     };
 
-    handleSelectAll = () => {
+    public handleSelectAll = () => {
         if (this.allSelected) {
             this.selectedTransactionIds = [];
         } else {
@@ -178,7 +183,7 @@ export default class TransactionsStore implements Props {
         }
     };
 
-    handleCategorize = async (budgetId: string) => {
+    public handleCategorize = async (budgetId: string) => {
         try {
             const transactionIds = toJS(this.selectedTransactionIds);
             await api.transactions.categorizeBulk({
@@ -199,8 +204,11 @@ export default class TransactionsStore implements Props {
                         budget
                     }))
             ].sort((a: Transaction, b: Transaction) => {
-                if (a.date < b.date) return 1;
-                else if (a.date > b.date) return -1;
+                if (a.date < b.date) {
+                    return 1;
+                } else if (a.date > b.date) {
+                    return -1;
+                }
                 return 0;
             });
             this.transactions = updatedTransactions;
@@ -211,7 +219,7 @@ export default class TransactionsStore implements Props {
         }
     };
 
-    selectTransaction = (id: string) => {
+    public selectTransaction = (id: string) => {
         let transactionIds;
         if (this.selectedTransactionIds.includes(id)) {
             transactionIds = [
@@ -225,11 +233,11 @@ export default class TransactionsStore implements Props {
         this.selectedTransactionIds = transactionIds;
     };
 
-    handleOutsideClick = () => {
+    public handleOutsideClick = () => {
         this.startDelete = false;
     };
 
-    reset = () => {
+    public reset = () => {
         this.budgets = [];
         this.selectedTransactionIds = [];
         this.transactions = [];
