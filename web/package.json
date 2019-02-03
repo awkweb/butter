@@ -41,7 +41,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "lint": "tslint -c tslint.json --project tsconfig.json",
         "styleguide": "styleguidist server",
         "styleguide:build": "styleguidist build"
     },

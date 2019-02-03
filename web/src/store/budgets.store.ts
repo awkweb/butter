@@ -114,16 +114,19 @@ export default class BudgetsStore implements Props {
         const startDate = queryParams.start_date;
         const endDate = queryParams.end_date;
 
+        this.startDate = startDate
+            ? moment(startDate)
+            : moment().startOf("month");
+        if (endDate) {
+            this.endDate = moment(endDate);
+        }
+
         try {
             this.isLoading = true;
             const { data: budgets } = await api.budgets.getDashboard({
                 start_date: startDate,
                 end_date: endDate
             });
-            this.startDate = moment(startDate);
-            if (endDate) {
-                this.endDate = moment(endDate);
-            }
             this.budgets = budgets;
         } catch (err) {
             const error = get(() => err.response.data);
