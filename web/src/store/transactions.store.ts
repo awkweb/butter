@@ -9,6 +9,14 @@ import { Transaction } from "../types/transaction";
 import RootStore from "./index";
 
 const PAGE_SIZE = 10;
+const dateSorter = (a: Transaction, b: Transaction) => {
+    if (a.date < b.date) {
+        return 1;
+    } else if (a.date > b.date) {
+        return -1;
+    }
+    return 0;
+};
 
 interface Props {
     /**
@@ -88,7 +96,9 @@ export default class TransactionsStore implements Props {
     };
 
     public addTransaction = (transaction: Transaction) => {
-        this.transactions = [transaction, ...this.transactions];
+        this.transactions = [transaction, ...this.transactions].sort(
+            dateSorter
+        );
     };
 
     public removeTransaction = (transactionId: string) => {
@@ -104,14 +114,24 @@ export default class TransactionsStore implements Props {
             try {
                 const transactionIds = toJS(this.selectedTransactionIds);
                 await api.transactions.deleteBulk(transactionIds);
+                const deletedTransactions = this.transactions.filter(
+                    t => transactionIds.includes(t.id) && get(() => t.budget.id)
+                );
                 this.transactions = [
                     ...this.transactions.filter(
                         transaction => !transactionIds.includes(transaction.id)
                     )
                 ];
                 this.selectedTransactionIds = [];
-                // tslint:disable-next-line
-                console.log(this.rootStore);
+
+                // Update budget store with changes
+                deletedTransactions.forEach(t => {
+                    this.rootStore.budgetsStore.changeTransactions(
+                        t.budget.id,
+                        -t.amountCents,
+                        1
+                    );
+                });
             } catch (err) {
                 const error = get(() => err.response.data);
                 throw error;
@@ -138,7 +158,7 @@ export default class TransactionsStore implements Props {
                 transactionIndex + 1,
                 this.transactions.length
             )
-        ];
+        ].sort(dateSorter);
     };
 
     public getTransactions = async () => {
@@ -177,9 +197,7 @@ export default class TransactionsStore implements Props {
             this.selectedTransactionIds = [];
         } else {
             this.selectedTransactionIds = [
-                ...this.transactions.map(
-                    (transaction: Transaction) => transaction.id
-                )
+                ...this.transactions.map((t: Transaction) => t.id)
             ];
         }
     };
@@ -191,29 +209,43 @@ export default class TransactionsStore implements Props {
                 budget_id: budgetId,
                 transaction_ids: transactionIds
             });
+
             const budget = this.budgets.find(b => b.id === budgetId) as Budget;
-            const updatedTransactions = [
+            const changedTransactions = this.transactions.filter(
+                t =>
+                    get(() => t.budget.id) !== budgetId &&
+                    transactionIds.includes(t.id)
+            );
+            const updatedTransactions = changedTransactions.map(t => ({
+                ...t,
+                budget
+            }));
+            this.transactions = [
                 ...this.transactions.filter(
-                    transaction => !transactionIds.includes(transaction.id)
+                    t => !transactionIds.includes(t.id)
                 ),
-                ...this.transactions
-                    .filter(transaction =>
-                        transactionIds.includes(transaction.id)
-                    )
-                    .map(transaction => ({
-                        ...transaction,
-                        budget
-                    }))
-            ].sort((a: Transaction, b: Transaction) => {
-                if (a.date < b.date) {
-                    return 1;
-                } else if (a.date > b.date) {
-                    return -1;
-                }
-                return 0;
-            });
-            this.transactions = updatedTransactions;
+                ...updatedTransactions
+            ].sort(dateSorter);
             this.selectedTransactionIds = [];
+
+            // Update budget store with changes
+            this.rootStore.budgetsStore.changeTransactions(
+                budgetId,
+                updatedTransactions.reduce(
+                    (total, t: Transaction) => total + t.amountCents,
+                    0
+                ) || 0,
+                updatedTransactions.length
+            );
+            changedTransactions.forEach(t => {
+                if (get(() => t.budget.id) && t.budget.id !== budgetId) {
+                    this.rootStore.budgetsStore.changeTransactions(
+                        t.budget.id,
+                        -t.amountCents,
+                        1
+                    );
+                }
+            });
         } catch (err) {
             const error = get(() => err.response.data);
             throw error;

@@ -47,8 +47,8 @@ export default class RootStore implements Props {
 
     constructor() {
         this.budgetFormStore = new BudgetFormStore(this);
-        this.budgetsStore = new BudgetsStore();
-        this.itemsStore = new ItemsStore();
+        this.budgetsStore = new BudgetsStore(this);
+        this.itemsStore = new ItemsStore(this);
         this.logInStore = new LogInStore(this);
         this.registerStore = new RegisterStore(this);
         this.transactionFormStore = new TransactionFormStore(this);

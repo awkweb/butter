@@ -1,6 +1,6 @@
+import { Size } from "../../types/space";
 import colors from "../colors";
 import text, { typeScaleRoot } from "../text";
-import { Size } from "../../types/space";
 
 const PAGE_MIN_WIDTH = "320px";
 

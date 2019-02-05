@@ -4,6 +4,8 @@ import api from "../api";
 import { get } from "../lib/get";
 import { Item } from "../types/item";
 
+import RootStore from ".";
+
 interface Props {
     /**
      * observable
@@ -25,6 +27,12 @@ export default class ItemsStore implements Props {
     public items: Item[] = [];
     public isDeleting = false;
     public isLoading = false;
+
+    private rootStore: RootStore;
+
+    constructor(rootStore: RootStore) {
+        this.rootStore = rootStore;
+    }
 
     public createItem = async (data: object) => {
         try {
@@ -50,6 +58,7 @@ export default class ItemsStore implements Props {
             this.isDeleting = true;
             await api.items.delete(id);
             this.items = [...this.items.filter(item => item.id !== id)];
+            this.rootStore.transactionsStore.reset();
         } catch (err) {
             const error = get(() => err.response.data);
             throw error;

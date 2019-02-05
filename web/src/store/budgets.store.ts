@@ -6,6 +6,8 @@ import api from "../api";
 import { get } from "../lib/get";
 import { Budget } from "../types/budget";
 
+import RootStore from ".";
+
 interface Props {
     /**
      * observable
@@ -40,6 +42,12 @@ export default class BudgetsStore implements Props {
     public endDate: Moment | null = moment();
     public isLoading = false;
 
+    private rootStore: RootStore;
+
+    constructor(rootStore: RootStore) {
+        this.rootStore = rootStore;
+    }
+
     get totalBudgeted(): number {
         return (
             this.budgets.reduce(
@@ -65,7 +73,7 @@ export default class BudgetsStore implements Props {
     ) => {
         const budget = this.budgets.find(b => b.id === budgetId);
         if (budget) {
-            const spent = budget.spent - amount;
+            const spent = budget.spent + amount;
             this.updateBudget({
                 ...budget,
                 spent,
@@ -85,12 +93,14 @@ export default class BudgetsStore implements Props {
             }
             return 0;
         });
+        this.rootStore.transactionsStore.reset();
     };
 
     public removeBudget = (budgetId: string) => {
         this.budgets = [
             ...this.budgets.filter(budget => budget.id !== budgetId)
         ];
+        this.rootStore.transactionsStore.reset();
     };
 
     public updateBudget = (budget: Budget) => {
@@ -107,6 +117,7 @@ export default class BudgetsStore implements Props {
             updatedBudget,
             ...this.budgets.slice(budgetIndex + 1, this.budgets.length)
         ];
+        this.rootStore.transactionsStore.reset();
     };
 
     public getBudgets = async () => {

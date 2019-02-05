@@ -1,12 +1,14 @@
-import React from "react";
 import { inject, observer } from "mobx-react";
+import { parse, stringify } from "query-string";
+import React from "react";
 import DocumentTitle from "react-document-title";
-import { Box, Col, Text, Grid, Row, Button, Loader } from "../../components";
+
+import { Box, Button, Col, Grid, Loader, Row, Text } from "../../components";
+import { get } from "../../lib/get";
 import RootStore from "../../store";
+
 import Table from "./components/Table";
 import TableHeader from "./components/TableHeader";
-import { get } from "../../lib/get";
-import { parse, stringify } from "query-string";
 
 interface Props {
     history: any;
@@ -14,7 +16,7 @@ interface Props {
 }
 
 class TransactionsClass extends React.Component<Props> {
-    componentWillMount() {
+    public componentWillMount() {
         const {
             rootStore: {
                 transactionsStore: { transactions, getBudgets, getTransactions }
@@ -27,40 +29,30 @@ class TransactionsClass extends React.Component<Props> {
         getTransactions();
     }
 
-    componentDidUpdate() {
+    public componentDidUpdate() {
         const {
             rootStore: {
                 transactionsStore: {
                     budgetFilter: currentBudget,
                     page: currentPage,
-                    getTransactions
+                    getTransactions,
+                    isLoading
                 }
             }
         } = this.props;
 
         const queryParams = parse(location.search);
-        const page = parseInt(get(() => queryParams.page, "1"));
+        const page = parseInt(get(() => queryParams.page, "1"), 10);
         const pageChanged = page !== currentPage;
         const budget = get(() => queryParams.budget, "all");
         const budgetChanged = budget !== currentBudget;
 
-        if (pageChanged || budgetChanged) {
+        if ((pageChanged || budgetChanged) && !isLoading) {
             getTransactions();
         }
     }
 
-    setBudgetFilter = (budget: string) => {
-        const queryParams = {
-            budget: budget === "all" ? undefined : budget,
-            page: 1
-        };
-        this.props.history.push({
-            pathname: "/transactions",
-            search: stringify(queryParams)
-        });
-    };
-
-    render() {
+    public render() {
         const {
             rootStore: {
                 transactionsStore: {
@@ -147,6 +139,17 @@ class TransactionsClass extends React.Component<Props> {
             </DocumentTitle>
         );
     }
+
+    private setBudgetFilter = (budget: string) => {
+        const queryParams = {
+            budget: budget === "all" ? undefined : budget,
+            page: 1
+        };
+        this.props.history.push({
+            pathname: "/transactions",
+            search: stringify(queryParams)
+        });
+    };
 }
 
 export const Transactions = inject("rootStore")(observer(TransactionsClass));

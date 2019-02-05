@@ -18,6 +18,7 @@ interface Props {
 
 export default class DateRangePicker extends React.Component<Props> {
     public state = {
+        datesChanged: false,
         focusedInput: "startDate",
         isOpen: false
     };
@@ -65,16 +66,20 @@ export default class DateRangePicker extends React.Component<Props> {
     }) => {
         const { startDate, endDate } = arg;
         this.props.handleDatesChange(startDate, endDate);
+
+        if (!this.state.datesChanged) {
+            this.setState({ datesChanged: true });
+        }
     };
 
     private onFocusChange = (focusedInput: "startDate" | "endDate" | null) => {
         this.setState({ focusedInput });
         if (!focusedInput) {
-            this.setState({ isOpen: false });
-            setTimeout(() => {
+            if (this.state.datesChanged) {
                 const { endDate, startDate, handleClose } = this.props;
                 handleClose(startDate as Moment, endDate);
-            });
+            }
+            this.setState({ datesChanged: false, isOpen: false });
         }
     };
 

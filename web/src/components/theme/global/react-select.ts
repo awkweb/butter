@@ -1,15 +1,16 @@
 // react-select overrides
+import { Weight } from "../../types/text";
 import colors from "../colors";
 import cornerRadii from "../corner-radii";
 import text from "../text";
 import zIndex from "../z-index";
-import { Weight } from "../../types/text";
 
 export default () => `
 	.react-select__control {
 		background-color: ${colors.red1};
-		border-radius: ${cornerRadii.default} !important;
+        border-radius: ${cornerRadii.default} !important;
 		box-sizing: border-box;
+        cursor: pointer !important;        
 		font-family: ${text.getFont()};
 		padding: 0;
 		outline: 0;
@@ -35,10 +36,13 @@ export default () => `
 	
 	.react-select__menu-list {
         padding: 0 !important;
+        &::-webkit-scrollbar { 
+            display: none; 
+        }
 	}
 	
 	.react-select__option {
-        cursor: pointer;
+        cursor: pointer !important;
 
         &:active {
             background-color: ${colors.gray8};

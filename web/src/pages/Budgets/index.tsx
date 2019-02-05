@@ -125,6 +125,7 @@ class BudgetsClass extends React.Component<Props> {
                 budgetsStore: { setStartDate, setEndDate }
             }
         } = this.props;
+
         setStartDate(startDate);
         setEndDate(endDate);
     };

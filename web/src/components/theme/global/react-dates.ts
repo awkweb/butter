@@ -1,8 +1,8 @@
 // react-dates overrides https://github.com/airbnb/react-dates#overriding-styles
+import { Weight } from "../../types/text";
 import colors from "../colors";
 import cornerRadii from "../corner-radii";
 import text from "../text";
-import { Weight } from "../../types/text";
 
 export default () => `
 	.DateInput_fang {
@@ -63,7 +63,7 @@ export default () => `
 
 	.CalendarDay__selected_span {
 		background: ${colors.blue4} !important;
-		border-color: ${colors.blue4} !important;
+		border: 1px double ${colors.blue4} !important;
 	}
 
 	.CalendarDay__selected_span:hover {
