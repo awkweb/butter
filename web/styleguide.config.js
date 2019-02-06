@@ -10,39 +10,37 @@ module.exports = {
     sections: [
         {
             name: "Color",
-            content: "src/components/core/components/color/readme.md",
+            content: "src/components/core/color/readme.md",
             exampleMode: "hide"
         },
         {
             name: "Typography",
-            content: "src/components/core/components/typography/readme.md",
-            components:
-                "src/components/core/components/typography/**/*/index.tsx",
+            content: "src/components/core/typography/readme.md",
+            components: "src/components/core/typography/**/*/index.tsx",
             sectionDepth: 2
         },
         {
             name: "Layout",
-            content: "src/components/core/components/layout/readme.md",
-            components: "src/components/core/components/layout/**/*/index.tsx",
+            content: "src/components/core/layout/readme.md",
+            components: "src/components/core/layout/**/*/index.tsx",
             sectionDepth: 2
         },
         {
             name: "Actions",
-            content: "src/components/core/components/actions/readme.md",
-            components: "src/components/core/components/actions/**/*/index.tsx",
+            content: "src/components/core/actions/readme.md",
+            components: "src/components/core/actions/**/*/index.tsx",
             sectionDepth: 2
         },
         {
             name: "Form",
-            content: "src/components/core/components/form/readme.md",
-            components: "src/components/core/components/form/**/*/index.tsx",
+            content: "src/components/core/form/readme.md",
+            components: "src/components/core/form/**/*/index.tsx",
             sectionDepth: 2
         },
         {
             name: "Indicators",
-            content: "src/components/core/components/indicators/readme.md",
-            components:
-                "src/components/core/components/indicators/**/*/index.tsx",
+            content: "src/components/core/indicators/readme.md",
+            components: "src/components/core/indicators/**/*/index.tsx",
             sectionDepth: 2
         }
     ],
@@ -52,7 +50,7 @@ module.exports = {
     serverPort: 3003,
 
     styleguideComponents: {
-        Wrapper: path.join(__dirname, "src/components/core/docs/Wrapper")
+        Wrapper: path.join(__dirname, "src/components/docs/Wrapper")
     },
 
     usageMode: "expand",

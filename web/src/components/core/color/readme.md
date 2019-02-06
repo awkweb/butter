@@ -4,7 +4,12 @@
 const colors = require("../../theme/colors").default;
 <Box display={Box.Display.Flex} flexWrap={Box.FlexWrap.Wrap}>
     {Object.keys(colors)
-        .filter(key => !key.includes("gray") && !key.includes("white"))
+        .filter(
+            key =>
+                !key.includes("gray") &&
+                !key.includes("white") &&
+                !key.includes("background")
+        )
         .map(key => (
             <Box
                 b
@@ -33,7 +38,12 @@ const colors = require("../../theme/colors").default;
 const colors = require("../../theme/colors").default;
 <Box display={Box.Display.Flex} flexWrap={Box.FlexWrap.Wrap}>
     {Object.keys(colors)
-        .filter(key => key.includes("gray") || key.includes("white"))
+        .filter(
+            key =>
+                key.includes("gray") ||
+                key.includes("white") ||
+                key.includes("background")
+        )
         .map(key => (
             <Box
                 b
