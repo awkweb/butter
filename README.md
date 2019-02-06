@@ -5,4 +5,4 @@ what: track spending by creating budgets and pulling in transactions automatical
 goal: 10 unknown people paying monthly
 ```
 
-Check out the [`RUNBOOK`](https://github.com/tmm/wilbur/blob/master/RUNBOOK.md) for more info.
+For documentation, check out [the wiki](https://github.com/tmm/wilbur/wiki).
