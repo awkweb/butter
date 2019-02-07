@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import {
@@ -60,48 +60,6 @@ class BudgetClass extends React.Component<Props> {
         this.props.rootStore.budgetFormStore.reset();
     }
 
-    public onChangeName = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setName(e.target.value);
-    };
-
-    public onChangeAmount = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setAmount(e.target.value);
-    };
-
-    public onChangeDescription = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.budgetFormStore.setDescription(e.target.value);
-    };
-
-    public onSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const {
-            history,
-            rootStore: {
-                budgetFormStore: { isUpdatable, handleUpdate, handleCreate }
-            }
-        } = this.props;
-        if (isUpdatable) {
-            handleUpdate();
-            history.push("/budgets");
-        } else {
-            await handleCreate();
-            history.push("/budgets");
-        }
-    };
-
-    public onClickDelete = async () => {
-        const {
-            history,
-            rootStore: {
-                budgetFormStore: { handleDelete, startDelete }
-            }
-        } = this.props;
-        await handleDelete();
-        if (startDelete) {
-            history.push("/budgets");
-        }
-    };
-
     public render() {
         const {
             rootStore: {
@@ -124,7 +82,10 @@ class BudgetClass extends React.Component<Props> {
         } = this.props;
         const title = `${isUpdatable ? "Update" : "Create"} Budget`;
         return (
-            <DocumentTitle title={`${title} | Wilbur`}>
+            <React.Fragment>
+                <Helmet>
+                    <title>{title}</title>
+                </Helmet>
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -251,9 +212,51 @@ class BudgetClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
+
+    private onChangeName = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.budgetFormStore.setName(e.target.value);
+    };
+
+    private onChangeAmount = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.budgetFormStore.setAmount(e.target.value);
+    };
+
+    private onChangeDescription = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.budgetFormStore.setDescription(e.target.value);
+    };
+
+    private onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const {
+            history,
+            rootStore: {
+                budgetFormStore: { isUpdatable, handleUpdate, handleCreate }
+            }
+        } = this.props;
+        if (isUpdatable) {
+            handleUpdate();
+            history.push("/budgets");
+        } else {
+            await handleCreate();
+            history.push("/budgets");
+        }
+    };
+
+    private onClickDelete = async () => {
+        const {
+            history,
+            rootStore: {
+                budgetFormStore: { handleDelete, startDelete }
+            }
+        } = this.props;
+        await handleDelete();
+        if (startDelete) {
+            history.push("/budgets");
+        }
+    };
 }
 
 export const Budget = inject("rootStore")(observer(BudgetClass));

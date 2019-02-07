@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import {
@@ -72,62 +72,6 @@ class TransactionClass extends React.Component<Props> {
         this.props.rootStore.transactionFormStore.reset();
     }
 
-    public onChangeName = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.transactionFormStore.setName(e.target.value);
-    };
-
-    public onChangeAmount = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.transactionFormStore.setAmount(e.target.value);
-    };
-
-    public onChangeDescription = (e: React.ChangeEvent<any>) => {
-        this.props.rootStore.transactionFormStore.setDescription(
-            e.target.value
-        );
-    };
-
-    public onChangeDateFocused = ({ focused }: { focused: boolean | null }) => {
-        this.props.rootStore.transactionFormStore.setDateFocused(!!focused);
-    };
-
-    public onSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const {
-            history,
-            rootStore: {
-                transactionFormStore: {
-                    isUpdatable,
-                    handleUpdate,
-                    handleCreate
-                }
-            }
-        } = this.props;
-        if (isUpdatable) {
-            handleUpdate();
-            history.push("/transactions");
-        } else {
-            await handleCreate();
-            history.push("/transactions");
-        }
-    };
-
-    public onOutsideClick = () => {
-        this.props.rootStore.transactionFormStore.handleOutsideClick();
-    };
-
-    public onClickDelete = async () => {
-        const {
-            history,
-            rootStore: {
-                transactionFormStore: { handleDelete, startDelete }
-            }
-        } = this.props;
-        await handleDelete();
-        if (startDelete) {
-            history.push("/transactions");
-        }
-    };
-
     public render() {
         const {
             rootStore: {
@@ -157,7 +101,10 @@ class TransactionClass extends React.Component<Props> {
         } = this.props;
         const title = `${isUpdatable ? "Update" : "Create"} Transaction`;
         return (
-            <DocumentTitle title={`${title} | Wilbur`}>
+            <React.Fragment>
+                <Helmet>
+                    <title>{title}</title>
+                </Helmet>{" "}
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -308,9 +255,69 @@ class TransactionClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
+
+    private onChangeName = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.transactionFormStore.setName(e.target.value);
+    };
+
+    private onChangeAmount = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.transactionFormStore.setAmount(e.target.value);
+    };
+
+    private onChangeDescription = (e: React.ChangeEvent<any>) => {
+        this.props.rootStore.transactionFormStore.setDescription(
+            e.target.value
+        );
+    };
+
+    private onChangeDateFocused = ({
+        focused
+    }: {
+        focused: boolean | null;
+    }) => {
+        this.props.rootStore.transactionFormStore.setDateFocused(!!focused);
+    };
+
+    private onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const {
+            history,
+            rootStore: {
+                transactionFormStore: {
+                    isUpdatable,
+                    handleUpdate,
+                    handleCreate
+                }
+            }
+        } = this.props;
+        if (isUpdatable) {
+            handleUpdate();
+            history.push("/transactions");
+        } else {
+            await handleCreate();
+            history.push("/transactions");
+        }
+    };
+
+    private onOutsideClick = () => {
+        this.props.rootStore.transactionFormStore.handleOutsideClick();
+    };
+
+    private onClickDelete = async () => {
+        const {
+            history,
+            rootStore: {
+                transactionFormStore: { handleDelete, startDelete }
+            }
+        } = this.props;
+        await handleDelete();
+        if (startDelete) {
+            history.push("/transactions");
+        }
+    };
 }
 
 export const Transaction = inject("rootStore")(observer(TransactionClass));

@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 
 import { Box, Button, Col, Grid, Row, Text } from "../../components";
 import RootStore from "../../store";
@@ -15,7 +15,10 @@ class NoMatchClass extends React.Component<Props> {
             rootStore: { isAuthenticated }
         } = this.props;
         return (
-            <DocumentTitle title="Not Found | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Not Found</title>
+                </Helmet>
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -56,7 +59,7 @@ class NoMatchClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 }

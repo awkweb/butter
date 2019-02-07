@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 
 import { Box, Col, Grid, Loader, PlaidLink, Row, Text } from "../../components";
 import RootStore from "../../store";
@@ -41,7 +41,10 @@ class AccountsClass extends React.Component<Props> {
         } = this.props;
         const { linkLoaded } = this.state;
         return (
-            <DocumentTitle title="Connected Accounts | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Connected Accounts</title>
+                </Helmet>
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -134,7 +137,7 @@ class AccountsClass extends React.Component<Props> {
                         </Row>
                     )}
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 

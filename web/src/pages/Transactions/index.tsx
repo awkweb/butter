@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react";
 import { parse, stringify } from "query-string";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 
 import { Box, Button, Col, Grid, Loader, Row, Text } from "../../components";
 import { get } from "../../lib/get";
@@ -75,7 +75,10 @@ class TransactionsClass extends React.Component<Props> {
             }
         } = this.props;
         return (
-            <DocumentTitle title="Transactions | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Transactions</title>
+                </Helmet>{" "}
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -136,7 +139,7 @@ class TransactionsClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 

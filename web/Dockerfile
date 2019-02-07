@@ -12,6 +12,7 @@ RUN npm i -g yarn
 RUN chmod u+x /usr/local/bin/yarn
 
 # Copy over node requirements and install
+RUN yarn global add serve
 ADD package.json /home/web/
 RUN yarn
 

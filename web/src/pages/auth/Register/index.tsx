@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react";
 import { parse } from "query-string";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 
 import {
     Box,
@@ -55,7 +55,10 @@ class RegisterClass extends React.Component<Props> {
             }
         } = this.props;
         return (
-            <DocumentTitle title="Register | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Register</title>
+                </Helmet>
                 <Grid maxWidth="md">
                     <Row>
                         <Col
@@ -210,7 +213,7 @@ class RegisterClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 

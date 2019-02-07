@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# start uwsgi
-uwsgi --ini uwsgi.ini
+# start serve
+serve -s build -l tcp://web:3000

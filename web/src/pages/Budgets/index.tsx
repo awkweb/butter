@@ -2,7 +2,7 @@ import { inject, observer } from "mobx-react";
 import moment, { Moment } from "moment";
 import { stringify } from "query-string";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 
 import { Box, Button, Col, Grid, Loader, Row, Text } from "../../components";
 import RootStore from "../../store";
@@ -47,7 +47,10 @@ class BudgetsClass extends React.Component<Props> {
             spent: totalSpent
         };
         return (
-            <DocumentTitle title="Budgets | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Budgets</title>
+                </Helmet>
                 <Grid maxWidth="md" ph={{ xs: 2, md: 10 }}>
                     <Row>
                         <Col xs={12}>
@@ -112,7 +115,7 @@ class BudgetsClass extends React.Component<Props> {
                         </Row>
                     )}
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 
