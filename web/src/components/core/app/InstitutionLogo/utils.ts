@@ -15,3 +15,19 @@ export const getColorForId = (id: string) => {
             return colors.gold2;
     }
 };
+
+/**
+ * Gets institution icon for id
+ */
+export const getIconForId = (id: string) => {
+    switch (id) {
+        case "ins_1":
+            return import(`../../icons/Icon/svgs/institutions/ins_1`);
+        case "ins_3":
+            return import(`../../icons/Icon/svgs/institutions/ins_3`);
+        case "ins_51":
+            return import(`../../icons/Icon/svgs/institutions/ins_51`);
+        default:
+            return import("../../icons/Icon/svgs/bank");
+    }
+};

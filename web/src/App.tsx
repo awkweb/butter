@@ -1,9 +1,14 @@
 import { observer, Provider } from "mobx-react";
 import React from "react";
-import DocumentTitle from "react-document-title";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
-import { Navbar, PrivateRoute, PublicRoute, ThemeProvider } from "./components";
+import {
+    Head,
+    Navbar,
+    PrivateRoute,
+    PublicRoute,
+    ThemeProvider
+} from "./components";
 import { get } from "./lib/get";
 import {
     Accounts,
@@ -34,7 +39,8 @@ class App extends React.Component {
         return (
             <ThemeProvider>
                 <Provider rootStore={this.rootStore}>
-                    <DocumentTitle title="Wilbur">
+                    <React.Fragment>
+                        <Head />
                         <BrowserRouter>
                             <React.Fragment>
                                 {isAuthenticated && (
@@ -84,7 +90,7 @@ class App extends React.Component {
                                 </Switch>
                             </React.Fragment>
                         </BrowserRouter>
-                    </DocumentTitle>
+                    </React.Fragment>
                 </Provider>
             </ThemeProvider>
         );

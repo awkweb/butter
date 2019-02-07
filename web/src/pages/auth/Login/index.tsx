@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react";
 import { parse } from "query-string";
 import React from "react";
-import DocumentTitle from "react-document-title";
+import Helmet from "react-helmet";
 import { Redirect } from "react-router";
 
 import {
@@ -57,7 +57,10 @@ class LogInClass extends React.Component<Props> {
         const { email, error, isLoading, password, validations } = logInStore;
 
         return (
-            <DocumentTitle title="Log In | Wilbur">
+            <React.Fragment>
+                <Helmet>
+                    <title>Log In</title>
+                </Helmet>
                 <Grid maxWidth="md">
                     <Row>
                         <Col
@@ -158,7 +161,7 @@ class LogInClass extends React.Component<Props> {
                         </Col>
                     </Row>
                 </Grid>
-            </DocumentTitle>
+            </React.Fragment>
         );
     }
 

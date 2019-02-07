@@ -13,6 +13,7 @@ export { ThemeProvider } from "./core/theme/ThemeProvider";
 export * from "./core/icons/Icon";
 
 export { DateField } from "./core/app/DateField";
+export { Head } from "./core/app/Head";
 export { InstitutionLogo } from "./core/app/InstitutionLogo";
 export { Navbar } from "./core/app/Navbar";
 export { PasswordFeatures } from "./core/app/PasswordFeatures";
