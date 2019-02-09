@@ -3,13 +3,13 @@ resource "aws_route53_delegation_set" "main" {
 }
 
 resource "aws_route53_zone" "primary_route" {
-  name              = "${var.domain}"
+  name              = "${var.DJ_DOMAIN}"
   delegation_set_id = "${aws_route53_delegation_set.main.id}"
 }
 
 resource "aws_route53_record" "www-prod" {
   zone_id = "${aws_route53_zone.primary_route.id}"
-  name    = "www.${var.domain}"
+  name    = "www.${var.DJ_DOMAIN}"
   type    = "A"
 
   alias {
