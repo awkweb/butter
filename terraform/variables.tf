@@ -1,27 +1,36 @@
-variable "region" {
-  description = "Region that the instances will be created"
+variable "AWS_ACCESS_KEY" {
+  description = "AWS access key"
+}
+
+variable "AWS_SECRET_KEY" {
+  description = "AWS secret key"
+}
+
+variable "AWS_REGION" {
+  description = "AWS region"
+  default     = "us-east-1"
 }
 
 /*====
 environment specific variables
 ======*/
 
-variable "production_database_name" {
-  description = "The database name for Production"
+variable "DJ_DB_NAME" {
+  description = "Database name"
 }
 
-variable "production_database_username" {
-  description = "The username for the Production database"
+variable "DJ_DB_USER" {
+  description = "Database username"
 }
 
-variable "production_database_password" {
-  description = "The user password for the Production database"
+variable "DB_PASSWORD" {
+  description = "Database password"
 }
 
-variable "production_secret_key_base" {
-  description = "The Rails secret key for production"
+variable "DJ_SECRET_KEY" {
+  description = "Django secret key"
 }
 
-variable "domain" {
-  default = "The domain of your application"
+variable "DJ_DOMAIN" {
+  default = "Domain"
 }

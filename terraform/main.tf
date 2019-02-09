@@ -6,7 +6,9 @@ locals {
 }
 
 provider "aws" {
-  region = "${var.region}"
+  access_key = "${var.AWS_ACCESS_KEY}"
+  secret_key = "${var.AWS_SECRET_KEY}"
+  region     = "${var.AWS_REGION}"
 }
 
 resource "aws_key_pair" "key" {
@@ -20,7 +22,7 @@ module "networking" {
   vpc_cidr             = "10.0.0.0/16"
   public_subnets_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnets_cidr = ["10.0.10.0/24", "10.0.20.0/24"]
-  region               = "${var.region}"
+  region               = "${var.AWS_REGION}"
   availability_zones   = "${local.production_availability_zones}"
   key_name             = "production_key"
 }
@@ -29,9 +31,9 @@ module "rds" {
   source            = "./modules/rds"
   environment       = "production"
   allocated_storage = "20"
-  database_name     = "${var.production_database_name}"
-  database_username = "${var.production_database_username}"
-  database_password = "${var.production_database_password}"
+  database_name     = "${var.DJ_DB_NAME}"
+  database_username = "${var.DJ_DB_USER}"
+  database_password = "${var.DB_PASSWORD}"
   subnet_ids        = ["${module.networking.private_subnets_id}"]
   vpc_id            = "${module.networking.vpc_id}"
   instance_class    = "db.t2.micro"
@@ -52,8 +54,8 @@ module "ecs" {
   ]
 
   database_endpoint = "${module.rds.rds_address}"
-  database_name     = "${var.production_database_name}"
-  database_username = "${var.production_database_username}"
-  database_password = "${var.production_database_password}"
-  secret_key_base   = "${var.production_secret_key_base}"
+  database_name     = "${var.DJ_DB_NAME}"
+  database_username = "${var.DJ_DB_USER}"
+  database_password = "${var.DB_PASSWORD}"
+  secret_key_base   = "${var.DJ_SECRET_KEY}"
 }

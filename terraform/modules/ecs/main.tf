@@ -11,13 +11,6 @@ resource "aws_cloudwatch_log_group" "wilbur" {
 }
 
 /*====
-ECR repository to store our Docker images
-======*/
-resource "aws_ecr_repository" "wilbur_app" {
-  name = "${var.repository_name}"
-}
-
-/*====
 ECS cluster
 ======*/
 resource "aws_ecs_cluster" "cluster" {
@@ -33,7 +26,7 @@ data "template_file" "web_task" {
   template = "${file("${path.module}/tasks/web_task_definition.json")}"
 
   vars {
-    image           = "${aws_ecr_repository.wilbur_app.repository_url}"
+    image           = "meagher/api:latest"
     secret_key_base = "${var.secret_key_base}"
     database_url    = "postgresql://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}?encoding=utf8&pool=40"
     log_group       = "${aws_cloudwatch_log_group.wilbur.name}"
@@ -56,7 +49,7 @@ data "template_file" "db_migrate_task" {
   template = "${file("${path.module}/tasks/db_migrate_task_definition.json")}"
 
   vars {
-    image           = "${aws_ecr_repository.wilbur_app.repository_url}"
+    image           = "meagher/api:latest"
     secret_key_base = "${var.secret_key_base}"
     database_url    = "postgresql://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}?encoding=utf8&pool=40"
     log_group       = "wilbur"
