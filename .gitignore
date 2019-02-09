@@ -1,9 +1,9 @@
 .DS_Store
-.idea
+.terraform
 .vscode
-.env
-budget.pem
 nginx/certs/letsencrypt
+wilbur.pem
+wilbur.pub
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
