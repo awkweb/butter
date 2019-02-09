@@ -1,17 +1,9 @@
 .DS_Store
-.idea
+.terraform
 .vscode
-.env
-budget.pem
 nginx/certs/letsencrypt
 wilbur.pem
 wilbur.pub
-
-# Terraform
-.terraform/
-terraform.tfstate
-terraform.tfstate.backup
-variables.tf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
