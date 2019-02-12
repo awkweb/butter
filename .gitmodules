@@ -1,9 +1,9 @@
 [submodule "api"]
 	path = api
-	url = https://github.com/wilbur-app/api.git
+	url = https://github.com/tmm/api.git
 [submodule "nginx"]
 	path = nginx
-	url = https://github.com/wilbur-app/nginx.git
+	url = https://github.com/tmm/nginx.git
 [submodule "web"]
 	path = web
-	url = https://github.com/wilbur-app/web.git
+	url = https://github.com/tmm/web.git
