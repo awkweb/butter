@@ -7,3 +7,6 @@
 [submodule "web"]
 	path = web
 	url = https://github.com/tmm/web.git
+[submodule "terraform"]
+	path = terraform
+	url = https://github.com/tmm/terraform.git
