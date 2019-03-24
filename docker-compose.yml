@@ -26,7 +26,7 @@ services:
     command: yarn start
     container_name: web
     environment:
-      - REACT_APP_NGROK_ID=$REACT_APP_NGROK_ID
+      - REACT_APP_NGROK_ID=bd2f52a9
       - REACT_APP_PLAID_ENV=$PLAID_ENV
       - REACT_APP_PLAID_PUBLIC_KEY=$PLAID_PUBLIC_KEY
     expose:

@@ -1,11 +1,11 @@
 {
-  "python.formatting.provider": "black",
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/__pycache__": true,
-    "**/*.sock": true
-  },
-  "python.venvPath": "/usr/local/opt/pyenv/versions/budget/bin/python3"
+    "python.formatting.provider": "black",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/__pycache__": true,
+        "**/*.sock": true
+    },
+    "python.venvPath": "/usr/local/opt/pyenv/versions/budget/bin/python3"
 }
