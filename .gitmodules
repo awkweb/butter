@@ -1,12 +1,12 @@
 [submodule "api"]
 	path = api
-	url = https://github.com/tmm/api.git
+	url = https://github.com/butterso/api.git
 [submodule "nginx"]
 	path = nginx
-	url = https://github.com/tmm/nginx.git
+	url = https://github.com/butterso/nginx.git
 [submodule "web"]
 	path = web
-	url = https://github.com/tmm/web.git
+	url = https://github.com/butterso/web.git
 [submodule "terraform"]
 	path = terraform
-	url = https://github.com/tmm/terraform.git
+	url = https://github.com/butterso/terraform.git
